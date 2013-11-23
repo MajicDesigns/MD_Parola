@@ -1,0 +1,90 @@
+/*
+MD_Parola - Library for modular scrolling text and Effects
+  
+See header file for comments
+  
+Copyright (C) 2013 Marco Colli. All rights reserved.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#include <MD_Parola.h>
+#include <MD_Parola_lib.h>
+/**
+ * \file
+ * \brief Implements blinds effect
+ */
+
+#define	BLINDS_SIZE	4	///< The width of the blinds in pixels
+
+void MD_Parola::effectBlinds(bool bIn)
+// Transfer between messages with blinds effects
+{
+	static uint8_t	blindCount;
+
+	switch (_fsmState)
+	{
+	case INITIALISE:	// bIn = true
+	case PAUSE:			// bIn = false
+		PRINT_STATE("IO BLIND");
+		blindCount = 0;
+		_fsmState = GET_FIRST_CHAR;
+		// fall through
+
+	case GET_FIRST_CHAR:	// blinds closing
+		PRINT_STATE("IO BLIND");
+
+		blindCount++;
+		for (uint16_t i=0; i<_D.getColumnCount(); i++)
+		{
+			if (i % BLINDS_SIZE < blindCount)
+				_D.setColumn(i, LIGHT_BAR);
+		}
+
+		if (blindCount == BLINDS_SIZE)
+		{
+			blindCount = BLINDS_SIZE;
+			_fsmState = GET_NEXT_CHAR;
+		}
+		break;
+
+	case GET_NEXT_CHAR:		// blinds opening
+		PRINT_STATE("IO BLIND");
+		displayClear();
+		if (bIn) commonPrint();	// only do this when putting the message up
+
+		blindCount--;
+		for (uint16_t i=0; i<_D.getColumnCount(); i++)
+		{
+			if (i % BLINDS_SIZE < blindCount)
+				_D.setColumn(i, LIGHT_BAR);
+		}
+
+		if (blindCount == 0)
+			_fsmState = PUT_CHAR;
+		break;
+
+	case PUT_CHAR:
+		PRINT_STATE("IO BLIND");
+		displayClear();
+		if (bIn) commonPrint();
+		_fsmState = (bIn ? PAUSE : END);
+		break;
+
+	default:
+		PRINT_STATE("IO BLIND");
+		_fsmState = (bIn ? PAUSE : END);
+	}
+}

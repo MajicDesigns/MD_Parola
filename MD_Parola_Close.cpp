@@ -1,0 +1,134 @@
+/*
+MD_Parola - Library for modular scrolling text and Effects
+  
+See header file for comments
+  
+Copyright (C) 2013 Marco Colli. All rights reserved.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#include <MD_Parola.h>
+#include <MD_Parola_lib.h>
+/**
+ * \file
+ * \brief Implements closing effect
+ */
+
+void MD_Parola::effectClose(bool bLightBar, bool bIn)
+// Dissolve the current message in/out
+{
+	static int16_t	offset;
+
+	if (bIn)
+	{
+		switch (_fsmState)
+		{
+		case INITIALISE:
+		case GET_FIRST_CHAR:
+		case GET_NEXT_CHAR:
+			PRINT_STATE("I CLOSE");
+			offset = 0;
+			displayClear();
+			if (bLightBar)
+			{
+				_D.setColumn(_limitLeft, LIGHT_BAR);
+				_D.setColumn(_limitRight,LIGHT_BAR);
+			}
+			_fsmState = PUT_CHAR;
+			// fall through
+
+		case PUT_CHAR:
+			PRINT_STATE("I CLOSE");
+			FSMPRINT(" - offset ", offset);
+			displayClear();
+			commonPrint();
+			{
+				const uint16_t	halfWidth = (_limitLeft-_limitRight)/2;
+
+				if (offset > halfWidth)
+				{
+					_fsmState = PAUSE;
+				}
+				else
+				{
+					for (uint16_t i=_limitRight+offset+1; i<_limitLeft-offset; i++)
+						_D.setColumn(i, EMPTY_BAR);
+
+					offset++;
+					if (bLightBar && (offset <= halfWidth))
+					{
+						_D.setColumn(_limitLeft - offset, LIGHT_BAR);
+						_D.setColumn(_limitRight + offset, LIGHT_BAR);
+					}
+				}
+			}
+			break;
+
+		default:
+			PRINT_STATE("I CLOSE");
+			_fsmState = PAUSE;
+		}
+	}
+	else	// exiting
+	{
+		switch (_fsmState)
+		{
+		case PAUSE:	
+
+		case GET_FIRST_CHAR:
+		case GET_NEXT_CHAR:
+			PRINT_STATE("O CLOSE");
+			FSMPRINT(" - limits R:", _limitRight);
+			FSMPRINT(" L:", _limitLeft);
+			offset = (_limitLeft-_limitRight)/2;
+			FSMPRINT(" O:", offset);
+			displayClear();
+			commonPrint();
+			if (bLightBar)
+			{
+				_D.setColumn(_limitLeft-offset, LIGHT_BAR);
+				_D.setColumn(_limitRight+offset, LIGHT_BAR);
+			}
+			_fsmState = PUT_CHAR;
+			break;
+
+		case PUT_CHAR:
+			PRINT_STATE("O CLOSE");
+			FSMPRINT(" - offset ", offset);
+			if (offset < 0) 
+			{
+				_fsmState = END;
+			}
+			else
+			{
+				_D.setColumn(_limitLeft - offset, EMPTY_BAR);
+				_D.setColumn(_limitRight + offset, EMPTY_BAR);
+
+				offset--;
+				if (bLightBar && (offset >= 0))
+				{
+					_D.setColumn(_limitLeft - offset, LIGHT_BAR);
+					_D.setColumn(_limitRight + offset, LIGHT_BAR);
+				}
+			}
+			break;
+
+		default:
+			PRINT_STATE("O CLOSE");
+			_fsmState = END;
+		}
+	}
+}

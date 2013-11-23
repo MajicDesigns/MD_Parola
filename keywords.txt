@@ -1,0 +1,54 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Classes and datatypes (KEYWORD1)
+#######################################
+MD_Parola	KEYWORD1
+textPosition_t	KEYWORD1
+textEffect_t	KEYWORD1
+
+#######################################
+# Methods and functions (KEYWORD2)
+#######################################
+displayAnimate	KEYWORD2
+displayClear	KEYWORD2
+displayReset	KEYWORD2
+displayScroll	KEYWORD2
+displayText	KEYWORD2
+displaySuspend	KEYWORD2
+getCharSpacing	KEYWORD2
+getPause	KEYWORD2
+getSpeed	KEYWORD2
+getTextAlignment	KEYWORD2
+setCharSpacing	KEYWORD2
+setIntensity	KEYWORD2
+setPause	KEYWORD2
+setSpeed	KEYWORD2
+setTextAlignment	KEYWORD2
+setTextBuffer	KEYWORD2
+setTextEffect	KEYWORD2
+
+
+######################################
+# Constants/defines (LITERAL1)
+#######################################
+LEFT	LITERAL1
+CENTER	LITERAL1
+RIGHT	LITERAL1
+NO_EFFECT	LITERAL1
+PRINT	LITERAL1
+SLICE	LITERAL1
+WIPE	LITERAL1
+WIPE_CURSOR	LITERAL1
+OPENING	LITERAL1
+OPENING_CURSOR	LITERAL1
+CLOSING	LITERAL1
+CLOSING_CURSOR	LITERAL1
+BLINDS	LITERAL1
+DISSOLVE	LITERAL1
+SCROLL_UP	LITERAL1
+SCROLL_DOWN	LITERAL1
+SCROLL_LEFT	LITERAL1
+SCROLL_RIGHT	LITERAL1
