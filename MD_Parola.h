@@ -12,7 +12,7 @@ of text special effects on the Parola display.
 - Control display parameters and animation speed.
 
 The latest copy of the Parola Software and hardware files can be found 
-at the [Parola website] (http://code.google.com/p/parola-for-arduino).
+at the [Parola website] (http://parola.codeview.com).
 
 ![The final product with 8 modules connected together] (Working_Display.jpg "Working System")
 
@@ -28,7 +28,7 @@ June 2013 - version 1.0
 - New library
 
 September 2013 - version 1.1
-- Mods to accomodate changes to hardware SPI implementation in MD_MAX72xx library
+- Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
 
 Copyright
 ---------
@@ -62,7 +62,7 @@ of text special effects on the LED matrix.
 ### External Dependencies
 - Parola uses the MD_MAX72xx library for hardware level control primitives. 
 The latest copy of this library can be found 
-[here] (http://code.google.com/p/arduino-code-repository).
+[here] (http://arduinocode.codeview.com).
 
 Implementing New Text Effects
 -----------------------------
@@ -115,7 +115,7 @@ exit, with causes a small jump in the text position when the effects are combine
 
 + Display update times grow proportionally to the number of modules in a display, so some timing 
 parameters may need to adapt. Hardware SPI runs approximately 10 times faster and the delay 
-increase is not appreciable with up to 12 modules in length. For the aribtrary pinouts, using 
+increase is not appreciable with up to 12 modules in length. For the arbitrary pin outs, using 
 shiftout(), a 6 module chain updates in approximately 14ms on an Uno, while a 12 module display 
 takes around 25ms. Most of the time taken is to physically update the display, as animating frames 
 takes about 1-2ms to update in the MD_MAX72XX display buffers.
@@ -206,8 +206,8 @@ class MD_Parola
   /**
    * Text alignment specification.
    *
-   * Used to define the display text aligmnent and to specify direction for 
-   * scrolling and animations. In the situation where LEFT AND RIGHT are the onty sensible 
+   * Used to define the display text alignment and to specify direction for 
+   * scrolling and animations. In the situation where LEFT AND RIGHT are the only sensible 
    * options (eg, text scrolling direction), CENTER will behave the same as LEFT.
    */
 	enum textPosition_t 
@@ -231,7 +231,7 @@ class MD_Parola
 		WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
 		OPENING,		///< Appear and disappear from the center of the display, towards the ends
 		OPENING_CURSOR,	///< OPENING with light bars ahead of the change
-		CLOSING,		///< Appear and disappear from the ends of the display, tords the middle
+		CLOSING,		///< Appear and disappear from the ends of the display, towards the middle
 		CLOSING_CURSOR,	///< CLOSING with light bars ahead of the change
 		BLINDS,			///< Text is replaced behind vertical blinds
 		DISSOLVE,		///< Text dissolves from one display to another
@@ -292,9 +292,9 @@ class MD_Parola
   /** 
    * Animate the display.
    *
-   * Animate the display using the currently specifed text and animation parameters.
+   * Animate the display using the currently specified text and animation parameters.
 	 * This method needs to be invoked as often as possible to ensure smooth animation. 
-	 * The animation is goverened by a time tick that is set by the setSpeed() method
+	 * The animation is governed by a time tick that is set by the setSpeed() method
 	 * and it will pause between entry and exit using the time set by the setPause() method.
 	 * 
 	 * The calling program should monitor the return value for 'true' in order to either
@@ -486,7 +486,7 @@ class MD_Parola
    * any memory for the text message, rather it is the calling program that supplies
    * a pointer to a buffer. This reduces memory requirements and offers the flexibility 
    * to keep a single buffer or rotate buffers with different messages, all under calling
-   * program control, with no livbrary limit to the size or numbers of buffers. The text 
+   * program control, with no library limit to the size or numbers of buffers. The text 
 	 * placed in the buffer must be properly terminated by the NUL ('\0') character or 
 	 * processing will overrun the end of the message.
    * 
