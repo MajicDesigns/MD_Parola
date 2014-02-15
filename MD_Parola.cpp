@@ -48,6 +48,7 @@ void MD_Parola::begin(void)
   _D.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 
   _fsmState = END;
+  _userChars = NULL;
 
   // initialise options in this library using methods supplied
   setSpeed(10);
@@ -66,6 +67,15 @@ void MD_Parola::begin(void)
 
 MD_Parola::~MD_Parola(void)
 {
+	// release the memory for user defined characters
+	charDef *p = _userChars;
+
+	while (p!= NULL)
+	{
+		charDef	*pt = p;
+		p = pt->next;
+		delete pt;
+	};
 }
 
 void MD_Parola::displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)
@@ -190,7 +200,7 @@ uint16_t MD_Parola::getTextWidth(char *p)
 
 	while (*p != '\0')
 	{
-		sum += _D.getChar(*p++, ARRAY_SIZE(_cBuf), _cBuf);
+		sum += findChar(*p++, ARRAY_SIZE(_cBuf), _cBuf);
 		if (*p)
 		  sum += _charSpacing;
 	}
@@ -262,6 +272,109 @@ bool MD_Parola::calcTextLimits(char *p)
 	return (b);
 }
 
+bool MD_Parola::addChar(uint8_t code, uint8_t *data)
+// Add a user defined character to the replacement list
+{
+	charDef	*pcd;
+
+	if (code == 0)
+		return(false);
+
+	PRINTX("\naddChar 0x", code);
+
+	// first see if we have the code in our list
+	pcd = _userChars;
+	while (pcd != NULL)
+	{
+		if (pcd->code == code)
+		{
+			pcd->data = data;
+			PRINTS(" found existing in list");
+			return(true);
+		}
+		pcd = pcd->next;
+	}
+
+	// Now see if we have an empty slot in our list
+	pcd = _userChars;
+	while (pcd != NULL)
+	{
+		if (pcd->code == 0)
+		{
+			pcd->code = code;
+			pcd->data = data;
+			PRINTS(" found empty slot");
+			return(true);
+		}
+		pcd = pcd->next;
+	}
+
+	// default is to add a new node to the front of the list
+	if ((pcd = new charDef) != NULL)
+	{
+		pcd->code = code;
+		pcd->data = data;
+		pcd->next = _userChars;
+		_userChars = pcd;
+		PRINTS(" added new node");
+	}
+	else
+	{
+		PRINTS(" failed allocating new node");
+	}
+
+	return(pcd != NULL);
+}
+
+bool MD_Parola::delChar(uint8_t code)
+// Delete a user defined character from the replacement list
+{
+	charDef	*pcd = _userChars;
+
+	if (code == 0)
+		return(false);
+
+	// Scan down the linked list
+	while (pcd != NULL)
+	{
+		if (pcd->code == code)
+		{
+			pcd->code = 0;
+			pcd->data = NULL;
+			break;
+		}
+		pcd = pcd->next;
+	}
+
+	return(pcd != NULL);
+}
+
+uint8_t MD_Parola::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
+// Find a character either in user defined list or from foint table
+{
+	charDef	*pcd = _userChars;
+	uint8_t	len;
+
+	PRINTX("\nfindUserChar 0x", code);
+	while (pcd != NULL)
+	{
+		PRINTX(" ", pcd->code);
+		if (pcd->code == code)	// found it
+		{
+			PRINTS(" found character");
+			len = min(size, pcd->data[0]);
+			memcpy(cBuf, &pcd->data[1], len);
+			return(len);
+		}
+		pcd = pcd->next;
+	}
+
+	PRINTS(" no user char");
+	len = _D.getChar(code, size, cBuf);
+
+	return(len);
+}
+
 uint8_t MD_Parola::makeChar(char c)
 // Load a character bitmap and add in trailing char spacing blanks
 {
@@ -269,7 +382,10 @@ uint8_t MD_Parola::makeChar(char c)
 
 	PRINTX("\nmakeChar 0x", c);
 
-	len = _D.getChar(c, ARRAY_SIZE(_cBuf), _cBuf);
+	// look for the character
+	len = findChar((uint8_t)c, ARRAY_SIZE(_cBuf), _cBuf);
+
+	// Add in the inter char spacing
 	for (uint8_t i = 0; i<_charSpacing; i++)
 	{
 		if (len < ARRAY_SIZE(_cBuf))

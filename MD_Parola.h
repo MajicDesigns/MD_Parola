@@ -431,18 +431,6 @@ class MD_Parola
 	inline void setCharSpacing(uint8_t cs) { _charSpacing = cs; };
 
   /** 
-   * Set the display font.
-   * 
-   * Set the display font to a user defined font table. This can be created using the 
-   * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
-   * Passing NULL resets to the library default font. 
-   * 
-   * \param fontDef	Pointer to the font definition to be used.
-   * \return No return value.
-   */
-	inline void setFont(uint8_t PROGMEM * fontDef) { _D.setFont(fontDef); };
-
-  /** 
    * Set the display brightness.
    * 
    * Set the intensity (brightness) of the display.
@@ -526,6 +514,54 @@ class MD_Parola
 	inline void setTextEffect(textEffect_t effectIn, textEffect_t effectOut) { _effectIn = effectIn, _effectOut = effectOut; };
 
   /** @} */
+  //--------------------------------------------------------------
+  /** \name Support methods for fonts and characters.
+   * @{
+   */
+
+  /** 
+   * Add a user defined character to the replacement list.
+   * 
+   * Add a replacement characters to the user defined list. The character data must be 
+   * the same as for a single character in the font definition file. If a character is 
+   * specified with a code the same as an existing character the existing data will be 
+   * data will be substitited for the new data. A character code of 0 is illegal as this 
+   * denotes the end of string character for C++ and cannot be used in an actual string.
+   * The library does not copy the in the data in the data definition but only retains 
+   * a pointer to the data, so any changes to the data storage in the calling program will
+   * be reflected in the library.
+   * 
+   * \param code	ASCII code for the character data.
+   * \param data	pointer to the character data.
+   * \return true of the character was inserted in the substitution list.
+   */
+	bool addChar(uint8_t code, uint8_t *data);
+
+  /** 
+   * Delete a user defined character to the replacement list.
+   * 
+   * Delete a replacement character to the user defined list. A character code of 0 is 
+   * illegal as this denotes the end of string character for C++ and cannot be used in 
+   * an actual string.
+   * 
+   * \param code	ASCII code for the character data.
+   * \return true of the character was found in the substitution list.
+   */
+	bool delChar(uint8_t code);
+
+  /** 
+   * Set the display font.
+   * 
+   * Set the display font to a user defined font table. This can be created using the 
+   * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
+   * Passing NULL resets to the library default font. 
+   * 
+   * \param fontDef	Pointer to the font definition to be used.
+   * \return No return value.
+   */
+	inline void setFont(uint8_t PROGMEM * fontDef) { _D.setFont(fontDef); };
+
+  /** @} */
 
   private:
   /***
@@ -540,6 +576,16 @@ class MD_Parola
 		PUT_FILLER,		///< Placing filler (blank) columns 
 		PAUSE,			///< Pausing between animations
 		END				///< Display cycle has completed
+	};
+
+  /***
+    *  Structure for list of user defined characters substitutions.
+	*/
+	typedef struct charDef
+	{
+		uint8_t	code;	///< the ASCII code for the user defined character
+		uint8_t	*data;	///< user supplied data
+		charDef *next;	///< next in the list
 	};
 
 	// The display hardware controlled by this library
@@ -575,10 +621,12 @@ class MD_Parola
 	uint8_t		getNextChar(void);	// put the next Text char into the char buffer
 
 	// Font character handling data and methods
-	uint8_t		_cBuf[15];		// buffer for loading character font
-	uint8_t		_charSpacing;	// spacing in columns between characters
-	uint8_t		_charCols;		// number of columns for this character
-	int16_t		_countCols;		// count of number of columns already shown
+	charDef		*_userChars;			// the root of the list of user defined characters
+	uint8_t		_cBuf[15];			// buffer for loading character font
+	uint8_t		_charSpacing;		// spacing in columns between characters
+	uint8_t		_charCols;			// number of columns for this character
+	int16_t		_countCols;			// count of number of columns already shown
+	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
 	uint8_t		makeChar(char c);	// load a character bitmap and add in trailing _charSpacing blanks
 	uint8_t		reverseBuf(uint8_t *p, uint8_t size);	// reverse the elements of the buffer
 
