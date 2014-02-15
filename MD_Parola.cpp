@@ -61,7 +61,7 @@ void MD_Parola::begin(void)
   displayClear();
 
   // Now set the default viewing parameters for this library
-  _D.setFont(MD_MAX72XX::SYS_VAR);
+  _D.setFont(NULL);
 }
 
 MD_Parola::~MD_Parola(void)

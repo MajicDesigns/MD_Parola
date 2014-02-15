@@ -24,11 +24,15 @@ System Components
 
 Revision History 
 ----------------
-June 2013 - version 1.0
-- New library
+February 2014
+- Mods to accomodate revised font handling in MD_MAX72xx library: 
+Enable user defined fonts, Allow for user defined characters to override font equivalent.
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
+
+June 2013 - version 1.0
+- New library
 
 Copyright
 ---------
@@ -427,6 +431,18 @@ class MD_Parola
 	inline void setCharSpacing(uint8_t cs) { _charSpacing = cs; };
 
   /** 
+   * Set the display font.
+   * 
+   * Set the display font to a user defined font table. This can be created using the 
+   * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
+   * Passing NULL resets to the library default font. 
+   * 
+   * \param fontDef	Pointer to the font definition to be used.
+   * \return No return value.
+   */
+	inline void setFont(uint8_t PROGMEM * fontDef) { _D.setFont(fontDef); };
+
+  /** 
    * Set the display brightness.
    * 
    * Set the intensity (brightness) of the display.
@@ -487,10 +503,10 @@ class MD_Parola
    * a pointer to a buffer. This reduces memory requirements and offers the flexibility 
    * to keep a single buffer or rotate buffers with different messages, all under calling
    * program control, with no library limit to the size or numbers of buffers. The text 
-	 * placed in the buffer must be properly terminated by the NUL ('\0') character or 
-	 * processing will overrun the end of the message.
+   * placed in the buffer must be properly terminated by the NUL ('\0') character or 
+   * processing will overrun the end of the message.
    * 
-	 * \param pb	pointer to the text buffer to be used.
+   * \param pb	pointer to the text buffer to be used.
    * \return No return value.
    */
 	inline void setTextBuffer(char *pb) { _pText = pb; };
@@ -499,7 +515,7 @@ class MD_Parola
    * Set the entry and exit text effects.
    *
    * The 'in' and 'out' text effects are specified using the textEffect_t enumerated 
-	 * type. If no effect is required, NO_EFFECT should be specified. NO_EFFECT 
+   * type. If no effect is required, NO_EFFECT should be specified. NO_EFFECT 
    * is most useful when no exit effect is required (e.g., when DISSOLVE is used) and
    * the entry effect is sufficient.
    *

@@ -36,10 +36,10 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 char	*pc[] = 
 { 
   "Hello!", 
-//  "Parola for",
-//  "Arduino Uno", 
-//  "LED Matrix",
-//  "Display" 
+  "Parola for",
+  "Arduino Uno", 
+  "LED Matrix",
+  "Display" 
 };
 #define	MAX_STRINGS  (sizeof(pc)/sizeof(pc[0]))
 
