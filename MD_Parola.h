@@ -25,8 +25,10 @@ System Components
 Revision History 
 ----------------
 February 2014
-- Mods to accomodate revised font handling in MD_MAX72xx library: 
-Enable user defined fonts, Allow for user defined characters to override font equivalent.
+- Mods to accomodate revised font handling in MD_MAX72xx library
+ + Users can now provide a user defined font PROGMEM data table
+ + User code can provide individual character override for equivalent font character
+- Added animations SCAN_HORIZ, SCAN_VERT, GROW_UP, GROW_DOWN
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
@@ -243,6 +245,10 @@ class MD_Parola
 		SCROLL_DOWN,	///< Text scrolls down through the display
 		SCROLL_LEFT,	///< Text scrolls right to left on the display
 		SCROLL_RIGHT,	///< Text scrolls left to right on the display
+		SCAN_HORIZ,		///< Scan one column at a time then appears/disappear at end
+		SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
+		GROW_UP,		///< Text grows from the bottom up and shrinks from the top down 
+		GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
 	};
 
   /** 
@@ -641,6 +647,9 @@ class MD_Parola
 	void	effectDissolve(bool bIn);
 	void	effectVScroll(textEffect_t effectSelect, bool bIn);
 	void	effectHScroll(textEffect_t effectSelect, bool bIn);
+	void	effectHScan(bool bIn);
+	void	effectVScan(bool bIn);
+	void	effectGrow(bool bUp, bool bIn);
 };
 
 #endif

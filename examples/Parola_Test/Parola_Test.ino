@@ -6,7 +6,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	4
+#define	MAX_DEVICES	8
 #define	CLK_PIN		13
 #define	DATA_PIN	11
 #define	CS_PIN		10
@@ -37,7 +37,7 @@ char	*pc[] =
 { 
   "Hello!", 
   "Parola for",
-  "Arduino Uno", 
+  "Arduino", 
   "LED Matrix",
   "Display" 
 };
@@ -96,7 +96,8 @@ void doUI(void)
 
     MD_Parola::textEffect_t	effect[] =
     {
-      MD_Parola::PRINT,
+
+	  MD_Parola::PRINT,
       MD_Parola::SLICE,
       MD_Parola::WIPE,
       MD_Parola::WIPE_CURSOR,
@@ -105,11 +106,15 @@ void doUI(void)
       MD_Parola::CLOSING,
       MD_Parola::CLOSING_CURSOR,
       MD_Parola::BLINDS,
-      MD_Parola::DISSOLVE,
+	  MD_Parola::DISSOLVE,
       MD_Parola::SCROLL_UP,
       MD_Parola::SCROLL_DOWN,
       MD_Parola::SCROLL_LEFT,
       MD_Parola::SCROLL_RIGHT,
+      MD_Parola::SCAN_HORIZ,
+      MD_Parola::SCAN_VERT,
+	  MD_Parola::GROW_UP,
+	  MD_Parola::GROW_DOWN,
     };
 
     bool	b = (digitalRead(EFFECT_SET) == HIGH);

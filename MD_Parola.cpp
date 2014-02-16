@@ -138,16 +138,20 @@ bool MD_Parola::displayAnimate(void)
 		default: // All state except END are handled by the special effect functions
 			switch (_moveIn ? _effectIn : _effectOut)
 			{
-				case PRINT:				effectPrint(_moveIn);		break;
-				case SLICE:				effectSlice(_moveIn);		break;
-				case WIPE:				effectWipe(false, _moveIn);	break;
-				case WIPE_CURSOR:		effectWipe(true, _moveIn);	break;
-				case OPENING:			effectOpen(false, _moveIn);	break;
-				case OPENING_CURSOR:	effectOpen(true, _moveIn);	break;
+				case PRINT:				effectPrint(_moveIn);			break;
+				case SLICE:				effectSlice(_moveIn);			break;
+				case WIPE:				effectWipe(false, _moveIn);		break;
+				case WIPE_CURSOR:		effectWipe(true, _moveIn);		break;
+				case OPENING:			effectOpen(false, _moveIn);		break;
+				case OPENING_CURSOR:	effectOpen(true, _moveIn);		break;
 				case CLOSING:			effectClose(false, _moveIn);	break;
-				case CLOSING_CURSOR:	effectClose(true, _moveIn);	break;
-				case BLINDS:			effectBlinds(_moveIn);		break;
-				case DISSOLVE:			effectDissolve(_moveIn);	break;
+				case CLOSING_CURSOR:	effectClose(true, _moveIn);		break;
+				case BLINDS:			effectBlinds(_moveIn);			break;
+				case DISSOLVE:			effectDissolve(_moveIn);		break;
+				case SCAN_HORIZ:		effectHScan(_moveIn);			break;
+				case SCAN_VERT:			effectVScan(_moveIn);			break;
+				case GROW_UP:			effectGrow(true, _moveIn);		break;
+				case GROW_DOWN:			effectGrow(false, _moveIn);		break;
 				case SCROLL_UP:
 				case SCROLL_DOWN:		effectVScroll((_moveIn ? _effectIn : _effectOut), _moveIn);	break;
 				case SCROLL_LEFT:

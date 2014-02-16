@@ -60,12 +60,16 @@ uint8_t  inFX, outFX;
 MD_Parola::textEffect_t	effect[] =
 {
   MD_Parola::PRINT,
+	MD_Parola::SCAN_HORIZ,
   MD_Parola::SCROLL_LEFT,
   MD_Parola::WIPE,
   MD_Parola::SCROLL_UP,
   MD_Parola::OPENING_CURSOR,
+	MD_Parola::GROW_UP,
   MD_Parola::BLINDS,
   MD_Parola::CLOSING,
+	MD_Parola::GROW_DOWN,
+	MD_Parola::SCAN_VERT,
   MD_Parola::WIPE_CURSOR,
   MD_Parola::DISSOLVE,
   MD_Parola::OPENING,
