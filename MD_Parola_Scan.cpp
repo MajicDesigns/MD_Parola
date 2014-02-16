@@ -32,20 +32,13 @@ void MD_Parola::effectHScan(bool bIn)
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
 {
-	static int16_t	nextPos = 0;
-	static int8_t	posOffset = -1;
-	static uint16_t	startPos = 0;
-	static uint16_t	posLimit = 0;
-
 	if (bIn)	// incoming
 	{
 		switch (_fsmState)
 		{
 		case INITIALISE:
 			PRINT_STATE("I SCANH");
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
-			startPos = nextPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
+			setInitialEffectConditions();
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -59,21 +52,21 @@ void MD_Parola::effectHScan(bool bIn)
 
 			commonPrint();
 			// check if we have finished
-			if (nextPos == posLimit)
+			if (_nextPos == _endPos)
 			{
 				_fsmState = PAUSE;
 				break;
 			}
 
 			// blank out the part of the display we don't need
-			FSMPRINT("Keep ", nextPos);
-			for (uint8_t i=startPos; i != posLimit; i += posOffset)
+			FSMPRINT("Keep ", _nextPos);
+			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
-				if (i != nextPos)
+				if (i != _nextPos)
 					_D.setColumn(i, EMPTY_BAR);
 			}
 
-			nextPos += posOffset;	// for the next time around
+			_nextPos += _posOffset;	// for the next time around
 			break;
 
 		default:
@@ -88,9 +81,7 @@ void MD_Parola::effectHScan(bool bIn)
 		case PAUSE:
 		case INITIALISE:
 			PRINT_STATE("O SCANH");
-			startPos = nextPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
+			setInitialEffectConditions();
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -101,17 +92,17 @@ void MD_Parola::effectHScan(bool bIn)
 			commonPrint();
 
 			// blank out the part of the display we don't need
-			FSMPRINT(" Keep ", nextPos);
-			for (uint8_t i=startPos; i != posLimit; i += posOffset)
+			FSMPRINT(" Keep ", _nextPos);
+			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
-				if (i != nextPos)
+				if (i != _nextPos)
 					_D.setColumn(i, EMPTY_BAR);
 			}
 
 			// check if we have finished
-			if (nextPos == posLimit) _fsmState = END;
+			if (_nextPos == _endPos) _fsmState = END;
 
-			nextPos += posOffset;	// for the next time around
+			_nextPos += _posOffset;	// for the next time around
 			break;
 
 		default:
@@ -127,10 +118,6 @@ void MD_Parola::effectVScan(bool bIn)
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
 {
-	static int16_t	nextPos = 0;
-	static int8_t	posOffset = -1;
-	static uint16_t	startPos = 0;
-	static uint16_t	posLimit = 0;
 	uint8_t	maskCol = 0;
 
 	if (bIn)	// incoming
@@ -139,11 +126,9 @@ void MD_Parola::effectVScan(bool bIn)
 		{
 		case INITIALISE:
 			PRINT_STATE("I SCANV");
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
-			startPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
+			setInitialEffectConditions();
+			_nextPos = 1;		// this is the bit number
 			_fsmState = PUT_CHAR;
-			nextPos = 1;		// this is the bit number
 			// fall through to next state
 
 		case GET_FIRST_CHAR:
@@ -156,19 +141,19 @@ void MD_Parola::effectVScan(bool bIn)
 
 			commonPrint();
 			// check if we have finished
-			if (nextPos == 8)		// bits numbered 0 to 7	
+			if (_nextPos == 8)		// bits numbered 0 to 7	
 			{
 				_fsmState = PAUSE;
 				break;
 			}
 
 			// blank out the part of the display we don't need
-			FSMPRINT("Keep bit ", nextPos);
-			maskCol = (1 << nextPos);
-			for (uint8_t i=startPos; i != posLimit; i += posOffset)
+			FSMPRINT("Keep bit ", _nextPos);
+			maskCol = (1 << _nextPos);
+			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 				_D.setColumn(i, _D.getColumn(i) & maskCol);
 
-			nextPos++;	// for the next time around
+			_nextPos++;	// for the next time around
 			break;
 
 		default:
@@ -183,10 +168,8 @@ void MD_Parola::effectVScan(bool bIn)
 		case PAUSE:
 		case INITIALISE:
 			PRINT_STATE("O SCANV");
-			startPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
-			nextPos = 7;	// the bit number
+			setInitialEffectConditions();
+			_nextPos = 7;	// the bit number
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -197,15 +180,15 @@ void MD_Parola::effectVScan(bool bIn)
 			commonPrint();
 
 			// blank out the part of the display we don't need
-			FSMPRINT(" Keep bit ", nextPos);
-			maskCol = (1 << nextPos);
-			for (uint8_t i=startPos; i != posLimit; i += posOffset)
+			FSMPRINT(" Keep bit ", _nextPos);
+			maskCol = (1 << _nextPos);
+			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 				_D.setColumn(i, _D.getColumn(i) & maskCol);
 
 			// check if we have finished
-			if (nextPos == 0) _fsmState = END;
+			if (_nextPos == 0) _fsmState = END;
 
-			nextPos--;	// for the next time around
+			_nextPos--;	// for the next time around
 			break;
 
 		default:

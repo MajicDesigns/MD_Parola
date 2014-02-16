@@ -32,22 +32,15 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
 {
-	static int16_t	nextPos = 0;
-	static int8_t	posOffset = -1;
-	static uint16_t	startPos = 0;
-	static uint16_t	posLimit = 0;
-
 	if (bIn)	// incoming
 	{
 		switch (_fsmState)
 		{
 		case INITIALISE:
 			PRINT_STATE("I GROW");
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
-			startPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
+			setInitialEffectConditions();
+			_nextPos = (bUp ? 0xff : 1);		// this is the bit mask
 			_fsmState = PUT_CHAR;
-			nextPos = (bUp ? 0xff : 1);		// this is the bit mask
 			// fall through to next state
 
 		case GET_FIRST_CHAR:
@@ -60,22 +53,22 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 
 			commonPrint();
 			// check if we have finished
-			if (nextPos == (bUp ? 0 : 0xff))	// all bits covered
+			if (_nextPos == (bUp ? 0 : 0xff))	// all bits covered
 			{
 				_fsmState = PAUSE;
 				break;
 			}
 
 			// blank out the part of the display we don't need
-			FSMPRINT("Keep bits ", nextPos);
-			for (uint8_t i = startPos; i != posLimit; i += posOffset)
-				_D.setColumn(i, _D.getColumn(i) & (bUp ? ~nextPos : nextPos));
+			FSMPRINT("Keep bits ", _nextPos);
+			for (uint8_t i = _startPos; i != _endPos; i += _posOffset)
+				_D.setColumn(i, _D.getColumn(i) & (bUp ? ~_nextPos : _nextPos));
 
 			// for the next time around
 			if (bUp)
-				nextPos >>= 1;
+				_nextPos >>= 1;
 			else
-				nextPos = (nextPos << 1) | 1;
+				_nextPos = (_nextPos << 1) | 1;
 			break;
 
 		default:
@@ -90,10 +83,8 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 		case PAUSE:
 		case INITIALISE:
 			PRINT_STATE("O GROW");
-			startPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
-			nextPos = (bUp ? 1 : 0xff);		// this is the bit mask
+			setInitialEffectConditions();
+			_nextPos = (bUp ? 1 : 0xff);		// this is the bit mask
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -104,19 +95,19 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 			commonPrint();
 
 			// blank out the part of the display we don't need
-			FSMPRINT(" Keep bits ", nextPos);
-			for (uint8_t i=startPos; i != posLimit; i += posOffset)
-				_D.setColumn(i, _D.getColumn(i) & (bUp ? ~nextPos : nextPos));
+			FSMPRINT(" Keep bits ", _nextPos);
+			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
+				_D.setColumn(i, _D.getColumn(i) & (bUp ? ~_nextPos : _nextPos));
 
 			// check if we have finished
-			if (nextPos == (bUp ? 0xff : 0x0))	// all bits covered
+			if (_nextPos == (bUp ? 0xff : 0x0))	// all bits covered
 				_fsmState = END;
 
 			// for the next time around
 			if (bUp)
-				nextPos = (nextPos << 1) | 1;
+				_nextPos = (_nextPos << 1) | 1;
 			else
-				nextPos >>= 1;
+				_nextPos >>= 1;
 			break;
 
 		default:

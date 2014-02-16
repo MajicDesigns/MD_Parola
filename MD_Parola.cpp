@@ -194,6 +194,16 @@ void MD_Parola::setInitialConditions(void)
 	_limitOverflow = !calcTextLimits(_pText);
 }
 
+void MD_Parola::setInitialEffectConditions(void)
+// set the initial conditions for loops in the FSM
+{
+	PRINTS("\nsetInitialFSMConditions");
+
+	_startPos = _nextPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
+	_endPos = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
+	_posOffset = (_textAlignment == RIGHT ? 1 : -1);
+}
+
 uint16_t MD_Parola::getTextWidth(char *p)
 // Get the width in columns for the text string passed to the function
 // This is the sum of all the characters and the space betwen them.

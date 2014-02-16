@@ -30,8 +30,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 // Dissolve the current message in/out
 {
-	static int16_t	offset;
-
 	if (bIn)
 	{
 		switch (_fsmState)
@@ -42,20 +40,20 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			PRINT_STATE("I OPEN");
 			FSMPRINT(" - limits R:", _limitRight);
 			FSMPRINT(" L:", _limitLeft);
-			offset = 1 + (_limitLeft-_limitRight)/2;
+			_nextPos = 1 + (_limitLeft - _limitRight)/2;
 			FSMPRINT(" O:", offset);
 			if (bLightBar)
 			{
-				_D.setColumn(_limitLeft-offset, LIGHT_BAR);
-				_D.setColumn(_limitRight+offset, LIGHT_BAR);
+				_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+				_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
 			}
 			_fsmState = PUT_CHAR;
 			break;
 
 		case PUT_CHAR:
 			PRINT_STATE("I OPEN");
-			FSMPRINT(" - offset ", offset);
-			if (offset < 0) 
+			FSMPRINT(" - offset ", _nextPos);
+			if (_nextPos < 0) 
 			{
 				_fsmState = PAUSE;
 			}
@@ -63,17 +61,17 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			{
 				displayClear();
 				commonPrint();
-				for (int16_t i=0; i<offset; i++)
+				for (int16_t i=0; i<_nextPos; i++)
 				{
 					_D.setColumn(_limitRight + i, EMPTY_BAR);
 					_D.setColumn(_limitLeft - i, EMPTY_BAR);
 				}	
 
-				offset--;
-				if (bLightBar && (offset >= 0))
+				_nextPos--;
+				if (bLightBar && (_nextPos >= 0))
 				{
-					_D.setColumn(_limitRight + offset, LIGHT_BAR);
-					_D.setColumn(_limitLeft - offset, LIGHT_BAR);
+					_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
+					_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
 				}
 			}
 			break;
@@ -93,7 +91,7 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			PRINT_STATE("O OPEN");
 			displayClear();
 			commonPrint();
-			offset = 0;
+			_nextPos = 0;
 			if (bLightBar)
 			{
 				_D.setColumn(_limitLeft, LIGHT_BAR);
@@ -104,20 +102,20 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 
 		case PUT_CHAR:
 			PRINT_STATE("O OPEN");
-			FSMPRINT(" - offset ", offset);
-			if (offset > (_limitLeft-_limitRight)/2)
+			FSMPRINT(" - offset ", _nextPos);
+			if (_nextPos > (_limitLeft - _limitRight)/2)
 			{
 				_fsmState = END;
 			}
 			else
 			{
-				_D.setColumn(_limitLeft-offset, EMPTY_BAR);
-				_D.setColumn(_limitRight+offset, EMPTY_BAR);
-				offset++;
-				if (bLightBar && (offset <= (_limitLeft-_limitRight)/2))
+				_D.setColumn(_limitLeft - _nextPos, EMPTY_BAR);
+				_D.setColumn(_limitRight + _nextPos, EMPTY_BAR);
+				_nextPos++;
+				if (bLightBar && (_nextPos <= (_limitLeft-_limitRight)/2))
 				{
-					_D.setColumn(_limitLeft-offset, LIGHT_BAR);
-					_D.setColumn(_limitRight+offset,LIGHT_BAR);
+					_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+					_D.setColumn(_limitRight + _nextPos,LIGHT_BAR);
 				}
 			}
 			break;

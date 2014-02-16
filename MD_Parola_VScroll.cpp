@@ -30,15 +30,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 void MD_Parola::effectVScroll(textEffect_t effectSelect, bool bIn)
 // Scroll the display horizontally up of down, depending on the selected effect
 {
-	static uint8_t	bitOffset = 0;
-
 	if (bIn)	// incoming
 	{
 		switch (_fsmState)
 		{
 		case INITIALISE:
 			PRINT_STATE("I VSCROLL");
-			bitOffset = 0;
+			_nextPos = 0;
 			_D.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
 			_fsmState = PUT_CHAR;
 			// fall through to next state
@@ -52,7 +50,7 @@ void MD_Parola::effectVScroll(textEffect_t effectSelect, bool bIn)
 			displayClear();
 			commonPrint();
 
-			for (uint8_t i=bitOffset; i<7; i++)
+			for (uint8_t i = _nextPos; i < 7; i++)
 				// scroll the whole display so that the message appears to be animated
 				// Note: Directions are reversed because we start with the message in the 
 				// middle position thru commonprint() and to see it animated move DOWN we 
@@ -60,9 +58,9 @@ void MD_Parola::effectVScroll(textEffect_t effectSelect, bool bIn)
 				_D.transform(effectSelect == SCROLL_UP ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
 
 			// check if we have finished
-			if (bitOffset == 7) _fsmState = PAUSE;
+			if (_nextPos == 7) _fsmState = PAUSE;
 
-			bitOffset++;
+			_nextPos++;
 			break;
 
 		default:
@@ -77,7 +75,7 @@ void MD_Parola::effectVScroll(textEffect_t effectSelect, bool bIn)
 		case PAUSE:
 		case INITIALISE:
 			PRINT_STATE("O VSCROLL");
-			bitOffset = 0;
+			_nextPos = 0;
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -89,9 +87,9 @@ void MD_Parola::effectVScroll(textEffect_t effectSelect, bool bIn)
 			_D.transform(effectSelect == SCROLL_UP ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
 
 			// check if we have finished
-			if (bitOffset == 7) _fsmState = END;
+			if (_nextPos == 7) _fsmState = END;
 
-			bitOffset++;
+			_nextPos++;
 			break;
 
 		default:

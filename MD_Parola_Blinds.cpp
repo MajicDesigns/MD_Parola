@@ -32,30 +32,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 void MD_Parola::effectBlinds(bool bIn)
 // Transfer between messages with blinds effects
 {
-	static uint8_t	blindCount;
-
 	switch (_fsmState)
 	{
 	case INITIALISE:	// bIn = true
 	case PAUSE:			// bIn = false
 		PRINT_STATE("IO BLIND");
-		blindCount = 0;
+		_nextPos = 0;
 		_fsmState = GET_FIRST_CHAR;
 		// fall through
 
 	case GET_FIRST_CHAR:	// blinds closing
 		PRINT_STATE("IO BLIND");
 
-		blindCount++;
+		_nextPos++;
 		for (uint16_t i=0; i<_D.getColumnCount(); i++)
 		{
-			if (i % BLINDS_SIZE < blindCount)
+			if (i % BLINDS_SIZE < _nextPos)
 				_D.setColumn(i, LIGHT_BAR);
 		}
 
-		if (blindCount == BLINDS_SIZE)
+		if (_nextPos == BLINDS_SIZE)
 		{
-			blindCount = BLINDS_SIZE;
+			_nextPos = BLINDS_SIZE;
 			_fsmState = GET_NEXT_CHAR;
 		}
 		break;
@@ -65,14 +63,14 @@ void MD_Parola::effectBlinds(bool bIn)
 		displayClear();
 		if (bIn) commonPrint();	// only do this when putting the message up
 
-		blindCount--;
+		_nextPos--;
 		for (uint16_t i=0; i<_D.getColumnCount(); i++)
 		{
-			if (i % BLINDS_SIZE < blindCount)
+			if (i % BLINDS_SIZE < _nextPos)
 				_D.setColumn(i, LIGHT_BAR);
 		}
 
-		if (blindCount == 0)
+		if (_nextPos == 0)
 			_fsmState = PUT_CHAR;
 		break;
 

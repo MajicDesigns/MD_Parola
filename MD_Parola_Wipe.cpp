@@ -32,20 +32,13 @@ void MD_Parola::effectWipe(bool bLightBar, bool bIn)
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
 {
-	static int16_t	nextPos = 0;
-	static int8_t	posOffset = -1;
-	static uint16_t	startPos = 0;
-	static uint16_t	posLimit = 0;
-
 	if (bIn)	// incoming
 	{
 		switch (_fsmState)
 		{
 		case INITIALISE:
 			PRINT_STATE("I WIPE");
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
-			startPos = nextPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
+			setInitialEffectConditions();
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -59,18 +52,18 @@ void MD_Parola::effectWipe(bool bLightBar, bool bIn)
 
 			commonPrint();
 			// blank out the part of the display we don't need
-			FSMPRINT(" - Clear ", nextPos);
-			FSMPRINT(" to ", posLimit);
-			FSMPRINT(" step ", posOffset);
-			for (uint8_t i=nextPos; i != posLimit; i += posOffset)
+			FSMPRINT(" - Clear ", _nextPos);
+			FSMPRINT(" to ", _endPos);
+			FSMPRINT(" step ", _posOffset);
+			for (uint8_t i=_nextPos; i != _endPos; i += _posOffset)
 				_D.setColumn(i, EMPTY_BAR);
 
-			if (bLightBar && (nextPos != posLimit)) _D.setColumn(nextPos, LIGHT_BAR);
+			if (bLightBar && (_nextPos != _endPos)) _D.setColumn(_nextPos, LIGHT_BAR);
 
 			// check if we have finished
-			if (nextPos == posLimit) _fsmState = PAUSE;
+			if (_nextPos == _endPos) _fsmState = PAUSE;
 
-			nextPos += posOffset;	// for the next time around
+			_nextPos += _posOffset;	// for the next time around
 			break;
 
 		default:
@@ -85,9 +78,7 @@ void MD_Parola::effectWipe(bool bLightBar, bool bIn)
 		case PAUSE:
 		case INITIALISE:
 			PRINT_STATE("O WIPE");
-			startPos = nextPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-			posLimit = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
-			posOffset = (_textAlignment == RIGHT ? 1 : -1);
+			setInitialEffectConditions();
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -98,18 +89,18 @@ void MD_Parola::effectWipe(bool bLightBar, bool bIn)
 			commonPrint();
 
 			// blank out the part of the display we don't need
-			FSMPRINT(" - Clear ", nextPos);
-			FSMPRINT(" to ", posLimit);
-			FSMPRINT(" step ", posOffset);
-			for (uint8_t i=startPos; i != nextPos; i += posOffset)
+			FSMPRINT(" - Clear ", _nextPos);
+			FSMPRINT(" to ", _endPos);
+			FSMPRINT(" step ", _posOffset);
+			for (uint8_t i=_startPos; i != _nextPos; i += _posOffset)
 				_D.setColumn(i, EMPTY_BAR);
 
-			if (bLightBar && (nextPos != posLimit)) _D.setColumn(nextPos, LIGHT_BAR);
+			if (bLightBar && (_nextPos != _endPos)) _D.setColumn(_nextPos, LIGHT_BAR);
 
 			// check if we have finished
-			if (nextPos == posLimit) _fsmState = END;
+			if (_nextPos == _endPos) _fsmState = END;
 
-			nextPos += posOffset;	// for the next time around
+			_nextPos += _posOffset;	// for the next time around
 			break;
 
 		default:

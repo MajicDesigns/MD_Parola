@@ -614,24 +614,35 @@ class MD_Parola
 	textEffect_t	_effectOut;		// the effect for text exiting the display
 	bool		_moveIn;			// animation is moving IN when true, OUT when false
 	bool		_inverted;			// true if the display needs to be inverted
+
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
 	bool		calcTextLimits(char *p);	// calculate the right and left limits for the text
+
+	// Variables used in the scrolling routines
+	int16_t		_nextPos;			// Next position for animation. Can be used in several different ways depending on the function.
+	int8_t		_posOffset;			// Looping increment depends on the direction of the scan for animation
+	uint16_t	_startPos;			// Start position for the text LED
+	uint16_t	_endPos;			// End limit for the text LED
+
+	void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM
 
 	// Character buffer handling data and methods
 	char		*_pText;		// pointer to text buffer from user call
 	char		*_pCurChar;		// the current character being processed in the text
 	bool		_endOfText;		// true when the end of the text string has been reached.
 	void		moveTextPointer(void);	// move the text pointer depending on direction of buffer scan
+
 	uint8_t		getFirstChar(void);	// put the first Text char into the char buffer
 	uint8_t		getNextChar(void);	// put the next Text char into the char buffer
 
 	// Font character handling data and methods
-	charDef		*_userChars;			// the root of the list of user defined characters
+	charDef		*_userChars;		// the root of the list of user defined characters
 	uint8_t		_cBuf[15];			// buffer for loading character font
 	uint8_t		_charSpacing;		// spacing in columns between characters
 	uint8_t		_charCols;			// number of columns for this character
 	int16_t		_countCols;			// count of number of columns already shown
+
 	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
 	uint8_t		makeChar(char c);	// load a character bitmap and add in trailing _charSpacing blanks
 	uint8_t		reverseBuf(uint8_t *p, uint8_t size);	// reverse the elements of the buffer

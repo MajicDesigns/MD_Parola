@@ -35,9 +35,8 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Global variables
 char	*pc[] = 
 { 
-  "Hello!", 
-  "Parola for",
-  "Arduino", 
+//  "Parola for",
+//  "Arduino", 
   "LED Matrix",
   "Display" 
 };
@@ -95,27 +94,26 @@ void doUI(void)
     static bool     bLastHigh = true;
 
     MD_Parola::textEffect_t	effect[] =
-    {
-
-	  MD_Parola::PRINT,
-      MD_Parola::SLICE,
-      MD_Parola::WIPE,
-      MD_Parola::WIPE_CURSOR,
-      MD_Parola::OPENING,
-      MD_Parola::OPENING_CURSOR,
-      MD_Parola::CLOSING,
-      MD_Parola::CLOSING_CURSOR,
-      MD_Parola::BLINDS,
-	  MD_Parola::DISSOLVE,
-      MD_Parola::SCROLL_UP,
-      MD_Parola::SCROLL_DOWN,
-      MD_Parola::SCROLL_LEFT,
-      MD_Parola::SCROLL_RIGHT,
-      MD_Parola::SCAN_HORIZ,
-      MD_Parola::SCAN_VERT,
-	  MD_Parola::GROW_UP,
-	  MD_Parola::GROW_DOWN,
-    };
+	{
+	MD_Parola::PRINT,
+	MD_Parola::SLICE,
+	MD_Parola::WIPE,
+	MD_Parola::WIPE_CURSOR,
+    MD_Parola::OPENING,
+	MD_Parola::OPENING_CURSOR,
+	MD_Parola::CLOSING,
+	MD_Parola::CLOSING_CURSOR,
+	MD_Parola::BLINDS,
+	MD_Parola::DISSOLVE,
+	MD_Parola::SCROLL_UP,
+	MD_Parola::SCROLL_DOWN,
+	MD_Parola::SCROLL_LEFT,
+	MD_Parola::SCROLL_RIGHT,
+	MD_Parola::SCAN_HORIZ,
+	MD_Parola::SCAN_VERT,
+	MD_Parola::GROW_UP,
+	MD_Parola::GROW_DOWN,
+	};
 
     bool	b = (digitalRead(EFFECT_SET) == HIGH);
 

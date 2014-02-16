@@ -29,8 +29,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_Parola::effectSlice(bool bIn)
 {
-	static int16_t	nextColumn, animColumn;
-
 	if (bIn)
 	{
 		switch(_fsmState)
@@ -46,8 +44,8 @@ void MD_Parola::effectSlice(bool bIn)
 			}
 			displayClear();
 			_countCols = 0;
-			animColumn = 0;
-			nextColumn = _limitLeft;
+			_nextPos = 0;
+			_endPos = _limitLeft;
 
 			_fsmState = PUT_CHAR;
 			break;
@@ -66,27 +64,27 @@ void MD_Parola::effectSlice(bool bIn)
 
 		case PUT_CHAR:	// display the next part of the character
 			PRINT_STATE("I SLICE");
-			FSMPRINT(" - Next ", nextColumn);
-			FSMPRINT(", anim ", animColumn);
+			FSMPRINT(" - Next ", _endPos);
+			FSMPRINT(", anim ", _nextPos);
 
 			if (_cBuf[_countCols] == 0)
 			{
-				animColumn = nextColumn;	// pretend we just animated it!
+				_nextPos = _endPos;	// pretend we just animated it!
 			}
 			else
 			{
 				// clear the column and animate the next one
-				if (animColumn != nextColumn) _D.setColumn(animColumn, EMPTY_BAR);
-				animColumn++;
-				_D.setColumn(animColumn, DATA_BAR(_cBuf[_countCols]));
+				if (_nextPos != _endPos) _D.setColumn(_nextPos, EMPTY_BAR);
+				_nextPos++;
+				_D.setColumn(_nextPos, DATA_BAR(_cBuf[_countCols]));
 			}
 
 			// set up for the next time
-			if (animColumn == nextColumn) 
+			if (_nextPos == _endPos) 
 			{
-				animColumn = 0;
+				_nextPos = 0;
 				_countCols++;
-				nextColumn--;
+				_endPos--;
 			}
 			if (_countCols == _charCols) _fsmState = GET_NEXT_CHAR;
 			break;
@@ -101,7 +99,7 @@ void MD_Parola::effectSlice(bool bIn)
 		{
 		case PAUSE:
 			PRINT_STATE("O SLICE");
-			animColumn = nextColumn = _limitLeft;
+			_nextPos = _endPos = _limitLeft;
 			_fsmState = PUT_CHAR;
 			// fall through
 
@@ -109,25 +107,25 @@ void MD_Parola::effectSlice(bool bIn)
 		case GET_NEXT_CHAR:
 		case PUT_CHAR:
 			PRINT_STATE("O SLICE");
-			FSMPRINT(" - Next ", nextColumn);
-			FSMPRINT(", anim ", animColumn);
+			FSMPRINT(" - Next ", _endPos);
+			FSMPRINT(", anim ", _nextPos);
 
-			if (_D.getColumn(animColumn) == EMPTY_BAR)
+			if (_D.getColumn(_nextPos) == EMPTY_BAR)
 			{
-				animColumn = _D.getColumnCount();	// pretend we just animated it!
+				_nextPos = _D.getColumnCount();	// pretend we just animated it!
 			}
 			else
 			{
 				// Move the column over
-				_D.setColumn(animColumn+1, _D.getColumn(animColumn));
-				_D.setColumn(animColumn, EMPTY_BAR);
-				animColumn++;
+				_D.setColumn(_nextPos+1, _D.getColumn(_nextPos));
+				_D.setColumn(_nextPos, EMPTY_BAR);
+				_nextPos++;
 			}
 
 			// set up for the next time
-			if (animColumn == _D.getColumnCount()) animColumn = nextColumn--;
+			if (_nextPos == _D.getColumnCount()) _nextPos = _endPos--;
 
-			if (nextColumn < _limitRight) _fsmState = END;	//reached the end
+			if (_endPos < _limitRight) _fsmState = END;	//reached the end
 			break;
 
 		default:

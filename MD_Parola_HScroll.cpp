@@ -122,7 +122,7 @@ void MD_Parola::effectHScroll(textEffect_t effectSelect, bool bIn)
 			_D.setColumn(START_POSITION, EMPTY_BAR);
 
 			b = true;
-			for (uint16_t i=0; (i<_D.getColumnCount()) && b; i++)
+			for (uint16_t i = 0; (i < _D.getColumnCount()) && b; i++)
 				b &= (_D.getColumn(i) == EMPTY_BAR);
 
 			if (b) _fsmState = END;	// no data is being displayed
