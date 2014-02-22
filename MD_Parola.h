@@ -232,7 +232,7 @@ class MD_Parola
 	{
 		NO_EFFECT,		///< Used as a place filler, executes no operation
 		PRINT,			///< Text just appears (printed)
-		SLICE,			///< Text enters and exits a slice (column) at a time
+		SLICE,			///< Text enters and exits a slice (column) at a time from the right
 		WIPE,			///< Text appears/disappears one column at a time, looks like it is wiped on and off
 		WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
 		OPENING,		///< Appear and disappear from the center of the display, towards the ends

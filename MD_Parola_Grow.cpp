@@ -48,8 +48,6 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 		case PUT_CHAR:
 		case PAUSE:
 			PRINT_STATE("I GROW");
-			if (_fsmState == PAUSE)
-				_fsmState = PUT_CHAR;
 
 			commonPrint();
 			// check if we have finished
@@ -62,7 +60,11 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 			// blank out the part of the display we don't need
 			FSMPRINT("Keep bits ", _nextPos);
 			for (uint8_t i = _startPos; i != _endPos; i += _posOffset)
-				_D.setColumn(i, _D.getColumn(i) & (bUp ? ~_nextPos : _nextPos));
+			{
+				uint8_t	c = DATA_BAR(_D.getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+
+				_D.setColumn(i, DATA_BAR(c));
+			}
 
 			// for the next time around
 			if (bUp)
@@ -97,7 +99,11 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 			// blank out the part of the display we don't need
 			FSMPRINT(" Keep bits ", _nextPos);
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
-				_D.setColumn(i, _D.getColumn(i) & (bUp ? ~_nextPos : _nextPos));
+			{
+				uint8_t	c = DATA_BAR(_D.getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+
+				_D.setColumn(i, DATA_BAR(c));
+			}
 
 			// check if we have finished
 			if (_nextPos == (bUp ? 0xff : 0x0))	// all bits covered

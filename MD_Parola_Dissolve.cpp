@@ -38,10 +38,10 @@ void MD_Parola::effectDissolve(bool bIn)
 		PRINT_STATE("IO DISS");
 		for (uint16_t i=0; i<_D.getColumnCount(); i++)
 		{
-			uint8_t	col = _D.getColumn(i);
+			uint8_t	col = DATA_BAR(_D.getColumn(i));
 				
 			col |= (i&1 ? 0x55 : 0xaa);	// checkerboard pattern
-			_D.setColumn(i, col);
+			_D.setColumn(i, DATA_BAR(col));
 		}
 		_fsmState = GET_NEXT_CHAR;
 		break;
@@ -52,10 +52,10 @@ void MD_Parola::effectDissolve(bool bIn)
 		if (bIn) commonPrint();
 		for (uint16_t i=0; i<_D.getColumnCount(); i++)
 		{
-			uint8_t	col = _D.getColumn(i);
+			uint8_t	col = DATA_BAR(_D.getColumn(i));
 				
 			col |= (i&1 ? 0xaa : 0x55);	// alternate checkerboard pattern
-			_D.setColumn(i, col);
+			_D.setColumn(i, DATA_BAR(col));
 		}
 		_fsmState = PUT_CHAR;
 		break;

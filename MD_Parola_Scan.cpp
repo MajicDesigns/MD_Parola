@@ -47,8 +47,6 @@ void MD_Parola::effectHScan(bool bIn)
 		case PUT_CHAR:
 		case PAUSE:
 			PRINT_STATE("I SCANH");
-			if (_fsmState == PAUSE)
-				_fsmState = PUT_CHAR;
 
 			commonPrint();
 			// check if we have finished
@@ -136,10 +134,8 @@ void MD_Parola::effectVScan(bool bIn)
 		case PUT_CHAR:
 		case PAUSE:
 			PRINT_STATE("I SCANV");
-			if (_fsmState == PAUSE)
-				_fsmState = PUT_CHAR;
-
 			commonPrint();
+
 			// check if we have finished
 			if (_nextPos == 8)		// bits numbered 0 to 7	
 			{
@@ -151,7 +147,11 @@ void MD_Parola::effectVScan(bool bIn)
 			FSMPRINT("Keep bit ", _nextPos);
 			maskCol = (1 << _nextPos);
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
-				_D.setColumn(i, _D.getColumn(i) & maskCol);
+			{
+				uint8_t	c = DATA_BAR(_D.getColumn(i) & maskCol);
+
+				_D.setColumn(i, DATA_BAR(c));
+			}
 
 			_nextPos++;	// for the next time around
 			break;
@@ -183,7 +183,11 @@ void MD_Parola::effectVScan(bool bIn)
 			FSMPRINT(" Keep bit ", _nextPos);
 			maskCol = (1 << _nextPos);
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
-				_D.setColumn(i, _D.getColumn(i) & maskCol);
+			{
+				uint8_t	c = DATA_BAR(_D.getColumn(i) & maskCol);
+
+				_D.setColumn(i, DATA_BAR(c));
+			}
 
 			// check if we have finished
 			if (_nextPos == 0) _fsmState = END;

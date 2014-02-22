@@ -8,7 +8,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	10
+#define	MAX_DEVICES	8
 
 #define	CLK_PIN		13
 #define	DATA_PIN	11
@@ -38,15 +38,16 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 typedef struct 
 {
 	uint8_t PROGMEM *	pFont;
+	MD_Parola::textEffect_t	effect;
 	char *				pMsg;
 } Message_t;
 
 Message_t	M[] = 
 { 
-	{ NULL, "Arduino Uno" }, 
-	{ fontKatakana, "\x0b1\x0b0\x0c2\x0b2\x0c9 \x0a5 \x0b3\x0c9" },
-	{ fontArabic, "\x0b1\x0b0\x0c2\x0b2\x0c9 \x0b3\x0c9" },		// this is nonsense as I don't do arabic!
-	{ fontGreek, "\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6 \x08e\x0ac\x0a4\x0a6" }
+	{ NULL, MD_Parola::SCROLL_LEFT, "Arduino" }, 
+	{ fontKatakana, MD_Parola::SCROLL_LEFT, "\x0b1\x0b0\x0c2\x0b2\x0c9" },
+	{ fontArabic, MD_Parola::SCROLL_RIGHT, "\x0b1\x0b0\x0c2\x0b2\x0c9" },		// this is nonsense as I don't do arabic!
+	{ fontGreek, MD_Parola::SCROLL_LEFT, "\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
 };
 #define	MAX_MESG  (sizeof(M)/sizeof(M[0]))
 
@@ -69,6 +70,7 @@ void loop(void)
 	curM = (curM + 1) % MAX_MESG;
 	P.setFont(M[curM].pFont);
     P.setTextBuffer(M[curM].pMsg);
+	P.setTextEffect(M[curM].effect, M[curM].effect);
 
 	PRINT("\nChanging font to ", curM);
 	PRINTS("\n");

@@ -1,6 +1,6 @@
 // Use the Parola library to scroll text on the display
 //
-// Demonatrates the use of the scrolling function to display text received 
+// Demonstrates the use of the scrolling function to display text received 
 // from the serial interface
 //
 // User can enter text on the serial monitor and this will display as a
@@ -47,10 +47,14 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Scrolling parameters
 #if USE_UI_CONTROL
-#define	SPEED_IN		A0
+#define	SPEED_IN		A5
 #define	DIRECTION_SET	8	// change the effect
 #define	INVERT_SET		9	// change the invert
+
+#define	SWITCH_OFF	HIGH
+#define	SWITCH_ON	LOW
 #endif // USE_UI_CONTROL
+
 uint8_t	frameDelay = 25;	// default frame delay value
 MD_Parola::textEffect_t	scrollEffect = MD_Parola::SCROLL_LEFT;
 
@@ -79,32 +83,32 @@ void doUI(void)
 
   // SCROLL DIRECTION
   {
-    static bool		bLastHigh = true;
+    static bool		bLastActive = true;
 
-    bool  b = (digitalRead(DIRECTION_SET) == HIGH);
+    bool  b = (digitalRead(DIRECTION_SET) == SWITCH_ON);
 
-    if (!bLastHigh && b)
+    if (!bLastActive && b)
     {
       PRINTS("\nChanging scroll direction");
 	  scrollEffect = (scrollEffect == MD_Parola::SCROLL_LEFT ? MD_Parola::SCROLL_RIGHT : MD_Parola::SCROLL_LEFT);
 	  P.setTextEffect(scrollEffect, scrollEffect);
       P.displayReset();
     }
-    bLastHigh = b;
+    bLastActive = b;
   }
 
   // INVERTED MODE
   {
-    static bool		bLastHigh = true;
+    static bool		bLastActive = true;
 
-    bool  b = (digitalRead(INVERT_SET) == HIGH);
+    bool  b = (digitalRead(INVERT_SET) == SWITCH_ON);
 
-    if (!bLastHigh && b)
+    if (!bLastActive && b)
     {
       PRINTS("\nChanging invert mode");
 	  P.setInvert(!P.getInvert());
     }
-    bLastHigh = b;
+    bLastActive = b;
   }
 }
 #endif // USE_UI_CONTROL
@@ -137,8 +141,8 @@ void setup()
 
 #if USE_UI_CONTROL
   pinMode(SPEED_IN, INPUT);
-  pinMode(DIRECTION_SET, INPUT);
-  pinMode(INVERT_SET, INPUT);
+  pinMode(DIRECTION_SET, INPUT_PULLUP);
+  pinMode(INVERT_SET, INPUT_PULLUP);
   doUI();
 #endif // USE_UI_CONTROL
 

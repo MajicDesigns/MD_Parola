@@ -53,7 +53,7 @@ void MD_Parola::effectVScroll(textEffect_t effectSelect, bool bIn)
 			for (uint8_t i = _nextPos; i < 7; i++)
 				// scroll the whole display so that the message appears to be animated
 				// Note: Directions are reversed because we start with the message in the 
-				// middle position thru commonprint() and to see it animated move DOWN we 
+				// middle position thru commonPrint() and to see it animated move DOWN we 
 				// need to scroll it UP, and vice versa.
 				_D.transform(effectSelect == SCROLL_UP ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
 

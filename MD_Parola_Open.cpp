@@ -41,7 +41,7 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			FSMPRINT(" - limits R:", _limitRight);
 			FSMPRINT(" L:", _limitLeft);
 			_nextPos = 1 + (_limitLeft - _limitRight)/2;
-			FSMPRINT(" O:", offset);
+			FSMPRINT(" O:", _nextPos);
 			if (bLightBar)
 			{
 				_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
