@@ -27,31 +27,31 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Turn on debug statements to the serial output
-#define  DEBUG  1
+#define  DEBUG_ENABLE  1
 
-#if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(x)	Serial.println(x, HEX)
+#if  DEBUG_ENABLE
+#define	DEBUG(s, x)	{ Serial.print(F(s)); Serial.print(x); }
+#define	DEBUGS(x)	Serial.print(F(x))
+#define	DEBUGX(x)	Serial.println(x, HEX)
 #else
-#define	PRINT(s, x)
-#define PRINTS(x)
-#define PRINTX(x)
+#define	DEBUG(s, x)
+#define DEBUGS(x)
+#define DEBUGX(x)
 #endif
 
 // User interface pin and switch definitions
-#define	SPEED_IN	A5	// control the speed with an external pot
-#define JUSTIFY_SET	7	// change the justification
-#define	EFFECT_SET	8	// change the effect
-#define	PAUSE_SET	9	// toggle pause time
-#define	INTENSITY_SET	6	// change the intensity of the display
-#define	INVERSE_SET	5	// set/reset the display to inverse
+#define	SPEED_IN		A5	// control the speed with an external pot
+#define	PAUSE_SET		4	// toggle pause time
+#define JUSTIFY_SET		6	// change the justification
+#define	INTENSITY_SET	7	// change the intensity of the display
+#define	EFFECT_SET		8	// change the effect
+#define	INVERSE_SET		9	// set/reset the display to inverse
 
-#define	SWITCH_OFF	HIGH
-#define	SWITCH_ON	LOW
-#define	DEBOUNCE_TIME	20	// in milliseconds
-#define	PAUSE_TIME		1000
-#define	SPEED_DEADBAND	5
+#define	SWITCH_OFF	HIGH		// OFF switch logic level
+#define	SWITCH_ON	LOW			// ON switch logic level
+#define	DEBOUNCE_TIME	20		// in milliseconds
+#define	PAUSE_TIME		1000	// in milliseconds
+#define	SPEED_DEADBAND	5		// in analog units
 
 // Global variables
 uint8_t	curString = 0;
@@ -109,7 +109,7 @@ void doUI(void)
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
       P.setSpeed(speed);
-      PRINT("\nChanged speed to ", P.getSpeed());
+      DEBUG("\nChanged speed to ", P.getSpeed());
     }
   }
 
@@ -124,17 +124,17 @@ void doUI(void)
 			{
 				static uint8_t	curMode = 0;
 				MD_Parola::textPosition_t	align = P.getTextAlignment();
-				MD_Parola::textPosition_t	mode[] = 
+				MD_Parola::textPosition_t	textAlign[] = 
 				{ 
 					MD_Parola::LEFT, 
 					MD_Parola::CENTER, 
 					MD_Parola::RIGHT
 				};
 
-				PRINT("\nChanging alignment to ", curMode);
-				P.setTextAlignment(mode[curMode]);
+				DEBUG("\nChanging alignment to ", curMode);
+				P.setTextAlignment(textAlign[curMode]);
 				P.displayReset();
-				curMode = (curMode + 1) % ARRAY_SIZE(mode);
+				curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
 			}
 			break;
 
@@ -164,7 +164,7 @@ void doUI(void)
 					MD_Parola::GROW_DOWN,
 				};
 
-				PRINT("\nChanging effect to ", curFX);
+				DEBUG("\nChanging effect to ", curFX);
 				P.setTextEffect(effect[curFX], effect[curFX]);
 				P.displayReset();
 				curFX = (curFX + 1) % ARRAY_SIZE(effect);
@@ -173,7 +173,7 @@ void doUI(void)
 
 		case PAUSE_SET:	// PAUSE DELAY
 			{
-				PRINTS("\nChanging pause");
+				DEBUGS("\nChanging pause");
 				if (P.getPause() <= P.getSpeed())
 					P.setPause(PAUSE_TIME);
 				else
@@ -187,12 +187,12 @@ void doUI(void)
 
 				intensity = ++intensity % 16;
 				P.setIntensity(intensity);
-				PRINT("\nChanged intensity to ", intensity);
+				DEBUG("\nChanged intensity to ", intensity);
 			}
 			break;
 
 		case INVERSE_SET:	// INVERSE
-			PRINTS("\nToggling invert");
+			DEBUGS("\nToggling invert");
 			P.setInvert(!P.getInvert());
 			break;
 		}
@@ -202,8 +202,10 @@ void doUI(void)
 
 void setup(void)
 {
+#if DEBUG_ENABLE
   Serial.begin(57600);
-  PRINTS("[Parola Test]");
+  DEBUGS("[Parola Test]");
+#endif
 
   for (uint8_t i=0; i<ARRAY_SIZE(UIControl); i++)
 	pinMode(UIControl[i].swPin, INPUT_PULLUP);

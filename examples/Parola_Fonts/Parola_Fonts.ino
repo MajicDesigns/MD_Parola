@@ -1,4 +1,4 @@
-// Program to exercise the MD_Parola library
+﻿// Program to exercise the MD_Parola library
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
@@ -19,7 +19,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // GENERIC SPI
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define	PAUSE_TIME		1000
+#define	PAUSE_TIME		3000
 
 // Turn on debug statements to the serial output
 #define  DEBUG  0
@@ -44,10 +44,10 @@ typedef struct
 
 Message_t	M[] = 
 { 
-	{ NULL, MD_Parola::SCROLL_LEFT, "Arduino" }, 
-	{ fontKatakana, MD_Parola::SCROLL_LEFT, "\x0b1\x0b0\x0c2\x0b2\x0c9" },
-	{ fontArabic, MD_Parola::SCROLL_RIGHT, "\x0b1\x0b0\x0c2\x0b2\x0c9" },		// this is nonsense as I don't do arabic!
-	{ fontGreek, MD_Parola::SCROLL_LEFT, "\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
+	{ NULL,			MD_Parola::SCROLL_LEFT,	"Arduino" }, 
+	{ fontKatakana,	MD_Parola::SCROLL_LEFT,	"\x0b1\x0b0\x0c2\x0b2\x0c9" },
+	{ fontArabic,	MD_Parola::SCROLL_RIGHT,"\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
+	{ fontGreek,	MD_Parola::SCROLL_LEFT,	"\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
 };
 #define	MAX_MESG  (sizeof(M)/sizeof(M[0]))
 
