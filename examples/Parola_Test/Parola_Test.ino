@@ -16,7 +16,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	8
+#define	MAX_DEVICES	4
 #define	CLK_PIN		13
 #define	DATA_PIN	11
 #define	CS_PIN		10
@@ -158,6 +158,10 @@ void doUI(void)
 					MD_Parola::SCROLL_DOWN,
 					MD_Parola::SCROLL_LEFT,
 					MD_Parola::SCROLL_RIGHT,
+					MD_Parola::SCROLL_UP_LEFT,
+					MD_Parola::SCROLL_UP_RIGHT,
+					MD_Parola::SCROLL_DOWN_LEFT,
+					MD_Parola::SCROLL_DOWN_RIGHT,
 					MD_Parola::SCAN_HORIZ,
 					MD_Parola::SCAN_VERT,
 					MD_Parola::GROW_UP,

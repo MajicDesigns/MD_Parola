@@ -23,8 +23,8 @@
 #define	SPEED_IN	A5
 #endif // USE_UI_CONTROL
 
-#define	PAUSE_TIME		1000
-#define	SPEED_DEADBAND	5
+#define	PAUSE_TIME	1000
+
 uint8_t	frameDelay = 25;	// default frame delay value
 
 // Hardware SPI connection
@@ -59,24 +59,28 @@ char	*pc[] =
 uint8_t  inFX, outFX;
 MD_Parola::textEffect_t	effect[] =
 {
-  MD_Parola::PRINT,
+	MD_Parola::PRINT,
 	MD_Parola::SCAN_HORIZ,
-  MD_Parola::SCROLL_LEFT,
-  MD_Parola::WIPE,
-  MD_Parola::SCROLL_UP,
-  MD_Parola::OPENING_CURSOR,
+	MD_Parola::SCROLL_LEFT,
+	MD_Parola::WIPE,
+	MD_Parola::SCROLL_UP_LEFT,
+	MD_Parola::SCROLL_UP,
+	MD_Parola::OPENING_CURSOR,
 	MD_Parola::GROW_UP,
-  MD_Parola::BLINDS,
-  MD_Parola::CLOSING,
+	MD_Parola::SCROLL_UP_RIGHT,
+	MD_Parola::BLINDS,
+	MD_Parola::CLOSING,
 	MD_Parola::GROW_DOWN,
 	MD_Parola::SCAN_VERT,
-  MD_Parola::WIPE_CURSOR,
-  MD_Parola::DISSOLVE,
-  MD_Parola::OPENING,
-  MD_Parola::CLOSING_CURSOR,
-  MD_Parola::SCROLL_RIGHT,
-  MD_Parola::SCROLL_DOWN,
-  MD_Parola::SLICE,
+	MD_Parola::SCROLL_DOWN_LEFT,
+	MD_Parola::WIPE_CURSOR,
+	MD_Parola::DISSOLVE,
+	MD_Parola::OPENING,
+	MD_Parola::CLOSING_CURSOR,
+	MD_Parola::SCROLL_DOWN_RIGHT,
+	MD_Parola::SCROLL_RIGHT,
+	MD_Parola::SLICE,
+	MD_Parola::SCROLL_DOWN,
 };
 
 #if USE_UI_CONTROL
@@ -86,8 +90,6 @@ void doUI(void)
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 250);
 
-//    if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) || 
-//      (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     if (speed != (int16_t)P.getSpeed()) 
     {
       P.setSpeed(speed);

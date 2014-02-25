@@ -152,10 +152,14 @@ bool MD_Parola::displayAnimate(void)
 				case SCAN_VERT:			effectVScan(_moveIn);			break;
 				case GROW_UP:			effectGrow(true, _moveIn);		break;
 				case GROW_DOWN:			effectGrow(false, _moveIn);		break;
-				case SCROLL_UP:
-				case SCROLL_DOWN:		effectVScroll((_moveIn ? _effectIn : _effectOut), _moveIn);	break;
-				case SCROLL_LEFT:
-				case SCROLL_RIGHT:		effectHScroll((_moveIn ? _effectIn : _effectOut), _moveIn);	break;
+				case SCROLL_UP:			effectVScroll(true, _moveIn);	break;
+				case SCROLL_DOWN:		effectVScroll(false, _moveIn);	break;
+				case SCROLL_LEFT:		effectHScroll(true, _moveIn);	break;
+				case SCROLL_RIGHT:		effectHScroll(false, _moveIn);	break;
+				case SCROLL_UP_LEFT:	effectDiag(true, true, _moveIn);	break;
+				case SCROLL_UP_RIGHT:	effectDiag(true, false, _moveIn);	break;
+				case SCROLL_DOWN_LEFT:	effectDiag(false, true, _moveIn);	break;	
+				case SCROLL_DOWN_RIGHT:	effectDiag(false, false, _moveIn);	break;
 				default:
 					_fsmState = END;
 			}

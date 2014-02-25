@@ -24,19 +24,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #include <MD_Parola_lib.h>
 /**
  * \file
- * \brief Implements vertical scroll effect
+ * \brief Implements diagonal scroll effect
  */
 
-void MD_Parola::effectVScroll(bool bUp, bool bIn)
-// Scroll the display horizontally up of down, depending on the selected effect
+void MD_Parola::effectDiag(bool bUp, bool bLeft, bool bIn)
+// Scroll the display diagonally up or down, left or right, depending on the selected effect
 {
 	if (bIn)	// incoming
 	{
 		switch (_fsmState)
 		{
 		case INITIALISE:
-			PRINT_STATE("I VSCROLL");
-			_nextPos = 0;
+			PRINT_STATE("I DIAG");
+			_nextPos = 0;		// the position in the animation
 			_D.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
 			_fsmState = PUT_CHAR;
 			// fall through to next state
@@ -45,17 +45,20 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		case GET_NEXT_CHAR:
 		case PUT_CHAR:
 		case PAUSE:
-			PRINT_STATE("I VSCROLL");
+			PRINT_STATE("I DIAG");
 
 			displayClear();
 			commonPrint();
 
 			for (uint8_t i = _nextPos; i < 7; i++)
+			{
 				// scroll the whole display so that the message appears to be animated
 				// Note: Directions are reversed because we start with the message in the 
 				// middle position thru commonPrint() and to see it animated move DOWN we 
 				// need to scroll it UP, and vice versa.
 				_D.transform(bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
+				_D.transform(bLeft ? MD_MAX72XX::TSR : MD_MAX72XX::TSL);
+			}
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = PAUSE;
@@ -64,7 +67,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 			break;
 
 		default:
-			PRINT_STATE("I VSCROLL");
+			PRINT_STATE("I DIAG");
 			_fsmState = PAUSE;
 		}
 	}
@@ -74,7 +77,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		{
 		case PAUSE:
 		case INITIALISE:
-			PRINT_STATE("O VSCROLL");
+			PRINT_STATE("O DIAG");
 			_nextPos = 0;
 			_fsmState = PUT_CHAR;
 			// fall through to next state
@@ -82,9 +85,10 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		case GET_FIRST_CHAR:
 		case GET_NEXT_CHAR:
 		case PUT_CHAR:
-			PRINT_STATE("O VSCROLL");
+			PRINT_STATE("O DIAG");
 
 			_D.transform(bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
+			_D.transform(bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = END;
@@ -93,7 +97,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 			break;
 
 		default:
-			PRINT_STATE("O VSCROLL");
+			PRINT_STATE("O DIAG");
 			_fsmState = END;
 			break;
 		}

@@ -24,11 +24,15 @@ System Components
 
 Revision History 
 ----------------
-February 2014
+March 2014 - version 2.0
 - Mods to accomodate revised font handling in MD_MAX72xx library
  + Users can now provide a user defined font PROGMEM data table
  + User code can provide individual character override for equivalent font character
-- Added animations SCAN_HORIZ, SCAN_VERT, GROW_UP, GROW_DOWN
+- Additional animations 
+ + SCAN_HORIZ, SCAN_VERT
+ + GROW_UP, GROW_DOWN
+ + SCROLL_UP_LEFT, SCROLL_UP_RIGHT, SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
+
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
@@ -245,6 +249,10 @@ class MD_Parola
 		SCROLL_DOWN,	///< Text scrolls down through the display
 		SCROLL_LEFT,	///< Text scrolls right to left on the display
 		SCROLL_RIGHT,	///< Text scrolls left to right on the display
+		SCROLL_UP_LEFT,		///< Text moves in/out in a diagonal path up and left (North East)
+		SCROLL_UP_RIGHT,	///< Text moves in/out in a diagonal path up and right (North West)
+		SCROLL_DOWN_LEFT,	///< Text moves in/out in a diagonal path down and left (South East)
+		SCROLL_DOWN_RIGHT,	///< Text moves in/out in a diagonal path down and right (North West)
 		SCAN_HORIZ,		///< Scan one column at a time then appears/disappear at end
 		SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
 		GROW_UP,		///< Text grows from the bottom up and shrinks from the top down 
@@ -656,11 +664,12 @@ class MD_Parola
 	void	effectClose(bool bLightBar, bool bIn);
 	void	effectBlinds(bool bIn);
 	void	effectDissolve(bool bIn);
-	void	effectVScroll(textEffect_t effectSelect, bool bIn);
-	void	effectHScroll(textEffect_t effectSelect, bool bIn);
+	void	effectVScroll(bool bUp, bool bIn);
+	void	effectHScroll(bool bLeft, bool bIn);
 	void	effectHScan(bool bIn);
 	void	effectVScan(bool bIn);
 	void	effectGrow(bool bUp, bool bIn);
+	void	effectDiag(bool bUp, bool bLeft, bool bIn);	
 };
 
 #endif
