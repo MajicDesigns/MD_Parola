@@ -18,21 +18,19 @@ at the [Parola website] (http://parola.codeview.com).
 
 System Components
 -----------------
-- \subpage pageHardware
+- Hardware - supported hardware documentation is now found in the MD_MAX72xx library documentation.
 - \subpage pageSoftware
-- \subpage pageConnection
 
 Revision History 
 ----------------
 March 2014 - version 2.0
-- Mods to accomodate revised font handling in MD_MAX72xx library
+- Mods to accommodate revised font handling in MD_MAX72xx library
  + Users can now provide a user defined font PROGMEM data table
  + User code can provide individual character override for equivalent font character
 - Additional animations 
  + SCAN_HORIZ, SCAN_VERT
  + GROW_UP, GROW_DOWN
  + SCROLL_UP_LEFT, SCROLL_UP_RIGHT, SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
-
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
@@ -129,70 +127,6 @@ increase is not appreciable with up to 12 modules in length. For the arbitrary p
 shiftout(), a 6 module chain updates in approximately 14ms on an Uno, while a 12 module display 
 takes around 25ms. Most of the time taken is to physically update the display, as animating frames 
 takes about 1-2ms to update in the MD_MAX72XX display buffers.
-
-\page pageHardware Parola Hardware
-Design
-------
-The aim was to create a 'lego-like' approach to LED matrix display, using standard 8x8 on
-LED matrices. The software supports this flexibility through a scalable approach that
-only requires the definition of the number of modules to adapt existing software to 
-a new configuration.
-
-![Completed Parola module with and without the LED matrix] (PCB_Actual.jpg "Parola Modules")
-___
-
-Circuit Schematic
------------------
-The schematic is the basic application circuit that is found on the MAX7219 datasheet, 
-adapted to the LED matrix. Each Parola Module consists of an 8x8 LED Common Anode matrix
-controlled by a MAX7219 LED controller and a few passive components. These controllers 
-can be daisy chained, making them ideal for the purpose.
-
-![Parola Circuit Schematic] (Circuit_Schematic.jpg "Parola Schematic")
-___
-
-PCB Design
-----------
-The PCD design was executed using the autorouting facility in Eagle CAD, and the PCB was 
-manufactured by SeeedStudio. The Eagle CAD files for the layout and the Gerber files 
-suitable for SeeedStudio are found on the [Parola website] (http://code.google.com/p/parola-for-arduino).
-The final design includes edge connections that allow many modules to be connected
-together into an extended display, one LED module in height.
-
-![PCB layout ready for manufacture] (PCB_Layout.jpg "PCB Design")
-
-\page pageConnection System Connections
-Connecting Parola to the Arduino
---------------------------------
-The modules are connected through a 4-wire serial interface (SPI), and devices are cascaded, 
-with communications passed through the first device in the chain to all others. The Arduino 
-should be connected to the IN side (shown in the figure below) of the first module in the chain. 
-
-![Module Input Header] (Connector.jpg "Connection In")
-
-The Arduino interface is implemented with 3 digital outputs that are passed through to 
-the class constructor. The digital outputs define the SPI interface as follows:
-- DIN (MOSI) - the Data IN signal shifts data into the display module. Data is loaded into 
-the device's internal 16-bit shift register on CLK's rising edge.
-- CLK (SCK) - the CLocK signal that is used to time the data for the device. 
-- LD (SS) - the interface is active when LoaD signal is LOW. Serial data are loaded into the 
-device shift register while LOAD is LOW and latched in on the rising edge.
-
-Note that the LD signal is used to select the entire device chain. This allows separate LD 
-outputs to control multiple Parola displays sharing the same DIN and CLK signals. The 
-software needs to instantiate a separate object for each display.
-
-The remaining interface pins are for +5V and GND. The power supply must be able to supply 
-enough current for the number of connected Parola modules. The central position of the GND
-connector provides some protection for accidentally reversing the connector.
-___
-
-Connecting Parola Modules
--------------------------
-Separate Parola modules are connected by the plugging them together edge to edge, with the 
-OUT side of one module plugged to the IN side of the next, as shown in the figure below.
-
-![Connecting Parola modules] (Modules_conn.jpg "Modules connected")
 */
 #ifndef _MD_PAROLA_H
 #define _MD_PAROLA_H
