@@ -112,18 +112,19 @@ void MD_Parola::effectSlice(bool bIn)
 
 			if (_D.getColumn(_nextPos) == EMPTY_BAR)
 			{
-				_nextPos = _D.getColumnCount();	// pretend we just animated it!
+				_nextPos = _limitLeft+1;	// pretend we just animated it!
 			}
 			else
 			{
 				// Move the column over
-				_D.setColumn(_nextPos+1, _D.getColumn(_nextPos));
+				if (_nextPos < _limitLeft)
+					_D.setColumn(_nextPos+1, _D.getColumn(_nextPos));
 				_D.setColumn(_nextPos, EMPTY_BAR);
 				_nextPos++;
 			}
 
 			// set up for the next time
-			if (_nextPos == _D.getColumnCount()) _nextPos = _endPos--;
+			if (_nextPos == _limitLeft+1) _nextPos = _endPos--;
 
 			if (_endPos < _limitRight) _fsmState = END;	//reached the end
 			break;

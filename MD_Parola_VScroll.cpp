@@ -55,7 +55,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 				// Note: Directions are reversed because we start with the message in the 
 				// middle position thru commonPrint() and to see it animated move DOWN we 
 				// need to scroll it UP, and vice versa.
-				_D.transform(bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
+				_D.transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = PAUSE;
@@ -84,7 +84,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		case PUT_CHAR:
 			PRINT_STATE("O VSCROLL");
 
-			_D.transform(bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
+			_D.transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = END;

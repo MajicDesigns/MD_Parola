@@ -36,7 +36,7 @@ void MD_Parola::effectDissolve(bool bIn)
 	case PAUSE:			// bIn = false
 	case GET_FIRST_CHAR:	// first stage dissolve
 		PRINT_STATE("IO DISS");
-		for (uint16_t i=0; i<_D.getColumnCount(); i++)
+		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			uint8_t	col = DATA_BAR(_D.getColumn(i));
 				
@@ -50,7 +50,7 @@ void MD_Parola::effectDissolve(bool bIn)
 		PRINT_STATE("IO DISS");
 		displayClear();
 		if (bIn) commonPrint();
-		for (uint16_t i=0; i<_D.getColumnCount(); i++)
+		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			uint8_t	col = DATA_BAR(_D.getColumn(i));
 				

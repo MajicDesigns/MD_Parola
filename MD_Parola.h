@@ -2,8 +2,10 @@
 \mainpage Main Page
 The Parola Library
 ------------------
-The Parola library is implemented to work with the Parola hardware. It 
-depends on the MD_MAX72xx library for hardware control.
+The Parola library is implemented to work with the MD_MAX2XX library. It 
+depends on the MD_MAX72xx library for hardware control and will run on all 
+hardware supported by that library. The MD_MAX72XX library can be found 
+[here] (http://arduinocode.codeplex.com).
 
 This software library implements functions to simplify the implementation 
 of text special effects on the Parola display.
@@ -12,7 +14,7 @@ of text special effects on the Parola display.
 - Control display parameters and animation speed.
 
 The latest copy of the Parola Software and hardware files can be found 
-at the [Parola website] (http://parola.codeview.com).
+at the [Parola website] (http://parola.codeplex.com).
 
 ![The final product with 8 modules connected together] (Working_Display.jpg "Working System")
 
@@ -31,6 +33,7 @@ March 2014 - version 2.0
  + SCAN_HORIZ, SCAN_VERT
  + GROW_UP, GROW_DOWN
  + SCROLL_UP_LEFT, SCROLL_UP_RIGHT, SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
+- Implemented Zoned scrolling - multiple independent zoned scrolls in one display
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
@@ -142,7 +145,8 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #define	ARRAY_SIZE(x)	(sizeof(x)/sizeof(x[0]))	///< Generic macro for obtaining number of elements of an array
 
 /**
- * Core object for the Parola library
+ * Core object for the Parola library.
+ * This class contains one or more zones for display.
  */
 class MD_Parola 
 {
@@ -562,6 +566,9 @@ class MD_Parola
 	bool		calcTextLimits(char *p);	// calculate the right and left limits for the text
 
 	// Variables used in the scrolling routines
+	uint8_t		_numModules;		// Number of display modules [0..numModules-1]
+	uint8_t		_zoneStart;			// First zone module number
+	uint8_t		_zoneEnd;			// Last zone module number
 	int16_t		_nextPos;			// Next position for animation. Can be used in several different ways depending on the function.
 	int8_t		_posOffset;			// Looping increment depends on the direction of the scan for animation
 	uint16_t	_startPos;			// Start position for the text LED
@@ -604,6 +611,21 @@ class MD_Parola
 	void	effectVScan(bool bIn);
 	void	effectGrow(bool bUp, bool bIn);
 	void	effectDiag(bool bUp, bool bLeft, bool bIn);	
+};
+
+
+/**
+ * Zone object for the Parola library.
+ * This class contains the text to be displayed and all the attributes for the zone.
+ */
+class MD_PZone 
+{
+friend class MD_Parola;
+
+public:
+
+private:
+
 };
 
 #endif

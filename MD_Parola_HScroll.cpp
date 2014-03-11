@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements horizontal scrolling effect
  */
 
-#define	START_POSITION		(bLeft) ? 0 : _D.getColumnCount()-1	///< Start position depends on the scrolling direction
+#define	START_POSITION		(bLeft) ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd)	///< Start position depends on the scrolling direction
 
 void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 {
@@ -68,7 +68,7 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 		case PUT_CHAR:	// display the next part of the character
 			PRINT_STATE("I HSCROLL");
 
-			_D.transform(bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
 			_D.setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
 			FSMPRINTS(", scroll");
 
@@ -80,7 +80,7 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 				else
 				{
 					// work out the number of filler columns
-					_countCols = (bLeft ? _limitLeft-_textLen : _D.getColumnCount()-_limitLeft-1);
+					_countCols = (bLeft ? _limitLeft-_textLen-ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd)-_limitLeft);
 					FSMPRINT(", filler count ", _countCols);
 					_fsmState = (_countCols <= 0) ? PAUSE : PUT_FILLER;
 				}
@@ -90,7 +90,7 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 		case PUT_FILLER:		// keep sending out blank columns until aligned
 			PRINT_STATE("I HSCROLL");
 
-			_D.transform(bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
 			_D.setColumn(START_POSITION, EMPTY_BAR);
 			FSMPRINTS(", fill");
 
@@ -117,11 +117,13 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 
 		case PUT_FILLER:
 			PRINT_STATE("O HSCROLL");
-			_D.transform(bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
 			_D.setColumn(START_POSITION, EMPTY_BAR);
 
 			b = true;
-			for (uint16_t i = 0; (i < _D.getColumnCount()) && b; i++)
+
+			// check if all scrolled off
+			for (uint16_t i = ZONE_START_COL(_zoneStart); (i <= ZONE_END_COL(_zoneEnd)) && b; i++)
 				b &= (_D.getColumn(i) == EMPTY_BAR);
 
 			if (b) _fsmState = END;	// no data is being displayed

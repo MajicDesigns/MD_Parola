@@ -29,11 +29,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 MD_Parola::MD_Parola(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
-_D(dataPin, clkPin, csPin, numDevices)
+_D(dataPin, clkPin, csPin, numDevices), _numModules(numDevices)
 {
 }
 
-MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices): _D(csPin, numDevices)
+MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices): 
+_D(csPin, numDevices), _numModules(numDevices)
 {
 }
 
@@ -60,6 +61,10 @@ void MD_Parola::begin(void)
   setInvert(false);
   displaySuspend(false);
   displayClear();
+
+  // Zone stuff
+  _zoneStart = 1;
+  _zoneEnd = _numModules-2;
 
   // Now set the default viewing parameters for this library
   _D.setFont(NULL);
@@ -234,7 +239,7 @@ bool MD_Parola::calcTextLimits(char *p)
 // in the current display the return false, otherwise true.
 {
 	bool b = true;
-	uint16_t	displayWidth = _D.getColumnCount();
+	uint16_t	displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart);
 	
 	_textLen = getTextWidth(p);
 
@@ -243,10 +248,10 @@ bool MD_Parola::calcTextLimits(char *p)
 	switch (_textAlignment)
 	{
 	case LEFT:
-		_limitLeft = displayWidth-1;
+		_limitLeft = ZONE_END_COL(_zoneEnd);
 		if (_textLen > displayWidth)
 		{
-			_limitRight = 0;
+			_limitRight = ZONE_START_COL(_zoneStart);
 			b = false;
 		}
 		else
@@ -256,10 +261,10 @@ bool MD_Parola::calcTextLimits(char *p)
 		break;
 
 	case RIGHT:
-		_limitRight = 0;
+		_limitRight = ZONE_START_COL(_zoneStart);
 		if (_textLen > displayWidth)
 		{
-			_limitLeft = displayWidth-1;
+			_limitLeft = ZONE_END_COL(_zoneEnd);
 			b = false;
 		}
 		else
@@ -271,13 +276,13 @@ bool MD_Parola::calcTextLimits(char *p)
 	case CENTER:
 		if (_textLen > displayWidth)
 		{
-			_limitLeft = displayWidth-1;
-			_limitRight = 0;
+			_limitLeft = ZONE_END_COL(_zoneEnd);
+			_limitRight = ZONE_START_COL(_zoneStart);
 			b= false;
 		}
 		else
 		{
-			_limitRight = (displayWidth - _textLen)/2;
+			_limitRight = ZONE_START_COL(_zoneStart) + (displayWidth - _textLen)/2;
 			_limitLeft = _limitRight + _textLen;
 		}
 		break;

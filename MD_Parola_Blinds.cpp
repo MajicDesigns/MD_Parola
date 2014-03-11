@@ -45,7 +45,7 @@ void MD_Parola::effectBlinds(bool bIn)
 		PRINT_STATE("IO BLIND");
 
 		_nextPos++;
-		for (uint16_t i=0; i<_D.getColumnCount(); i++)
+		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			if (i % BLINDS_SIZE < _nextPos)
 				_D.setColumn(i, LIGHT_BAR);
@@ -64,7 +64,7 @@ void MD_Parola::effectBlinds(bool bIn)
 		if (bIn) commonPrint();	// only do this when putting the message up
 
 		_nextPos--;
-		for (uint16_t i=0; i<_D.getColumnCount(); i++)
+		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			if (i % BLINDS_SIZE < _nextPos)
 				_D.setColumn(i, LIGHT_BAR);
