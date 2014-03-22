@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements slice effect
  */
 
-void MD_Parola::effectSlice(bool bIn)
+void MD_PZone::effectSlice(bool bIn)
 {
 	if (bIn)
 	{
@@ -42,7 +42,7 @@ void MD_Parola::effectSlice(bool bIn)
 				_fsmState = END;
 				break;
 			}
-			displayClear();
+			zoneClear();
 			_countCols = 0;
 			_nextPos = 0;
 			_endPos = _limitLeft;
@@ -74,9 +74,9 @@ void MD_Parola::effectSlice(bool bIn)
 			else
 			{
 				// clear the column and animate the next one
-				if (_nextPos != _endPos) _D.setColumn(_nextPos, EMPTY_BAR);
+				if (_nextPos != _endPos) _MX->setColumn(_nextPos, EMPTY_BAR);
 				_nextPos++;
-				_D.setColumn(_nextPos, DATA_BAR(_cBuf[_countCols]));
+				_MX->setColumn(_nextPos, DATA_BAR(_cBuf[_countCols]));
 			}
 
 			// set up for the next time
@@ -110,7 +110,7 @@ void MD_Parola::effectSlice(bool bIn)
 			FSMPRINT(" - Next ", _endPos);
 			FSMPRINT(", anim ", _nextPos);
 
-			while(_D.getColumn(_nextPos) == EMPTY_BAR && _endPos >= _limitRight)
+			while(_MX->getColumn(_nextPos) == EMPTY_BAR && _endPos >= _limitRight)
 				_nextPos = _endPos--;	// pretend we just animated it!
 
 			if (_endPos <= _limitRight)
@@ -119,8 +119,8 @@ void MD_Parola::effectSlice(bool bIn)
 			{
 				// Move the column over to the left and blank out previous position
 				if (_nextPos < ZONE_END_COL(_zoneEnd))
-					_D.setColumn(_nextPos+1, _D.getColumn(_nextPos));
-				_D.setColumn(_nextPos, EMPTY_BAR);
+					_MX->setColumn(_nextPos+1, _MX->getColumn(_nextPos));
+				_MX->setColumn(_nextPos, EMPTY_BAR);
 				_nextPos++;
 
 				// set up for the next time

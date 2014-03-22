@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements diagonal scroll effect
  */
 
-void MD_Parola::effectDiag(bool bUp, bool bLeft, bool bIn)
+void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 // Scroll the display diagonally up or down, left or right, depending on the selected effect
 {
 	if (bIn)	// incoming
@@ -37,7 +37,7 @@ void MD_Parola::effectDiag(bool bUp, bool bLeft, bool bIn)
 		case INITIALISE:
 			PRINT_STATE("I DIAG");
 			_nextPos = 0;		// the position in the animation
-			_D.control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
+			_MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -47,7 +47,7 @@ void MD_Parola::effectDiag(bool bUp, bool bLeft, bool bIn)
 		case PAUSE:
 			PRINT_STATE("I DIAG");
 
-			displayClear();
+			zoneClear();
 			commonPrint();
 
 			for (uint8_t i = _nextPos; i < 7; i++)
@@ -56,8 +56,8 @@ void MD_Parola::effectDiag(bool bUp, bool bLeft, bool bIn)
 				// Note: Directions are reversed because we start with the message in the 
 				// middle position thru commonPrint() and to see it animated move DOWN we 
 				// need to scroll it UP, and vice versa.
-				_D.transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
-				_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSR : MD_MAX72XX::TSL);
+				_MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
+				_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSR : MD_MAX72XX::TSL);
 			}
 
 			// check if we have finished
@@ -87,8 +87,8 @@ void MD_Parola::effectDiag(bool bUp, bool bLeft, bool bIn)
 		case PUT_CHAR:
 			PRINT_STATE("O DIAG");
 
-			_D.transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
-			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
+			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = END;

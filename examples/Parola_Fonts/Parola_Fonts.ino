@@ -38,16 +38,16 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 typedef struct 
 {
 	uint8_t PROGMEM *	pFont;
-	MD_Parola::textEffect_t	effect;
+	textEffect_t	effect;
 	char *				pMsg;
 } Message_t;
 
 Message_t	M[] = 
 { 
-	{ NULL,			MD_Parola::SCROLL_LEFT,	"Arduino" }, 
-	{ fontKatakana,	MD_Parola::SCROLL_LEFT,	"\x0b1\x0b0\x0c2\x0b2\x0c9" },
-	{ fontArabic,	MD_Parola::SCROLL_RIGHT,"\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
-	{ fontGreek,	MD_Parola::SCROLL_LEFT,	"\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
+	{ NULL,			SCROLL_LEFT,	"Arduino" }, 
+	{ fontKatakana,	SCROLL_LEFT,	"\x0b1\x0b0\x0c2\x0b2\x0c9" },
+	{ fontArabic,	SCROLL_RIGHT,	"\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
+	{ fontGreek,	SCROLL_LEFT,	"\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
 };
 #define	MAX_MESG  (sizeof(M)/sizeof(M[0]))
 
@@ -60,7 +60,7 @@ void setup(void)
 
   P.begin();
   P.setFont(M[curM].pFont);
-  P.displayText(M[curM].pMsg, MD_Parola::CENTER, P.getSpeed(), PAUSE_TIME, MD_Parola::SCROLL_LEFT, MD_Parola::SCROLL_LEFT);
+  P.displayText(M[curM].pMsg, CENTER, P.getSpeed(), PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
 }
 
 void loop(void)

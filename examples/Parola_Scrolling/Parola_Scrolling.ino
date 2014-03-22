@@ -13,7 +13,7 @@
 #include <MD_MAX72xx.h>
 
 // set to 1 if we are implementing the user interface pot, switch, etc
-#define	USE_UI_CONTROL	0
+#define	USE_UI_CONTROL	1
 
 #if USE_UI_CONTROL
 #include <MD_KeySwitch.h>
@@ -58,7 +58,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #endif // USE_UI_CONTROL
 
 uint8_t	frameDelay = 25;	// default frame delay value
-MD_Parola::textEffect_t	scrollEffect = MD_Parola::SCROLL_LEFT;
+textEffect_t	scrollEffect = SCROLL_LEFT;
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
@@ -90,7 +90,7 @@ void doUI(void)
   if (uiDirection.read())	// SCROLL DIRECTION
   {
       PRINTS("\nChanging scroll direction");
-	  scrollEffect = (scrollEffect == MD_Parola::SCROLL_LEFT ? MD_Parola::SCROLL_RIGHT : MD_Parola::SCROLL_LEFT);
+	  scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
 	  P.setTextEffect(scrollEffect, scrollEffect);
       P.displayReset();
   }
@@ -141,7 +141,7 @@ void setup()
   P.displayClear();
   P.displaySuspend(false);
 
-  P.displayScroll(curMessage, MD_Parola::LEFT, scrollEffect, frameDelay);
+  P.displayScroll(curMessage, LEFT, scrollEffect, frameDelay);
 
   strcpy(curMessage, "Hello! Enter new message?");
   newMessage[0] = '\0';

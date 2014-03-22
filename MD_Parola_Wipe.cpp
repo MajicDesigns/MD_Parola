@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements wipe effect
  */
 
-void MD_Parola::effectWipe(bool bLightBar, bool bIn)
+void MD_PZone::effectWipe(bool bLightBar, bool bIn)
 // Wipe the message over with a new one
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
@@ -56,9 +56,9 @@ void MD_Parola::effectWipe(bool bLightBar, bool bIn)
 			FSMPRINT(" to ", _endPos);
 			FSMPRINT(" step ", _posOffset);
 			for (uint8_t i=_nextPos; i != _endPos; i += _posOffset)
-				_D.setColumn(i, EMPTY_BAR);
+				_MX->setColumn(i, EMPTY_BAR);
 
-			if (bLightBar && (_nextPos != _endPos)) _D.setColumn(_nextPos, LIGHT_BAR);
+			if (bLightBar && (_nextPos != _endPos)) _MX->setColumn(_nextPos, LIGHT_BAR);
 
 			// check if we have finished
 			if (_nextPos == _endPos) _fsmState = PAUSE;
@@ -93,9 +93,9 @@ void MD_Parola::effectWipe(bool bLightBar, bool bIn)
 			FSMPRINT(" to ", _endPos);
 			FSMPRINT(" step ", _posOffset);
 			for (uint8_t i=_startPos; i != _nextPos; i += _posOffset)
-				_D.setColumn(i, EMPTY_BAR);
+				_MX->setColumn(i, EMPTY_BAR);
 
-			if (bLightBar && (_nextPos != _endPos)) _D.setColumn(_nextPos, LIGHT_BAR);
+			if (bLightBar && (_nextPos != _endPos)) _MX->setColumn(_nextPos, LIGHT_BAR);
 
 			// check if we have finished
 			if (_nextPos == _endPos) _fsmState = END;

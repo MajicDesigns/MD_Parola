@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 #define	START_POSITION		(bLeft) ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd)	///< Start position depends on the scrolling direction
 
-void MD_Parola::effectHScroll(bool bLeft, bool bIn)
+void MD_PZone::effectHScroll(bool bLeft, bool bIn)
 {
 	if (bIn)
 	{
@@ -68,8 +68,8 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 		case PUT_CHAR:	// display the next part of the character
 			PRINT_STATE("I HSCROLL");
 
-			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-			_D.setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
+			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_MX->setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
 			FSMPRINTS(", scroll");
 
 			// end of this buffer - we may need to get another one
@@ -90,8 +90,8 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 		case PUT_FILLER:		// keep sending out blank columns until aligned
 			PRINT_STATE("I HSCROLL");
 
-			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-			_D.setColumn(START_POSITION, EMPTY_BAR);
+			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_MX->setColumn(START_POSITION, EMPTY_BAR);
 			FSMPRINTS(", fill");
 
 			if (--_countCols == 0)
@@ -117,14 +117,14 @@ void MD_Parola::effectHScroll(bool bLeft, bool bIn)
 
 		case PUT_FILLER:
 			PRINT_STATE("O HSCROLL");
-			_D.transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-			_D.setColumn(START_POSITION, EMPTY_BAR);
+			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+			_MX->setColumn(START_POSITION, EMPTY_BAR);
 
 			b = true;
 
 			// check if all scrolled off
 			for (uint16_t i = ZONE_START_COL(_zoneStart); (i <= ZONE_END_COL(_zoneEnd)) && b; i++)
-				b &= (_D.getColumn(i) == EMPTY_BAR);
+				b &= (_MX->getColumn(i) == EMPTY_BAR);
 
 			if (b) _fsmState = END;	// no data is being displayed
 			break;

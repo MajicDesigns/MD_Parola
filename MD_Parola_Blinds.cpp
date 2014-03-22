@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 #define	BLINDS_SIZE	4	///< The width of the blinds in pixels
 
-void MD_Parola::effectBlinds(bool bIn)
+void MD_PZone::effectBlinds(bool bIn)
 // Transfer between messages with blinds effects
 {
 	switch (_fsmState)
@@ -48,7 +48,7 @@ void MD_Parola::effectBlinds(bool bIn)
 		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			if (i % BLINDS_SIZE < _nextPos)
-				_D.setColumn(i, LIGHT_BAR);
+				_MX->setColumn(i, LIGHT_BAR);
 		}
 
 		if (_nextPos == BLINDS_SIZE)
@@ -60,14 +60,14 @@ void MD_Parola::effectBlinds(bool bIn)
 
 	case GET_NEXT_CHAR:		// blinds opening
 		PRINT_STATE("IO BLIND");
-		displayClear();
+		zoneClear();
 		if (bIn) commonPrint();	// only do this when putting the message up
 
 		_nextPos--;
 		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			if (i % BLINDS_SIZE < _nextPos)
-				_D.setColumn(i, LIGHT_BAR);
+				_MX->setColumn(i, LIGHT_BAR);
 		}
 
 		if (_nextPos == 0)
@@ -76,7 +76,7 @@ void MD_Parola::effectBlinds(bool bIn)
 
 	case PUT_CHAR:
 		PRINT_STATE("IO BLIND");
-		displayClear();
+		zoneClear();
 		if (bIn) commonPrint();
 		_fsmState = (bIn ? PAUSE : END);
 		break;

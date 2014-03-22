@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements closing effect
  */
 
-void MD_Parola::effectClose(bool bLightBar, bool bIn)
+void MD_PZone::effectClose(bool bLightBar, bool bIn)
 // Dissolve the current message in/out
 {
 	if (bIn)
@@ -39,11 +39,11 @@ void MD_Parola::effectClose(bool bLightBar, bool bIn)
 		case GET_NEXT_CHAR:
 			PRINT_STATE("I CLOSE");
 			_nextPos = 0;
-			displayClear();
+			zoneClear();
 			if (bLightBar)
 			{
-				_D.setColumn(_limitLeft, LIGHT_BAR);
-				_D.setColumn(_limitRight,LIGHT_BAR);
+				_MX->setColumn(_limitLeft, LIGHT_BAR);
+				_MX->setColumn(_limitRight,LIGHT_BAR);
 			}
 			_fsmState = PUT_CHAR;
 			// fall through
@@ -51,7 +51,7 @@ void MD_Parola::effectClose(bool bLightBar, bool bIn)
 		case PUT_CHAR:
 			PRINT_STATE("I CLOSE");
 			FSMPRINT(" - offset ", _nextPos);
-			displayClear();
+			zoneClear();
 			commonPrint();
 			{
 				const uint16_t	halfWidth = (_limitLeft - _limitRight)/2;
@@ -63,13 +63,13 @@ void MD_Parola::effectClose(bool bLightBar, bool bIn)
 				else
 				{
 					for (uint16_t i = _limitRight + _nextPos + 1; i < _limitLeft - _nextPos; i++)
-						_D.setColumn(i, EMPTY_BAR);
+						_MX->setColumn(i, EMPTY_BAR);
 
 					_nextPos++;
 					if (bLightBar && (_nextPos <= halfWidth))
 					{
-						_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
-						_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
+						_MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+						_MX->setColumn(_limitRight + _nextPos, LIGHT_BAR);
 					}
 				}
 			}
@@ -93,12 +93,12 @@ void MD_Parola::effectClose(bool bLightBar, bool bIn)
 			FSMPRINT(" L:", _limitLeft);
 			_nextPos = (_limitLeft-_limitRight)/2;
 			FSMPRINT(" O:", _nextPos);
-			displayClear();
+			zoneClear();
 			commonPrint();
 			if (bLightBar)
 			{
-				_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
-				_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
+				_MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+				_MX->setColumn(_limitRight + _nextPos, LIGHT_BAR);
 			}
 			_fsmState = PUT_CHAR;
 			break;
@@ -112,14 +112,14 @@ void MD_Parola::effectClose(bool bLightBar, bool bIn)
 			}
 			else
 			{
-				_D.setColumn(_limitLeft - _nextPos, EMPTY_BAR);
-				_D.setColumn(_limitRight + _nextPos, EMPTY_BAR);
+				_MX->setColumn(_limitLeft - _nextPos, EMPTY_BAR);
+				_MX->setColumn(_limitRight + _nextPos, EMPTY_BAR);
 
 				_nextPos--;
 				if (bLightBar && (_nextPos >= 0))
 				{
-					_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
-					_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
+					_MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+					_MX->setColumn(_limitRight + _nextPos, LIGHT_BAR);
 				}
 			}
 			break;

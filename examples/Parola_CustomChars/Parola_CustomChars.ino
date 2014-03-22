@@ -71,7 +71,7 @@ void setup(void)
   P.addChar('^', waveTrng);
   
   P.setCharSpacing(M[0].spacing);
-  P.displayText(M[0].msg, MD_Parola::CENTER, P.getSpeed(), PAUSE_TIME, MD_Parola::SCROLL_LEFT, MD_Parola::SCROLL_LEFT);
+  P.displayText(M[0].msg, CENTER, P.getSpeed(), PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
 }
 
 void loop(void)

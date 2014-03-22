@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements scan effect
  */
 
-void MD_Parola::effectHScan(bool bIn)
+void MD_PZone::effectHScan(bool bIn)
 // Scan the message over with a new one
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
@@ -61,7 +61,7 @@ void MD_Parola::effectHScan(bool bIn)
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
 				if (i != _nextPos)
-					_D.setColumn(i, EMPTY_BAR);
+					_MX->setColumn(i, EMPTY_BAR);
 			}
 
 			_nextPos += _posOffset;	// for the next time around
@@ -94,7 +94,7 @@ void MD_Parola::effectHScan(bool bIn)
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
 				if (i != _nextPos)
-					_D.setColumn(i, EMPTY_BAR);
+					_MX->setColumn(i, EMPTY_BAR);
 			}
 
 			// check if we have finished
@@ -111,7 +111,7 @@ void MD_Parola::effectHScan(bool bIn)
 	}
 }
 
-void MD_Parola::effectVScan(bool bIn)
+void MD_PZone::effectVScan(bool bIn)
 // Scan the message over with a new one
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
@@ -148,9 +148,9 @@ void MD_Parola::effectVScan(bool bIn)
 			maskCol = (1 << _nextPos);
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
-				uint8_t	c = DATA_BAR(_D.getColumn(i) & maskCol);
+				uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
 
-				_D.setColumn(i, DATA_BAR(c));
+				_MX->setColumn(i, DATA_BAR(c));
 			}
 
 			_nextPos++;	// for the next time around
@@ -184,9 +184,9 @@ void MD_Parola::effectVScan(bool bIn)
 			maskCol = (1 << _nextPos);
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
-				uint8_t	c = DATA_BAR(_D.getColumn(i) & maskCol);
+				uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
 
-				_D.setColumn(i, DATA_BAR(c));
+				_MX->setColumn(i, DATA_BAR(c));
 			}
 
 			// check if we have finished

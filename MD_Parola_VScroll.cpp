@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements vertical scroll effect
  */
 
-void MD_Parola::effectVScroll(bool bUp, bool bIn)
+void MD_PZone::effectVScroll(bool bUp, bool bIn)
 // Scroll the display horizontally up of down, depending on the selected effect
 {
 	if (bIn)	// incoming
@@ -37,7 +37,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		case INITIALISE:
 			PRINT_STATE("I VSCROLL");
 			_nextPos = 0;
-			_D.control(MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
+			_MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
 			_fsmState = PUT_CHAR;
 			// fall through to next state
 
@@ -47,7 +47,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		case PAUSE:
 			PRINT_STATE("I VSCROLL");
 
-			displayClear();
+			zoneClear();
 			commonPrint();
 
 			for (uint8_t i = _nextPos; i < 7; i++)
@@ -55,7 +55,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 				// Note: Directions are reversed because we start with the message in the 
 				// middle position thru commonPrint() and to see it animated move DOWN we 
 				// need to scroll it UP, and vice versa.
-				_D.transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
+				_MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = PAUSE;
@@ -84,7 +84,7 @@ void MD_Parola::effectVScroll(bool bUp, bool bIn)
 		case PUT_CHAR:
 			PRINT_STATE("O VSCROLL");
 
-			_D.transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
+			_MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
 
 			// check if we have finished
 			if (_nextPos == 7) _fsmState = END;

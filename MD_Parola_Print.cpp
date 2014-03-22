@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements static print effect
  */
 
-void MD_Parola::commonPrint(void)
+void MD_PZone::commonPrint(void)
 {
 	int16_t	nextPos;
 
@@ -45,11 +45,11 @@ void MD_Parola::commonPrint(void)
 		}
 
 		// now put something on the display
-		_D.setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
+		_MX->setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
 	}
 }
 
-void MD_Parola::effectPrint(bool bIn)
+void MD_PZone::effectPrint(bool bIn)
 // Just print the message in the justification selected
 {
 	if (bIn)	// incoming
@@ -59,7 +59,7 @@ void MD_Parola::effectPrint(bool bIn)
 	}
 	else	//exiting
 	{
-		displayClear();
+		zoneClear();
 		_fsmState = END;
 	}
 }

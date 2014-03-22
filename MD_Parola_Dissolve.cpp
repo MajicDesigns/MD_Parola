@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements dissolve effect
  */
 
-void MD_Parola::effectDissolve(bool bIn)
+void MD_PZone::effectDissolve(bool bIn)
 // Dissolve the current message in/out
 {
 	switch (_fsmState)
@@ -38,31 +38,31 @@ void MD_Parola::effectDissolve(bool bIn)
 		PRINT_STATE("IO DISS");
 		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
-			uint8_t	col = DATA_BAR(_D.getColumn(i));
+			uint8_t	col = DATA_BAR(_MX->getColumn(i));
 				
 			col |= (i&1 ? 0x55 : 0xaa);	// checkerboard pattern
-			_D.setColumn(i, DATA_BAR(col));
+			_MX->setColumn(i, DATA_BAR(col));
 		}
 		_fsmState = GET_NEXT_CHAR;
 		break;
 
 	case GET_NEXT_CHAR:		// second stage dissolve
 		PRINT_STATE("IO DISS");
-		displayClear();
+		zoneClear();
 		if (bIn) commonPrint();
 		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
-			uint8_t	col = DATA_BAR(_D.getColumn(i));
+			uint8_t	col = DATA_BAR(_MX->getColumn(i));
 				
 			col |= (i&1 ? 0xaa : 0x55);	// alternate checkerboard pattern
-			_D.setColumn(i, DATA_BAR(col));
+			_MX->setColumn(i, DATA_BAR(col));
 		}
 		_fsmState = PUT_CHAR;
 		break;
 
 	case PUT_CHAR:
 		PRINT_STATE("IO DISS");
-		displayClear();
+		zoneClear();
 		if (bIn) commonPrint();
 		_fsmState = (bIn ? PAUSE : END);
 		break;

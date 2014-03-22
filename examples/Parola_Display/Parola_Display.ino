@@ -57,30 +57,30 @@ char	*pc[] =
 };
 
 uint8_t  inFX, outFX;
-MD_Parola::textEffect_t	effect[] =
+textEffect_t	effect[] =
 {
-	MD_Parola::PRINT,
-	MD_Parola::SCAN_HORIZ,
-	MD_Parola::SCROLL_LEFT,
-	MD_Parola::WIPE,
-	MD_Parola::SCROLL_UP_LEFT,
-	MD_Parola::SCROLL_UP,
-	MD_Parola::OPENING_CURSOR,
-	MD_Parola::GROW_UP,
-	MD_Parola::SCROLL_UP_RIGHT,
-	MD_Parola::BLINDS,
-	MD_Parola::CLOSING,
-	MD_Parola::GROW_DOWN,
-	MD_Parola::SCAN_VERT,
-	MD_Parola::SCROLL_DOWN_LEFT,
-	MD_Parola::WIPE_CURSOR,
-	MD_Parola::DISSOLVE,
-	MD_Parola::OPENING,
-	MD_Parola::CLOSING_CURSOR,
-	MD_Parola::SCROLL_DOWN_RIGHT,
-	MD_Parola::SCROLL_RIGHT,
-	MD_Parola::SLICE,
-	MD_Parola::SCROLL_DOWN,
+	PRINT,
+	SCAN_HORIZ,
+	SCROLL_LEFT,
+	WIPE,
+	SCROLL_UP_LEFT,
+	SCROLL_UP,
+	OPENING_CURSOR,
+	GROW_UP,
+	SCROLL_UP_RIGHT,
+	BLINDS,
+	CLOSING,
+	GROW_DOWN,
+	SCAN_VERT,
+	SCROLL_DOWN_LEFT,
+	WIPE_CURSOR,
+	DISSOLVE,
+	OPENING,
+	CLOSING_CURSOR,
+	SCROLL_DOWN_RIGHT,
+	SCROLL_RIGHT,
+	SLICE,
+	SCROLL_DOWN,
 };
 
 #if USE_UI_CONTROL
@@ -113,7 +113,7 @@ void setup(void)
 
   P.begin();
   P.setInvert(false);
-  P.displayText(pc[curText], MD_Parola::CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
+  P.displayText(pc[curText], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
 }
 
 void loop(void)

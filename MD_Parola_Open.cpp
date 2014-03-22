@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements opening effect
  */
 
-void MD_Parola::effectOpen(bool bLightBar, bool bIn)
+void MD_PZone::effectOpen(bool bLightBar, bool bIn)
 // Dissolve the current message in/out
 {
 	if (bIn)
@@ -44,8 +44,8 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			FSMPRINT(" O:", _nextPos);
 			if (bLightBar)
 			{
-				_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
-				_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
+				_MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+				_MX->setColumn(_limitRight + _nextPos, LIGHT_BAR);
 			}
 			_fsmState = PUT_CHAR;
 			break;
@@ -59,19 +59,19 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			}
 			else
 			{
-				displayClear();
+				zoneClear();
 				commonPrint();
 				for (int16_t i=0; i<_nextPos; i++)
 				{
-					_D.setColumn(_limitRight + i, EMPTY_BAR);
-					_D.setColumn(_limitLeft - i, EMPTY_BAR);
+					_MX->setColumn(_limitRight + i, EMPTY_BAR);
+					_MX->setColumn(_limitLeft - i, EMPTY_BAR);
 				}	
 
 				_nextPos--;
 				if (bLightBar && (_nextPos >= 0))
 				{
-					_D.setColumn(_limitRight + _nextPos, LIGHT_BAR);
-					_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+					_MX->setColumn(_limitRight + _nextPos, LIGHT_BAR);
+					_MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
 				}
 			}
 			break;
@@ -89,13 +89,13 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 		case GET_FIRST_CHAR:
 		case GET_NEXT_CHAR:
 			PRINT_STATE("O OPEN");
-			displayClear();
+			zoneClear();
 			commonPrint();
 			_nextPos = 0;
 			if (bLightBar)
 			{
-				_D.setColumn(_limitLeft, LIGHT_BAR);
-				_D.setColumn(_limitRight,LIGHT_BAR);
+				_MX->setColumn(_limitLeft, LIGHT_BAR);
+				_MX->setColumn(_limitRight,LIGHT_BAR);
 			}
 			_fsmState = PUT_CHAR;
 			// fall through
@@ -109,13 +109,13 @@ void MD_Parola::effectOpen(bool bLightBar, bool bIn)
 			}
 			else
 			{
-				_D.setColumn(_limitLeft - _nextPos, EMPTY_BAR);
-				_D.setColumn(_limitRight + _nextPos, EMPTY_BAR);
+				_MX->setColumn(_limitLeft - _nextPos, EMPTY_BAR);
+				_MX->setColumn(_limitRight + _nextPos, EMPTY_BAR);
 				_nextPos++;
 				if (bLightBar && (_nextPos <= (_limitLeft-_limitRight)/2))
 				{
-					_D.setColumn(_limitLeft - _nextPos, LIGHT_BAR);
-					_D.setColumn(_limitRight + _nextPos,LIGHT_BAR);
+					_MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
+					_MX->setColumn(_limitRight + _nextPos,LIGHT_BAR);
 				}
 			}
 			break;

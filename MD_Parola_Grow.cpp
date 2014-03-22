@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements grow effects
  */
 
-void MD_Parola::effectGrow(bool bUp, bool bIn)
+void MD_PZone::effectGrow(bool bUp, bool bIn)
 // Scan the message over with a new one
 // Print up the whole message and then remove the parts we 
 // don't need in order to do the animation.
@@ -61,9 +61,9 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 			FSMPRINT("Keep bits ", _nextPos);
 			for (uint8_t i = _startPos; i != _endPos; i += _posOffset)
 			{
-				uint8_t	c = DATA_BAR(_D.getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+				uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
-				_D.setColumn(i, DATA_BAR(c));
+				_MX->setColumn(i, DATA_BAR(c));
 			}
 
 			// for the next time around
@@ -100,9 +100,9 @@ void MD_Parola::effectGrow(bool bUp, bool bIn)
 			FSMPRINT(" Keep bits ", _nextPos);
 			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
 			{
-				uint8_t	c = DATA_BAR(_D.getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+				uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
-				_D.setColumn(i, DATA_BAR(c));
+				_MX->setColumn(i, DATA_BAR(c));
 			}
 
 			// check if we have finished

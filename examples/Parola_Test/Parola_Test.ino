@@ -85,12 +85,12 @@ void doUI(void)
   if (uiJustify.read())	// TEXT ALIGNMENT
   {
 	static uint8_t	curMode = 0;
-	MD_Parola::textPosition_t	align = P.getTextAlignment();
-	MD_Parola::textPosition_t	textAlign[] = 
+	textPosition_t	align = P.getTextAlignment();
+	textPosition_t	textAlign[] = 
 	{ 
-		MD_Parola::LEFT, 
-		MD_Parola::CENTER, 
-		MD_Parola::RIGHT
+		LEFT, 
+		CENTER, 
+		RIGHT
 	};
 
 	DEBUG("\nChanging alignment to ", curMode);
@@ -103,30 +103,30 @@ void doUI(void)
   {
 	static uint8_t  curFX = 0;
 
-	MD_Parola::textEffect_t	effect[] =
+	textEffect_t	effect[] =
 	{
-		MD_Parola::PRINT,
-		MD_Parola::SLICE,
-		MD_Parola::WIPE,
-		MD_Parola::WIPE_CURSOR,
-		MD_Parola::OPENING,
-		MD_Parola::OPENING_CURSOR,
-		MD_Parola::CLOSING,
-		MD_Parola::CLOSING_CURSOR,
-		MD_Parola::BLINDS,
-		MD_Parola::DISSOLVE,
-		MD_Parola::SCROLL_UP,
-		MD_Parola::SCROLL_DOWN,
-		MD_Parola::SCROLL_LEFT,
-		MD_Parola::SCROLL_RIGHT,
-		MD_Parola::SCROLL_UP_LEFT,
-		MD_Parola::SCROLL_UP_RIGHT,
-		MD_Parola::SCROLL_DOWN_LEFT,
-		MD_Parola::SCROLL_DOWN_RIGHT,
-		MD_Parola::SCAN_HORIZ,
-		MD_Parola::SCAN_VERT,
-		MD_Parola::GROW_UP,
-		MD_Parola::GROW_DOWN,
+		PRINT,
+		SLICE,
+		WIPE,
+		WIPE_CURSOR,
+		OPENING,
+		OPENING_CURSOR,
+		CLOSING,
+		CLOSING_CURSOR,
+		BLINDS,
+		DISSOLVE,
+		SCROLL_UP,
+		SCROLL_DOWN,
+		SCROLL_LEFT,
+		SCROLL_RIGHT,
+		SCROLL_UP_LEFT,
+		SCROLL_UP_RIGHT,
+		SCROLL_DOWN_LEFT,
+		SCROLL_DOWN_RIGHT,
+		SCAN_HORIZ,
+		SCAN_VERT,
+		GROW_UP,
+		GROW_DOWN,
 	};
 
 	DEBUG("\nChanging effect to ", curFX);
@@ -175,7 +175,7 @@ void setup(void)
 
   // parola object
   P.begin();
-  P.displayText(pc[curString], MD_Parola::CENTER, P.getSpeed(), PAUSE_TIME, MD_Parola::PRINT, MD_Parola::PRINT);
+  P.displayText(pc[curString], CENTER, P.getSpeed(), PAUSE_TIME, PRINT, PRINT);
   curString = NEXT_STRING;
 }
 
