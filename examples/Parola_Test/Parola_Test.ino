@@ -11,12 +11,12 @@
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
-#include "Parola_Test.h"
+#include <MD_KeySwitch.h>
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	10
+#define	MAX_DEVICES	8
 #define	CLK_PIN		13
 #define	DATA_PIN	11
 #define	CS_PIN		10
@@ -47,9 +47,6 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #define	EFFECT_SET		8	// change the effect
 #define	INVERSE_SET		9	// set/reset the display to inverse
 
-#define	SWITCH_OFF	HIGH		// OFF switch logic level
-#define	SWITCH_ON	LOW			// ON switch logic level
-#define	DEBOUNCE_TIME	20		// in milliseconds
 #define	PAUSE_TIME		1000	// in milliseconds
 #define	SPEED_DEADBAND	5		// in analog units
 
@@ -64,40 +61,11 @@ char	*pc[] =
 };
 #define	NEXT_STRING	((curString + 1) % ARRAY_SIZE(pc))
 
-switchDef_t UIControl[] = 
-{
-	{ JUSTIFY_SET,	true,	0 }, 
-	{ EFFECT_SET,	true,	0 }, 
-	{ PAUSE_SET,	true,	0 }, 
-	{ INTENSITY_SET, true,	0 }, 
-	{ INVERSE_SET,	true,	0 },
-};
-
-
-bool switchCheck(switchDef_t *p)
-// return true when a transition from SWITCH_OFF to SWITCH_ON states has been detected
-{
-	// debounce time
-	if ((millis() - p->swActTime) < DEBOUNCE_TIME)
-		return(false);
-
-	// process current status
-	bool b = (digitalRead(p->swPin) == SWITCH_ON);
-
-	// OFF to ON edge detection
-	if (!p->swActive && b)
-	{
-		p->swActive = true;
-		p->swActTime = millis();
-		return(true);
-	}
-
-	// ON to OFF edge detection
-	if (p->swActive && !b)
-		p->swActive = false;
-
-	return(false);
-}
+MD_KeySwitch uiJustify(JUSTIFY_SET);
+MD_KeySwitch uiEffect(EFFECT_SET);
+MD_KeySwitch uiPause(PAUSE_SET);
+MD_KeySwitch uiIntensity(INTENSITY_SET);
+MD_KeySwitch uiInverse(INVERSE_SET);
 
 void doUI(void)
 {
@@ -114,93 +82,80 @@ void doUI(void)
   }
 
   // now process the digital inputs
-  for (uint8_t i=0; i<ARRAY_SIZE(UIControl); i++)
+  if (uiJustify.read())	// TEXT ALIGNMENT
   {
-    if (switchCheck(&UIControl[i]))
+	static uint8_t	curMode = 0;
+	MD_Parola::textPosition_t	align = P.getTextAlignment();
+	MD_Parola::textPosition_t	textAlign[] = 
+	{ 
+		MD_Parola::LEFT, 
+		MD_Parola::CENTER, 
+		MD_Parola::RIGHT
+	};
+
+	DEBUG("\nChanging alignment to ", curMode);
+	P.setTextAlignment(textAlign[curMode]);
+	P.displayReset();
+	curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
+  }
+
+  if (uiEffect.read())	// EFFECT CHANGE
+  {
+	static uint8_t  curFX = 0;
+
+	MD_Parola::textEffect_t	effect[] =
 	{
-		switch (UIControl[i].swPin)
-		{
-		case JUSTIFY_SET:	// TEXT ALIGNMENT
-			{
-				static uint8_t	curMode = 0;
-				MD_Parola::textPosition_t	align = P.getTextAlignment();
-				MD_Parola::textPosition_t	textAlign[] = 
-				{ 
-					MD_Parola::LEFT, 
-					MD_Parola::CENTER, 
-					MD_Parola::RIGHT
-				};
+		MD_Parola::PRINT,
+		MD_Parola::SLICE,
+		MD_Parola::WIPE,
+		MD_Parola::WIPE_CURSOR,
+		MD_Parola::OPENING,
+		MD_Parola::OPENING_CURSOR,
+		MD_Parola::CLOSING,
+		MD_Parola::CLOSING_CURSOR,
+		MD_Parola::BLINDS,
+		MD_Parola::DISSOLVE,
+		MD_Parola::SCROLL_UP,
+		MD_Parola::SCROLL_DOWN,
+		MD_Parola::SCROLL_LEFT,
+		MD_Parola::SCROLL_RIGHT,
+		MD_Parola::SCROLL_UP_LEFT,
+		MD_Parola::SCROLL_UP_RIGHT,
+		MD_Parola::SCROLL_DOWN_LEFT,
+		MD_Parola::SCROLL_DOWN_RIGHT,
+		MD_Parola::SCAN_HORIZ,
+		MD_Parola::SCAN_VERT,
+		MD_Parola::GROW_UP,
+		MD_Parola::GROW_DOWN,
+	};
 
-				DEBUG("\nChanging alignment to ", curMode);
-				P.setTextAlignment(textAlign[curMode]);
-				P.displayReset();
-				curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
-			}
-			break;
+	DEBUG("\nChanging effect to ", curFX);
+	P.setTextEffect(effect[curFX], effect[curFX]);
+	P.displayReset();
+	curFX = (curFX + 1) % ARRAY_SIZE(effect);
+  }
 
-		case EFFECT_SET:	// EFFECT CHANGE
-			{
-				static uint8_t  curFX = 0;
+  if (uiPause.read())	// PAUSE DELAY
+  {
+	DEBUGS("\nChanging pause");
+	if (P.getPause() <= P.getSpeed())
+		P.setPause(PAUSE_TIME);
+	else
+		P.setPause(0);
+  }
 
-				MD_Parola::textEffect_t	effect[] =
-				{
-					MD_Parola::PRINT,
-					MD_Parola::SLICE,
-					MD_Parola::WIPE,
-					MD_Parola::WIPE_CURSOR,
-					MD_Parola::OPENING,
-					MD_Parola::OPENING_CURSOR,
-					MD_Parola::CLOSING,
-					MD_Parola::CLOSING_CURSOR,
-					MD_Parola::BLINDS,
-					MD_Parola::DISSOLVE,
-					MD_Parola::SCROLL_UP,
-					MD_Parola::SCROLL_DOWN,
-					MD_Parola::SCROLL_LEFT,
-					MD_Parola::SCROLL_RIGHT,
-					MD_Parola::SCROLL_UP_LEFT,
-					MD_Parola::SCROLL_UP_RIGHT,
-					MD_Parola::SCROLL_DOWN_LEFT,
-					MD_Parola::SCROLL_DOWN_RIGHT,
-					MD_Parola::SCAN_HORIZ,
-					MD_Parola::SCAN_VERT,
-					MD_Parola::GROW_UP,
-					MD_Parola::GROW_DOWN,
-				};
+  if (uiIntensity.read())	// INTENSITY
+  {
+	static uint8_t	intensity = 7;
 
-				DEBUG("\nChanging effect to ", curFX);
-				P.setTextEffect(effect[curFX], effect[curFX]);
-				P.displayReset();
-				curFX = (curFX + 1) % ARRAY_SIZE(effect);
-			}
-			break;
+	intensity = ++intensity % 16;
+	P.setIntensity(intensity);
+	DEBUG("\nChanged intensity to ", intensity);
+  }
 
-		case PAUSE_SET:	// PAUSE DELAY
-			{
-				DEBUGS("\nChanging pause");
-				if (P.getPause() <= P.getSpeed())
-					P.setPause(PAUSE_TIME);
-				else
-					P.setPause(0);
-			}
-			break;
-
-		case INTENSITY_SET:	// INTENSITY
-			{
-				static uint8_t	intensity = 7;
-
-				intensity = ++intensity % 16;
-				P.setIntensity(intensity);
-				DEBUG("\nChanged intensity to ", intensity);
-			}
-			break;
-
-		case INVERSE_SET:	// INVERSE
-			DEBUGS("\nToggling invert");
-			P.setInvert(!P.getInvert());
-			break;
-		}
-	}
+  if (uiInverse.read())		// INVERSE
+  {
+		P.setInvert(!P.getInvert());
   }
 }
 
@@ -211,9 +166,14 @@ void setup(void)
   DEBUGS("[Parola Test]");
 #endif
 
-  for (uint8_t i=0; i<ARRAY_SIZE(UIControl); i++)
-	pinMode(UIControl[i].swPin, INPUT_PULLUP);
+  // user interface switches
+  uiJustify.begin();
+  uiEffect.begin();
+  uiPause.begin();
+  uiIntensity.begin();
+  uiInverse.begin();
 
+  // parola object
   P.begin();
   P.displayText(pc[curString], MD_Parola::CENTER, P.getSpeed(), PAUSE_TIME, MD_Parola::PRINT, MD_Parola::PRINT);
   curString = NEXT_STRING;

@@ -33,7 +33,7 @@ March 2014 - version 2.0
  + SCAN_HORIZ, SCAN_VERT
  + GROW_UP, GROW_DOWN
  + SCROLL_UP_LEFT, SCROLL_UP_RIGHT, SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
-- Implemented Zoned scrolling - multiple independent zoned scrolls in one display
+- Implemented Zoned scrolling - multiple independent zoned scrollin areas in one display
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
@@ -144,6 +144,37 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 // Miscellaneous defines
 #define	ARRAY_SIZE(x)	(sizeof(x)/sizeof(x[0]))	///< Generic macro for obtaining number of elements of an array
 
+class MD_Parola;
+
+/**
+ * Zone object for the Parola library.
+ * This class contains the text to be displayed and all the attributes for the zone.
+ */
+class MD_PZone 
+{
+friend class MD_Parola;
+
+public:
+  /** 
+   * Class Constructor.
+   *
+   * Instantiate a new instance of the class. Not much happens here.
+   */
+	MD_PZone(void) { };
+
+  /** 
+   * Class Destructor.
+   *
+   * Release allocated memory and does the necessary to clean up once the object is
+   * no longer required.
+   */
+	~MD_PZone(void) { };
+
+private:
+
+//	bool animate(void);
+};
+
 /**
  * Core object for the Parola library.
  * This class contains one or more zones for display.
@@ -226,12 +257,25 @@ class MD_Parola
 	MD_Parola(uint8_t csPin, uint8_t numDevices=1);
 
   /** 
-   * Initialise the object.
+   * Initialize the object.
    *
    * Initialise the object data. This needs to be called during setup() to initialise new 
-   * data for the class that cannot be done during the object creation.
+   * data for the class that cannot be done during the object creation. This form of the
+   * method is for backward compatibility and creates one zone for the entire display.
    */
   void begin(void);
+
+  /** 
+   * Initialize the object.
+   *
+   * Initialise the object data. This needs to be called during setup() to initialise new 
+   * data for the class that cannot be done during the object creation. This form of the
+   * method allows specifying the maximum number of zones. The limits for these need to be 
+   * initialized separately.
+   *
+   * \param numZones	maximum number of zones [0..numZones]
+   */
+  void begin(uint8_t numZones);
 
   /** 
    * Class Destructor.
@@ -249,12 +293,12 @@ class MD_Parola
    * Animate the display.
    *
    * Animate the display using the currently specified text and animation parameters.
-	 * This method needs to be invoked as often as possible to ensure smooth animation. 
-	 * The animation is governed by a time tick that is set by the setSpeed() method
-	 * and it will pause between entry and exit using the time set by the setPause() method.
-	 * 
-	 * The calling program should monitor the return value for 'true' in order to either
-	 * reset the animation or supply another string for display.
+   * This method needs to be invoked as often as possible to ensure smooth animation. 
+   * The animation is governed by a time tick that is set by the setSpeed() method
+   * and it will pause between entry and exit using the time set by the setPause() method.
+   * 
+   * The calling program should monitor the return value for 'true' in order to either
+   * reset the animation or supply another string for display.
    *
    * \return bool	true if the current animation has competed, false otherwise.
    */
@@ -273,8 +317,8 @@ class MD_Parola
    * Reset the current animation to restart.
    *
    * This method is used to reset an animation back to the start of the current cycle.
-	 * It is normally invoked after all the parameters for a display are set and the 
-	 * animation needs to be started (or restarted).
+   * It is normally invoked after all the parameters for a display are set and the 
+   * animation needs to be started (or restarted).
    *
    * \return No return value.
    */
@@ -285,7 +329,7 @@ class MD_Parola
    *
    * This method is a convenient way to set up a scrolling display. All the data
    * necessary for setup is passed through as parameters and the display animation
-   * is started.
+   * is started. Assumes one zone only.
    *
    * \param pText	parameter suitable for the setTextBuffer() method.
    * \param align	parameter suitable for the the setTextAlignment() method.
@@ -299,9 +343,9 @@ class MD_Parola
    * Suspend or resume display updates.
    *
    * Stop the current animation at the point it is at. When pausing it leaves the 
-	 * display showing the current text. Resuming will restart the animation where 
-	 * it left off. To reset the animation back to the beginning, use the 
-	 * displayReset() method.
+   * display showing the current text. Resuming will restart the animation where 
+   * it left off. To reset the animation back to the beginning, use the 
+   * displayReset() method. Assumes one zone only.
    * 
    * \param b	boolean value to suspend (true) or resume (false).
    * \return No return value.
@@ -313,7 +357,7 @@ class MD_Parola
    *
    * This method is a convenient way to set up a static text display. All the data
    * necessary for setup is passed through as parameters and the display animation
-   * is started.
+   * is started. Assumes one zone only.
    *
    * \param pText	parameter suitable for the setTextBuffer() method.
    * \param align	parameter suitable for the the setTextAlignment() method.
@@ -542,6 +586,9 @@ class MD_Parola
 
 	// The display hardware controlled by this library
 	MD_MAX72XX	_D;
+	MD_PZone	*_Z;		///< Array to be allocted during begin()
+	uint8_t		_numZones;	///< the max number of zones in the display
+	void commonBegin(void);
 
 	// Time and speed controlling data and methods
 	bool		_suspend;		// don't do anything
@@ -611,21 +658,6 @@ class MD_Parola
 	void	effectVScan(bool bIn);
 	void	effectGrow(bool bUp, bool bIn);
 	void	effectDiag(bool bUp, bool bLeft, bool bIn);	
-};
-
-
-/**
- * Zone object for the Parola library.
- * This class contains the text to be displayed and all the attributes for the zone.
- */
-class MD_PZone 
-{
-friend class MD_Parola;
-
-public:
-
-private:
-
 };
 
 #endif

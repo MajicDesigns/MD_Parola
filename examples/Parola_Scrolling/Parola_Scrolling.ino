@@ -13,7 +13,11 @@
 #include <MD_MAX72xx.h>
 
 // set to 1 if we are implementing the user interface pot, switch, etc
-#define	USE_UI_CONTROL	1
+#define	USE_UI_CONTROL	0
+
+#if USE_UI_CONTROL
+#include <MD_KeySwitch.h>
+#endif
 
 // Turn on debug statements to the serial output
 #define  DEBUG  1
@@ -51,8 +55,6 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #define	DIRECTION_SET	8	// change the effect
 #define	INVERT_SET		9	// change the invert
 
-#define	SWITCH_OFF	HIGH
-#define	SWITCH_ON	LOW
 #endif // USE_UI_CONTROL
 
 uint8_t	frameDelay = 25;	// default frame delay value
@@ -65,6 +67,10 @@ char newMessage[BUF_SIZE];
 bool newMessageAvailable = false;
 
 #if USE_UI_CONTROL
+
+MD_KeySwitch uiDirection(DIRECTION_SET);
+MD_KeySwitch uiInvert(INVERT_SET);
+
 void doUI(void)
 {
   // set the speed if it has changed
@@ -81,34 +87,18 @@ void doUI(void)
     }
   }
 
-  // SCROLL DIRECTION
+  if (uiDirection.read())	// SCROLL DIRECTION
   {
-    static bool		bLastActive = true;
-
-    bool  b = (digitalRead(DIRECTION_SET) == SWITCH_ON);
-
-    if (!bLastActive && b)
-    {
       PRINTS("\nChanging scroll direction");
 	  scrollEffect = (scrollEffect == MD_Parola::SCROLL_LEFT ? MD_Parola::SCROLL_RIGHT : MD_Parola::SCROLL_LEFT);
 	  P.setTextEffect(scrollEffect, scrollEffect);
       P.displayReset();
-    }
-    bLastActive = b;
   }
 
-  // INVERTED MODE
+  if (uiInvert.read())	// INVERT MODE
   {
-    static bool		bLastActive = true;
-
-    bool  b = (digitalRead(INVERT_SET) == SWITCH_ON);
-
-    if (!bLastActive && b)
-    {
       PRINTS("\nChanging invert mode");
 	  P.setInvert(!P.getInvert());
-    }
-    bLastActive = b;
   }
 }
 #endif // USE_UI_CONTROL
@@ -140,9 +130,10 @@ void setup()
   PRINTS("[Parola Test]");
 
 #if USE_UI_CONTROL
+  uiDirection.begin();
+  uiInvert.begin();
   pinMode(SPEED_IN, INPUT);
-  pinMode(DIRECTION_SET, INPUT_PULLUP);
-  pinMode(INVERT_SET, INPUT_PULLUP);
+
   doUI();
 #endif // USE_UI_CONTROL
 

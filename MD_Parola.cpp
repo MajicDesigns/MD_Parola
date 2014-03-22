@@ -38,7 +38,7 @@ _D(csPin, numDevices), _numModules(numDevices)
 {
 }
 
-void MD_Parola::begin(void)
+void MD_Parola::commonBegin(void)
 {
   _D.begin();
   // Set up the MAX72XX library
@@ -62,12 +62,29 @@ void MD_Parola::begin(void)
   displaySuspend(false);
   displayClear();
 
-  // Zone stuff
-  _zoneStart = 1;
-  _zoneEnd = _numModules-2;
-
   // Now set the default viewing parameters for this library
   _D.setFont(NULL);
+  
+  // Create the zone objects
+  _Z = new MD_PZone[_numZones];
+}
+
+void MD_Parola::begin(void)
+{
+  _numZones = 1;
+  
+  commonBegin();
+
+  // Zone stuff
+  _zoneStart = 0;
+  _zoneEnd = _numModules-1;
+}
+
+void MD_Parola::begin(uint8_t numZones)
+{
+	_numZones = numZones;
+	
+	commonBegin();
 }
 
 MD_Parola::~MD_Parola(void)
@@ -81,6 +98,9 @@ MD_Parola::~MD_Parola(void)
 		p = pt->next;
 		delete pt;
 	};
+	
+	// release the zone array
+	delete [] _Z;
 }
 
 void MD_Parola::displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)

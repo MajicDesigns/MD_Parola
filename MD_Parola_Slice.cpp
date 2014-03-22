@@ -110,23 +110,23 @@ void MD_Parola::effectSlice(bool bIn)
 			FSMPRINT(" - Next ", _endPos);
 			FSMPRINT(", anim ", _nextPos);
 
-			if (_D.getColumn(_nextPos) == EMPTY_BAR)
-			{
-				_nextPos = _limitLeft+1;	// pretend we just animated it!
-			}
+			while(_D.getColumn(_nextPos) == EMPTY_BAR && _endPos >= _limitRight)
+				_nextPos = _endPos--;	// pretend we just animated it!
+
+			if (_endPos <= _limitRight)
+				_fsmState = END;	//reached the end
 			else
 			{
-				// Move the column over
-				if (_nextPos < _limitLeft)
+				// Move the column over to the left and blank out previous position
+				if (_nextPos < ZONE_END_COL(_zoneEnd))
 					_D.setColumn(_nextPos+1, _D.getColumn(_nextPos));
 				_D.setColumn(_nextPos, EMPTY_BAR);
 				_nextPos++;
-			}
 
-			// set up for the next time
-			if (_nextPos == _limitLeft+1) _nextPos = _endPos--;
-
-			if (_endPos < _limitRight) _fsmState = END;	//reached the end
+				// set up for the next time
+				if (_nextPos == ZONE_END_COL(_zoneEnd)+1) 
+					_nextPos = _endPos--;
+		}
 			break;
 
 		default:
