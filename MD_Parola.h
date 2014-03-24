@@ -239,6 +239,19 @@ public:
 	bool zoneAnimate(void);
 
   /** 
+   * Get the completion status.
+   *
+   * Return the current completion status for the zone animation.
+   * 
+   * The calling program should monitor the return value for 'true' in order to either
+   * reset the zone animation or supply another string for display. A 'true' return 
+   * value means that the zone has completed its animation cycle.
+   *
+   * \return bool	true if the zone animation is completed
+   */
+	bool getStatus(void) { return (_fsmState == END); }
+
+  /** 
    * Clear the zone.
    *
    * Clear all the data from the current zone.
@@ -345,7 +358,7 @@ public:
    * \param intensity	the intensity to set the display (0-15).
    * \return No return value.
    */
-	inline void setIntensity(uint8_t intensity) { _MX->control(MD_MAX72XX::INTENSITY, intensity); };
+	inline void setIntensity(uint8_t intensity) { _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, intensity); };
 
   /** 
    * Invert the zone display.
@@ -647,6 +660,21 @@ public:
 	bool displayAnimate(void);
 
   /** 
+   * Get the completion status for a zone.
+   *
+   * This method is to determine which zone has completed when displayAnimate()
+   * has returned a completion status.
+   * 
+   * The calling program should monitor the return value for 'true' in order to either
+   * reset the zone animation or supply another string for display. A 'true' return 
+   * value means that the zone has completed its animation cycle.
+   *
+   * \param z		specified zone
+   * \return bool	true if at least one zone animation has completed, false otherwise.
+   */
+	bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); };
+
+  /** 
    * Clear the display.
    *
    * Clear all the from all the zones in the current display.
@@ -654,10 +682,9 @@ public:
    * \return No return value.
    */
 	void displayClear(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneClear(); };
-;
 
   /**
-   * Reset the current animation to restart.
+   * Reset the current animation to restart for all zones.
    *
    * This method is used to reset all the zone animations an animation back to the start 
    * of their cycle current cycle.
@@ -668,6 +695,52 @@ public:
    */
 	void displayReset(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneReset(); }; 
 
+  /**
+   * Reset the current animation to restart for the specified zone.
+   *
+   * See the comments for the 'all zones' variant of this method.
+   *
+   * \param z	specified zone
+   * \return No return value.
+   */
+	void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); }; 
+
+   /** 
+   * Suspend or resume display updates.
+   *
+   * Stop the current display animation. When pausing it leaves the 
+   * display showing the current text. Resuming will restart the animation where 
+   * it left off. To reset the animation back to the beginning, use the 
+   * displayReset() method.
+   * 
+   * \param b	boolean value to suspend (true) or resume (false).
+   * \return No return value.
+   */
+	void displaySuspend(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
+
+  /**
+   * Define a zone.
+   *
+   * When multiple zones are defined, the library needs to know the contiguous module
+   * ranges that make up the different zones. If the library has been started with only 
+   * one zone then it will automatically initialize the zone to be the entire range for 
+   * the display modules, so calling this function is not required.
+   *
+   * A module is a unit of 8x8 LEDs, as defined in the MD_MAX72xx library. 
+   * Zones should not overlap or unexpected results will occur.
+   *
+   * \param z		zone number.
+   * \param moduleStart	the first module number for the zone [0..numZones-1].
+   * \param moduleEnd	the last module number for the zone [0..numZones-1].
+   * \return true if set, false otherwise.
+   */
+	bool setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd);
+
+  /** @} */
+  //--------------------------------------------------------------
+  /** \name Methods for quick start single zone displays.
+   * @{
+   */
   /**
    * Easy start for a scrolling text display.
    *
@@ -682,19 +755,6 @@ public:
    * \return No return value.
    */
 	void displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed);
-
-   /** 
-   * Suspend or resume display updates.
-   *
-   * Stop the current display animation. When pausing it leaves the 
-   * display showing the current text. Resuming will restart the animation where 
-   * it left off. To reset the animation back to the beginning, use the 
-   * displayReset() method.
-   * 
-   * \param b	boolean value to suspend (true) or resume (false).
-   * \return No return value.
-   */
-	void displaySuspend(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
 
  /**
    * Easy start for a non-scrolling text display.
@@ -713,24 +773,6 @@ public:
    */
 	void displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = NO_EFFECT);
 	
-  /**
-   * Set the start and end parameters for a zone.
-   *
-   * When multiple zones are defined, the library needs to know the contiguous module
-   * ranges that make up the different zones. If the library has been started with only 
-   * one zone then it will automatically initialise the zone to be the entire range for 
-   * the display modules. A module is a unit od 8x8 LEDs, as defined in the MD_MAX72xx 
-   * library.
-   * 
-   * Zones should not overlap or unexpected results will occur.
-   *
-   * \param z		zone number.
-   * \param moduleStart	the first module number for the zone [0..numZones-1].
-   * \param moduleEnd	the last module number for the zone [0..numZones-1].
-   * \return true if set, false otherwise.
-   */
-	bool setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd);
-
   /** @} */
   //--------------------------------------------------------------
   /** \name Support methods for visually adjusting the display.
@@ -1009,6 +1051,76 @@ public:
    * \return No return value.
    */
 	inline void setTextEffect(uint8_t z, textEffect_t effectIn, textEffect_t effectOut) { if (z < _numZones) _Z[z].setTextEffect(effectIn, effectOut); };
+
+  /** @} */
+  //--------------------------------------------------------------
+  /** \name Support methods for fonts and characters.
+   * @{
+   */
+
+  /** 
+   * Add a user defined character to the replacement list for all zones.
+   * 
+   * Add a replacement characters to the user defined list. The character data must be 
+   * the same as for a single character in the font definition file. If a character is 
+   * specified with a code the same as an existing character the existing data will be 
+   * substituted for the new data. A character code of 0 ('\0') is illegal as this 
+   * denotes the end of string character for C++ and cannot be used in an actual string.
+   * 
+   * The library does not copy the in the data in the data definition but only retains 
+   * a pointer to the data, so any changes to the data storage in the calling program will
+   * be reflected in the library.
+   * 
+   * \param code	ASCII code for the character data.
+   * \param data	pointer to the character data.
+   * \return No return value.
+   */
+	void addChar(uint8_t code, uint8_t *data) { for (uint8_t i=0; i<_numZones; i++) _Z[i].addChar(code, data); };
+
+  /** 
+   * Add a user defined character to the replacement specified zone.
+   * 
+   * See the comments for the 'all zones' variant of this method
+   * 
+   * \param z		zone specified
+   * \param code	ASCII code for the character data.
+   * \param data	pointer to the character data.
+   * \return true of the character was inserted in the substitution list.
+   */
+	bool addChar(uint8_t z, uint8_t code, uint8_t *data) { if (z < _numZones) return(_Z[z].addChar(code, data)); };
+
+  /** 
+   * Delete a user defined character to the replacement list for all zones.
+   * 
+   * Delete a reference to a replacement character in the user defined list.
+   * 
+   * \param code	ASCII code for the character data.
+   * \return No return value.
+   */
+	void delChar(uint8_t code) { for (uint8_t i=0; i<_numZones; i++) _Z[i].delChar(code); };
+
+  /** 
+   * Delete a user defined character to the replacement list for the specified zone.
+   * 
+   * See the comments for the 'all zones' variant of this method.
+   *
+   * \param z		zone specified
+   * \param code	ASCII code for the character data.
+   * \return true of the character was found in the substitution list.
+   */
+	bool delChar(uint8_t z, uint8_t code) { if (z < _numZones) return(_Z[z].delChar(code)); };
+
+  /** 
+   * Set the display font for all zones.
+   * 
+   * Set the display font to a user defined font table. This can be created using the 
+   * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
+   * Passing NULL resets to the library default font. 
+   * 
+   * \param fontDef	Pointer to the font definition to be used.
+   * \return No return value.
+   */
+	inline void setFont(uint8_t PROGMEM * fontDef) { _D.setFont(fontDef); };
 
   /** @} */
 

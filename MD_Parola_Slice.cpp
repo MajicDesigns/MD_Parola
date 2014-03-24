@@ -44,7 +44,7 @@ void MD_PZone::effectSlice(bool bIn)
 			}
 			zoneClear();
 			_countCols = 0;
-			_nextPos = 0;
+			_nextPos = ZONE_START_COL(_zoneStart);
 			_endPos = _limitLeft;
 
 			_fsmState = PUT_CHAR;
@@ -82,7 +82,7 @@ void MD_PZone::effectSlice(bool bIn)
 			// set up for the next time
 			if (_nextPos == _endPos) 
 			{
-				_nextPos = 0;
+				_nextPos = ZONE_START_COL(_zoneStart);
 				_countCols++;
 				_endPos--;
 			}

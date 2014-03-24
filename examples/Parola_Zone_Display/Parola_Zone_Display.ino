@@ -1,7 +1,7 @@
 // Program to demonstrate the MD_Parola library
 //
 // For every string defined by pc[] iterate through all combinations 
-// of entry and exit effects.
+// of entry and exit effects in each zone independently.
 //
 // Animation speed can be controlled using a pot on pin SPEED_IN
 
@@ -11,17 +11,18 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
-#define	MAX_DEVICES	8
+#define	MAX_DEVICES	9
+#define	MAX_ZONES	3
+
 #define	CLK_PIN		13
 #define	DATA_PIN	11
 #define	CS_PIN		10
 
 // set to 1 if we are implementing the user interface pot
-#define	USE_UI_CONTROL	1
+#define	USE_UI_CONTROL	0
 
 #if USE_UI_CONTROL
 #define	SPEED_IN	A5
-uint8_t	frameDelay = 25;	// default frame delay value
 #endif // USE_UI_CONTROL
 
 // Hardware SPI connection
@@ -47,13 +48,13 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char	*pc[] = 
+char	*pc[MAX_ZONES] = 
 { 
-  "Parola for",
-  "Arduino",
+  "ABC",
+  "DEF",
+  "GHI"
 };
 
-uint8_t  inFX, outFX;
 textEffect_t	effect[] =
 {
 	PRINT,
@@ -80,6 +81,9 @@ textEffect_t	effect[] =
 	SCROLL_DOWN,
 };
 
+uint8_t	inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
+uint8_t	outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 }; 
+
 #if USE_UI_CONTROL
 void doUI(void)
 {
@@ -91,26 +95,40 @@ void doUI(void)
     {
       P.setSpeed(speed);
 	  P.setPause(speed);
-	  frameDelay = speed;
       PRINT("\nChanged speed to ", P.getSpeed());
     }
   }
 }
 #endif // USE_UI_CONTROL
 
+void zoneInitialise(uint8_t z, char *s, textPosition_t ta, uint16_t tmS, uint16_t tmP, textEffect_t inE, textEffect_t outE)
+{
+  P.setTextBuffer(z, s);
+  P.setTextAlignment(z, ta);
+  P.setSpeed(z, tmS);
+  P.setPause(z, tmP);
+  P.setTextEffect(z, inE, outE);
+}
+
 void setup(void)
 {
   Serial.begin(57600);
-  PRINTS("[Parola Demo]");
+  PRINTS("[Parola Zpne Demo]");
 
 #if USE_UI_CONTROL
   pinMode(SPEED_IN, INPUT);
   doUI();
 #endif // USE_UI_CONTROL
 
-  P.begin();
+  P.begin(MAX_ZONES);
   P.setInvert(false);
-  P.displayText(pc[curText], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
+  
+  P.setZone(0, 0, 2);
+  P.setZone(1, 3, 5);
+  P.setZone(2, 6, 8);
+  
+  for (uint8_t i=0; i<MAX_ZONES; i++)
+	zoneInitialise(i, pc[i], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }
 
 void loop(void)
@@ -121,27 +139,20 @@ void loop(void)
 
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
-    // Set the display for the next string.
-    curText = (++curText) % ARRAY_SIZE(pc);
-    P.setTextBuffer(pc[curText]);
-
-    // When we have gone back to the first string, set a new exit effect
-    // and when we have done all those set a new entry effect.
-    if (curText == 0)
-    {
-      outFX = (++outFX) % ARRAY_SIZE(effect);
-      if (outFX == 0)
+	for (uint8_t i=0; i<MAX_ZONES; i++)
+	{
+	  if (P.getZoneStatus(i))
 	  {
-        inFX = (++inFX) % ARRAY_SIZE(effect);
-		if (inFX == 0)
-			P.setInvert(!P.getInvert());
-	  }
+		outFX[i] = (++outFX[i]) % ARRAY_SIZE(effect);
+		if (outFX[i] == 0)
+		inFX[i] = (++inFX[i]) % ARRAY_SIZE(effect);
         
-      P.setTextEffect(effect[inFX], effect[outFX]);
-    }
+		P.setTextEffect(i, effect[inFX[i]], effect[outFX[i]]);
 
-    // Tell Parola we have a new animation
-    P.displayReset();
+		// Tell Parola we have a new animation
+		P.displayReset(i);
+	  }
+	}
   }
 }
 

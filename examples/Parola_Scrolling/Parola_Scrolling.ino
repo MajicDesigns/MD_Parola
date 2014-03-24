@@ -13,7 +13,7 @@
 #include <MD_MAX72xx.h>
 
 // set to 1 if we are implementing the user interface pot, switch, etc
-#define	USE_UI_CONTROL	1
+#define	USE_UI_CONTROL	0
 
 #if USE_UI_CONTROL
 #include <MD_KeySwitch.h>
@@ -75,7 +75,7 @@ void doUI(void)
 {
   // set the speed if it has changed
   {
-    int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 250);
+    int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
 
     if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) || 
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
