@@ -50,9 +50,9 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 uint8_t  curText;
 char	*pc[MAX_ZONES] = 
 { 
-  "ABC",
+  "GHI",
   "DEF",
-  "GHI"
+  "ABC",
 };
 
 textEffect_t	effect[] =
@@ -101,19 +101,12 @@ void doUI(void)
 }
 #endif // USE_UI_CONTROL
 
-void zoneInitialise(uint8_t z, char *s, textPosition_t ta, uint16_t tmS, uint16_t tmP, textEffect_t inE, textEffect_t outE)
-{
-  P.setTextBuffer(z, s);
-  P.setTextAlignment(z, ta);
-  P.setSpeed(z, tmS);
-  P.setPause(z, tmP);
-  P.setTextEffect(z, inE, outE);
-}
-
 void setup(void)
 {
+#if DEBUG
   Serial.begin(57600);
-  PRINTS("[Parola Zpne Demo]");
+  PRINTS("[Parola Zone Display Demo]");
+#endif
 
 #if USE_UI_CONTROL
   pinMode(SPEED_IN, INPUT);
@@ -128,7 +121,7 @@ void setup(void)
   P.setZone(2, 6, 8);
   
   for (uint8_t i=0; i<MAX_ZONES; i++)
-	zoneInitialise(i, pc[i], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
+	P.displayZoneText(i, pc[i], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }
 
 void loop(void)

@@ -29,13 +29,6 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 uint8_t  curText;
 char	*pc[] = { "\x00f", "Evacuate" };
 
-void setZoneParameters(uint8_t z, textEffect_t inE, textEffect_t outE, uint16_t timeP, char *s)
-{
-  P.setTextEffect(z, inE, outE);
-  P.setPause(z, timeP);
-  P.setTextBuffer(z, s);
-}
-
 void setup(void)
 {
   P.begin(3);
@@ -45,14 +38,12 @@ void setup(void)
 
   // All zones
   P.setInvert(false);
-  P.setTextAlignment(CENTER);
-  P.setSpeed(SPEED_TIME);
   P.setIntensity(4);  
   
   // Specific zones
-  setZoneParameters(0, PRINT, NO_EFFECT, SPLAT_PAUSE_TIME, pc[0]);
-  setZoneParameters(1, PRINT, NO_EFFECT, TEXT_PAUSE_TIME, pc[1]);
-  setZoneParameters(2, PRINT, NO_EFFECT, SPLAT_PAUSE_TIME, pc[0]);
+  P.displayZoneText(0, pc[0], CENTER, SPEED_TIME, SPLAT_PAUSE_TIME, PRINT);
+  P.displayZoneText(1, pc[1], CENTER, SPEED_TIME, TEXT_PAUSE_TIME, PRINT);
+  P.displayZoneText(2, pc[0], CENTER, SPEED_TIME, SPLAT_PAUSE_TIME, PRINT);
 }
 
 void loop(void)

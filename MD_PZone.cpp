@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #include <MD_Parola_lib.h>
 #include <MD_MAX72xx.h>
 
-MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL)
+MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL)
 {
 }
 
@@ -247,6 +247,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 	}
 
 	PRINTS(" no user char");
+	_MX->setFont(_fontDef);		// change to the font for this zone
 	len = _MX->getChar(code, size, cBuf);
 
 	return(len);
@@ -332,13 +333,13 @@ uint8_t MD_PZone::getFirstChar(void)
 	}
 	_endOfText = false;
 	if (SFX(SCROLL_RIGHT))
-	_pCurChar += strlen(_pText) - 1;
+		_pCurChar += strlen(_pText) - 1;
 
 	// good string, get the first char into the current buffer
 	len = makeChar(*_pCurChar);
 
 	if (SFX(SCROLL_RIGHT))
-	reverseBuf(_cBuf, len);
+		reverseBuf(_cBuf, len);
 	
 	moveTextPointer();
 

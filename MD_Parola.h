@@ -12,6 +12,7 @@ of text special effects on the Parola display.
 - Left, right or center text justification in the display field.
 - Text scrolling, text entering and exit effects.
 - Control display parameters and animation speed.
+- Multiple virtual displays (zones) in each string of LED modules
 
 The latest copy of the Parola Software and hardware files can be found 
 at the [Parola website] (http://parola.codeplex.com).
@@ -20,8 +21,9 @@ at the [Parola website] (http://parola.codeplex.com).
 
 System Components
 -----------------
-- Hardware - supported hardware documentation is now found in the MD_MAX72xx library documentation.
+- Hardware - documentation for supported hardware is now found in the MD_MAX72xx library documentation.
 - \subpage pageSoftware
+- \subpage pageZones
 
 Revision History 
 ----------------
@@ -33,7 +35,11 @@ March 2014 - version 2.0
  + SCAN_HORIZ, SCAN_VERT
  + GROW_UP, GROW_DOWN
  + SCROLL_UP_LEFT, SCROLL_UP_RIGHT, SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
-- Implemented Zoned scrolling - multiple independent zoned scrollind areas in one display
+- Implemented Zoned scrolling
+ + Multiple independent zoned scrolling areas in one display.
+ + Each zone has all character attributes (font, alignment, speed, pause, etc).
+- textEffect_t and textAlign_t taken out of the class definition. Requires legacy code mods.
+- Backward compatible with library version 1.x code.
 
 September 2013 - version 1.1
 - Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
@@ -69,6 +75,7 @@ of text special effects on the LED matrix.
 - Text scrolling, appearance and disappearance effects
 - Control display parameters and animation speed
 - Support for hardware SPI interface
+- Multiple virtual displays (zones) in each string of LED modules
 
 ### External Dependencies
 - Parola uses the MD_MAX72xx library for hardware level control primitives. 
@@ -81,9 +88,8 @@ Each of the selected text effects is implemented as a function. This makes it ea
 effects:
 - Choose a name for the effect and add it to the textEffect_t enumerated type.
 - Clone an existing method and modify it according to the guidelines below.
-- Add the function prototype for the new effect to the class definition 
-(at the bottom of the MD_Parola.h file).
-- Modify the displayAnimate() method in MD_Parola.cpp to invoke the new method. 
+- Add the function prototype for the new effect to the MD_PZone class definition in the MD_Parola.h file.
+- Modify the zoneAnimate() method in MD_PZone.cpp to invoke the new method. 
 
 ###New Text Effects
 The effects functions are implemented as finite state machines that are called with the 
@@ -124,12 +130,30 @@ is not intuitive when coding and is worth remembering. Rows are numbered from to
 are smooth and the IN and OUT effects combine well. Common errors are misaligned entry compared to 
 exit, with causes a small jump in the text position when the effects are combined.
 
-+ Display update times grow proportionally to the number of modules in a display, so some timing 
++ Display update times grow proportionally with the number of modules in a display, so some timing 
 parameters may need to adapt. Hardware SPI runs approximately 10 times faster and the delay 
-increase is not appreciable with up to 12 modules in length. For the arbitrary pin outs, using 
+increase is not appreciable with up to 12 modules. For the arbitrary pin outs, using 
 shiftout(), a 6 module chain updates in approximately 14ms on an Uno, while a 12 module display 
 takes around 25ms. Most of the time taken is to physically update the display, as animating frames 
 takes about 1-2ms to update in the MD_MAX72XX display buffers.
+
+\page pageZones Zoning a Display
+Display Zones
+-------------
+A zone is a contiguous sequence of one or more display modules (LED matrices) and has all the attributes
+of the original displays - animation, speed, font, spacing, etc. This allows complex displays to be 
+created. For example, one part can show relatively static text while a different one has animation 
+and movement.
+
+From version 2.0 of the library, a matrix display can be treated as a single contiguous set of modules 
+or it can be split into multiple 'virtual' displays (zones). Prior to version 2.0 of the library, 
+each display was effectively a single zone.
+
+For backward compatibility, all the previous methods remain. If the new library is compiled with older 
+user source code, the library defaults to using a single zone for the whole display. New zone-aware 
+functions have an added parameter to specify the zone to which the method invocation applies. Methods 
+invoked without specifying a zone (such as set*()) usually have their effect applied to all zones. This
+detailed in the class documentation.
 */
 #ifndef _MD_PAROLA_H
 #define _MD_PAROLA_H
@@ -243,9 +267,7 @@ public:
    *
    * Return the current completion status for the zone animation.
    * 
-   * The calling program should monitor the return value for 'true' in order to either
-   * reset the zone animation or supply another string for display. A 'true' return 
-   * value means that the zone has completed its animation cycle.
+   * See comments for the MD_Parola getZoneStatus() method.
    *
    * \return bool	true if the zone animation is completed
    */
@@ -254,7 +276,7 @@ public:
   /** 
    * Clear the zone.
    *
-   * Clear all the data from the current zone.
+   * See comments for the MD_Parola namesake method.
    * 
    * \return No return value.
    */
@@ -263,8 +285,7 @@ public:
   /**
    * Reset the current zone animation to restart.
    *
-   * This method is used to reset the zone animation back to the start 
-   * of its cycle current cycle. The method is invoked by the main Parola object.
+   * See comments for the MD_Parola namesake method.
    *
    * \return No return value.
    */
@@ -273,10 +294,7 @@ public:
   /** 
    * Suspend or resume zone updates.
    *
-   * Stop the current zone animation. When pausing it leaves the 
-   * zone showing the current text. Resuming will restart the animation where 
-   * it left off. To reset the animation back to the beginning, use the 
-   * zoneReset() method.
+   * See comments for the MD_Parola namesake method.
    * 
    * \param b	boolean value to suspend (true) or resume (false).
    * \return No return value.
@@ -464,14 +482,12 @@ public:
   /** 
    * Set the display font.
    * 
-   * Set the display font to a user defined font table. This can be created using the 
-   * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
-   * Passing NULL resets to the library default font. 
+   * See comments for the namesake Parola method.
    * 
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-	inline void setFont(uint8_t PROGMEM * fontDef) { _MX->setFont(fontDef); };
+	inline void setZoneFont(MD_MAX72XX::fontType_t fontDef) { _fontDef = fontDef; };
 
   /** @} */
 		
@@ -535,9 +551,9 @@ private:
 	void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM
 
 	// Character buffer handling data and methods
-	char		*_pText;		// pointer to text buffer from user call
-	char		*_pCurChar;		// the current character being processed in the text
-	bool		_endOfText;		// true when the end of the text string has been reached.
+	char		*_pText;			// pointer to text buffer from user call
+	char		*_pCurChar;			// the current character being processed in the text
+	bool		_endOfText;			// true when the end of the text string has been reached.
 	void		moveTextPointer(void);	// move the text pointer depending on direction of buffer scan
 
 	uint8_t		getFirstChar(void);	// put the first Text char into the char buffer
@@ -549,6 +565,7 @@ private:
 	uint8_t		_charSpacing;		// spacing in columns between characters
 	uint8_t		_charCols;			// number of columns for this character
 	int16_t		_countCols;			// count of number of columns already shown
+	MD_MAX72XX::fontType_t _fontDef;	// font for this zone
 
 	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
 	uint8_t		makeChar(char c);	// load a character bitmap and add in trailing _charSpacing blanks
@@ -579,8 +596,6 @@ private:
 class MD_Parola 
 {
 public:
-  friend class MD_PZone;
-
   /** 
    * Class Constructor - arbitrary output pins.
    *
@@ -616,7 +631,7 @@ public:
    * data for the class that cannot be done during the object creation. This form of the
    * method is for backward compatibility and creates one zone for the entire display.
    */
-  void begin(void);
+  void begin(void) { begin(1); };
 
   /** 
    * Initialize the object.
@@ -672,7 +687,7 @@ public:
    * \param z		specified zone
    * \return bool	true if at least one zone animation has completed, false otherwise.
    */
-	bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); };
+	inline bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); };
 
   /** 
    * Clear the display.
@@ -681,7 +696,7 @@ public:
    * 
    * \return No return value.
    */
-	void displayClear(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneClear(); };
+	inline void displayClear(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneClear(); };
 
   /**
    * Reset the current animation to restart for all zones.
@@ -693,7 +708,7 @@ public:
    *
    * \return No return value.
    */
-	void displayReset(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneReset(); }; 
+	inline void displayReset(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneReset(); }; 
 
   /**
    * Reset the current animation to restart for the specified zone.
@@ -703,7 +718,7 @@ public:
    * \param z	specified zone
    * \return No return value.
    */
-	void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); }; 
+	inline void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); }; 
 
    /** 
    * Suspend or resume display updates.
@@ -716,7 +731,7 @@ public:
    * \param b	boolean value to suspend (true) or resume (false).
    * \return No return value.
    */
-	void displaySuspend(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
+	inline void displaySuspend(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
 
   /**
    * Define a zone.
@@ -738,7 +753,7 @@ public:
 
   /** @} */
   //--------------------------------------------------------------
-  /** \name Methods for quick start single zone displays.
+  /** \name Methods for quick start displays.
    * @{
    */
   /**
@@ -754,7 +769,8 @@ public:
    * \param speed	parameter suitable for the setSpeed() method.
    * \return No return value.
    */
-	void displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed);
+	inline void displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)
+		{ displayZoneText(0, pText, align, speed, 0, effect, effect); };
 
  /**
    * Easy start for a non-scrolling text display.
@@ -771,7 +787,26 @@ public:
    * \param	effectOut	parameter suitable for the setTextEffect() method.
    * \return No return value.
    */
-	void displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = NO_EFFECT);
+	inline void displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = NO_EFFECT)
+		{ displayZoneText(0, pText, align, speed, pause, effectIn, effectOut); };
+	
+ /**
+   * Easy start for a non-scrolling zone text display.
+   *
+   * This method is a convenient way to set up a static text display within the 
+   * specified zone. All the data necessary for setup is passed through as 
+   * parameters and the display animation is started.
+   *
+   * \param z		zone specified.
+   * \param pText	parameter suitable for the setTextBuffer() method.
+   * \param align	parameter suitable for the the setTextAlignment() method.
+   * \param speed	parameter suitable for the setSpeed() method.
+   * \param pause	parameter suitable for the setPause() method.
+   * \param	effectIn	parameter suitable for the setTextEffect() method.
+   * \param	effectOut	parameter suitable for the setTextEffect() method.
+   * \return No return value.
+   */
+	void displayZoneText(uint8_t z, char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = NO_EFFECT);
 	
   /** @} */
   //--------------------------------------------------------------
@@ -1120,7 +1155,20 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-	inline void setFont(uint8_t PROGMEM * fontDef) { _D.setFont(fontDef); };
+	inline void setFont(MD_MAX72XX::fontType_t fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); };
+
+  /** 
+   * Set the display font for a specific zone.
+   * 
+   * Set the display font to a user defined font table. This can be created using the 
+   * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
+   * Passing NULL resets to the library default font. 
+   * 
+   * \param z		specified zone.
+   * \param fontDef	Pointer to the font definition to be used.
+   * \return No return value.
+   */
+	inline void setFont(uint8_t z, MD_MAX72XX::fontType_t fontDef) { if (z < _numZones) _Z[z].setZoneFont(fontDef); };
 
   /** @} */
 

@@ -6,12 +6,16 @@
 # Classes and datatypes (KEYWORD1)
 #######################################
 MD_Parola	KEYWORD1
+MD_PZone	KEYWORD1
 textPosition_t	KEYWORD1
 textEffect_t	KEYWORD1
 
 #######################################
 # Methods and functions (KEYWORD2)
 #######################################
+addChar	KEYWORD2
+delChar	KEYWORD2
+begin	KEYWORD2
 displayAnimate	KEYWORD2
 displayClear	KEYWORD2
 displayReset	KEYWORD2
@@ -19,17 +23,21 @@ displayScroll	KEYWORD2
 displayText	KEYWORD2
 displaySuspend	KEYWORD2
 getCharSpacing	KEYWORD2
+getInvert	KEYWORD2
 getPause	KEYWORD2
 getSpeed	KEYWORD2
+getStatus	KEYWORD2
 getTextAlignment	KEYWORD2
 setCharSpacing	KEYWORD2
+setFont	KEYWORD2
 setIntensity	KEYWORD2
+setInvert	KEYWORD2
 setPause	KEYWORD2
 setSpeed	KEYWORD2
 setTextAlignment	KEYWORD2
 setTextBuffer	KEYWORD2
 setTextEffect	KEYWORD2
-
+setZone	KEYWORD2
 
 ######################################
 # Constants/defines (LITERAL1)
@@ -52,8 +60,16 @@ SCROLL_UP	LITERAL1
 SCROLL_DOWN	LITERAL1
 SCROLL_LEFT	LITERAL1
 SCROLL_RIGHT	LITERAL1
+SCROLL_UP_LEFT	LITERAL1
+SCROLL_UP_RIGHT	LITERAL1
+SCROLL_DOWN_LEFT	LITERAL1
+SCROLL_DOWN_RIGHT	LITERAL1
 SCAN_HORIZ	LITERAL1
 SCAN_VERT	LITERAL1
 GROW_UP	LITERAL1
 GROW_DOWN	LITERAL1
-RAIN	LITERAL1
+SCAN_HORIZ	LITERAL1
+SCAN_VERT	LITERAL1
+GROW_UP	LITERAL1
+GROW_DOWN	LITERAL1
+

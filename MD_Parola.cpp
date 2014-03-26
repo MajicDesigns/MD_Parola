@@ -38,11 +38,6 @@ _D(csPin, numDevices), _numModules(numDevices)
 {
 }
 
-void MD_Parola::begin(void)
-{
-  begin(1);
-}
-
 void MD_Parola::begin(uint8_t numZones)
 {
 	_D.begin();
@@ -94,26 +89,15 @@ bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)
 	return(false);
 }
 
-void MD_Parola::displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)
+void MD_Parola::displayZoneText(uint8_t z, char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut)
 {
-	setTextAlignment(align);
-	setSpeed(speed);
-	setPause(0);
-	setTextEffect(effect, effect);
-	setTextBuffer(pText);
+	setTextBuffer(z, pText);
+	setTextAlignment(z, align);
+	setSpeed(z, speed);
+	setPause(z, pause);
+	setTextEffect(z, effectIn, effectOut);
 
-	displayReset();
-}
-
-void MD_Parola::displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut)
-{
-	setTextAlignment(align);
-	setSpeed(speed);
-	setPause(pause);
-	setTextEffect(effectIn, effectOut);
-	setTextBuffer(pText);
-
-	displayReset();
+	displayReset(z);
 }
 
 bool MD_Parola::displayAnimate(void)
