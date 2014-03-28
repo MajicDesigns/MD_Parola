@@ -57,28 +57,28 @@ char	*pc[MAX_ZONES] =
 
 textEffect_t	effect[] =
 {
-	PRINT,
-	SCAN_HORIZ,
-	SCROLL_LEFT,
-	WIPE,
-	SCROLL_UP_LEFT,
-	SCROLL_UP,
-	OPENING_CURSOR,
-	GROW_UP,
-	SCROLL_UP_RIGHT,
-	BLINDS,
-	CLOSING,
-	GROW_DOWN,
-	SCAN_VERT,
-	SCROLL_DOWN_LEFT,
-	WIPE_CURSOR,
-	DISSOLVE,
-	OPENING,
-	CLOSING_CURSOR,
-	SCROLL_DOWN_RIGHT,
-	SCROLL_RIGHT,
-	SLICE,
-	SCROLL_DOWN,
+  PRINT,
+  SCAN_HORIZ,
+  SCROLL_LEFT,
+  WIPE,
+  SCROLL_UP_LEFT,
+  SCROLL_UP,
+  OPENING_CURSOR,
+  GROW_UP,
+  SCROLL_UP_RIGHT,
+  BLINDS,
+  CLOSING,
+  GROW_DOWN,
+  SCAN_VERT,
+  SCROLL_DOWN_LEFT,
+  WIPE_CURSOR,
+  DISSOLVE,
+  OPENING,
+  CLOSING_CURSOR,
+  SCROLL_DOWN_RIGHT,
+  SCROLL_RIGHT,
+  SLICE,
+  SCROLL_DOWN,
 };
 
 uint8_t	inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
@@ -94,7 +94,7 @@ void doUI(void)
     if (speed != (int16_t)P.getSpeed()) 
     {
       P.setSpeed(speed);
-	  P.setPause(speed);
+      P.setPause(speed);
       PRINT("\nChanged speed to ", P.getSpeed());
     }
   }
@@ -121,31 +121,30 @@ void setup(void)
   P.setZone(2, 6, 8);
   
   for (uint8_t i=0; i<MAX_ZONES; i++)
-	P.displayZoneText(i, pc[i], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
+    P.displayZoneText(i, pc[i], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }
 
 void loop(void)
 {
 #if USE_UI_CONTROL
-	doUI();
+  doUI();
 #endif // USE_UI_CONTROL
 
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
-	for (uint8_t i=0; i<MAX_ZONES; i++)
-	{
-	  if (P.getZoneStatus(i))
-	  {
-		outFX[i] = (++outFX[i]) % ARRAY_SIZE(effect);
-		if (outFX[i] == 0)
-		inFX[i] = (++inFX[i]) % ARRAY_SIZE(effect);
+    for (uint8_t i=0; i<MAX_ZONES; i++)
+    {
+      if (P.getZoneStatus(i))
+      {
+        outFX[i] = (++outFX[i]) % ARRAY_SIZE(effect);
+        if (outFX[i] == 0)
+        inFX[i] = (++inFX[i]) % ARRAY_SIZE(effect);
         
-		P.setTextEffect(i, effect[inFX[i]], effect[outFX[i]]);
+        P.setTextEffect(i, effect[inFX[i]], effect[outFX[i]]);
 
-		// Tell Parola we have a new animation
-		P.displayReset(i);
-	  }
-	}
+        // Tell Parola we have a new animation
+        P.displayReset(i);
+      }
+    }
   }
 }
-

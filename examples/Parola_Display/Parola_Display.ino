@@ -90,8 +90,8 @@ void doUI(void)
     if (speed != (int16_t)P.getSpeed()) 
     {
       P.setSpeed(speed);
-	  P.setPause(speed);
-	  frameDelay = speed;
+      P.setPause(speed);
+      frameDelay = speed;
       PRINT("\nChanged speed to ", P.getSpeed());
     }
   }
@@ -131,11 +131,11 @@ void loop(void)
     {
       outFX = (++outFX) % ARRAY_SIZE(effect);
       if (outFX == 0)
-	  {
+      {
         inFX = (++inFX) % ARRAY_SIZE(effect);
-		if (inFX == 0)
-			P.setInvert(!P.getInvert());
-	  }
+        if (inFX == 0)
+          P.setInvert(!P.getInvert());
+      }
         
       P.setTextEffect(effect[inFX], effect[outFX]);
     }
@@ -144,4 +144,3 @@ void loop(void)
     P.displayReset();
   }
 }
-

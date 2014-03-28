@@ -1,12 +1,14 @@
 // Program to exercise the MD_Parola library
 // 
 // Demonstrates most of the functions of the Parola library.
-// All anoimations can be run and tested under user control.
+// All animations can be run and tested under user control.
 //
 // Speed for the display is controlled by a pot on SPEED_IN analog input.
-// Digital switches usedfor control of Justification, Effect progression, 
+// Digital switches used for control of Justification, Effect progression, 
 // Pause between animations, LED intensity, and invert mode. UI switches 
 // are normally HIGH.
+//
+// Keyswitch library can be found at http://arduinocode.codeplex.com
 //
 
 #include <MD_Parola.h>
@@ -40,12 +42,12 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #endif
 
 // User interface pin and switch definitions
-#define	SPEED_IN		A5	// control the speed with an external pot
-#define	PAUSE_SET		4	// toggle pause time
-#define JUSTIFY_SET		6	// change the justification
+#define	SPEED_IN	A5	// control the speed with an external pot
+#define	PAUSE_SET	4	// toggle pause time
+#define JUSTIFY_SET	6	// change the justification
 #define	INTENSITY_SET	7	// change the intensity of the display
-#define	EFFECT_SET		8	// change the effect
-#define	INVERSE_SET		9	// set/reset the display to inverse
+#define	EFFECT_SET	8	// change the effect
+#define	INVERSE_SET	9	// set/reset the display to inverse
 
 #define	PAUSE_TIME		1000	// in milliseconds
 #define	SPEED_DEADBAND	5		// in analog units
@@ -84,78 +86,78 @@ void doUI(void)
   // now process the digital inputs
   if (uiJustify.read())	// TEXT ALIGNMENT
   {
-	static uint8_t	curMode = 0;
-	textPosition_t	align = P.getTextAlignment();
-	textPosition_t	textAlign[] = 
-	{ 
-		LEFT, 
-		CENTER, 
-		RIGHT
-	};
+    static uint8_t	curMode = 0;
+    textPosition_t	align = P.getTextAlignment();
+    textPosition_t	textAlign[] = 
+    { 
+      LEFT, 
+      CENTER, 
+      RIGHT
+    };
 
-	DEBUG("\nChanging alignment to ", curMode);
-	P.setTextAlignment(textAlign[curMode]);
-	P.displayReset();
-	curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
+    DEBUG("\nChanging alignment to ", curMode);
+    P.setTextAlignment(textAlign[curMode]);
+    P.displayReset();
+    curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
   }
 
   if (uiEffect.read())	// EFFECT CHANGE
   {
-	static uint8_t  curFX = 0;
+    static uint8_t  curFX = 0;
 
-	textEffect_t	effect[] =
-	{
-		PRINT,
-		SLICE,
-		WIPE,
-		WIPE_CURSOR,
-		OPENING,
-		OPENING_CURSOR,
-		CLOSING,
-		CLOSING_CURSOR,
-		BLINDS,
-		DISSOLVE,
-		SCROLL_UP,
-		SCROLL_DOWN,
-		SCROLL_LEFT,
-		SCROLL_RIGHT,
-		SCROLL_UP_LEFT,
-		SCROLL_UP_RIGHT,
-		SCROLL_DOWN_LEFT,
-		SCROLL_DOWN_RIGHT,
-		SCAN_HORIZ,
-		SCAN_VERT,
-		GROW_UP,
-		GROW_DOWN,
-	};
+    textEffect_t effect[] =
+    {
+      PRINT,
+      SLICE,
+      WIPE,
+      WIPE_CURSOR,
+      OPENING,
+      OPENING_CURSOR,
+      CLOSING,
+      CLOSING_CURSOR,
+      BLINDS,
+      DISSOLVE,
+      SCROLL_UP,
+      SCROLL_DOWN,
+      SCROLL_LEFT,
+      SCROLL_RIGHT,
+      SCROLL_UP_LEFT,
+      SCROLL_UP_RIGHT,
+      SCROLL_DOWN_LEFT,
+      SCROLL_DOWN_RIGHT,
+      SCAN_HORIZ,
+      SCAN_VERT,
+      GROW_UP,
+      GROW_DOWN,
+   };
 
-	DEBUG("\nChanging effect to ", curFX);
-	P.setTextEffect(effect[curFX], effect[curFX]);
-	P.displayReset();
-	curFX = (curFX + 1) % ARRAY_SIZE(effect);
+    DEBUG("\nChanging effect to ", curFX);
+    P.setTextEffect(effect[curFX], effect[curFX]);
+    P.displayReset();
+    curFX = (curFX + 1) % ARRAY_SIZE(effect);
   }
 
   if (uiPause.read())	// PAUSE DELAY
   {
-	DEBUGS("\nChanging pause");
-	if (P.getPause() <= P.getSpeed())
-		P.setPause(PAUSE_TIME);
-	else
-		P.setPause(0);
+    DEBUGS("\nChanging pause");
+    if (P.getPause() <= P.getSpeed())
+      P.setPause(PAUSE_TIME);
+    else
+      P.setPause(0);
   }
 
   if (uiIntensity.read())	// INTENSITY
   {
-	static uint8_t	intensity = 7;
+    static uint8_t	intensity = 7;
 
-	intensity = ++intensity % 16;
-	P.setIntensity(intensity);
-	DEBUG("\nChanged intensity to ", intensity);
+    intensity = ++intensity % 16;
+    P.setIntensity(intensity);
+    DEBUG("\nChanged intensity to ", intensity);
   }
 
   if (uiInverse.read())		// INVERSE
   {
-		P.setInvert(!P.getInvert());
+    P.setInvert(!P.getInvert());
   }
 }
 
@@ -187,7 +189,7 @@ void loop(void)
   {
     P.setTextBuffer(pc[curString]);
     P.displayReset();
-	curString = NEXT_STRING;
+    curString = NEXT_STRING;
   }
 }
 

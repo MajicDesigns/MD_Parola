@@ -53,24 +53,23 @@ void loop(void)
   
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
-	// Splats
-	if (P.getZoneStatus(0))	// in sync with zone 2, so do both
-	{
-		inten += offset;
-		if (inten == 15 || inten == 0) 
-			offset = -offset;
-		P.setIntensity(0, inten);
-		P.setIntensity(2, 15-inten);
-		P.displayReset(0);
-		P.displayReset(2);
-	}
+    // Splats
+    if (P.getZoneStatus(0))	// in sync with zone 2, so do both
+    {
+      inten += offset;
+      if (inten == 15 || inten == 0) 
+        offset = -offset;
+      P.setIntensity(0, inten);
+      P.setIntensity(2, 15-inten);
+      P.displayReset(0);
+      P.displayReset(2);
+    }
 	
 	// Message
-	if (P.getZoneStatus(1))
-	{
-		P.setInvert(1, !P.getInvert(1));
-		P.displayReset(1);
-	}
+    if (P.getZoneStatus(1))
+    {
+      P.setInvert(1, !P.getInvert(1));
+      P.displayReset(1);
+    }
   }
 }
-

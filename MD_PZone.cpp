@@ -22,6 +22,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #include <MD_Parola.h>
 #include <MD_Parola_lib.h>
 #include <MD_MAX72xx.h>
+/**
+ * \file
+ * \brief Implements MD_PZone class methods
+ */
 
 MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL)
 {

@@ -37,17 +37,17 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Global variables
 typedef struct 
 {
-	uint8_t PROGMEM *	pFont;
-	textEffect_t	effect;
-	char *				pMsg;
+	uint8_t PROGMEM * pFont;
+	textEffect_t      effect;
+	char *            pMsg;
 } Message_t;
 
 Message_t	M[] = 
 { 
-	{ NULL,			SCROLL_LEFT,	"Arduino" }, 
-	{ fontKatakana,	SCROLL_LEFT,	"\x0b1\x0b0\x0c2\x0b2\x0c9" },
-	{ fontArabic,	SCROLL_RIGHT,	"\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
-	{ fontGreek,	SCROLL_LEFT,	"\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
+	{ NULL,         SCROLL_LEFT,	"Arduino" }, 
+	{ fontKatakana, SCROLL_LEFT,	"\x0b1\x0b0\x0c2\x0b2\x0c9" },
+	{ fontArabic,   SCROLL_RIGHT,	"\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
+	{ fontGreek,    SCROLL_LEFT,	"\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
 };
 #define	MAX_MESG  (sizeof(M)/sizeof(M[0]))
 
@@ -67,18 +67,17 @@ void loop(void)
 {
   if (P.displayAnimate()) 
   {
-	curM = (curM + 1) % MAX_MESG;
-	P.setFont(M[curM].pFont);
+    curM = (curM + 1) % MAX_MESG;
+    P.setFont(M[curM].pFont);
     P.setTextBuffer(M[curM].pMsg);
-	P.setTextEffect(M[curM].effect, M[curM].effect);
+    P.setTextEffect(M[curM].effect, M[curM].effect);
 
-	PRINT("\nChanging font to ", curM);
-	PRINTS("\n");
-	for (uint8_t i=0; i<strlen(M[curM].pMsg); i++)
-	{
-		PRINT(" ", (uint8_t) M[curM].pMsg[i]);
-	}
+    PRINT("\nChanging font to ", curM);
+    PRINTS("\n");
+    for (uint8_t i=0; i<strlen(M[curM].pMsg); i++)
+    {
+      PRINT(" ", (uint8_t) M[curM].pMsg[i]);
+    }
     P.displayReset();
   }
 }
-

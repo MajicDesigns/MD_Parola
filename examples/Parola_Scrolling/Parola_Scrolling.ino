@@ -8,6 +8,9 @@
 // Speed for the display is controlled by a pot on SPEED_IN analog in.
 // Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
+//
+// Keyswitch library can be found at http://arduinocode.codeplex.com
+//
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
@@ -81,47 +84,47 @@ void doUI(void)
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
       P.setSpeed(speed);
-	  P.setPause(speed);
-	  frameDelay = speed;
+      P.setPause(speed);
+      frameDelay = speed;
       PRINT("\nChanged speed to ", P.getSpeed());
     }
   }
 
   if (uiDirection.read())	// SCROLL DIRECTION
   {
-      PRINTS("\nChanging scroll direction");
-	  scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
-	  P.setTextEffect(scrollEffect, scrollEffect);
-      P.displayReset();
+    PRINTS("\nChanging scroll direction");
+    scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
+    P.setTextEffect(scrollEffect, scrollEffect);
+    P.displayReset();
   }
 
   if (uiInvert.read())	// INVERT MODE
   {
-      PRINTS("\nChanging invert mode");
-	  P.setInvert(!P.getInvert());
+    PRINTS("\nChanging invert mode");
+    P.setInvert(!P.getInvert());
   }
 }
 #endif // USE_UI_CONTROL
 
 void readSerial(void)
 {
-	static uint8_t	putIndex = 0;
+  static uint8_t	putIndex = 0;
 
-	while (Serial.available())
-	{
-		newMessage[putIndex] = (char)Serial.read();
-		if ((newMessage[putIndex] == '\n') || (putIndex >= BUF_SIZE-2))	// end of message character or full buffer
-		{
-			// put in a message separator and end the string
-			newMessage[putIndex] = '\0';
-			// restart the index for next filling spree and flag we have a message waiting
-			putIndex = 0;
-			newMessageAvailable = true;
-		}
-		else
-			// Just save the next char in next location
-			newMessage[putIndex++];
-	}
+  while (Serial.available())
+  {
+    newMessage[putIndex] = (char)Serial.read();
+    if ((newMessage[putIndex] == '\n') || (putIndex >= BUF_SIZE-2))	// end of message character or full buffer
+    {
+      // put in a message separator and end the string
+      newMessage[putIndex] = '\0';
+      // restart the index for next filling spree and flag we have a message waiting
+      putIndex = 0;
+      newMessageAvailable = true;
+    }
+      else
+      // Just save the next char in next location
+      newMessage[putIndex++];
+  }
 }
 
 void setup()
@@ -160,10 +163,10 @@ void loop()
   if (P.displayAnimate()) 
   {
     if (newMessageAvailable)
-	{
-		strcpy(curMessage, newMessage);
-		newMessageAvailable = false;
-	}
+    {
+      strcpy(curMessage, newMessage);
+      newMessageAvailable = false;
+    }
     P.displayReset();
   }
 }

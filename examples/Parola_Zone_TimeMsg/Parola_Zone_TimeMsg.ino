@@ -51,57 +51,64 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #define	SPEED_TIME	75
 #define	PAUSE_TIME	0
 
+#define	MAX_MESG	20
+
 // Turn on debug statements to the serial output
 #define  DEBUG  0
 
 // Global variables
 char	szTime[9];		// mm:ss\0
-char	szMesg[20] = "";
+char	szMesg[MAX_MESG+1] = "";
 
-#if USE_DHT11
 uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 };	// Deg C
 uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 };	// Deg F
-#endif
 
-char *mon2str(uint8_t mon)
+char *mon2str(uint8_t mon, char *psz, uint8_t len)
+// Get a label from PROGMEM into a char array
 {
-  static char *str[] = 
+  static const __FlashStringHelper*	str[] = 
   {
-	"Jan", "Feb", "Mar", "Apr", 
-	"May", "Jun", "Jul", "Aug", 
-	"Sep", "Oct", "Nov", "Dec"
+    F("Jan"), F("Feb"), F("Mar"), F("Apr"), 
+    F("May"), F("Jun"), F("Jul"), F("Aug"), 
+    F("Sep"), F("Oct"), F("Nov"), F("Dec")
   };
-  
-  return(str[mon-1]);
+
+  strncpy_P(psz, (const prog_char *)str[mon-1], len);
+  psz[len] = '\0';
+
+  return(psz);
 }
 
-char *dow2str(uint8_t code)
+char *dow2str(uint8_t code, char *psz, uint8_t len)
 {
-  static char *str[] = 
+  static const __FlashStringHelper*	str[] = 
   {
-	"Sunday", "Monday", "Tuesday", 
-	"Wednesday", "Thursday", "Friday", 
-	"Saturday"
+    F("Sunday"), F("Monday"), F("Tuesday"), 
+    F("Wednesday"), F("Thursday"), F("Friday"), 
+    F("Saturday")
   };
   
-  return(str[code-1]);
+  strncpy_P(psz, (const prog_char *)str[code-1], len);
+  psz[len] = '\0';
+
+  return(psz);
 }
 
 void getTime(char *psz, bool f = true)
 // Code for reading clock time
 {
 #if	USE_DS1307
-	RTC.ReadTime();
-	sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
+  RTC.ReadTime();
+  sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
-	uint16_t	h, m, s;
+  uint16_t	h, m, s;
 	
-	s = millis()/1000;
-	m = s/60;
-	h = m/60;
-	m %= 60;
-	s %= 60;
-	sprintf(psz, "%02d%c%02d", h, (f ? ':' : ' '), m);
+  s = millis()/1000;
+  m = s/60;
+  h = m/60;
+  m %= 60;
+  s %= 60;
+  sprintf(psz, "%02d%c%02d", h, (f ? ':' : ' '), m);
 #endif
 }
 
@@ -109,10 +116,12 @@ void getDate(char *psz)
 // Code for reading clock date
 {
 #if	USE_DS1307
-	RTC.ReadTime();
-	sprintf(psz, "%d %s %04d", RTC.dd, mon2str(RTC.mm), RTC.yyyy);
+  char	szBuf[10];
+	
+  RTC.ReadTime();
+  sprintf(psz, "%d %s %04d", RTC.dd, mon2str(RTC.mm, szBuf, sizeof(szBuf)-1), RTC.yyyy);
 #else
-	strcpy(szMesg, "29 Feb 2016");
+  strcpy(szMesg, "29 Feb 2016");
 #endif
 }
 
@@ -128,10 +137,8 @@ void setup(void)
   P.displayZoneText(1, szTime, CENTER, SPEED_TIME, PAUSE_TIME, PRINT, NO_EFFECT);
   P.displayZoneText(0, szMesg, CENTER, SPEED_TIME, 0, SCROLL_LEFT, SCROLL_LEFT);
   
-#if USE_DHT11
   P.addChar('$', degC);
   P.addChar('&', degF);
-#endif
 
 #if USE_DS1307
   RTC.Control(DS1307_CLOCK_HALT, DS1307_OFF);
@@ -143,82 +150,85 @@ void setup(void)
 
 void loop(void)
 {
-	static uint32_t	lastTime = 0;		// millis() memory
-	static uint8_t	display = 0;		// current display mode
-	static bool		flasher = false;	// seconds passing flasher
+  static uint32_t	lastTime = 0;		// millis() memory
+  static uint8_t	display = 0;		// current display mode
+  static bool	flasher = false;	// seconds passing flasher
   
-	P.displayAnimate();
+  P.displayAnimate();
   
-	if (P.getZoneStatus(0))
-	{
-		switch (display)
-		{
-		case 0:	// Temperature deg C
-			display++;
+  if (P.getZoneStatus(0))
+  {
+    switch (display)
+    {
+      case 0:	// Temperature deg C
+        P.setTextEffect(0, SCROLL_LEFT, SCROLL_UP_LEFT);
+        display++;
 #if USE_DHT11
-			if (DHT11.read(DHT11_PIN) == 0)
-			{
-				dtostrf(DHT11.temperature, 3, 1, szMesg);
-				strcat(szMesg, "$"); 
-			}
+        if (DHT11.read(DHT11_PIN) == 0)
+        {
+          dtostrf(DHT11.temperature, 3, 1, szMesg);
+          strcat(szMesg, "$"); 
+        }
 #else
-			strcpy(szMesg, "22.0$");
+        strcpy(szMesg, "22.0$");
 #endif
-			break;
+        break;
 			
-		case 1:	// Temperature deg F
-			display++;
+      case 1:	// Temperature deg F
+        P.setTextEffect(0, SCROLL_UP_LEFT, SCROLL_LEFT);
+        display++;
 #if USE_DHT11
-			if (DHT11.read(DHT11_PIN) == 0)
-			{
-				dtostrf((1.8 * DHT11.temperature)+32, 3, 1, szMesg);
-				strcat(szMesg, "&"); 
-			}
+        if (DHT11.read(DHT11_PIN) == 0)
+        {
+          dtostrf((1.8 * DHT11.temperature)+32, 3, 1, szMesg);
+          strcat(szMesg, "&"); 
+        }
 #else
-			strcpy(szMesg, "71.6&");
+        strcpy(szMesg, "71.6&");
 #endif
-			break;
+        break;
 
-		case 2:	// Relative Humidity
-			display++;
+      case 2:	// Relative Humidity
+        P.setTextEffect(0, SCROLL_LEFT, SCROLL_LEFT);
+        display++;
 #if	USE_DHT11
-			if (DHT11.read(DHT11_PIN) == 0)
-			{
-				dtostrf(DHT11.humidity, 3, 0, szMesg);
-				strcat(szMesg, "% RH"); 
-			}
+        if (DHT11.read(DHT11_PIN) == 0)
+        {
+          dtostrf(DHT11.humidity, 3, 0, szMesg);
+          strcat(szMesg, "% RH"); 
+        }
 #else
-			strcpy("36 % RH");
+        strcpy(szMesg, "36 % RH");
 #endif
-			break;
+        break;
 
-		case 3:	// day of week
-			display++;
+      case 3:	// day of week
+        P.setTextEffect(0, SCROLL_LEFT, SCROLL_LEFT);
+        display++;
 #if	USE_DS1307
-			//sprintf(szMesg, "%02d", RTC.dow);
-			strcpy(szMesg, dow2str(RTC.dow));			
+        dow2str(RTC.dow, szMesg, MAX_MESG);			
 #else
-			strcpy(szMesg, dow2str(4));
+        dow2str(4, szMesg, MAX_MESG);
 #endif
-			break;
+        break;
 
-		default:	// Calendar
-			display = 0;
-			getDate(szMesg);
-			break;
-		}
+      default:	// Calendar
+        P.setTextEffect(0, SCROLL_LEFT, SCROLL_LEFT);
+        display = 0;
+        getDate(szMesg);
+        break;
+    }
 		
-		P.displayReset(0); 
-	}
+    P.displayReset(0); 
+  }
   
   // Finally, adjust the time string if we have to
   if (millis() - lastTime >= 1000)
   {
-	  lastTime = millis();
-	  getTime(szTime, flasher);
-	  flasher = !flasher;
+    lastTime = millis();
+    getTime(szTime, flasher);
+    flasher = !flasher;
 	  
-	  P.displayReset(1);
+    P.displayReset(1);
   }
 }
-

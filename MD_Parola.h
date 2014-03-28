@@ -12,7 +12,8 @@ of text special effects on the Parola display.
 - Left, right or center text justification in the display field.
 - Text scrolling, text entering and exit effects.
 - Control display parameters and animation speed.
-- Multiple virtual displays (zones) in each string of LED modules
+- Multiple virtual displays (zones) in each string of LED modules.
+- User defined fonts and/or individual characters substitutions
 
 The latest copy of the Parola Software and hardware files can be found 
 at the [Parola website] (http://parola.codeplex.com).
@@ -23,7 +24,7 @@ System Components
 -----------------
 - Hardware - documentation for supported hardware is now found in the MD_MAX72xx library documentation.
 - \subpage pageSoftware
-- \subpage pageZones
+- \subpage pageNewV2
 
 Revision History 
 ----------------
@@ -65,7 +66,59 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-\page pageSoftware Parola Software
+\page pageNewV2 New in Version 2
+Animations
+----------
+An additional set of text animations
++ SCAN_HORIZ, SCAN_VERT
++ GROW_UP, GROW_DOWN
++ SCROLL_UP_LEFT, SCROLL_UP_RIGHT
++ SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
+
+Display Zones
+-------------
+A zone is a contiguous sequence of one or more display modules (LED matrices) and has all the attributes
+of the original displays - animation, speed, font, spacing, etc. This allows complex displays to be 
+created. For example, one part can show relatively static text while a different one has animation 
+and movement.
+
+From version 2.0 of the library, a matrix display can be treated as a single contiguous set of modules 
+or it can be split into multiple 'virtual' displays (zones). Prior to version 2.0 of the library, 
+each display was effectively a single zone.
+
+For backward compatibility, all the previous methods remain. If the new library is compiled with older 
+user source code, the library defaults to using a single zone for the whole display. New zone-aware 
+functions have an added parameter to specify the zone to which the method invocation applies. Methods 
+invoked without specifying a zone (such as set*()) usually have their effect applied to all zones. This
+detailed in the class documentation.
+
+Fonts
+-----
+The standard MD_MAX72xx library font can be substituted with a user font definition conforming 
+to the font encoding rules in the MD_MAX72XX documentation. New fonts can be designed with the 
+the MD_MAX72xx font builder.
+
+Each zone can have its own substituted font. The default font can be reselected for the zone by 
+specifying a NULL font table pointer.
+
+User Characters
+---------------
+Individual characters can be substituted for user character definitions. These can be added and 
+deleted to individual zones as required.
+
+The character data is the same format as a single character from the font definition file, 
+and is held in a local lookup table that is parsed before loading the defined font character. 
+If a character is specified with a code the same as an existing character, the existing data
+will be substituted for the new data. 
+
+ASCII 0 character ('\0') cannot be substituted as this denotes the end of string character 
+for C++ and cannot be used in an actual string.
+
+The library only retains a pointer to the user data definition, so the data must remain in scope. 
+Also, any changes to the data storage in the calling program will be reflected by the library the 
+next time the character is used.
+
+\page pageSoftware Parola Library
 The Parola Library
 ------------------
 The Parola library is implemented using the MD_MAX72xx library for hardware 
@@ -76,6 +129,7 @@ of text special effects on the LED matrix.
 - Control display parameters and animation speed
 - Support for hardware SPI interface
 - Multiple virtual displays (zones) in each string of LED modules
+- User defined fonts and/or individual characters substitutions
 
 ### External Dependencies
 - Parola uses the MD_MAX72xx library for hardware level control primitives. 
@@ -136,24 +190,6 @@ increase is not appreciable with up to 12 modules. For the arbitrary pin outs, u
 shiftout(), a 6 module chain updates in approximately 14ms on an Uno, while a 12 module display 
 takes around 25ms. Most of the time taken is to physically update the display, as animating frames 
 takes about 1-2ms to update in the MD_MAX72XX display buffers.
-
-\page pageZones Zoning a Display
-Display Zones
--------------
-A zone is a contiguous sequence of one or more display modules (LED matrices) and has all the attributes
-of the original displays - animation, speed, font, spacing, etc. This allows complex displays to be 
-created. For example, one part can show relatively static text while a different one has animation 
-and movement.
-
-From version 2.0 of the library, a matrix display can be treated as a single contiguous set of modules 
-or it can be split into multiple 'virtual' displays (zones). Prior to version 2.0 of the library, 
-each display was effectively a single zone.
-
-For backward compatibility, all the previous methods remain. If the new library is compiled with older 
-user source code, the library defaults to using a single zone for the whole display. New zone-aware 
-functions have an added parameter to specify the zone to which the method invocation applies. Methods 
-invoked without specifying a zone (such as set*()) usually have their effect applied to all zones. This
-detailed in the class documentation.
 */
 #ifndef _MD_PAROLA_H
 #define _MD_PAROLA_H
@@ -455,8 +491,8 @@ public:
    * Add a replacement characters to the user defined list. The character data must be 
    * the same as for a single character in the font definition file. If a character is 
    * specified with a code the same as an existing character the existing data will be 
-   * data will be substituted for the new data. A character code of 0 is illegal as this 
-   * denotes the end of string character for C++ and cannot be used in an actual string.
+   * substituted for the new data. A character code of 0 is illegal as this denotes the 
+   * end of string character for C++ and cannot be used in an actual string.
    * The library does not copy the in the data in the data definition but only retains 
    * a pointer to the data, so any changes to the data storage in the calling program will
    * be reflected in the library.
@@ -639,7 +675,7 @@ public:
    * Initialise the object data. This needs to be called during setup() to initialise new 
    * data for the class that cannot be done during the object creation. This form of the
    * method allows specifying the maximum number of zones. The limits for these need to be 
-   * initialized separately.
+   * initialized separately using setZone().
    *
    * \param numZones	maximum number of zones [0..numZones]
    */
@@ -734,7 +770,7 @@ public:
 	inline void displaySuspend(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
 
   /**
-   * Define a zone.
+   * Define the module limits for a zone.
    *
    * When multiple zones are defined, the library needs to know the contiguous module
    * ranges that make up the different zones. If the library has been started with only 
@@ -1102,9 +1138,9 @@ public:
    * substituted for the new data. A character code of 0 ('\0') is illegal as this 
    * denotes the end of string character for C++ and cannot be used in an actual string.
    * 
-   * The library does not copy the in the data in the data definition but only retains 
-   * a pointer to the data, so any changes to the data storage in the calling program will
-   * be reflected in the library.
+   * The library does not copy the data definition but only retains a pointer to the data,
+   * so any changes to the data storage in the calling program will be reflected into the 
+   * library. The data must also remain in scope while it is being used.
    * 
    * \param code	ASCII code for the character data.
    * \param data	pointer to the character data.

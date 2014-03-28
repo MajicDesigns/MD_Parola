@@ -81,7 +81,7 @@ void loop(void)
   if (P.displayAnimate()) 
   {
     P.setTextBuffer(M[n].msg);
-	P.setCharSpacing(M[n].spacing);
+    P.setCharSpacing(M[n].spacing);
     P.displayReset();
     n = (n + 1) % MAX_STRINGS;
   }
