@@ -1,4 +1,4 @@
-﻿// Program to exercise the MD_Parola library
+// Program to exercise the MD_Parola library
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>

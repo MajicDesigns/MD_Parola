@@ -41,12 +41,6 @@ _D(csPin, numDevices), _numModules(numDevices)
 void MD_Parola::begin(uint8_t numZones)
 {
 	_D.begin();
-	// Set up the MAX72XX library
-	// The MAX72XX is in power-saving mode on startup,
-	// we have to do a wakeup call, set the brightness, enable updates and clear the display
-	_D.control(MD_MAX72XX::INTENSITY, MAX_INTENSITY/2);
-	_D.control(MD_MAX72XX::SHUTDOWN, MD_MAX72XX::OFF);
-	_D.control(MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 	
 	// Create the zone objects
 	_numZones = numZones;
