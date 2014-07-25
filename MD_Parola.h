@@ -269,7 +269,7 @@ public:
   /** 
    * Initialize the object.
    *
-   * Initialise the object data. This will becalled from the MD_Parola begin() to initialise 
+   * Initialize the object data. This will be called to initialize 
    * new data for the class that cannot be done during the object creation.
    *
    * \param p	pointer to the parent object for this zone.

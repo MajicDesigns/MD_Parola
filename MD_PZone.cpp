@@ -373,6 +373,10 @@ uint8_t MD_PZone::getNextChar(void)
 
 bool MD_PZone::zoneAnimate(void)
 {
+#if TIME_PROFILING
+  static uint32_t  cycleStartTime;
+#endif
+
 	if (_fsmState == END)
 		return(true);
 
@@ -397,13 +401,16 @@ bool MD_PZone::zoneAnimate(void)
 
 			case INITIALISE:
 				PRINT_STATE("ANIMATE");
-
+#if TIME_PROFILING
+        cycleStartTime = millis();
+#endif
 				setInitialConditions();
 				zoneClear();
 				_moveIn = true;
 			// fall through to process the effect, first call will be with INITIALISE
 
 			default: // All state except END are handled by the special effect functions
+				PRINT_STATE("ANIMATE");
 			switch (_moveIn ? _effectIn : _effectOut)
 			{
 				case PRINT:				effectPrint(_moveIn);			break;
@@ -438,8 +445,15 @@ bool MD_PZone::zoneAnimate(void)
 		}
 	}
 
-	TIME_PROFILE("\nAnimation time ");
-	TIME_PROFILE(": Cycle time ");
+#if  TIME_PROFILING
+  Serial.print("\nAnim time: ");
+  Serial.print(millis()-_lastRunTime);
+  if (_fsmState == END)
+  {
+    Serial.print("\nCycle time: ");
+    Serial.print(millis()-cycleStartTime);
+  }    
+#endif
 
 	return(_fsmState == END);
 }
