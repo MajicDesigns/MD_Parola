@@ -8,7 +8,7 @@
 
 #define DEBUG_PAROLA		0		///< Set to 1 to enable General debug output
 #define	DEBUG_PAROLA_FSM	0		///< Set to 1 to enable Finite State Machine debug output
-#define	TIME_PROFILING		1		///< Set to 1 to enable Time Profile debug output
+#define	TIME_PROFILING		0	///< Set to 1 to enable Time Profile debug output
 
 #if  DEBUG_PAROLA
 #define	PRINT(s, v)		{ Serial.print(F(s)); Serial.print(v); }		///< (GENERAL) Print a string followed by a value (decimal)

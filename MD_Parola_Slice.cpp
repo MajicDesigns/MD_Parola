@@ -113,7 +113,7 @@ void MD_PZone::effectSlice(bool bIn)
 			while(_MX->getColumn(_nextPos) == EMPTY_BAR && _endPos >= _limitRight)
 				_nextPos = _endPos--;	// pretend we just animated it!
 
-			if (_endPos <= _limitRight)
+			if (_endPos < _limitRight)
 				_fsmState = END;	//reached the end
 			else
 			{

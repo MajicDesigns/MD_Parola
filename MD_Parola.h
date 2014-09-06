@@ -28,6 +28,9 @@ System Components
 
 Revision History 
 ----------------
+xxxx 2014 - version 2.1
+- Fixed small animation problems with SLICE and SCAN_VERT
+
 March 2014 - version 2.0
 - Mods to accommodate revised font handling in MD_MAX72xx library
  + Users can now provide a user defined font PROGMEM data table
@@ -561,33 +564,33 @@ private:
 	uint16_t	_pauseTime;		// time to pause the animation between 'in' and 'out'
 
 	// Display control data and methods
-	fsmState_t	_fsmState;			// fsm state for all FSMs used to display text
-	uint16_t	_textLen;			// length of current text in columns
+	fsmState_t	_fsmState;		// fsm state for all FSMs used to display text
+	uint16_t	_textLen;			  // length of current text in columns
 	int16_t		_limitLeft;			// leftmost limit for the current display effect
 	int16_t		_limitRight;		// rightmost limit for the current display effect
 	bool		_limitOverflow;		// true if the text will overflow the display
 	textPosition_t	_textAlignment;	// current text alignment
-	textEffect_t	_effectIn;		// the effect for text entering the display
-	textEffect_t	_effectOut;		// the effect for text exiting the display
-	bool		_moveIn;			// animation is moving IN when true, OUT when false
-	bool		_inverted;			// true if the display needs to be inverted
+	textEffect_t	_effectIn;	// the effect for text entering the display
+	textEffect_t	_effectOut;	// the effect for text exiting the display
+	bool		_moveIn;			    // animation is moving IN when true, OUT when false
+	bool		_inverted;			  // true if the display needs to be inverted
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
-	bool		calcTextLimits(char *p);	// calculate the right and left limits for the text
+	bool		calcTextLimits(char *p);	  // calculate the right and left limits for the text
 
 	// Variables used in the scrolling routines
-	uint8_t		_zoneStart;			// First zone module number
+	uint8_t		_zoneStart;		// First zone module number
 	uint8_t		_zoneEnd;			// Last zone module number
 	int16_t		_nextPos;			// Next position for animation. Can be used in several different ways depending on the function.
-	int8_t		_posOffset;			// Looping increment depends on the direction of the scan for animation
-	uint16_t	_startPos;			// Start position for the text LED
-	uint16_t	_endPos;			// End limit for the text LED
+	int8_t		_posOffset;		// Looping increment depends on the direction of the scan for animation
+	uint16_t	_startPos;		// Start position for the text LED
+	int16_t	  _endPos;			// End limit for the text LED.
 
 	void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM
 
 	// Character buffer handling data and methods
-	char		*_pText;			// pointer to text buffer from user call
+	char		*_pText;			  // pointer to text buffer from user call
 	char		*_pCurChar;			// the current character being processed in the text
 	bool		_endOfText;			// true when the end of the text string has been reached.
 	void		moveTextPointer(void);	// move the text pointer depending on direction of buffer scan
