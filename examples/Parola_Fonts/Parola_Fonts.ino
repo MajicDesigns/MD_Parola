@@ -37,7 +37,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Global variables
 typedef struct 
 {
-	uint8_t PROGMEM * pFont;
+	MD_MAX72XX::fontType_t *pFont;
 	textEffect_t      effect;
 	char *            pMsg;
 } Message_t;

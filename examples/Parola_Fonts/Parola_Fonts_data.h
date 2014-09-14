@@ -2,7 +2,7 @@
 #ifndef FONTS_DATA_H
 #define FONTS_DATA_H
 
-uint8_t fontGreek[] PROGMEM = 
+MD_MAX72XX::fontType_t fontGreek[] = 
 {
 	0,		// 0
 	0,		// 1
@@ -262,8 +262,7 @@ uint8_t fontGreek[] PROGMEM =
 	0,		// 255
 };
 
-
-uint8_t fontArabic[] PROGMEM = // modern arabic
+MD_MAX72XX::fontType_t fontArabic[] = // modern arabic
 {
 	0,		// 0
 	0,		// 1
@@ -523,7 +522,7 @@ uint8_t fontArabic[] PROGMEM = // modern arabic
 	0,		// 255
 };
 
-uint8_t fontKatakana[] PROGMEM = 
+MD_MAX72XX::fontType_t fontKatakana[] = 
 {
 	0,		// 0
 	0,		// 1

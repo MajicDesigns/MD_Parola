@@ -30,6 +30,7 @@ Revision History
 ----------------
 xxxx 2014 - version 2.1
 - Fixed small animation problems with SLICE and SCAN_VERT
+- Fixed PROGMEM error compiling with IDE version 1.5.7
 
 March 2014 - version 2.0
 - Mods to accommodate revised font handling in MD_MAX72xx library
@@ -526,7 +527,7 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-	inline void setZoneFont(MD_MAX72XX::fontType_t fontDef) { _fontDef = fontDef; };
+	inline void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; };
 
   /** @} */
 		
@@ -604,7 +605,7 @@ private:
 	uint8_t		_charSpacing;		// spacing in columns between characters
 	uint8_t		_charCols;			// number of columns for this character
 	int16_t		_countCols;			// count of number of columns already shown
-	MD_MAX72XX::fontType_t _fontDef;	// font for this zone
+	MD_MAX72XX::fontType_t *_fontDef;	// font for this zone
 
 	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
 	uint8_t		makeChar(char c);	// load a character bitmap and add in trailing _charSpacing blanks
@@ -1194,7 +1195,7 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-	inline void setFont(MD_MAX72XX::fontType_t fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); };
+	inline void setFont(MD_MAX72XX::fontType_t *fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); };
 
   /** 
    * Set the display font for a specific zone.
@@ -1207,7 +1208,7 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-	inline void setFont(uint8_t z, MD_MAX72XX::fontType_t fontDef) { if (z < _numZones) _Z[z].setZoneFont(fontDef); };
+	inline void setFont(uint8_t z, MD_MAX72XX::fontType_t *fontDef) { if (z < _numZones) _Z[z].setZoneFont(fontDef); };
 
   /** @} */
 
