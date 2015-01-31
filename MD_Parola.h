@@ -28,7 +28,7 @@ System Components
 
 Revision History 
 ----------------
-xxxx 2014 - version 2.1
+February 2015 - version 2.1
 - Fixed small animation problems with SLICE and SCAN_VERT
 - Fixed PROGMEM error compiling with IDE version 1.5.7
 

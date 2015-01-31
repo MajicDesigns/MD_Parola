@@ -45,7 +45,7 @@ dht11	DHT11;
 
 // Hardware SPI connection
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
-// Generic output pins
+// Arbitrary output pins
 // MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define	SPEED_TIME	75
@@ -64,6 +64,7 @@ uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 };	// Deg C
 uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 };	// Deg F
 
 char *mon2str(uint8_t mon, char *psz, uint8_t len)
+
 // Get a label from PROGMEM into a char array
 {
   static const __FlashStringHelper*	str[] = 
@@ -73,7 +74,7 @@ char *mon2str(uint8_t mon, char *psz, uint8_t len)
     F("Sep"), F("Oct"), F("Nov"), F("Dec")
   };
 
-  strncpy_P(psz, (const prog_char *)str[mon-1], len);
+  strncpy_P(psz, (const char PROGMEM *)str[mon-1], len);
   psz[len] = '\0';
 
   return(psz);
@@ -88,7 +89,7 @@ char *dow2str(uint8_t code, char *psz, uint8_t len)
     F("Saturday")
   };
   
-  strncpy_P(psz, (const prog_char *)str[code-1], len);
+  strncpy_P(psz, (const char PROGMEM *)str[code-1], len);
   psz[len] = '\0';
 
   return(psz);

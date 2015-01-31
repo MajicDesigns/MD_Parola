@@ -25,7 +25,7 @@
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
-// GENERIC SPI
+// SOFTWARE SPI
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Turn on debug statements to the serial output
