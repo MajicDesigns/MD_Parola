@@ -28,6 +28,9 @@ System Components
 
 Revision History 
 ----------------
+xxx 2015 - version 2.2
+- Added Scrolling_ML example
+
 February 2015 - version 2.1
 - Fixed small animation problems with SLICE and SCAN_VERT
 - Fixed PROGMEM error compiling with IDE version 1.5.7

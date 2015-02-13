@@ -11,10 +11,10 @@
 //
 
 // Use the DHT11 temp and humidity sensor
-#define	USE_DHT11	1
+#define	USE_DHT11	0
 
 // Use the DS1307 clock module
-#define	USE_DS1307	1
+#define	USE_DS1307	0
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 

@@ -130,7 +130,6 @@ void readSerial(void)
 void setup()
 {
   Serial.begin(57600);
-  PRINTS("[Parola Test]");
 
 #if USE_UI_CONTROL
   uiDirection.begin();
