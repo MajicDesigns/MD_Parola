@@ -30,6 +30,7 @@ Revision History
 ----------------
 xxx 2015 - version 2.2
 - Added Scrolling_ML example
+- Added Zone_Mesg example
 
 February 2015 - version 2.1
 - Fixed small animation problems with SLICE and SCAN_VERT
@@ -57,7 +58,7 @@ June 2013 - version 1.0
 
 Copyright
 ---------
-Copyright (C) 2013 Marco Colli. All rights reserved.
+Copyright (C) 2013-2015 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -728,7 +729,7 @@ public:
    * value means that the zone has completed its animation cycle.
    *
    * \param z		specified zone
-   * \return bool	true if at least one zone animation has completed, false otherwise.
+   * \return bool	true if the zone animation has completed, false otherwise.
    */
 	inline bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); };
 
@@ -820,7 +821,7 @@ public:
    *
    * This method is a convenient way to set up a static text display. All the data
    * necessary for setup is passed through as parameters and the display animation
-   * is started. Assumes one zone only.
+   * is started. Assumes one zone only (zone 0).
    *
    * \param pText	parameter suitable for the setTextBuffer() method.
    * \param align	parameter suitable for the the setTextAlignment() method.
