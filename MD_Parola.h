@@ -31,6 +31,7 @@ Revision History
 xxx 2015 - version 2.2
 - Added Scrolling_ML example
 - Added Zone_Mesg example
+- Overloaded displayClear() for single zone clear
 
 February 2015 - version 2.1
 - Fixed small animation problems with SLICE and SCAN_VERT
@@ -736,11 +737,21 @@ public:
   /** 
    * Clear the display.
    *
-   * Clear all the from all the zones in the current display.
+   * Clear all the zones in the current display.
    * 
    * \return No return value.
    */
 	inline void displayClear(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneClear(); };
+
+  /** 
+   * Clear one zone in the display.
+   *
+   * Clear the specified zone in the current display.
+   * 
+   * \param z		specified zone
+   * \return No return value.
+   */
+	inline void displayClear(uint8_t z) { if (z < _numZones) _Z[z].zoneClear(); };
 
   /**
    * Reset the current animation to restart for all zones.
