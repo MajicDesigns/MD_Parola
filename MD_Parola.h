@@ -32,6 +32,7 @@ xxx 2015 - version 2.2
 - Added Scrolling_ML example
 - Added Zone_Mesg example
 - Overloaded displayClear() for single zone clear
+- Fixed bug in SLICE effect when text was too long for display
 
 February 2015 - version 2.1
 - Fixed small animation problems with SLICE and SCAN_VERT

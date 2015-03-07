@@ -67,6 +67,13 @@ void MD_PZone::effectSlice(bool bIn)
 			FSMPRINT(" - Next ", _endPos);
 			FSMPRINT(", anim ", _nextPos);
 
+      // if the text is too long for the zone, stop when we have are at the last column of the zone
+      if (_nextPos == _endPos)
+      {
+        _fsmState = PAUSE;
+        break;
+      }
+
 			if (_cBuf[_countCols] == 0)
 			{
 				_nextPos = _endPos;	// pretend we just animated it!
