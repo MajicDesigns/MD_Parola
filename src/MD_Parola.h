@@ -28,7 +28,7 @@ System Components
 
 Revision History 
 ----------------
-xxx 2015 - version 2.2
+April 2015 - version 2.2
 - Added Scrolling_ML example
 - Added Zone_Mesg example
 - Overloaded displayClear() for single zone clear
