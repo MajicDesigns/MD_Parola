@@ -90,7 +90,7 @@ void doUI(void)
     }
   }
 
-  if (uiDirection.read())	// SCROLL DIRECTION
+  if (uiDirection.read() == MD_KeySwitch::KS_PRESS)	// SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
     scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
@@ -98,7 +98,7 @@ void doUI(void)
     P.displayReset();
   }
 
-  if (uiInvert.read())	// INVERT MODE
+  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)	// INVERT MODE
   {
     PRINTS("\nChanging invert mode");
     P.setInvert(!P.getInvert());

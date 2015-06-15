@@ -84,7 +84,7 @@ void doUI(void)
   }
 
   // now process the digital inputs
-  if (uiJustify.read())	// TEXT ALIGNMENT
+  if (uiJustify.read() == MD_KeySwitch::KS_PRESS)	// TEXT ALIGNMENT
   {
     static uint8_t	curMode = 0;
     textPosition_t	align = P.getTextAlignment();
@@ -101,7 +101,7 @@ void doUI(void)
     curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
   }
 
-  if (uiEffect.read())	// EFFECT CHANGE
+  if (uiEffect.read() == MD_KeySwitch::KS_PRESS)	// EFFECT CHANGE
   {
     static uint8_t  curFX = 0;
 
@@ -137,7 +137,7 @@ void doUI(void)
     curFX = (curFX + 1) % ARRAY_SIZE(effect);
   }
 
-  if (uiPause.read())	// PAUSE DELAY
+  if (uiPause.read() == MD_KeySwitch::KS_PRESS)	// PAUSE DELAY
   {
     DEBUGS("\nChanging pause");
     if (P.getPause() <= P.getSpeed())
@@ -146,7 +146,7 @@ void doUI(void)
       P.setPause(0);
   }
 
-  if (uiIntensity.read())	// INTENSITY
+  if (uiIntensity.read() == MD_KeySwitch::KS_PRESS)	// INTENSITY
   {
     static uint8_t	intensity = 7;
 
@@ -155,7 +155,7 @@ void doUI(void)
     DEBUG("\nChanged intensity to ", intensity);
   }
 
-  if (uiInverse.read())		// INVERSE
+  if (uiInverse.read() == MD_KeySwitch::KS_PRESS)		// INVERSE
   {
     P.setInvert(!P.getInvert());
   }
