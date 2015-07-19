@@ -30,6 +30,8 @@ Revision History
 ----------------
 xxx 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
+- Added set/getZoneEffect with FLIP_LR and FLIP_UD, with associated Zone_Mirror example
+- Fixed minor bugs and documentation
 
 April 2015 - version 2.2
 - Added Scrolling_ML example
@@ -234,7 +236,7 @@ enum textPosition_t
 };
 
 /**
-* Special effect enumerated type specification.
+* Text effects enumerated type specification.
 *
 * Used to define the effects to be used for the entry and exit of text in the display area.
 */
@@ -263,6 +265,22 @@ enum textEffect_t
 	SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
 	GROW_UP,		///< Text grows from the bottom up and shrinks from the top down 
 	GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
+};
+
+/**
+* Zone effect enumerated type specification.
+*
+* Used to define the effects to be used for text in the zone.
+* 
+* The FLIP_UD and FLIP_LR effects are specifically designed to allow rectangular shaped display 
+* modules (like Parola or Generic types) to be placed in an inverted position to allow all matrices
+* to be tightly packed into a 2 line display. One of the lines must be flipped horizontally and vertically
+* to remain legible in this configuration.
+*/
+enum zoneEffect_t
+{
+	FLIP_UD,	///< Flip the zone Up to Down (effectively upside down). Works with all textEffect_t values
+	FLIP_LR,	///< Flip the zone Left to Right (effectively mirrored). Does not work with textEffect_t types SLICE, SCROLL_LEFT, SCROLL_RIGHT
 };
 
 /**
@@ -417,6 +435,17 @@ public:
 	inline textPosition_t getTextAlignment(void) { return _textAlignment; };
 
   /** 
+   * Get the value of specified display effect.
+   *
+   * The display effect is one of the zoneEffect_t types. The returned value will be 
+   * true if the attribute is set, false if the attribute is not set.
+   * 
+   * \param ze	the required text alignment.
+   * \return true if the value is set, false otherwise.
+   */
+  boolean getZoneEffect(zoneEffect_t ze);
+
+  /** 
    * Set the zone inter-character spacing in columns.
    * 
    * Set the number of blank columns between characters when they are displayed.
@@ -514,6 +543,19 @@ public:
    */
 	inline void setTextEffect(textEffect_t effectIn, textEffect_t effectOut) { _effectIn = effectIn, _effectOut = effectOut; };
 
+  /** 
+   * Set the zone display effect.
+   *
+   * The display effect is one of the zoneEffect_t types, and this will be set (true) or 
+   * reset (false) depending on the boolean value. The resulting zone display will be
+   * modified as per the required effect.
+   * 
+   * \param b set the value if true, reset the value if false
+   * \param ze	the required text alignment.
+   * \return No return value.
+   */
+  void setZoneEffect(boolean b, zoneEffect_t ze);
+
   /** @} */
   //--------------------------------------------------------------
   /** \name Support methods for fonts and characters.
@@ -607,6 +649,7 @@ private:
 	bool		_moveIn;			    // animation is moving IN when true, OUT when false
 	bool		_inverted;			  // true if the display needs to be inverted
   uint16_t  _scrollDistance;  // the space in columns between the end of one message and the start of the next
+  uint8_t _zoneEffect;      // bit mapped zone effects
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
@@ -641,7 +684,8 @@ private:
 
 	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
 	uint8_t		makeChar(char c);	// load a character bitmap and add in trailing _charSpacing blanks
-	uint8_t		reverseBuf(uint8_t *p, uint8_t size);	// reverse the elements of the buffer
+	void  		reverseBuf(uint8_t *p, uint8_t size);	// reverse the elements of the buffer
+	void  		invertBuf(uint8_t *p, uint8_t size);	// invert the elements of the buffer
 
 	// Effect functions
 	void	commonPrint(void);
@@ -994,6 +1038,19 @@ public:
    */
 	inline textPosition_t getTextAlignment(uint8_t z) { return (z < _numZones ? _Z[z].getTextAlignment() : CENTER); };
 
+  
+ /** 
+   * Get the value of specified display effect.
+   *
+   * The display effect is one of the zoneEffect_t types. The returned value will be 
+   * true if the attribute is set, false if the attribute is not set.
+   * 
+   * \param z   zone number.
+   * \param ze  the required text alignment.
+   * \return true if the value is set, false otherwise.
+   */
+  inline boolean getZoneEffect(uint8_t z, zoneEffect_t ze) { if (z < _numZones) _Z[z].getZoneEffect(ze); };
+
   /** 
    * Set the inter-character spacing in columns for all zones.
    * 
@@ -1190,8 +1247,23 @@ public:
    * \return No return value.
    */
 	inline void setTextEffect(uint8_t z, textEffect_t effectIn, textEffect_t effectOut) { if (z < _numZones) _Z[z].setTextEffect(effectIn, effectOut); };
+    
+ 
+  /** 
+   * Set the display effect for the specified zone.
+   *
+   * The display effect is one of the zoneEffect_t types, and this will be set (true) or 
+   * reset (false) depending on the boolean value. The resulting zone display will be
+   * modified as per the required effect.
+   * 
+   * \param z   zone number.
+   * \param b   set the value if true, reset the value if false
+   * \param ze  the required text alignment.
+   * \return No return value.
+   */
+  inline void setZoneEffect(uint8_t z, boolean b, zoneEffect_t ze) { if (z < _numZones) _Z[z].setZoneEffect(b, ze); };
 
-  /** @} */
+/** @} */
   //--------------------------------------------------------------
   /** \name Support methods for fonts and characters.
    * @{

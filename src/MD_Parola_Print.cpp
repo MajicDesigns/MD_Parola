@@ -32,6 +32,7 @@ void MD_PZone::commonPrint(void)
 	int16_t	nextPos;
 
 	FSMPRINTS("\ncommonPrint");
+  zoneClear();
 	nextPos = _limitLeft;
 	_charCols = getFirstChar();
 	_countCols = 0;
@@ -47,6 +48,18 @@ void MD_PZone::commonPrint(void)
 		// now put something on the display
 		_MX->setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
 	}
+
+  if (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
+  {
+    uint16_t i, j;
+    
+    for (i=_limitRight, j=_limitLeft; i<j; i++, j--)
+    {
+      uint8_t c = _MX->getColumn(i);
+      _MX->setColumn(i, _MX->getColumn(j));
+      _MX->setColumn(j, c);      
+    }
+  }  
 }
 
 void MD_PZone::effectPrint(bool bIn)

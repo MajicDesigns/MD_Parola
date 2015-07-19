@@ -41,4 +41,12 @@
 #define	ZONE_START_COL(m)	(m*COL_SIZE)		///< The first column of the first zone module
 #define	ZONE_END_COL(m)		(((m+1)*COL_SIZE)-1)///< The last column of the last zone module
 
+// Zone effects masks
+#define ZE_SET(b, mask)   ((b & ~mask) | mask)  ///< clear the bit then put it back in
+#define ZE_RESET(b, mask) (b & ~mask)           ///< clear the bit
+#define ZE_TEST(b, mask)  ((b & mask) != 0)     ///< mask off the bit
+
+#define ZE_FLIP_UD_MASK 0x01  ///< mask bit 0
+#define ZE_FLIP_LR_MASK 0x02  ///< mask bit 1
+
 #endif

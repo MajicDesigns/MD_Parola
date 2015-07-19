@@ -133,7 +133,7 @@ void setup()
   newMessage[0] = '\0';
 
   Serial.begin(57600);
-  Serial.print("\n[Parola Scrolling Display]\nType a message for the scrolling display\nEnd message line with a newline");
+  Serial.print("\n[Parola Scrolling Spacing]\nType a message for the scrolling display\nEnd message line with a newline");
 }
 
 void loop() 

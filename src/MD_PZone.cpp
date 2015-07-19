@@ -27,7 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements MD_PZone class methods
  */
 
-MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL)
+MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL), 
+  _scrollDistance(0),_zoneEffect(0)
 {
 }
 
@@ -47,8 +48,28 @@ MD_PZone::~MD_PZone(void)
 void MD_PZone::begin(MD_MAX72XX *p)
 {
 	_MX = p;	
+}
 
-  setScrollSpacing(0);
+void MD_PZone::setZoneEffect(boolean b, zoneEffect_t ze)
+{
+  switch (ze)
+  {
+    case FLIP_LR: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_LR_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_LR_MASK));  break;
+    case FLIP_UD: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_UD_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_UD_MASK));  break;
+  }  
+  
+  return;
+}
+
+boolean MD_PZone::getZoneEffect(zoneEffect_t ze)
+{
+  switch (ze)
+  {
+    case FLIP_LR: return(ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK)); break;
+    case FLIP_UD: return(ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)); break;
+  }
+  
+  return(false);
 }
 
 void MD_PZone::setInitialConditions(void)
@@ -57,7 +78,7 @@ void MD_PZone::setInitialConditions(void)
 	PRINTS("\nsetInitialConditions");
 
 	if (_pText == NULL)
-	return;
+	  return;
 
 	_pCurChar = _pText;
 	_limitOverflow = !calcTextLimits(_pText);
@@ -68,8 +89,8 @@ void MD_PZone::setInitialEffectConditions(void)
 {
 	PRINTS("\nsetInitialFSMConditions");
 
-	_startPos = _nextPos = (_textAlignment == RIGHT ? _limitRight : _limitLeft);
-	_endPos = (_textAlignment == RIGHT ? _limitLeft+1 : _limitRight);
+	_startPos = _nextPos = (_textAlignment == RIGHT ? _limitRight: _limitLeft);
+	_endPos = (_textAlignment == RIGHT ? _limitLeft+_charSpacing : _limitRight-_charSpacing);
 	_posOffset = (_textAlignment == RIGHT ? 1 : -1);
 }
 
@@ -85,7 +106,7 @@ uint16_t MD_PZone::getTextWidth(char *p)
 	{
 		sum += findChar(*p++, ARRAY_SIZE(_cBuf), _cBuf);
 		if (*p)
-		sum += _charSpacing;
+		  sum += _charSpacing;
 	}
 
 	PRINT(": W=", sum);
@@ -281,7 +302,7 @@ uint8_t MD_PZone::makeChar(char c)
 	return(len);
 }
 
-uint8_t MD_PZone::reverseBuf(uint8_t *p, uint8_t size)
+void MD_PZone::reverseBuf(uint8_t *p, uint8_t size)
 // reverse the elements of the specified buffer
 // useful when we are scrolling right and want to insert the columns in reverse order
 {
@@ -293,6 +314,22 @@ uint8_t MD_PZone::reverseBuf(uint8_t *p, uint8_t size)
 		p[i] = p[size-1-i];
 		p[size-1-i] = t;
 	}
+}
+
+void MD_PZone::invertBuf(uint8_t *p, uint8_t size)
+// invert the elements of the specified buffer
+// used when the character needs to be inverted when ZE_FLIP_UD
+{
+  for (uint8_t i=0; i<size; i++)
+  {
+    uint8_t	v = p[i];
+
+    v = ((v >> 1) & 0x55) | ((v & 0x55) << 1);  // swap odd and even bits
+    v = ((v >> 2) & 0x33) | ((v & 0x33) << 2);  // swap consecutive pairs
+    v = ((v >> 4) & 0x0F) | ((v & 0x0F) << 4);  // swap nibbles ...
+    
+    p[i] = v;
+  }
 }
 
 #define	SFX(s)	((_moveIn && _effectIn == (s)) || (!_moveIn && _effectOut == (s)))	///< Effect is selected if it is the effect for the current motion
@@ -346,6 +383,9 @@ uint8_t MD_PZone::getFirstChar(void)
 
 	if (SFX(SCROLL_RIGHT))
 		reverseBuf(_cBuf, len);
+    
+  if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
+    invertBuf(_cBuf, len);
 	
 	moveTextPointer();
 
@@ -366,7 +406,10 @@ uint8_t MD_PZone::getNextChar(void)
 	len = makeChar(*_pCurChar);
 
 	if (SFX(SCROLL_RIGHT))
-	reverseBuf(_cBuf, len);
+	  reverseBuf(_cBuf, len);
+
+  if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
+    invertBuf(_cBuf, len);
 
 	moveTextPointer();
 
@@ -407,7 +450,7 @@ bool MD_PZone::zoneAnimate(void)
         cycleStartTime = millis();
 #endif
 				setInitialConditions();
-        // MC 2015-07-19 - Clear() was removed when Scroll Spacing was implemented. 
+        // MC 2015-07-19 - zoneClear() below was removed when Scroll Spacing was implemented. 
         // Animations seem to work without this step. H Scroll will remain on the display, 
         // but that is the point!
 				// zoneClear();

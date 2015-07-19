@@ -62,7 +62,7 @@ void setup(void)
   
   for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
   {
-    catalog[i].pause *= P.getSpeed();
+    catalog[i].speed *= P.getSpeed();
     catalog[i].pause *= P.getPause();
   }
 }

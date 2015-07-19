@@ -51,6 +51,7 @@ void MD_PZone::effectWipe(bool bLightBar, bool bIn)
 				_fsmState = PUT_CHAR;
 
 			commonPrint();
+      
 			// blank out the part of the display we don't need
 			FSMPRINT(" - Clear ", _nextPos);
 			FSMPRINT(" to ", _endPos);
