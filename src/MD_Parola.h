@@ -28,6 +28,9 @@ System Components
 
 Revision History 
 ----------------
+xxx 2015 - version 2.3
+- Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
+
 April 2015 - version 2.2
 - Added Scrolling_ML example
 - Added Zone_Mesg example
@@ -388,6 +391,15 @@ public:
    */
 	inline uint16_t getPause(void) { return _pauseTime; };
 
+/** 
+   * Get the horizontal Scroll spcing.
+   * 
+   * See the setScrollSpacing() method
+   * 
+   * \return the space between message in columns.
+   */
+	inline uint16_t getScrollSpacing(void) { return _scrollDistance; };
+
   /** 
    * Get the zone animation speed.
    * 
@@ -445,6 +457,19 @@ public:
    * \return No return value.
    */
 	inline void setPause(uint16_t pause) { _pauseTime = pause; };
+
+  /** 
+   * Set the horizontal scrolling distance between messages.
+   * 
+   * When scrolling horizontally, the distance between the end of one message and the
+   * start of the next can be set using this method. Normal operation is for the message 
+   * to be fully off the display before the new message starts.
+   * Set to zero for default behavior.
+   *
+   * \param space	the spacing, in columns, between messages; zero for default behaviour..
+   * \return No return value.
+   */
+	inline void setScrollSpacing(uint16_t space) { _scrollDistance = space; };
 
   /** 
    * Set the zone animation frame speed.
@@ -581,6 +606,7 @@ private:
 	textEffect_t	_effectOut;	// the effect for text exiting the display
 	bool		_moveIn;			    // animation is moving IN when true, OUT when false
 	bool		_inverted;			  // true if the display needs to be inverted
+  uint16_t  _scrollDistance;  // the space in columns between the end of one message and the start of the next
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
@@ -924,6 +950,15 @@ public:
 	inline uint16_t getPause(uint8_t z) { return (z < _numZones ? _Z[z].getPause() : 0); };
 
   /** 
+   * Get the horizontal scrolling spacing.
+   * 
+   * See the setScrollSpacing() method. Assumes one zone only
+   * 
+   * \return the speed value.
+   */
+	inline uint16_t getScrollSpacing(void) { return _Z[0].getScrollSpacing(); };
+
+  /** 
    * Get the current animation speed.
    * 
    * See the setSpeed() method. Assumes one zone only
@@ -1044,6 +1079,19 @@ public:
    * \return No return value.
    */
 	inline void setPause(uint8_t z, uint16_t pause) { if (z < _numZones) _Z[z].setPause(pause); };
+
+  /** 
+   * Set the horizontal scrolling distance between messages for all the zones.
+   *
+   * When scrolling horizontally, the distance between the end of one message and the
+   * start of the next can be set using this method. Default behavior is for the message
+   * to be fully off the display before the new message starts. 
+   * Set to zero for default behavior.
+   *
+   * \param space	the spacing, in columns, between messages; zero for default behaviour..
+   * \return No return value.
+   */
+	inline void setScrollSpacing(uint16_t space) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setScrollSpacing(space); };
 
   /** 
    * Set the animation frame speed for all zones.

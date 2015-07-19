@@ -120,13 +120,29 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
 			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
 			_MX->setColumn(START_POSITION, EMPTY_BAR);
 
-			b = true;
-
-			// check if all scrolled off
-			for (uint16_t i = ZONE_START_COL(_zoneStart); (i <= ZONE_END_COL(_zoneEnd)) && b; i++)
-				b &= (_MX->getColumn(i) == EMPTY_BAR);
-
-			if (b) _fsmState = END;	// no data is being displayed
+			// check if enough scrolled off to say that new message should start
+      // how we count depends on the direction for scrolling
+      {
+        uint16_t  spaceCount = 0;
+        uint16_t  maxCount = (_zoneEnd - _zoneStart + 1) * COL_SIZE;
+        
+        if ((_scrollDistance != 0) && (maxCount > _scrollDistance)) maxCount = _scrollDistance; 
+        
+        if (bLeft)
+        {
+			    for (int16_t i = ZONE_START_COL(_zoneStart); 
+              (i <= ZONE_END_COL(_zoneEnd)) && (_MX->getColumn(i) == EMPTY_BAR); 
+               i++, spaceCount++);
+        }
+        else
+        {
+			    for (int16_t i = ZONE_END_COL(_zoneEnd);
+			        (i >= ZONE_START_COL(_zoneStart)) && (_MX->getColumn(i) == EMPTY_BAR);
+			        i--, spaceCount++);
+        }
+     
+			  if (maxCount <= spaceCount) _fsmState = END;	// enough of a space between messages, end this FSM
+      }      
 			break;
 
 		default:

@@ -51,10 +51,11 @@ void MD_Parola::begin(uint8_t numZones)
 	for (uint8_t i=0; i<_numZones; i++)
 		_Z[i].begin(&_D);
 		
-	// initialise options for all zones
+	// initialise zone-independent options
 	setSpeed(10);
 	setPause(10*getSpeed());
 	setCharSpacing(1);
+  setScrollSpacing(0);
 	setTextAlignment(LEFT);
 	setTextEffect(PRINT, NO_EFFECT);
 	setTextBuffer(NULL);

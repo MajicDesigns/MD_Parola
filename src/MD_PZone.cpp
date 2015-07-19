@@ -47,6 +47,8 @@ MD_PZone::~MD_PZone(void)
 void MD_PZone::begin(MD_MAX72XX *p)
 {
 	_MX = p;	
+
+  setScrollSpacing(0);
 }
 
 void MD_PZone::setInitialConditions(void)
@@ -405,7 +407,10 @@ bool MD_PZone::zoneAnimate(void)
         cycleStartTime = millis();
 #endif
 				setInitialConditions();
-				zoneClear();
+        // MC 2015-07-19 - Clear() was removed when Scroll Spacing was implemented. 
+        // Animations seem to work without this step. H Scroll will remain on the display, 
+        // but that is the point!
+				// zoneClear();
 				_moveIn = true;
 			// fall through to process the effect, first call will be with INITIALISE
 
