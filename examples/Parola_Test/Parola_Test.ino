@@ -5,8 +5,8 @@
 //
 // Speed for the display is controlled by a pot on SPEED_IN analog input.
 // Digital switches used for control of Justification, Effect progression, 
-// Pause between animations, LED intensity, and invert mode. UI switches 
-// are normally HIGH.
+// Pause between animations, LED intensity, Display flip, and invert mode. 
+// UI switches are normally HIGH.
 //
 // Keyswitch library can be found at http://arduinocode.codeplex.com
 //
@@ -44,6 +44,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // User interface pin and switch definitions
 #define	SPEED_IN	A5	// control the speed with an external pot
 #define	PAUSE_SET	4	// toggle pause time
+#define FLIP_SET  5 // toggle flip status
 #define JUSTIFY_SET	6	// change the justification
 #define	INTENSITY_SET	7	// change the intensity of the display
 #define	EFFECT_SET	8	// change the effect
@@ -68,6 +69,7 @@ MD_KeySwitch uiEffect(EFFECT_SET);
 MD_KeySwitch uiPause(PAUSE_SET);
 MD_KeySwitch uiIntensity(INTENSITY_SET);
 MD_KeySwitch uiInverse(INVERSE_SET);
+MD_KeySwitch uiFlip(FLIP_SET);
 
 void doUI(void)
 {
@@ -159,6 +161,12 @@ void doUI(void)
   {
     P.setInvert(!P.getInvert());
   }
+
+  if (uiFlip.read() == MD_KeySwitch::KS_PRESS)      // FLIP
+  {
+    P.setZoneEffect(0, !P.getZoneEffect(0, FLIP_LR), FLIP_LR);
+    P.setZoneEffect(0, !P.getZoneEffect(0, FLIP_UD), FLIP_UD);
+  }
 }
 
 void setup(void)
@@ -174,6 +182,7 @@ void setup(void)
   uiPause.begin();
   uiIntensity.begin();
   uiInverse.begin();
+  uiFlip.begin();
 
   // parola object
   P.begin();

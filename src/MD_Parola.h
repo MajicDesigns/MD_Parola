@@ -1049,7 +1049,7 @@ public:
    * \param ze  the required text alignment.
    * \return true if the value is set, false otherwise.
    */
-  inline boolean getZoneEffect(uint8_t z, zoneEffect_t ze) { if (z < _numZones) _Z[z].getZoneEffect(ze); };
+  inline boolean getZoneEffect(uint8_t z, zoneEffect_t ze) { if (z < _numZones) return(_Z[z].getZoneEffect(ze)); };
 
   /** 
    * Set the inter-character spacing in columns for all zones.

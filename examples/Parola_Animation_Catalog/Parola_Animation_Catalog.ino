@@ -30,28 +30,28 @@ typedef struct
 
 sCatalog  catalog[] = 
 {
-	{ PRINT,              "PRINT",  1, 1 },
-	{ SLICE,              "SLICE",  5, 1 },
-	{ WIPE,               "WIPE",  15, 1 },
-	{ WIPE_CURSOR,        "WPE_C", 20, 1 },
-	{ OPENING,            "OPEN",  20, 1 },
-	{ OPENING_CURSOR,     "OPN_C", 25, 1 },
-	{ CLOSING,            "CLOSE", 20, 1 },
-	{ CLOSING_CURSOR,     "CLS_C", 25, 1 },
-	{ BLINDS,             "BLIND", 40, 1 },
-	{ DISSOLVE,           "DSLVE", 60, 1 },
-	{ SCROLL_UP,          "SC_U",  25, 1 },
-	{ SCROLL_DOWN,        "SC_D",  25, 1 },
-	{ SCROLL_LEFT,        "SC_L",  25, 1 },
-	{ SCROLL_RIGHT,       "SC_R",  25, 1 },
-	{ SCROLL_UP_LEFT,     "SC_UL", 25, 1 },
-	{ SCROLL_UP_RIGHT,    "SC_UR", 25, 1 },
-	{ SCROLL_DOWN_LEFT,   "SC_DL", 25, 1 },
-	{ SCROLL_DOWN_RIGHT,  "SC_DR", 25, 1 },
-	{ SCAN_HORIZ,         "SCANH", 20, 1 },
-	{ SCAN_VERT,          "SCANV", 20, 1 },
-	{ GROW_UP,            "GRW_U", 30, 1 },
-	{ GROW_DOWN,          "GRW_D", 30, 1 },
+  { PRINT,              "PRINT", 1, 1 },
+  { SLICE,              "SLICE", 1, 1 },
+  { WIPE,               "WIPE",  3, 1 },
+  { WIPE_CURSOR,        "WPE_C", 4, 1 },
+  { OPENING,            "OPEN",  3, 1 },
+  { OPENING_CURSOR,     "OPN_C", 4, 1 },
+  { CLOSING,            "CLOSE", 3, 1 },
+  { CLOSING_CURSOR,     "CLS_C", 4, 1 },
+  { BLINDS,             "BLIND", 7, 1 },
+  { DISSOLVE,           "DSLVE", 7, 1 },
+  { SCROLL_UP,          "SC_U",  5, 1 },
+  { SCROLL_DOWN,        "SC_D",  5, 1 },
+  { SCROLL_LEFT,        "SC_L",  5, 1 },
+  { SCROLL_RIGHT,       "SC_R",  5, 1 },
+  { SCROLL_UP_LEFT,     "SC_UL", 7, 1 },
+  { SCROLL_UP_RIGHT,    "SC_UR", 7, 1 },
+  { SCROLL_DOWN_LEFT,   "SC_DL", 7, 1 },
+  { SCROLL_DOWN_RIGHT,  "SC_DR", 7, 1 },
+  { SCAN_HORIZ,         "SCANH", 4, 1 },
+  { SCAN_VERT,          "SCANV", 3, 1 },
+  { GROW_UP,            "GRW_U", 7, 1 },
+  { GROW_DOWN,          "GRW_D", 7, 1 },
 };
 
 
@@ -63,7 +63,7 @@ void setup(void)
   for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
   {
     catalog[i].speed *= P.getSpeed();
-    catalog[i].pause *= P.getPause();
+    catalog[i].pause *= 500;
   }
 }
 

@@ -29,6 +29,7 @@ getScrollSpacing  KEYWORD2
 getSpeed	KEYWORD2
 getStatus	KEYWORD2
 getTextAlignment	KEYWORD2
+getZoneEffect	KEYWORD2
 setCharSpacing	KEYWORD2
 setFont	KEYWORD2
 setIntensity	KEYWORD2
@@ -39,6 +40,7 @@ setSpeed	KEYWORD2
 setTextAlignment	KEYWORD2
 setTextBuffer	KEYWORD2
 setTextEffect	KEYWORD2
+setZoneEffect	KEYWORD2
 setZone	KEYWORD2
 
 ######################################
