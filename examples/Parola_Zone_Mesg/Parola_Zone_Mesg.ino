@@ -64,6 +64,7 @@ textEffect_t	effect[] =
   GROW_UP,
   SCROLL_UP_RIGHT,
   BLINDS,
+	MESH,
   CLOSING,
   GROW_DOWN,
   SCAN_VERT,

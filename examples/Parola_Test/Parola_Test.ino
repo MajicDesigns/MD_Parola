@@ -111,6 +111,7 @@ void doUI(void)
     {
       PRINT,
       SLICE,
+      MESH,
       WIPE,
       WIPE_CURSOR,
       OPENING,

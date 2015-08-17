@@ -28,9 +28,10 @@ System Components
 
 Revision History 
 ----------------
-xxx 2015 - version 2.3
+Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
 - Added set/getZoneEffect with FLIP_LR and FLIP_UD, with associated Zone_Mirror example
+- Added MESH animation
 - Fixed minor bugs and documentation
 
 April 2015 - version 2.2
@@ -243,16 +244,17 @@ enum textPosition_t
 enum textEffect_t 
 {
 	NO_EFFECT,		///< Used as a place filler, executes no operation
-	PRINT,			///< Text just appears (printed)
-	SLICE,			///< Text enters and exits a slice (column) at a time from the right
-	WIPE,			///< Text appears/disappears one column at a time, looks like it is wiped on and off
+	PRINT,	  		///< Text just appears (printed)
+	SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
+  MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
+	WIPE,			    ///< Text appears/disappears one column at a time, looks like it is wiped on and off
 	WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
-	OPENING,		///< Appear and disappear from the center of the display, towards the ends
+	OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
 	OPENING_CURSOR,	///< OPENING with light bars ahead of the change
-	CLOSING,		///< Appear and disappear from the ends of the display, towards the middle
+	CLOSING,		  ///< Appear and disappear from the ends of the display, towards the middle
 	CLOSING_CURSOR,	///< CLOSING with light bars ahead of the change
-	BLINDS,			///< Text is replaced behind vertical blinds
-	DISSOLVE,		///< Text dissolves from one display to another
+	BLINDS,			  ///< Text is replaced behind vertical blinds
+	DISSOLVE,		  ///< Text dissolves from one display to another
 	SCROLL_UP,		///< Text scrolls up through the display
 	SCROLL_DOWN,	///< Text scrolls down through the display
 	SCROLL_LEFT,	///< Text scrolls right to left on the display
@@ -260,10 +262,10 @@ enum textEffect_t
 	SCROLL_UP_LEFT,		///< Text moves in/out in a diagonal path up and left (North East)
 	SCROLL_UP_RIGHT,	///< Text moves in/out in a diagonal path up and right (North West)
 	SCROLL_DOWN_LEFT,	///< Text moves in/out in a diagonal path down and left (South East)
-	SCROLL_DOWN_RIGHT,	///< Text moves in/out in a diagonal path down and right (North West)
+	SCROLL_DOWN_RIGHT,///< Text moves in/out in a diagonal path down and right (North West)
 	SCAN_HORIZ,		///< Scan one column at a time then appears/disappear at end
 	SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
-	GROW_UP,		///< Text grows from the bottom up and shrinks from the top down 
+	GROW_UP,		  ///< Text grows from the bottom up and shrinks from the top down 
 	GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
 };
 
@@ -691,6 +693,7 @@ private:
 	void	commonPrint(void);
 	void	effectPrint(bool bIn);
 	void	effectSlice(bool bIn);
+  void  effectMesh(bool bIn);
 	void	effectWipe(bool bLightBar, bool bIn);
 	void	effectOpen(bool bLightBar, bool bIn);
 	void	effectClose(bool bLightBar, bool bIn);
