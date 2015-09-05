@@ -14,7 +14,7 @@
 #define	USE_DHT11	0
 
 // Use the DS1307 clock module
-#define	USE_DS1307	0
+#define	USE_DS1307	1
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
@@ -99,7 +99,7 @@ void getTime(char *psz, bool f = true)
 // Code for reading clock time
 {
 #if	USE_DS1307
-  RTC.ReadTime();
+  RTC.readTime();
   sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
   uint16_t	h, m, s;
@@ -119,7 +119,7 @@ void getDate(char *psz)
 #if	USE_DS1307
   char	szBuf[10];
 	
-  RTC.ReadTime();
+  RTC.readTime();
   sprintf(psz, "%d %s %04d", RTC.dd, mon2str(RTC.mm, szBuf, sizeof(szBuf)-1), RTC.yyyy);
 #else
   strcpy(szMesg, "29 Feb 2016");
@@ -142,8 +142,8 @@ void setup(void)
   P.addChar('&', degF);
 
 #if USE_DS1307
-  RTC.Control(DS1307_CLOCK_HALT, DS1307_OFF);
-  RTC.Control(DS1307_12H, DS1307_OFF);
+  RTC.control(DS1307_CLOCK_HALT, DS1307_OFF);
+  RTC.control(DS1307_12H, DS1307_OFF);
 #endif
 
   getTime(szTime);
