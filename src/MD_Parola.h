@@ -28,6 +28,9 @@ System Components
 
 Revision History 
 ----------------
+xxx 2015 - version 2.4
+- Added dynamic zone example
+
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
 - Added set/getZoneEffect with FLIP_LR and FLIP_UD, with associated Zone_Mirror example
