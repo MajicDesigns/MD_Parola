@@ -70,6 +70,8 @@ void setZones(void)
   // Set new zone sizes
   zoneBoundary += STEP_SIZE;
   if (zoneBoundary > MAX_DEVICES) zoneBoundary = 0;
+
+  P.synchZoneStart();
 }
 
 void setup(void)

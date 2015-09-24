@@ -30,6 +30,7 @@ Revision History
 ----------------
 xxx 2015 - version 2.4
 - Added dynamic zone example
+- Added synchZoneStart() method to allow zones start times to be synchronised
 
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
@@ -432,7 +433,16 @@ public:
    */
 	inline uint16_t getSpeed(void) { return _tickTime; };
 
-  /** 
+  /**
+  * Get the zone animation start time.
+  *
+  * See the setSynchTime() method
+  *
+  * \return the internal time reference.
+  */
+  inline uint32_t getSynchTime(void) { return _lastRunTime; }
+
+  /**
    * Get the current text alignment specification.
    * 
    * \return the current text alignment setting.
@@ -516,7 +526,22 @@ public:
    */
 	inline void setSpeed(uint16_t speed) { _tickTime = speed; };
 
-  /** 
+  /**
+  * Set the zone animation start time.
+  *
+  * Each zone animation has an associated start time. The start time
+  * defaults to the time when the zone is initialised. This method allows
+  * synchronisation between zones by setting the same start time. Should be
+  * used in conjunction with the setSynchTime() method as the return value
+  * should only be treated as an internal reference and arbitrary values
+  * will result in irregular behaviour.
+  *
+  * \param zt	the required start time.
+  * \return No return value.
+  */
+  inline void setSynchTime(uint32_t zt) { _lastRunTime = zt; }
+
+  /**
    * Set the text alignment within the zone.
    *
    * Text alignment is specified as one of the values in textPosition_t.
@@ -615,13 +640,13 @@ private:
 	*/
 	enum fsmState_t 
 	{
-		INITIALISE,		///< Initialize all variables
+		INITIALISE,		  ///< Initialize all variables
 		GET_FIRST_CHAR,	///< Get the first character
 		GET_NEXT_CHAR,	///< Get the next character
-		PUT_CHAR,		///< Placing a character
-		PUT_FILLER,		///< Placing filler (blank) columns 
-		PAUSE,			///< Pausing between animations
-		END				///< Display cycle has completed
+		PUT_CHAR,		    ///< Placing a character
+		PUT_FILLER,		  ///< Placing filler (blank) columns 
+		PAUSE,			    ///< Pausing between animations
+		END				      ///< Display cycle has completed
 	};
 
   /***
@@ -629,7 +654,7 @@ private:
 	*/
 	typedef struct charDef
 	{
-		uint8_t	code;	///< the ASCII code for the user defined character
+		uint8_t	code;	  ///< the ASCII code for the user defined character
 		uint8_t	*data;	///< user supplied data
 		charDef *next;	///< next in the list
 	};
@@ -637,24 +662,24 @@ private:
 	MD_MAX72XX	*_MX;	///< Pointer to the parent passed in at begin()
 	
 	// Time and speed controlling data and methods
-	bool		_suspend;		// don't do anything
+	bool		  _suspend;		  // don't do anything
 	uint32_t	_lastRunTime;	// the millis() value for when the animation was last run
 	uint16_t	_tickTime;		// the time between animations in milliseconds
 	uint16_t	_pauseTime;		// time to pause the animation between 'in' and 'out'
 
 	// Display control data and methods
-	fsmState_t	_fsmState;		// fsm state for all FSMs used to display text
-	uint16_t	_textLen;			  // length of current text in columns
-	int16_t		_limitLeft;			// leftmost limit for the current display effect
-	int16_t		_limitRight;		// rightmost limit for the current display effect
-	bool		_limitOverflow;		// true if the text will overflow the display
+	fsmState_t	_fsmState;		  // fsm state for all FSMs used to display text
+	uint16_t	  _textLen;			  // length of current text in columns
+	int16_t		  _limitLeft;			// leftmost limit for the current display effect
+	int16_t		  _limitRight;		// rightmost limit for the current display effect
+	bool		    _limitOverflow;	// true if the text will overflow the display
 	textPosition_t	_textAlignment;	// current text alignment
-	textEffect_t	_effectIn;	// the effect for text entering the display
-	textEffect_t	_effectOut;	// the effect for text exiting the display
-	bool		_moveIn;			    // animation is moving IN when true, OUT when false
-	bool		_inverted;			  // true if the display needs to be inverted
+	textEffect_t	  _effectIn;	// the effect for text entering the display
+	textEffect_t	  _effectOut;	// the effect for text exiting the display
+	bool		  _moveIn;			    // animation is moving IN when true, OUT when false
+	bool		  _inverted;			  // true if the display needs to be inverted
   uint16_t  _scrollDistance;  // the space in columns between the end of one message and the start of the next
-  uint8_t _zoneEffect;      // bit mapped zone effects
+  uint8_t   _zoneEffect;      // bit mapped zone effects
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
@@ -1043,7 +1068,6 @@ public:
    * \return the current text alignment setting for the specified zone.
    */
 	inline textPosition_t getTextAlignment(uint8_t z) { return (z < _numZones ? _Z[z].getTextAlignment() : CENTER); };
-
   
  /** 
    * Get the value of specified display effect.
@@ -1253,7 +1277,6 @@ public:
    * \return No return value.
    */
 	inline void setTextEffect(uint8_t z, textEffect_t effectIn, textEffect_t effectOut) { if (z < _numZones) _Z[z].setTextEffect(effectIn, effectOut); };
-    
  
   /** 
    * Set the display effect for the specified zone.
@@ -1268,6 +1291,18 @@ public:
    * \return No return value.
    */
   inline void setZoneEffect(uint8_t z, boolean b, zoneEffect_t ze) { if (z < _numZones) _Z[z].setZoneEffect(b, ze); };
+
+  /**
+  * Synchronise the start of zone animations.
+  *
+  * When zones are set up, the animation start time will default
+  * to the set-up time. If several zones need to be animated
+  * in synchronised fashion (eg, they are visually stacked vertically),
+  * this method will ensure that all the zones start at the same instant.
+  *
+  * \return No return value.
+  */
+  inline void synchZoneStart(void) { for (uint8_t i = 1; i < _numZones; i++) _Z[i].setSynchTime(_Z[0].getSynchTime()); }
 
 /** @} */
   //--------------------------------------------------------------
@@ -1357,7 +1392,7 @@ public:
   private:
 	// The display hardware controlled by this library
 	MD_MAX72XX	_D;			///< Hardware library object
-	MD_PZone	*_Z;		///< Array to be allocated during begin()
+	MD_PZone	*_Z;		  ///< Array to be allocated during begin()
 	uint8_t		_numModules;///< Number of display modules [0..numModules-1]
 	uint8_t		_numZones;	///< Max number of zones in the display [0..numZones-1]
 };
