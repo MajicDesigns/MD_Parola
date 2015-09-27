@@ -16,6 +16,14 @@
 // Use the DS1307 clock module
 #define	USE_DS1307	1
 
+// Header file includes
+#include <MD_Parola.h>
+#include <MD_MAX72xx.h>
+#if USE_LIBRARY_SPI
+#include <SPI.h>
+#endif
+#include "Font_Data.h"
+
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
@@ -25,10 +33,6 @@
 #define	DATA_PIN	11
 #define	CS_PIN		10
 
-// Header file includes
-#include <MD_Parola.h>
-#include <MD_MAX72xx.h>
-#include "Font_Data.h"
 
 #if	USE_DHT11
 #include <dht11.h>

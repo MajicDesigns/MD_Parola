@@ -31,6 +31,8 @@ Revision History
 xxx 2015 - version 2.4
 - Added dynamic zone example
 - Added synchZoneStart() method to allow zones start times to be synchronised
+- Added double height character example by Arek00
+- Modifed all examples to conditionally include <SPI.h> 
 
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
@@ -250,7 +252,7 @@ enum textEffect_t
 	NO_EFFECT,		///< Used as a place filler, executes no operation
 	PRINT,	  		///< Text just appears (printed)
 	SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
-  MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
+    MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
 	WIPE,			    ///< Text appears/disappears one column at a time, looks like it is wiped on and off
 	WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
 	OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
@@ -532,7 +534,7 @@ public:
   * Each zone animation has an associated start time. The start time
   * defaults to the time when the zone is initialised. This method allows
   * synchronisation between zones by setting the same start time. Should be
-  * used in conjunction with the setSynchTime() method as the return value
+  * used in conjunction with the getSynchTime() method as the return value
   * should only be treated as an internal reference and arbitrary values
   * will result in irregular behaviour.
   *
