@@ -19,7 +19,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
 #define MAX_ZONES 2
-#define ZONE_SIZE 4
+#define ZONE_SIZE 6
 #define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
