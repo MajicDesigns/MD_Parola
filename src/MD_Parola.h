@@ -34,6 +34,8 @@ xxx 2015 - version 2.4
 - Added double height character example by Arek00
 - Modifed all examples to conditionally include <SPI.h> 
 - Added double height character example (v2) using Font file created by MD_MAX72xx font builder
+- Added double height clock example
+- Added HelloWorld example - simplest working code
 
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example

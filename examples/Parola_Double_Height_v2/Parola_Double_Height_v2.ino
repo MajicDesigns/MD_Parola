@@ -19,11 +19,14 @@
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
 #define MAX_ZONES 2
-#define ZONE_SIZE 6
+#define ZONE_SIZE 7
 #define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
+
+#define PAUSE_TIME  0
+#define SCROLL_SPEED  50
 
 #define	CLK_PIN		13
 #define	DATA_PIN	11
@@ -41,7 +44,7 @@ char *msgL[] =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   "abcdefghijklmnopqrstuvwxyz",
   "0123456789",
-  "`!@#$%^&*()_+-={};:'\"<>?,./|\\{}",
+  "`!@#$%^&*()_+-={};:'<>\"?,./|\\{}",
 };
 char *msgH; // allocated memory in setup()
 
@@ -66,12 +69,12 @@ void setup(void)
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
 }
 
-void createString(char *pNew, char *pOld)
+void createHString(char *pH, char *pL)
 {
-  for (; *pOld != '\0'; pOld++)
-    *pNew++ = 128 + *pOld;   // create offset string
+  for (; *pL != '\0'; pL++)
+    *pH++ = *pL | 0x80;   // offset character
 
-  *pNew = '\0'; // terminate the string
+  *pH = '\0'; // terminate the string
 }
 
 void loop(void)
@@ -79,9 +82,9 @@ void loop(void)
   static uint8_t cycle = 0;
 
   // set up the string
-  createString(msgH, msgL[cycle]);
-  P.displayZoneText(ZONE_LOWER, msgL[cycle], CENTER, 30, 0, SCROLL_LEFT, SCROLL_LEFT);
-  P.displayZoneText(ZONE_UPPER, msgH, CENTER, 30, 0, SCROLL_LEFT, SCROLL_LEFT);
+  createHString(msgH, msgL[cycle]);
+  P.displayZoneText(ZONE_LOWER, msgL[cycle], LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
+  P.displayZoneText(ZONE_UPPER, msgH, LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
 
   // prepare for next pass
   cycle = (cycle + 1) % ARRAY_SIZE(msgL);
