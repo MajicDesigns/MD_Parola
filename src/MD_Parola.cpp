@@ -61,6 +61,7 @@ void MD_Parola::begin(uint8_t numZones)
 	setTextBuffer(NULL);
 	setInvert(false);
 	displaySuspend(false);
+  setIntensity(MAX_INTENSITY / 2);
 	displayClear();
 
 	// Now set the default viewing parameters for this library

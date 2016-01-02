@@ -114,6 +114,7 @@ void doUI(void)
     {
       PRINT,
       SLICE,
+      FADE,
       MESH,
       WIPE,
       WIPE_CURSOR,
@@ -137,10 +138,10 @@ void doUI(void)
       GROW_DOWN,
    };
 
+    curFX = (curFX + 1) % ARRAY_SIZE(effect);
     DEBUG("\nChanging effect to ", curFX);
     P.setTextEffect(effect[curFX], effect[curFX]);
     P.displayReset();
-    curFX = (curFX + 1) % ARRAY_SIZE(effect);
   }
 
   if (uiPause.read() == MD_KeySwitch::KS_PRESS)	// PAUSE DELAY
@@ -156,7 +157,7 @@ void doUI(void)
   {
     static uint8_t	intensity = 7;
 
-    intensity = ++intensity % 16;
+    intensity = ++intensity % (MAX_INTENSITY + 1);
     P.setIntensity(intensity);
     DEBUG("\nChanged intensity to ", intensity);
   }

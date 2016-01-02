@@ -66,6 +66,7 @@ textEffect_t	effect[] =
   WIPE,
   SCROLL_UP_LEFT,
   SCROLL_UP,
+  FADE,
   OPENING_CURSOR,
   GROW_UP,
   SCROLL_UP_RIGHT,

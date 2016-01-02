@@ -464,7 +464,8 @@ bool MD_PZone::zoneAnimate(void)
 				case PRINT:				effectPrint(_moveIn);			break;
 				case SLICE:				effectSlice(_moveIn);			break;
         case MESH:        effectMesh(_moveIn);      break;
-				case WIPE:				effectWipe(false, _moveIn);		break;
+        case FADE:        effectFade(_moveIn);      break;
+        case WIPE:				effectWipe(false, _moveIn);		break;
 				case WIPE_CURSOR:	effectWipe(true, _moveIn);		break;
 				case OPENING:			effectOpen(false, _moveIn);		break;
 				case OPENING_CURSOR:	effectOpen(true, _moveIn);	break;

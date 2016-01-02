@@ -22,13 +22,12 @@ at the [Parola website] (http://parola.codeplex.com).
 
 System Components
 -----------------
-- Hardware - documentation for supported hardware is now found in the MD_MAX72xx library documentation.
+- Hardware - documentation for supported hardware found in the MD_MAX72xx library documentation.
 - \subpage pageSoftware
-- \subpage pageNewV2
 
 Revision History 
 ----------------
-xxx 2015 - version 2.4
+xxx 2016 - version 2.4
 - Added dynamic zone example
 - Added synchZoneStart() method to allow zones start times to be synchronised
 - Added double height character example by Arek00
@@ -36,6 +35,8 @@ xxx 2015 - version 2.4
 - Added double height character example (v2) using Font file created by MD_MAX72xx font builder
 - Added double height clock example
 - Added HelloWorld example - simplest working code
+- Added FADE animation
+- Adjusted structure of manual
 
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
@@ -75,7 +76,7 @@ June 2013 - version 1.0
 
 Copyright
 ---------
-Copyright (C) 2013-2015 Marco Colli. All rights reserved.
+Copyright (C) 2013-2016 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -90,58 +91,6 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-
-\page pageNewV2 New in Version 2
-Animations
-----------
-An additional set of text animations
-+ SCAN_HORIZ, SCAN_VERT
-+ GROW_UP, GROW_DOWN
-+ SCROLL_UP_LEFT, SCROLL_UP_RIGHT
-+ SCROLL_DOWN_LEFT, SCROLL_DOWN_RIGHT
-
-Display Zones
--------------
-A zone is a contiguous sequence of one or more display modules (LED matrices) and has all the attributes
-of the original displays - animation, speed, font, spacing, etc. This allows complex displays to be 
-created. For example, one part can show relatively static text while a different one has animation 
-and movement.
-
-From version 2.0 of the library, a matrix display can be treated as a single contiguous set of modules 
-or it can be split into multiple 'virtual' displays (zones). Prior to version 2.0 of the library, 
-each display was effectively a single zone.
-
-For backward compatibility, all the previous methods remain. If the new library is compiled with older 
-user source code, the library defaults to using a single zone for the whole display. New zone-aware 
-functions have an added parameter to specify the zone to which the method invocation applies. Methods 
-invoked without specifying a zone (such as set*()) usually have their effect applied to all zones. This
-detailed in the class documentation.
-
-Fonts
------
-The standard MD_MAX72xx library font can be substituted with a user font definition conforming 
-to the font encoding rules in the MD_MAX72XX documentation. New fonts can be designed with the 
-the MD_MAX72xx font builder.
-
-Each zone can have its own substituted font. The default font can be reselected for the zone by 
-specifying a NULL font table pointer.
-
-User Characters
----------------
-Individual characters can be substituted for user character definitions. These can be added and 
-deleted to individual zones as required.
-
-The character data is the same format as a single character from the font definition file, 
-and is held in a local lookup table that is parsed before loading the defined font character. 
-If a character is specified with a code the same as an existing character, the existing data
-will be substituted for the new data. 
-
-ASCII 0 character ('\0') cannot be substituted as this denotes the end of string character 
-for C++ and cannot be used in an actual string.
-
-The library only retains a pointer to the user data definition, so the data must remain in scope. 
-Also, any changes to the data storage in the calling program will be reflected by the library the 
-next time the character is used.
 
 \page pageSoftware Parola Library
 The Parola Library
@@ -160,6 +109,50 @@ of text special effects on the LED matrix.
 - Parola uses the MD_MAX72xx library for hardware level control primitives. 
 The latest copy of this library can be found 
 [here] (http://arduinocode.codeview.com).
+
+Display Zones
+-------------
+A matrix display can be treated as a single contiguous set of modules or it can be 
+split into multiple 'virtual' displays (zones). Prior to version 2.0 of the library,
+each display was effectively a single zone.
+
+A zone is a contiguous subset of one or more display modules (LED matrices) that has all 
+the attributes of a display - animation, speed, font, spacing, etc. This allows complex 
+displays to be created. For example, one part can show relatively static text while a 
+different one has animation and movement.
+
+For backward compatibility, all the methods from version 1 remain. If the new library 
+is compiled with older user source code, the library defaults to using a single zone 
+for the whole display. Zone-aware functions have an added parameter to specify the zone 
+to which the method invocation applies. Methods invoked without specifying a zone (such 
+as set*()) usually have their effect applied to all zones. This detailed in the class 
+documentation.
+
+Fonts
+-----
+The standard MD_MAX72xx library font can be substituted with a user font definition conforming
+to the font encoding rules in the MD_MAX72XX documentation. New fonts can be designed with the
+the MD_MAX72xx font builder.
+
+Each zone can have its own substituted font. The default font can be reselected for the zone by
+specifying a NULL font table pointer.
+
+User Characters
+---------------
+Individual characters can be substituted for user character definitions. These can be added and
+deleted to individual zones as required.
+
+The character data is the same format as a single character from the font definition file,
+and is held in a local lookup table that is parsed before loading the defined font character.
+If a character is specified with a code the same as an existing character, the existing data
+will be substituted for the new data.
+
+ASCII 0 character ('\0') cannot be substituted as this denotes the end of string character
+for C++ and cannot be used in an actual string.
+
+The library only retains a pointer to the user data definition, so the data must remain in scope.
+Also, any changes to the data storage in the calling program will be reflected by the library the
+next time the character is used.
 
 Implementing New Text Effects
 -----------------------------
@@ -255,7 +248,8 @@ enum textEffect_t
 	NO_EFFECT,		///< Used as a place filler, executes no operation
 	PRINT,	  		///< Text just appears (printed)
 	SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
-    MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
+  MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
+  FADE,         ///< Text enters and exits by fading from/to 0 and intensity setting
 	WIPE,			    ///< Text appears/disappears one column at a time, looks like it is wiped on and off
 	WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
 	OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
@@ -402,7 +396,16 @@ public:
    */
 	inline uint8_t getCharSpacing(void) { return _charSpacing; };
 
-  /** 
+  /**
+  * Get the zone brightness.
+  *
+  * Get the intensity (brightness) of the display.
+  *
+  * \return The intensity setting.
+  */
+  inline uint8_t getIntensity() { return _intensity; };
+
+  /**
    * Get the zone current invert state.
    * 
    * See the setInvert() method.
@@ -483,7 +486,7 @@ public:
    * \param intensity	the intensity to set the display (0-15).
    * \return No return value.
    */
-	inline void setIntensity(uint8_t intensity) { _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, intensity); };
+  inline void setIntensity(uint8_t intensity) { _intensity = intensity; _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, _intensity); };
 
   /** 
    * Invert the zone display.
@@ -685,6 +688,7 @@ private:
 	bool		  _inverted;			  // true if the display needs to be inverted
   uint16_t  _scrollDistance;  // the space in columns between the end of one message and the start of the next
   uint8_t   _zoneEffect;      // bit mapped zone effects
+  uint8_t   _intensity;       // display intensity
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
@@ -727,6 +731,7 @@ private:
 	void	effectPrint(bool bIn);
 	void	effectSlice(bool bIn);
   void  effectMesh(bool bIn);
+  void  effectFade(bool bIn);
 	void	effectWipe(bool bLightBar, bool bIn);
 	void	effectOpen(bool bLightBar, bool bIn);
 	void	effectClose(bool bLightBar, bool bIn);

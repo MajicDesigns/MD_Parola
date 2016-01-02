@@ -36,6 +36,7 @@ sCatalog  catalog[] =
   { PRINT,              "PRINT", 1, 1 },
   { SLICE,              "SLICE", 1, 1 },
   { MESH,               "MESH",  20, 1 },
+  { FADE, 				"FADE",  20, 1 },
   { WIPE,               "WIPE",  5, 1 },
   { WIPE_CURSOR,        "WPE_C", 4, 1 },
   { OPENING,            "OPEN",  3, 1 },
