@@ -113,29 +113,41 @@ void doUI(void)
     textEffect_t effect[] =
     {
       PRINT,
-      SLICE,
-      FADE,
-      MESH,
-      WIPE,
-      WIPE_CURSOR,
-      OPENING,
-      OPENING_CURSOR,
-      CLOSING,
-      CLOSING_CURSOR,
-      BLINDS,
-      DISSOLVE,
       SCROLL_UP,
       SCROLL_DOWN,
       SCROLL_LEFT,
       SCROLL_RIGHT,
+#if ENA_MISC
+      SLICE,
+      FADE,
+      MESH,
+      BLINDS,
+      DISSOLVE,
+#endif
+#if ENA_WIPE
+      WIPE,
+      WIPE_CURSOR,
+#endif
+#if ENA_OPNCLS
+      OPENING,
+      OPENING_CURSOR,
+      CLOSING,
+      CLOSING_CURSOR,
+#endif
+#if ENA_SCR_DIA
       SCROLL_UP_LEFT,
       SCROLL_UP_RIGHT,
       SCROLL_DOWN_LEFT,
       SCROLL_DOWN_RIGHT,
+#endif
+#if ENA_SCAN
       SCAN_HORIZ,
       SCAN_VERT,
+#endif
+#if ENA_GROW
       GROW_UP,
       GROW_DOWN,
+#endif
    };
 
     curFX = (curFX + 1) % ARRAY_SIZE(effect);

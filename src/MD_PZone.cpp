@@ -461,30 +461,42 @@ bool MD_PZone::zoneAnimate(void)
 				PRINT_STATE("ANIMATE");
 			switch (_moveIn ? _effectIn : _effectOut)
 			{
-				case PRINT:				effectPrint(_moveIn);			break;
-				case SLICE:				effectSlice(_moveIn);			break;
+				case PRINT:				effectPrint(_moveIn);			      break;
+        case SCROLL_UP:		effectVScroll(true, _moveIn);	  break;
+        case SCROLL_DOWN:	effectVScroll(false, _moveIn);	break;
+        case SCROLL_LEFT:	effectHScroll(true, _moveIn);	  break;
+        case SCROLL_RIGHT:effectHScroll(false, _moveIn);  break;
+#if ENA_MISC
+        case SLICE:				effectSlice(_moveIn);			break;
         case MESH:        effectMesh(_moveIn);      break;
         case FADE:        effectFade(_moveIn);      break;
+        case BLINDS:			effectBlinds(_moveIn);		break;
+        case DISSOLVE:		effectDissolve(_moveIn);	break;
+#endif // ENA_MISC
+#if ENA_WIPE
         case WIPE:				effectWipe(false, _moveIn);		break;
-				case WIPE_CURSOR:	effectWipe(true, _moveIn);		break;
-				case OPENING:			effectOpen(false, _moveIn);		break;
-				case OPENING_CURSOR:	effectOpen(true, _moveIn);	break;
-				case CLOSING:			effectClose(false, _moveIn);	  break;
-				case CLOSING_CURSOR:	effectClose(true, _moveIn);	break;
-				case BLINDS:			effectBlinds(_moveIn);		break;
-				case DISSOLVE:		effectDissolve(_moveIn);	break;
-				case SCAN_HORIZ:	effectHScan(_moveIn);			break;
-				case SCAN_VERT:		effectVScan(_moveIn);			break;
-				case GROW_UP:			effectGrow(true, _moveIn);		  break;
-				case GROW_DOWN:		effectGrow(false, _moveIn);		  break;
-				case SCROLL_UP:		effectVScroll(true, _moveIn);	  break;
-				case SCROLL_DOWN:	effectVScroll(false, _moveIn);	break;
-				case SCROLL_LEFT:	effectHScroll(true, _moveIn);	  break;
-				case SCROLL_RIGHT:		effectHScroll(false, _moveIn);	  break;
-				case SCROLL_UP_LEFT:	effectDiag(true, true, _moveIn);	break;
-				case SCROLL_UP_RIGHT:	effectDiag(true, false, _moveIn);	break;
-				case SCROLL_DOWN_LEFT:	effectDiag(false, true, _moveIn);	  break;
-				case SCROLL_DOWN_RIGHT:	effectDiag(false, false, _moveIn);	break;
+        case WIPE_CURSOR:	effectWipe(true, _moveIn);		break;
+#endif // ENA_WIPE
+#if ENA_SCAN
+        case SCAN_HORIZ:	effectHScan(_moveIn); break;
+        case SCAN_VERT:		effectVScan(_moveIn); break;
+#endif // ENA_SCAN
+#if ENA_OPNCLS
+        case OPENING:			effectOpen(false, _moveIn);		  break;
+        case OPENING_CURSOR:	effectOpen(true, _moveIn);	break;
+        case CLOSING:			effectClose(false, _moveIn);	  break;
+        case CLOSING_CURSOR:	effectClose(true, _moveIn);	break;
+#endif // ENA_OPNCLS
+#if ENA_SCR_DIA
+        case SCROLL_UP_LEFT:	  effectDiag(true, true, _moveIn);	break;
+        case SCROLL_UP_RIGHT:	  effectDiag(true, false, _moveIn);	break;
+        case SCROLL_DOWN_LEFT:	effectDiag(false, true, _moveIn);	break;
+        case SCROLL_DOWN_RIGHT:	effectDiag(false, false, _moveIn);break;
+#endif // ENA_SCR_DIA
+#if ENA_GROW
+        case GROW_UP:			effectGrow(true, _moveIn);  break;
+        case GROW_DOWN:		effectGrow(false, _moveIn); break;
+#endif // ENA_GROW
 				default:
 				_fsmState = END;
 			}

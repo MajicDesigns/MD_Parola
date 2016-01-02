@@ -13,7 +13,8 @@ of text special effects on the Parola display.
 - Text scrolling, text entering and exit effects.
 - Control display parameters and animation speed.
 - Multiple virtual displays (zones) in each string of LED modules.
-- User defined fonts and/or individual characters substitutions
+- User defined fonts and/or individual characters substitutions.
+- Double height displays.
 
 The latest copy of the Parola Software and hardware files can be found 
 at the [Parola website] (http://parola.codeplex.com).
@@ -27,7 +28,7 @@ System Components
 
 Revision History 
 ----------------
-xxx 2016 - version 2.4
+Jan 2016 - version 2.4
 - Added dynamic zone example
 - Added synchZoneStart() method to allow zones start times to be synchronised
 - Added double height character example by Arek00
@@ -36,7 +37,8 @@ xxx 2016 - version 2.4
 - Added double height clock example
 - Added HelloWorld example - simplest working code
 - Added FADE animation
-- Adjusted structure of manual
+- Adjusted documentation structure
+- Added #defines ENA_* for granular selection of animations (memory saving)
 
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
@@ -110,6 +112,8 @@ of text special effects on the LED matrix.
 The latest copy of this library can be found 
 [here] (http://arduinocode.codeview.com).
 
+___
+
 Display Zones
 -------------
 A matrix display can be treated as a single contiguous set of modules or it can be 
@@ -125,8 +129,8 @@ For backward compatibility, all the methods from version 1 remain. If the new li
 is compiled with older user source code, the library defaults to using a single zone 
 for the whole display. Zone-aware functions have an added parameter to specify the zone 
 to which the method invocation applies. Methods invoked without specifying a zone (such 
-as set*()) usually have their effect applied to all zones. This detailed in the class 
-documentation.
+as set*()) usually have their effect applied to all zones.
+___
 
 Fonts
 -----
@@ -136,6 +140,7 @@ the MD_MAX72xx font builder.
 
 Each zone can have its own substituted font. The default font can be reselected for the zone by
 specifying a NULL font table pointer.
+___
 
 User Characters
 ---------------
@@ -153,6 +158,18 @@ for C++ and cannot be used in an actual string.
 The library only retains a pointer to the user data definition, so the data must remain in scope.
 Also, any changes to the data storage in the calling program will be reflected by the library the
 next time the character is used.
+___
+
+Conditional Compilation Switches
+--------------------------------
+The library allows the run time code to be tailored through the use of compilation
+switches. The compile options start with ENA_ and are documented in the section
+related to the main header file MD_Parola.h.
+
+_NOTE_: Compile switches must be edited in the library header file. Arduino header file
+'mashing' during compilation makes the setting of these switches from user code
+completely unreliable.
+___
 
 Implementing New Text Effects
 -----------------------------
@@ -191,6 +208,7 @@ within the effect method. The second phase starts with a PAUSE state and ends wh
 set to END by the method.  Aside from the INITIALISE state (set by the displayReset() method), 
 all other state changes are under the control of the effect functions. Delays between frames and 
 the pause between IN and OUT are handled outside of the effect method.
+___
 
 Coding Tips
 -----------
@@ -219,6 +237,16 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
  * \brief Main header file for the MD_Parola library
  */
 
+// Granular selection of animations to include in the library
+// If an animation class is not used at all some memory savings can be made
+// by excluding the animation code.
+#define ENA_MISC    1   ///< Enable miscellaneous animations
+#define ENA_WIPE    1   ///< Enable wipe type animations
+#define ENA_SCAN    1   ///< Enable scanning animations
+#define ENA_SCR_DIA 1   ///< Enable disgonal scrolling animation
+#define ENA_OPNCLS  1   ///< Enable open and close scan effects
+#define ENA_GROW    1   ///< Enable grow effects
+
 // Miscellaneous defines
 #define	ARRAY_SIZE(x)	(sizeof(x)/sizeof(x[0]))	///< Generic macro for obtaining number of elements of an array
 
@@ -243,33 +271,45 @@ enum textPosition_t
 *
 * Used to define the effects to be used for the entry and exit of text in the display area.
 */
-enum textEffect_t 
+enum textEffect_t
 {
-	NO_EFFECT,		///< Used as a place filler, executes no operation
-	PRINT,	  		///< Text just appears (printed)
-	SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
+  NO_EFFECT,		///< Used as a place filler, executes no operation
+  PRINT,	  		///< Text just appears (printed)
+  SCROLL_UP,		///< Text scrolls up through the display
+  SCROLL_DOWN,	///< Text scrolls down through the display
+  SCROLL_LEFT,	///< Text scrolls right to left on the display
+  SCROLL_RIGHT,	///< Text scrolls left to right on the display
+#if ENA_MISC
+  SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
   MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
   FADE,         ///< Text enters and exits by fading from/to 0 and intensity setting
-	WIPE,			    ///< Text appears/disappears one column at a time, looks like it is wiped on and off
-	WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
-	OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
-	OPENING_CURSOR,	///< OPENING with light bars ahead of the change
-	CLOSING,		  ///< Appear and disappear from the ends of the display, towards the middle
-	CLOSING_CURSOR,	///< CLOSING with light bars ahead of the change
-	BLINDS,			  ///< Text is replaced behind vertical blinds
-	DISSOLVE,		  ///< Text dissolves from one display to another
-	SCROLL_UP,		///< Text scrolls up through the display
-	SCROLL_DOWN,	///< Text scrolls down through the display
-	SCROLL_LEFT,	///< Text scrolls right to left on the display
-	SCROLL_RIGHT,	///< Text scrolls left to right on the display
-	SCROLL_UP_LEFT,		///< Text moves in/out in a diagonal path up and left (North East)
-	SCROLL_UP_RIGHT,	///< Text moves in/out in a diagonal path up and right (North West)
-	SCROLL_DOWN_LEFT,	///< Text moves in/out in a diagonal path down and left (South East)
-	SCROLL_DOWN_RIGHT,///< Text moves in/out in a diagonal path down and right (North West)
-	SCAN_HORIZ,		///< Scan one column at a time then appears/disappear at end
-	SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
-	GROW_UP,		  ///< Text grows from the bottom up and shrinks from the top down 
-	GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
+  DISSOLVE,		  ///< Text dissolves from one display to another
+  BLINDS,			  ///< Text is replaced behind vertical blinds
+#endif //ENA_MISC
+#if ENA_WIPE
+  WIPE,			    ///< Text appears/disappears one column at a time, looks like it is wiped on and off
+  WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
+#endif  // ENA_WIPES
+#if ENA_SCAN
+  SCAN_HORIZ,		///< Scan one column at a time then appears/disappear at end
+  SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
+#endif // ENA_SCAN
+#if ENA_OPNCLS
+  OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
+  OPENING_CURSOR,	///< OPENING with light bars ahead of the change
+  CLOSING,		  ///< Appear and disappear from the ends of the display, towards the middle
+  CLOSING_CURSOR,	///< CLOSING with light bars ahead of the change
+#endif // ENA_OPNCLS
+#if ENA_SCR_DIA
+  SCROLL_UP_LEFT,		///< Text moves in/out in a diagonal path up and left (North East)
+  SCROLL_UP_RIGHT,	///< Text moves in/out in a diagonal path up and right (North West)
+  SCROLL_DOWN_LEFT,	///< Text moves in/out in a diagonal path down and left (South East)
+  SCROLL_DOWN_RIGHT,///< Text moves in/out in a diagonal path down and right (North West)
+#endif // ENA_SCR_DIA
+#if ENA_GROW
+  GROW_UP,		  ///< Text grows from the bottom up and shrinks from the top down 
+  GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
+#endif // ENA_GROW
 };
 
 /**
@@ -729,20 +769,34 @@ private:
 	// Effect functions
 	void	commonPrint(void);
 	void	effectPrint(bool bIn);
-	void	effectSlice(bool bIn);
+//#if ENA_MISC
+  void	effectSlice(bool bIn);
   void  effectMesh(bool bIn);
   void  effectFade(bool bIn);
+  void	effectBlinds(bool bIn);
+  void	effectDissolve(bool bIn);
+//#endif // ENA_MISC
+//#if ENA_WIPE
 	void	effectWipe(bool bLightBar, bool bIn);
+//#endif
+//#if ENA_OPNCLS
 	void	effectOpen(bool bLightBar, bool bIn);
 	void	effectClose(bool bLightBar, bool bIn);
-	void	effectBlinds(bool bIn);
-	void	effectDissolve(bool bIn);
-	void	effectVScroll(bool bUp, bool bIn);
-	void	effectHScroll(bool bLeft, bool bIn);
+//#endif // ENA_OPNCLS
+//#if ENA_SCR_STR
+  void	effectVScroll(bool bUp, bool bIn);
+  void	effectHScroll(bool bLeft, bool bIn);
+//#endif // ENA_SCR_STR
+//#if ENA_SCR_DIA
+  void	effectDiag(bool bUp, bool bLeft, bool bIn);
+//#endif // ENA_SCR_DIA
+//#if ENA_SCAN
 	void	effectHScan(bool bIn);
 	void	effectVScan(bool bIn);
-	void	effectGrow(bool bUp, bool bIn);
-	void	effectDiag(bool bUp, bool bLeft, bool bIn);
+//#endif // ENA_SCAN
+//#if ENA_GROW
+  void	effectGrow(bool bUp, bool bIn);
+//#endif // ENA_GROW
 };
 
 
