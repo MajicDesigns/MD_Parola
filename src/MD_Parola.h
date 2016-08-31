@@ -28,11 +28,14 @@ System Components
 
 Revision History 
 ----------------
+xxx 2016 - version 2.5
+- Added ambulance example
+
 Jan 2016 - version 2.4
 - Added dynamic zone example
 - Added synchZoneStart() method to allow zones start times to be synchronised
 - Added double height character example by Arek00
-- Modifed all examples to conditionally include <SPI.h> 
+- Modified all examples to conditionally include <SPI.h> 
 - Added double height character example (v2) using Font file created by MD_MAX72xx font builder
 - Added double height clock example
 - Added HelloWorld example - simplest working code
