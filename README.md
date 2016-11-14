@@ -1,6 +1,6 @@
-# Modular hardware and library for scrolling text displays
+# Library for modular scrolling LED matrix text displays
 
-![Parola Display](https://github.com/MajicDesigns/media/photo/Parola_Display.jpg)
+![Parola Display](https://github.com/MajicDesigns/Parola/media/photo/Parola_Display.jpg)
 
 [Version 1.0 Video](http://www.youtube.com/watch?v=JgzVCSFaz3I)
 
