@@ -1,7 +1,5 @@
 # Library for modular scrolling LED matrix text displays
 
-![Parola Display](https://github.com/MajicDesigns/Parola/tree/master/media/photo/Parola_Display.jpg)
-
 [Version 1.0 Video](http://www.youtube.com/watch?v=JgzVCSFaz3I)
 
 [Version 2.0 Video](http://www.youtube.com/watch?v=u1iELyROjW8)
