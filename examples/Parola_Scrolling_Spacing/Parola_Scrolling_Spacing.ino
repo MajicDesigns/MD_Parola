@@ -10,7 +10,7 @@
 // Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
 //
-// Keyswitch library can be found at http://arduinocode.codeplex.com
+// Keyswitch library can be found at https://github.com/MajicDesigns/KeySwitch
 //
 
 #include <MD_Parola.h>

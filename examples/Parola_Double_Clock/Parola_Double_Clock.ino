@@ -3,7 +3,7 @@
 // Display the time in a double height display with a fixed width font.
 // - Time is shown in a user defined seven segment font
 // - Optional use of DS1307 module for time
-//   - DS1307 library (MD_DS1307) found at http://arduinocode.codeplex.com
+//   - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 //
 
 // Use the DS1307 clock module

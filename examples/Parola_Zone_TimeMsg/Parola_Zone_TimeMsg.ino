@@ -6,7 +6,7 @@
 // - Scrolling text uses the default font
 // - Temperature display uses user defined characters
 // - Optional use of DS1307 module for time and DHT11 sensor for temp and humidity
-//   - DS1307 library (MD_DS1307) found at http://arduinocode.codeplex.com
+//   - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 //   - DHT11 library (DHT11_lib) found at http://arduino.cc/playground/Main/DHT11Lib
 //
 

@@ -8,7 +8,7 @@
 // Pause between animations, LED intensity, Display flip, and invert mode. 
 // UI switches are normally HIGH.
 //
-// Keyswitch library can be found at http://arduinocode.codeplex.com
+// Keyswitch library can be found at https://github.com/MajicDesigns/KeySwitch
 //
 
 #include <MD_Parola.h>
