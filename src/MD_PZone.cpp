@@ -254,12 +254,13 @@ bool MD_PZone::delChar(uint8_t code)
 }
 
 uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
-// Find a character either in user defined list or from foint table
+// Find a character either in user defined list or from font table
 {
 	charDef	*pcd = _userChars;
 	uint8_t	len;
 
 	PRINTX("\nfindUserChar 0x", code);
+	// check local list first
 	while (pcd != NULL)
 	{
 		PRINTX(" ", pcd->code);
@@ -273,6 +274,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 		pcd = pcd->next;
 	}
 
+	// get it from the standard font
 	PRINTS(" no user char");
 	_MX->setFont(_fontDef);		// change to the font for this zone
 	len = _MX->getChar(code, size, cBuf);

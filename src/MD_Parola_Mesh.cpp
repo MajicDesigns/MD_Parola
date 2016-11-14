@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 void MD_PZone::effectMesh(bool bIn)
-// Scroll the display horizontally up of down, depending on the selected effect
+// Text enters with alternating up/down columns
 {
   bool bUp = true;
   

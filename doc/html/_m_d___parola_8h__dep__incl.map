@@ -1,0 +1,18 @@
+<map id="src/MD_Parola.h" name="src/MD_Parola.h">
+<area shape="rect" id="node3" href="$_m_d___parola_8cpp.html" title="Implements core MD_Parola class methods. " alt="" coords="5,80,139,107"/>
+<area shape="rect" id="node5" href="$_m_d___parola___blinds_8cpp.html" title="Implements blinds effect. " alt="" coords="163,80,339,107"/>
+<area shape="rect" id="node7" href="$_m_d___parola___close_8cpp.html" title="Implements closing effect. " alt="" coords="363,80,536,107"/>
+<area shape="rect" id="node9" href="$_m_d___parola___diag_8cpp.html" title="Implements diagonal scroll effect. " alt="" coords="561,80,727,107"/>
+<area shape="rect" id="node11" href="$_m_d___parola___dissolve_8cpp.html" title="Implements dissolve effect. " alt="" coords="751,80,939,107"/>
+<area shape="rect" id="node13" href="$_m_d___parola___fade_8cpp.html" title="Implements FADE effect. " alt="" coords="963,80,1132,107"/>
+<area shape="rect" id="node15" href="$_m_d___parola___grow_8cpp.html" title="Implements grow effects. " alt="" coords="1157,80,1328,107"/>
+<area shape="rect" id="node17" href="$_m_d___parola___h_scroll_8cpp.html" title="Implements horizontal scrolling effect. " alt="" coords="1353,80,1535,107"/>
+<area shape="rect" id="node19" href="$_m_d___parola___mesh_8cpp.html" title="Implements mesh effect. " alt="" coords="1559,80,1731,107"/>
+<area shape="rect" id="node21" href="$_m_d___parola___open_8cpp.html" title="Implements opening effect. " alt="" coords="1756,80,1927,107"/>
+<area shape="rect" id="node23" href="$_m_d___parola___print_8cpp.html" title="Implements static print effect. " alt="" coords="1951,80,2117,107"/>
+<area shape="rect" id="node25" href="$_m_d___parola___scan_8cpp.html" title="Implements scan effect. " alt="" coords="2143,80,2313,107"/>
+<area shape="rect" id="node27" href="$_m_d___parola___slice_8cpp.html" title="Implements slice effect. " alt="" coords="2338,80,2507,107"/>
+<area shape="rect" id="node29" href="$_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect. " alt="" coords="2531,80,2713,107"/>
+<area shape="rect" id="node31" href="$_m_d___parola___wipe_8cpp.html" title="Implements wipe effect. " alt="" coords="2739,80,2909,107"/>
+<area shape="rect" id="node33" href="$_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods. " alt="" coords="2933,80,3067,107"/>
+</map>

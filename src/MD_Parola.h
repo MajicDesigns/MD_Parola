@@ -5,7 +5,7 @@ The Parola Library
 The Parola library is implemented to work with the MD_MAX2XX library. It 
 depends on the MD_MAX72xx library for hardware control and will run on all 
 hardware supported by that library. The MD_MAX72XX library can be found 
-[here] (http://arduinocode.codeplex.com).
+[here] (http://github.com/MajicDesigns/MAX72xx).
 
 This software library implements functions to simplify the implementation 
 of text special effects on the Parola display.
@@ -17,7 +17,7 @@ of text special effects on the Parola display.
 - Double height displays.
 
 The latest copy of the Parola Software and hardware files can be found 
-at the [Parola website] (http://parola.codeplex.com).
+at the [Parola website] (http://github.com/MajicDesigns/Parola).
 
 ![The final product with 8 modules connected together] (Working_Display.jpg "Working System")
 
@@ -28,8 +28,10 @@ System Components
 
 Revision History 
 ----------------
-xxx 2016 - version 2.5
+Nov 2016 - version 2.5
 - Added ambulance example
+- Updated branding to MD_ diamond
+- Added README.md file
 
 Jan 2016 - version 2.4
 - Added dynamic zone example
@@ -113,7 +115,7 @@ of text special effects on the LED matrix.
 ### External Dependencies
 - Parola uses the MD_MAX72xx library for hardware level control primitives. 
 The latest copy of this library can be found 
-[here] (http://arduinocode.codeview.com).
+[here] (http://github.com/MajicDesigns/MAX72xx).
 
 ___
 
@@ -713,55 +715,55 @@ private:
 	MD_MAX72XX	*_MX;	///< Pointer to the parent passed in at begin()
 	
 	// Time and speed controlling data and methods
-	bool		  _suspend;		  // don't do anything
+	bool		_suspend;		// don't do anything
 	uint32_t	_lastRunTime;	// the millis() value for when the animation was last run
 	uint16_t	_tickTime;		// the time between animations in milliseconds
 	uint16_t	_pauseTime;		// time to pause the animation between 'in' and 'out'
 
 	// Display control data and methods
-	fsmState_t	_fsmState;		  // fsm state for all FSMs used to display text
-	uint16_t	  _textLen;			  // length of current text in columns
-	int16_t		  _limitLeft;			// leftmost limit for the current display effect
-	int16_t		  _limitRight;		// rightmost limit for the current display effect
-	bool		    _limitOverflow;	// true if the text will overflow the display
+	fsmState_t	_fsmState;		// fsm state for all FSMs used to display text
+	uint16_t	_textLen;		// length of current text in columns
+	int16_t		_limitLeft;		// leftmost limit for the current display effect
+	int16_t		_limitRight;	// rightmost limit for the current display effect
+	bool		_limitOverflow;	// true if the text will overflow the display
 	textPosition_t	_textAlignment;	// current text alignment
-	textEffect_t	  _effectIn;	// the effect for text entering the display
-	textEffect_t	  _effectOut;	// the effect for text exiting the display
-	bool		  _moveIn;			    // animation is moving IN when true, OUT when false
-	bool		  _inverted;			  // true if the display needs to be inverted
-  uint16_t  _scrollDistance;  // the space in columns between the end of one message and the start of the next
-  uint8_t   _zoneEffect;      // bit mapped zone effects
-  uint8_t   _intensity;       // display intensity
+	textEffect_t	_effectIn;	// the effect for text entering the display
+	textEffect_t	_effectOut;	// the effect for text exiting the display
+	bool		_moveIn;		// animation is moving IN when true, OUT when false
+	bool		_inverted;		// true if the display needs to be inverted
+    uint16_t    _scrollDistance;  // the space in columns between the end of one message and the start of the next
+    uint8_t     _zoneEffect;    // bit mapped zone effects
+    uint8_t     _intensity;     // display intensity
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
-	bool		calcTextLimits(char *p);	  // calculate the right and left limits for the text
+	bool		calcTextLimits(char *p);	// calculate the right and left limits for the text
 
 	// Variables used in the scrolling routines
 	uint8_t		_zoneStart;		// First zone module number
-	uint8_t		_zoneEnd;			// Last zone module number
-	int16_t		_nextPos;			// Next position for animation. Can be used in several different ways depending on the function.
+	uint8_t		_zoneEnd;		// Last zone module number
+	int16_t		_nextPos;		// Next position for animation. Can be used in several different ways depending on the function.
 	int8_t		_posOffset;		// Looping increment depends on the direction of the scan for animation
 	uint16_t	_startPos;		// Start position for the text LED
-	int16_t	  _endPos;			// End limit for the text LED.
+	int16_t		_endPos;		// End limit for the text LED.
 
 	void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM
 
 	// Character buffer handling data and methods
-	char		*_pText;			  // pointer to text buffer from user call
-	char		*_pCurChar;			// the current character being processed in the text
-	bool		_endOfText;			// true when the end of the text string has been reached.
+	char		*_pText;		// pointer to text buffer from user call
+	char		*_pCurChar;		// the current character being processed in the text
+	bool		_endOfText;		// true when the end of the text string has been reached.
 	void		moveTextPointer(void);	// move the text pointer depending on direction of buffer scan
 
 	uint8_t		getFirstChar(void);	// put the first Text char into the char buffer
 	uint8_t		getNextChar(void);	// put the next Text char into the char buffer
 
 	// Font character handling data and methods
-	charDef		*_userChars;		// the root of the list of user defined characters
-	uint8_t		_cBuf[15];			// buffer for loading character font
-	uint8_t		_charSpacing;		// spacing in columns between characters
-	uint8_t		_charCols;			// number of columns for this character
-	int16_t		_countCols;			// count of number of columns already shown
+	charDef		*_userChars;	// the root of the list of user defined characters
+	uint8_t		_cBuf[15];		// buffer for loading character font
+	uint8_t		_charSpacing;	// spacing in columns between characters
+	uint8_t		_charCols;		// number of columns for this character
+	int16_t		_countCols;		// count of number of columns already shown
 	MD_MAX72XX::fontType_t *_fontDef;	// font for this zone
 
 	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
@@ -773,11 +775,11 @@ private:
 	void	commonPrint(void);
 	void	effectPrint(bool bIn);
 //#if ENA_MISC
-  void	effectSlice(bool bIn);
-  void  effectMesh(bool bIn);
-  void  effectFade(bool bIn);
-  void	effectBlinds(bool bIn);
-  void	effectDissolve(bool bIn);
+    void	effectSlice(bool bIn);
+    void    effectMesh(bool bIn);
+    void    effectFade(bool bIn);
+    void	effectBlinds(bool bIn);
+    void	effectDissolve(bool bIn);
 //#endif // ENA_MISC
 //#if ENA_WIPE
 	void	effectWipe(bool bLightBar, bool bIn);
@@ -787,18 +789,18 @@ private:
 	void	effectClose(bool bLightBar, bool bIn);
 //#endif // ENA_OPNCLS
 //#if ENA_SCR_STR
-  void	effectVScroll(bool bUp, bool bIn);
-  void	effectHScroll(bool bLeft, bool bIn);
+    void	effectVScroll(bool bUp, bool bIn);
+    void	effectHScroll(bool bLeft, bool bIn);
 //#endif // ENA_SCR_STR
 //#if ENA_SCR_DIA
-  void	effectDiag(bool bUp, bool bLeft, bool bIn);
+    void	effectDiag(bool bUp, bool bLeft, bool bIn);
 //#endif // ENA_SCR_DIA
 //#if ENA_SCAN
 	void	effectHScan(bool bIn);
 	void	effectVScan(bool bIn);
 //#endif // ENA_SCAN
 //#if ENA_GROW
-  void	effectGrow(bool bUp, bool bIn);
+    void	effectGrow(bool bUp, bool bIn);
 //#endif // ENA_GROW
 };
 

@@ -1,0 +1,6 @@
+<map id="MD_Parola::setSpeed" name="MD_Parola::setSpeed">
+<area shape="rect" id="node3" href="$class_m_d___parola.html#a7539abd83f51423c76595b10fdaf911a" title="MD_Parola::begin" alt="" coords="235,5,360,32"/>
+<area shape="rect" id="node5" href="$class_m_d___parola.html#ae07a7f6178b97320f41f7a9c00277b2a" title="MD_Parola::displayZoneText" alt="" coords="203,56,391,83"/>
+<area shape="rect" id="node7" href="$class_m_d___parola.html#adf278c039b7313486420a8774250d751" title="MD_Parola::displayScroll" alt="" coords="440,31,608,57"/>
+<area shape="rect" id="node9" href="$class_m_d___parola.html#adff0da0d976e93e9b2f4db8022d2a9fb" title="MD_Parola::displayText" alt="" coords="444,81,604,108"/>
+</map>

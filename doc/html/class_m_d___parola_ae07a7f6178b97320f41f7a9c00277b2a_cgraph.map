@@ -1,0 +1,9 @@
+<map id="MD_Parola::displayZoneText" name="MD_Parola::displayZoneText">
+<area shape="rect" id="node3" href="$class_m_d___parola.html#a1b54fb1c05c976007031433439324739" title="MD_Parola::setTextBuffer" alt="" coords="255,5,425,32"/>
+<area shape="rect" id="node7" href="$class_m_d___parola.html#a6eb132905e5df99067e9716fd922d9ed" title="MD_Parola::setTextAlignment" alt="" coords="243,80,437,107"/>
+<area shape="rect" id="node10" href="$class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126" title="MD_Parola::setSpeed" alt="" coords="265,155,415,181"/>
+<area shape="rect" id="node13" href="$class_m_d___parola.html#a535d4ba642406b02c26b6218e020c313" title="MD_Parola::setPause" alt="" coords="265,229,415,256"/>
+<area shape="rect" id="node16" href="$class_m_d___parola.html#af5c38fd43dbbb4169d5241ea17aa34bb" title="MD_Parola::setTextEffect" alt="" coords="255,304,425,331"/>
+<area shape="rect" id="node19" href="$class_m_d___parola.html#ac2215961f392389a6ab9b17a5f098e4f" title="MD_Parola::displayReset" alt="" coords="255,355,425,381"/>
+<area shape="rect" id="node5" href="$class_m_d___p_zone.html#ae9540ced8596d82983bfcf6c65696110" title="MD_PZone::setTextBuffer" alt="" coords="485,5,656,32"/>
+</map>
