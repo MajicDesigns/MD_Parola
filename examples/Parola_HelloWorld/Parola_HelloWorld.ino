@@ -4,9 +4,7 @@
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 

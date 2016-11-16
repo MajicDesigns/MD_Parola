@@ -2,9 +2,7 @@
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
 
 #include "Parola_Fonts_data.h"
 

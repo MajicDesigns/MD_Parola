@@ -19,9 +19,8 @@
 // Header file includes
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
+
 #include "Font_Data.h"
 
 // Define the number of devices we have in the chain and the hardware interface

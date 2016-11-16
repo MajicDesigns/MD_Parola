@@ -15,11 +15,7 @@
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
-#if USE_LIBRARY_SPI
 #include <SPI.h>
-#endif
-
-// set to 1 if we are implementing the user interface pot, switch, etc
 #include <MD_KeySwitch.h>
 
 // Turn on debug statements to the serial output
