@@ -53,7 +53,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #define	DIRECTION_SET	8	// change the effect
 #define	INVERT_SET		9	// change the invert
 
-textEffect_t	scrollEffect = SCROLL_LEFT;
+textEffect_t	scrollEffect = PA_SCROLL_LEFT;
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
@@ -80,7 +80,7 @@ void doUI(void)
   if (uiDirection.read() == MD_KeySwitch::KS_PRESS)	// SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
-    scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
+    scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
     P.setTextEffect(scrollEffect, scrollEffect);
     P.displayReset();
   }
@@ -126,7 +126,7 @@ void setup()
   P.begin();
   P.displayClear();
   P.displaySuspend(false);
-  P.displayText(curMessage, CENTER, FRAME_TIME, PAUSE_TIME, scrollEffect, scrollEffect);
+  P.displayText(curMessage, PA_CENTER, FRAME_TIME, PAUSE_TIME, scrollEffect, scrollEffect);
 
   strcpy(curMessage, "Hi! Enter new message?");
   newMessage[0] = '\0';

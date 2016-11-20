@@ -3,7 +3,7 @@
 // Display the time in a double height display with a fixed width font.
 // - Time is shown in a user defined seven segment font
 // - Optional use of DS1307 module for time
-//   - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
+// - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 //
 
 // Use the DS1307 clock module
@@ -93,14 +93,14 @@ void setup(void)
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
 
 #ifdef INVERT_UPPER_ZONE
-  P.setZoneEffect(ZONE_UPPER, true, FLIP_UD);
-  P.setZoneEffect(ZONE_UPPER, true, FLIP_LR);
+  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
+  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
 
-  P.displayZoneText(ZONE_LOWER, szTimeL, RIGHT, SPEED_TIME, PAUSE_TIME, PRINT, NO_EFFECT);
-  P.displayZoneText(ZONE_UPPER, szTimeH, LEFT, SPEED_TIME, PAUSE_TIME, PRINT, NO_EFFECT);
+  P.displayZoneText(ZONE_LOWER, szTimeL, PA_RIGHT, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+  P.displayZoneText(ZONE_UPPER, szTimeH, PA_LEFT, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
 #else
-  P.displayZoneText(ZONE_LOWER, szTimeL, CENTER, SPEED_TIME, PAUSE_TIME, PRINT, NO_EFFECT);
-  P.displayZoneText(ZONE_UPPER, szTimeH, CENTER, SPEED_TIME, PAUSE_TIME, PRINT, NO_EFFECT);
+  P.displayZoneText(ZONE_LOWER, szTimeL, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+  P.displayZoneText(ZONE_UPPER, szTimeH, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
 #endif
 
 #if USE_DS1307

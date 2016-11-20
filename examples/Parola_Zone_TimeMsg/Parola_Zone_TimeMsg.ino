@@ -6,8 +6,8 @@
 // - Scrolling text uses the default font
 // - Temperature display uses user defined characters
 // - Optional use of DS1307 module for time and DHT11 sensor for temp and humidity
-//   - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
-//   - DHT11 library (DHT11_lib) found at http://arduino.cc/playground/Main/DHT11Lib
+// - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
+// - DHT11 library (DHT11_lib) found at http://arduino.cc/playground/Main/DHT11Lib
 //
 
 // Use the DHT11 temp and humidity sensor
@@ -138,8 +138,8 @@ void setup(void)
   P.setZone(1, MAX_DEVICES-4, MAX_DEVICES-1);
   P.setFont(1, numeric7Seg);
 
-  P.displayZoneText(1, szTime, CENTER, SPEED_TIME, PAUSE_TIME, PRINT, NO_EFFECT);
-  P.displayZoneText(0, szMesg, CENTER, SPEED_TIME, 0, SCROLL_LEFT, SCROLL_LEFT);
+  P.displayZoneText(1, szTime, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+  P.displayZoneText(0, szMesg, PA_CENTER, SPEED_TIME, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
   
   P.addChar('$', degC);
   P.addChar('&', degF);
@@ -165,7 +165,7 @@ void loop(void)
     switch (display)
     {
       case 0:	// Temperature deg C
-        P.setTextEffect(0, SCROLL_LEFT, SCROLL_UP_LEFT);
+        P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_UP_LEFT);
         display++;
 #if USE_DHT11
         if (DHT11.read(DHT11_PIN) == 0)
@@ -179,7 +179,7 @@ void loop(void)
         break;
 			
       case 1:	// Temperature deg F
-        P.setTextEffect(0, SCROLL_UP_LEFT, SCROLL_LEFT);
+        P.setTextEffect(0, PA_SCROLL_UP_LEFT, PA_SCROLL_LEFT);
         display++;
 #if USE_DHT11
         if (DHT11.read(DHT11_PIN) == 0)
@@ -193,7 +193,7 @@ void loop(void)
         break;
 
       case 2:	// Relative Humidity
-        P.setTextEffect(0, SCROLL_LEFT, SCROLL_LEFT);
+        P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display++;
 #if	USE_DHT11
         if (DHT11.read(DHT11_PIN) == 0)
@@ -207,7 +207,7 @@ void loop(void)
         break;
 
       case 3:	// day of week
-        P.setTextEffect(0, SCROLL_LEFT, SCROLL_LEFT);
+        P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display++;
 #if	USE_DS1307
         dow2str(RTC.dow, szMesg, MAX_MESG);			
@@ -217,7 +217,7 @@ void loop(void)
         break;
 
       default:	// Calendar
-        P.setTextEffect(0, SCROLL_LEFT, SCROLL_LEFT);
+        P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display = 0;
         getDate(szMesg);
         break;

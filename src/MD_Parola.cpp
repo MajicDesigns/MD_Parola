@@ -55,13 +55,13 @@ void MD_Parola::begin(uint8_t numZones)
 	setSpeed(10);
 	setPause(10*getSpeed());
 	setCharSpacing(1);
-    setScrollSpacing(0);
-	setTextAlignment(LEFT);
-	setTextEffect(PRINT, NO_EFFECT);
+  setScrollSpacing(0);
+  setTextAlignment(PA_LEFT);
+  setTextEffect(PA_PRINT, PA_NO_EFFECT);
 	setTextBuffer(NULL);
 	setInvert(false);
 	displaySuspend(false);
-    setIntensity(MAX_INTENSITY / 2);
+  setIntensity(MAX_INTENSITY / 2);
 	displayClear();
 
 	// Now set the default viewing parameters for this library

@@ -55,7 +55,7 @@ void setZones(void)
   {
     P.setZone(0, 0, zoneBoundary-1);
     PRINT(" [0] 0:", zoneBoundary - 1);
-    P.displayZoneText(0, pc[0], CENTER, SPEED_TIME, PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
+    P.displayZoneText(0, pc[0], PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     P.displayReset(0);
   }
 
@@ -64,7 +64,7 @@ void setZones(void)
     P.setZone(1, zoneBoundary, MAX_DEVICES-1);
     PRINT(" [1] ", zoneBoundary);
     PRINT(":", MAX_DEVICES-1);
-    P.displayZoneText(1, pc[1], CENTER, SPEED_TIME, PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
+    P.displayZoneText(1, pc[1], PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     P.displayReset(1);
   }
 

@@ -31,7 +31,7 @@ void setup(void)
 {
   // initialise the LED display
   P.begin();
-  P.setZoneEffect(0, true, FLIP_LR);
+  P.setZoneEffect(0, true, PA_FLIP_LR);
 }
 
 void loop(void)
@@ -41,7 +41,7 @@ void loop(void)
   if (P.displayAnimate())
   {
     // set up the string
-    P.displayText(msg[cycle], CENTER, SCROLL_SPEED, PAUSE_TIME, PRINT, NO_EFFECT);
+    P.displayText(msg[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
   
     // prepare for next pass
     cycle = (cycle + 1) % ARRAY_SIZE(msg);

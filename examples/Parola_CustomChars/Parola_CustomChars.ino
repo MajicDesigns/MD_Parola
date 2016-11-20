@@ -72,7 +72,7 @@ void setup(void)
   P.addChar('^', waveTrng);
   
   P.setCharSpacing(M[0].spacing);
-  P.displayText(M[0].msg, CENTER, P.getSpeed(), PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
+  P.displayText(M[0].msg, PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 }
 
 void loop(void)

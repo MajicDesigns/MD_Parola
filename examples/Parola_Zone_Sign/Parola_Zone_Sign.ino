@@ -42,9 +42,9 @@ void setup(void)
   P.setIntensity(4);  
   
   // Specific zones
-  P.displayZoneText(0, pc[0], CENTER, SPEED_TIME, SPLAT_PAUSE_TIME, PRINT);
-  P.displayZoneText(1, pc[1], CENTER, SPEED_TIME, TEXT_PAUSE_TIME, PRINT);
-  P.displayZoneText(2, pc[0], CENTER, SPEED_TIME, SPLAT_PAUSE_TIME, PRINT);
+  P.displayZoneText(0, pc[0], PA_CENTER, SPEED_TIME, SPLAT_PAUSE_TIME, PA_PRINT);
+  P.displayZoneText(1, pc[1], PA_CENTER, SPEED_TIME, TEXT_PAUSE_TIME, PA_PRINT);
+  P.displayZoneText(2, pc[0], PA_CENTER, SPEED_TIME, SPLAT_PAUSE_TIME, PA_PRINT);
 }
 
 void loop(void)

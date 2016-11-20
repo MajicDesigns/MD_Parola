@@ -54,8 +54,8 @@ void MD_PZone::setZoneEffect(boolean b, zoneEffect_t ze)
 {
   switch (ze)
   {
-    case FLIP_LR: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_LR_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_LR_MASK));  break;
-    case FLIP_UD: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_UD_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_UD_MASK));  break;
+  case PA_FLIP_LR: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_LR_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_LR_MASK));  break;
+  case PA_FLIP_UD: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_UD_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_UD_MASK));  break;
   }  
   
   return;
@@ -65,8 +65,8 @@ boolean MD_PZone::getZoneEffect(zoneEffect_t ze)
 {
   switch (ze)
   {
-    case FLIP_LR: return(ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK)); break;
-    case FLIP_UD: return(ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)); break;
+  case PA_FLIP_LR: return(ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK)); break;
+  case PA_FLIP_UD: return(ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)); break;
   }
   
   return(false);
@@ -89,9 +89,9 @@ void MD_PZone::setInitialEffectConditions(void)
 {
 	PRINTS("\nsetInitialFSMConditions");
 
-	_startPos = _nextPos = (_textAlignment == RIGHT ? _limitRight: _limitLeft);
-	_endPos = (_textAlignment == RIGHT ? _limitLeft+_charSpacing : _limitRight-_charSpacing);
-	_posOffset = (_textAlignment == RIGHT ? 1 : -1);
+  _startPos = _nextPos = (_textAlignment == PA_RIGHT ? _limitRight : _limitLeft);
+  _endPos = (_textAlignment == PA_RIGHT ? _limitLeft + _charSpacing : _limitRight - _charSpacing);
+  _posOffset = (_textAlignment == PA_RIGHT ? 1 : -1);
 }
 
 uint16_t MD_PZone::getTextWidth(char *p)
@@ -128,7 +128,7 @@ bool MD_PZone::calcTextLimits(char *p)
 
 	switch (_textAlignment)
 	{
-		case LEFT:
+  case PA_LEFT:
 		_limitLeft = ZONE_END_COL(_zoneEnd);
 		if (_textLen > displayWidth)
 		{
@@ -141,7 +141,7 @@ bool MD_PZone::calcTextLimits(char *p)
 		}
 		break;
 
-		case RIGHT:
+  case PA_RIGHT:
 		_limitRight = ZONE_START_COL(_zoneStart);
 		if (_textLen > displayWidth)
 		{
@@ -154,7 +154,7 @@ bool MD_PZone::calcTextLimits(char *p)
 		}
 		break;
 
-		case CENTER:
+  case PA_CENTER:
 		if (_textLen > displayWidth)
 		{
 			_limitLeft = ZONE_END_COL(_zoneEnd);
@@ -345,7 +345,7 @@ void MD_PZone::moveTextPointer(void)
 {
 	PRINTS("\nMovePtr");
 
-	if (SFX(SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT))
 	{
 		PRINTS(" --");
 		_endOfText = (_pCurChar == _pText);
@@ -377,13 +377,13 @@ uint8_t MD_PZone::getFirstChar(void)
 		return(0);
 	}
 	_endOfText = false;
-	if (SFX(SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT))
 		_pCurChar += strlen(_pText) - 1;
 
 	// good string, get the first char into the current buffer
 	len = makeChar(*_pCurChar);
 
-	if (SFX(SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT))
 		reverseBuf(_cBuf, len);
     
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
@@ -407,7 +407,7 @@ uint8_t MD_PZone::getNextChar(void)
 
 	len = makeChar(*_pCurChar);
 
-	if (SFX(SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT))
 	  reverseBuf(_cBuf, len);
 
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
@@ -463,41 +463,41 @@ bool MD_PZone::zoneAnimate(void)
 				PRINT_STATE("ANIMATE");
 			switch (_moveIn ? _effectIn : _effectOut)
 			{
-				case PRINT:				effectPrint(_moveIn);			      break;
-        case SCROLL_UP:		effectVScroll(true, _moveIn);	  break;
-        case SCROLL_DOWN:	effectVScroll(false, _moveIn);	break;
-        case SCROLL_LEFT:	effectHScroll(true, _moveIn);	  break;
-        case SCROLL_RIGHT:effectHScroll(false, _moveIn);  break;
+      case PA_PRINT:				effectPrint(_moveIn);			      break;
+      case PA_SCROLL_UP:		effectVScroll(true, _moveIn);	  break;
+      case PA_SCROLL_DOWN:	effectVScroll(false, _moveIn);	break;
+      case PA_SCROLL_LEFT:	effectHScroll(true, _moveIn);	  break;
+      case PA_SCROLL_RIGHT:effectHScroll(false, _moveIn);  break;
 #if ENA_MISC
-        case SLICE:				effectSlice(_moveIn);			break;
-        case MESH:        effectMesh(_moveIn);      break;
-        case FADE:        effectFade(_moveIn);      break;
-        case BLINDS:			effectBlinds(_moveIn);		break;
-        case DISSOLVE:		effectDissolve(_moveIn);	break;
+      case PA_SLICE:				effectSlice(_moveIn);			break;
+      case PA_MESH:        effectMesh(_moveIn);      break;
+      case PA_FADE:        effectFade(_moveIn);      break;
+      case PA_BLINDS:			effectBlinds(_moveIn);		break;
+      case PA_DISSOLVE:		effectDissolve(_moveIn);	break;
 #endif // ENA_MISC
 #if ENA_WIPE
-        case WIPE:				effectWipe(false, _moveIn);		break;
-        case WIPE_CURSOR:	effectWipe(true, _moveIn);		break;
+      case PA_WIPE:				effectWipe(false, _moveIn);		break;
+      case PA_WIPE_CURSOR:	effectWipe(true, _moveIn);		break;
 #endif // ENA_WIPE
 #if ENA_SCAN
-        case SCAN_HORIZ:	effectHScan(_moveIn); break;
-        case SCAN_VERT:		effectVScan(_moveIn); break;
+      case PA_SCAN_HORIZ:	effectHScan(_moveIn); break;
+      case PA_SCAN_VERT:		effectVScan(_moveIn); break;
 #endif // ENA_SCAN
 #if ENA_OPNCLS
-        case OPENING:			effectOpen(false, _moveIn);		  break;
-        case OPENING_CURSOR:	effectOpen(true, _moveIn);	break;
-        case CLOSING:			effectClose(false, _moveIn);	  break;
-        case CLOSING_CURSOR:	effectClose(true, _moveIn);	break;
+      case PA_OPENING:			effectOpen(false, _moveIn);		  break;
+      case PA_OPENING_CURSOR:	effectOpen(true, _moveIn);	break;
+      case PA_CLOSING:			effectClose(false, _moveIn);	  break;
+      case PA_CLOSING_CURSOR:	effectClose(true, _moveIn);	break;
 #endif // ENA_OPNCLS
 #if ENA_SCR_DIA
-        case SCROLL_UP_LEFT:	  effectDiag(true, true, _moveIn);	break;
-        case SCROLL_UP_RIGHT:	  effectDiag(true, false, _moveIn);	break;
-        case SCROLL_DOWN_LEFT:	effectDiag(false, true, _moveIn);	break;
-        case SCROLL_DOWN_RIGHT:	effectDiag(false, false, _moveIn);break;
+      case PA_SCROLL_UP_LEFT:	  effectDiag(true, true, _moveIn);	break;
+      case PA_SCROLL_UP_RIGHT:	  effectDiag(true, false, _moveIn);	break;
+      case PA_SCROLL_DOWN_LEFT:	effectDiag(false, true, _moveIn);	break;
+      case PA_SCROLL_DOWN_RIGHT:	effectDiag(false, false, _moveIn); break;
 #endif // ENA_SCR_DIA
 #if ENA_GROW
-        case GROW_UP:			effectGrow(true, _moveIn);  break;
-        case GROW_DOWN:		effectGrow(false, _moveIn); break;
+      case PA_GROW_UP:			effectGrow(true, _moveIn);  break;
+      case PA_GROW_DOWN:		effectGrow(false, _moveIn); break;
 #endif // ENA_GROW
 				default:
 				_fsmState = END;

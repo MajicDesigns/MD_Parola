@@ -62,7 +62,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #endif // USE_UI_CONTROL
 
 uint8_t	frameDelay = 25;	// default frame delay value
-textEffect_t	scrollEffect = SCROLL_LEFT;
+textEffect_t	scrollEffect = PA_SCROLL_LEFT;
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
@@ -94,7 +94,7 @@ void doUI(void)
   if (uiDirection.read() == MD_KeySwitch::KS_PRESS)	// SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
-    scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
+    scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
     P.setTextEffect(scrollEffect, scrollEffect);
     P.displayReset();
   }
@@ -144,7 +144,7 @@ void setup()
   P.displayClear();
   P.displaySuspend(false);
 
-  P.displayScroll(curMessage, LEFT, scrollEffect, frameDelay);
+  P.displayScroll(curMessage, PA_LEFT, scrollEffect, frameDelay);
 
   strcpy(curMessage, "Hello! Enter new message?");
   newMessage[0] = '\0';

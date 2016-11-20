@@ -58,30 +58,30 @@ char	*pc[MAX_ZONES] =
 
 textEffect_t	effect[] =
 {
-  PRINT,
-  SCAN_HORIZ,
-  SCROLL_LEFT,
-  WIPE,
-  SCROLL_UP_LEFT,
-  SCROLL_UP,
-  FADE,
-  OPENING_CURSOR,
-  GROW_UP,
-  SCROLL_UP_RIGHT,
-  BLINDS,
-  CLOSING,
-  GROW_DOWN,
-  SCAN_VERT,
-  SCROLL_DOWN_LEFT,
-  WIPE_CURSOR,
-  DISSOLVE,
-  MESH,
-  OPENING,
-  CLOSING_CURSOR,
-  SCROLL_DOWN_RIGHT,
-  SCROLL_RIGHT,
-  SLICE,
-  SCROLL_DOWN,
+  PA_PRINT,
+  PA_SCAN_HORIZ,
+  PA_SCROLL_LEFT,
+  PA_WIPE,
+  PA_SCROLL_UP_LEFT,
+  PA_SCROLL_UP,
+  PA_FADE,
+  PA_OPENING_CURSOR,
+  PA_GROW_UP,
+  PA_SCROLL_UP_RIGHT,
+  PA_BLINDS,
+  PA_CLOSING,
+  PA_GROW_DOWN,
+  PA_SCAN_VERT,
+  PA_SCROLL_DOWN_LEFT,
+  PA_WIPE_CURSOR,
+  PA_DISSOLVE,
+  PA_MESH,
+  PA_OPENING,
+  PA_CLOSING_CURSOR,
+  PA_SCROLL_DOWN_RIGHT,
+  PA_SCROLL_RIGHT,
+  PA_SLICE,
+  PA_SCROLL_DOWN,
 };
 
 uint8_t	inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
@@ -124,7 +124,7 @@ void setup(void)
   P.setZone(2, 6, 8);
   
   for (uint8_t i=0; i<MAX_ZONES; i++)
-    P.displayZoneText(i, pc[i], CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
+    P.displayZoneText(i, pc[i], PA_CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }
 
 void loop(void)

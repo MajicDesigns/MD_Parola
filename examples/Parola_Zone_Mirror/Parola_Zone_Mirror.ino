@@ -53,29 +53,29 @@ typedef struct
 
 sCatalog  catalog[] =
 {
-  { PRINT,              "PRINT", 1, 1 },
-//  { SLICE,              "SLICE", 1, 1 },
-	{ MESH,								"MESH", 20, 1 },
-  { WIPE,               "WIPE",  3, 1 },
-  { WIPE_CURSOR,        "WPE_C", 4, 1 },
-  { OPENING,            "OPEN",  3, 1 },
-  { OPENING_CURSOR,     "OPN_C", 4, 1 },
-  { CLOSING,            "CLOSE", 3, 1 },
-  { CLOSING_CURSOR,     "CLS_C", 4, 1 },
-  { BLINDS,             "BLIND", 7, 1 },
-  { DISSOLVE,           "DSLVE", 7, 1 },
-  { SCROLL_UP,          "SC_U",  5, 1 },
-  { SCROLL_DOWN,        "SC_D",  5, 1 },
-//  { SCROLL_LEFT,        "SC_L",  5, 1 },
-//  { SCROLL_RIGHT,       "SC_R",  5, 1 },
-  { SCROLL_UP_LEFT,     "SC_UL", 7, 1 },
-  { SCROLL_UP_RIGHT,    "SC_UR", 7, 1 },
-  { SCROLL_DOWN_LEFT,   "SC_DL", 7, 1 },
-  { SCROLL_DOWN_RIGHT,  "SC_DR", 7, 1 },
-  { SCAN_HORIZ,         "SCANH", 4, 1 },
-  { SCAN_VERT,          "SCANV", 3, 1 },
-  { GROW_UP,            "GRW_U", 7, 1 },
-  { GROW_DOWN,          "GRW_D", 7, 1 },
+  { PA_PRINT, "PRINT", 1, 1 },
+//  { PA_SLICE,              "SLICE", 1, 1 },
+  { PA_MESH, "MESH", 20, 1 },
+  { PA_WIPE, "WIPE", 3, 1 },
+  { PA_WIPE_CURSOR, "WPE_C", 4, 1 },
+  { PA_OPENING, "OPEN", 3, 1 },
+  { PA_OPENING_CURSOR, "OPN_C", 4, 1 },
+  { PA_CLOSING, "CLOSE", 3, 1 },
+  { PA_CLOSING_CURSOR, "CLS_C", 4, 1 },
+  { PA_BLINDS, "BLIND", 7, 1 },
+  { PA_DISSOLVE, "DSLVE", 7, 1 },
+  { PA_SCROLL_UP, "SC_U", 5, 1 },
+  { PA_SCROLL_DOWN, "SC_D", 5, 1 },
+//  { PA_SCROLL_LEFT,        "SC_L",  5, 1 },
+//  { PA_SCROLL_RIGHT,       "SC_R",  5, 1 },
+  { PA_SCROLL_UP_LEFT, "SC_UL", 7, 1 },
+  { PA_SCROLL_UP_RIGHT, "SC_UR", 7, 1 },
+  { PA_SCROLL_DOWN_LEFT, "SC_DL", 7, 1 },
+  { PA_SCROLL_DOWN_RIGHT, "SC_DR", 7, 1 },
+  { PA_SCAN_HORIZ, "SCANH", 4, 1 },
+  { PA_SCAN_VERT, "SCANV", 3, 1 },
+  { PA_GROW_UP, "GRW_U", 7, 1 },
+  { PA_GROW_DOWN, "GRW_D", 7, 1 },
 };
 
 void setup(void)
@@ -97,8 +97,8 @@ void setup(void)
   P.setZone(0, 0, (MAX_DEVICES/2) - 1);
   P.setZone(1, MAX_DEVICES/2, MAX_DEVICES-1); 
   
-  P.setZoneEffect(1, true, FLIP_UD);
-  P.setZoneEffect(1, true, FLIP_LR);
+  P.setZoneEffect(1, true, PA_FLIP_UD);
+  P.setZoneEffect(1, true, PA_FLIP_LR);
 }
 
 void loop(void)
@@ -109,7 +109,7 @@ void loop(void)
   if (P.displayAnimate()) 
   {
     for (uint8_t z=0; z<MAX_ZONES; z++)
-      P.displayZoneText(z, catalog[nCurIdx].psz, CENTER, catalog[nCurIdx].speed, catalog[nCurIdx].pause, catalog[nCurIdx].effect, catalog[nCurIdx].effect);
+      P.displayZoneText(z, catalog[nCurIdx].psz, PA_CENTER, catalog[nCurIdx].speed, catalog[nCurIdx].pause, catalog[nCurIdx].effect, catalog[nCurIdx].effect);
 
     nCurIdx = (nCurIdx + 1) % ARRAY_SIZE(catalog);
   }

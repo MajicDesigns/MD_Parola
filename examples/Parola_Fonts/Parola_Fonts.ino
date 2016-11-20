@@ -45,10 +45,10 @@ typedef struct
 
 Message_t	M[] = 
 { 
-	{ NULL,         SCROLL_LEFT,	"Arduino" }, 
-	{ fontKatakana, SCROLL_LEFT,	"\x0b1\x0b0\x0c2\x0b2\x0c9" },
-	{ fontArabic,   SCROLL_RIGHT,	"\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
-	{ fontGreek,    SCROLL_LEFT,	"\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
+  { NULL, PA_SCROLL_LEFT, "Arduino" },
+  { fontKatakana, PA_SCROLL_LEFT, "\x0b1\x0b0\x0c2\x0b2\x0c9" },
+  { fontArabic, PA_SCROLL_RIGHT, "\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
+  { fontGreek, PA_SCROLL_LEFT, "\x080\x0a8\x0a4\x0ab\x0a6\x0ac\x0a0\x0a4\x0a6" }
 };
 #define	MAX_MESG  (sizeof(M)/sizeof(M[0]))
 
@@ -61,7 +61,7 @@ void setup(void)
 
   P.begin();
   P.setFont(M[curM].pFont);
-  P.displayText(M[curM].pMsg, CENTER, P.getSpeed(), PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
+  P.displayText(M[curM].pMsg, PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 }
 
 void loop(void)

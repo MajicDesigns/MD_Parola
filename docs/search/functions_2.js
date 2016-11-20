@@ -6,6 +6,6 @@ var searchData=
   ['displayreset',['displayReset',['../class_m_d___parola.html#ac2215961f392389a6ab9b17a5f098e4f',1,'MD_Parola::displayReset(void)'],['../class_m_d___parola.html#a9b59392e8233a36b9d733a9b9a1fc4f5',1,'MD_Parola::displayReset(uint8_t z)']]],
   ['displayscroll',['displayScroll',['../class_m_d___parola.html#adf278c039b7313486420a8774250d751',1,'MD_Parola']]],
   ['displaysuspend',['displaySuspend',['../class_m_d___parola.html#a4ebabd68838a04997d4b0493df59f998',1,'MD_Parola']]],
-  ['displaytext',['displayText',['../class_m_d___parola.html#adff0da0d976e93e9b2f4db8022d2a9fb',1,'MD_Parola']]],
-  ['displayzonetext',['displayZoneText',['../class_m_d___parola.html#ae07a7f6178b97320f41f7a9c00277b2a',1,'MD_Parola']]]
+  ['displaytext',['displayText',['../class_m_d___parola.html#a53b4c922a283ce2304a91e970e56c45d',1,'MD_Parola']]],
+  ['displayzonetext',['displayZoneText',['../class_m_d___parola.html#a5512bde50d6ee000d59a9bc46c1fb54b',1,'MD_Parola']]]
 ];

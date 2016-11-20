@@ -71,7 +71,7 @@ struct LineDefinition  Line[] =
 #endif // USE_UI_CONTROL
 
 uint8_t	frameDelay = 25;	// default frame delay value
-textEffect_t	scrollEffect = SCROLL_LEFT;
+textEffect_t	scrollEffect = PA_SCROLL_LEFT;
 
 // Global message buffer shared by Serial and Scrolling functions
 char newMessage[BUF_SIZE];
@@ -104,7 +104,7 @@ void doUI(void)
   if (uiDirection.read() == MD_KeySwitch::KS_PRESS)	// SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
-    scrollEffect = (scrollEffect == SCROLL_LEFT ? SCROLL_RIGHT : SCROLL_LEFT);
+    scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
     for (uint8_t i=0; i<MAX_LINES; i++)
     {
       Line[i].P.setTextEffect(scrollEffect, scrollEffect);
@@ -170,7 +170,7 @@ void setup()
     Line[i].P.displayClear();
     Line[i].P.displaySuspend(false);
 
-    Line[i].P.displayScroll(Line[i].curMessage, LEFT, scrollEffect, frameDelay);
+    Line[i].P.displayScroll(Line[i].curMessage, PA_LEFT, scrollEffect, frameDelay);
 
     strcpy(Line[i].curMessage, "Hello! Enter new message?");
   }

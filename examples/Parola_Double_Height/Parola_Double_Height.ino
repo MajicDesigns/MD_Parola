@@ -73,29 +73,29 @@ void loop(void)
   default:
     P.setFont(ZONE_LOWER, BigFontLower);
     P.setFont(ZONE_UPPER, BigFontUpper);
-    P.displayZoneText(ZONE_LOWER, msg[cycle], CENTER, 30, 0, SCROLL_LEFT, SCROLL_LEFT);
-    P.displayZoneText(ZONE_UPPER, msg[cycle], CENTER, 30, 0, SCROLL_LEFT, SCROLL_LEFT);
+    P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+    P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     break;
 
   case 1:
     P.setFont(ZONE_LOWER, NULL);
     P.setFont(ZONE_UPPER, BigFontUpper);
-    P.displayZoneText(ZONE_LOWER, msg[cycle], CENTER, 30, 0, SCROLL_LEFT, SCROLL_LEFT);
-    P.displayZoneText(ZONE_UPPER, msg[4], CENTER, 30, 0, PRINT, NO_EFFECT);
+    P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+    P.displayZoneText(ZONE_UPPER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
     break;
 
   case 2:
     P.setFont(ZONE_LOWER, BigFontLower);
     P.setFont(ZONE_UPPER, NULL);
-    P.displayZoneText(ZONE_LOWER, msg[4], CENTER, 30, 0, PRINT, NO_EFFECT);
-    P.displayZoneText(ZONE_UPPER, msg[cycle], CENTER, 30, 0, SCROLL_LEFT, SCROLL_LEFT);
+    P.displayZoneText(ZONE_LOWER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+    P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     break;
 
   case 3:
     P.setFont(ZONE_LOWER, BigFontLower);
     P.setFont(ZONE_UPPER, BigFontUpper);
-    P.displayZoneText(ZONE_LOWER, msg[cycle], CENTER, 30, 2000, PRINT, SCROLL_UP);
-    P.displayZoneText(ZONE_UPPER, msg[cycle], CENTER, 30, 2000, PRINT, SCROLL_DOWN);
+    P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_UP);
+    P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_DOWN);
     break;
   }
 

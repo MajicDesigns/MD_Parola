@@ -81,8 +81,8 @@ void loop(void)
 
   // set up the string
   createHString(msgH, msgL[cycle]);
-  P.displayZoneText(ZONE_LOWER, msgL[cycle], LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
-  P.displayZoneText(ZONE_UPPER, msgH, LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LEFT, SCROLL_LEFT);
+  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 
   // prepare for next pass
   cycle = (cycle + 1) % ARRAY_SIZE(msgL);

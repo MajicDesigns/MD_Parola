@@ -28,6 +28,9 @@ System Components
 
 Revision History 
 ----------------
+xxx 2016 - version 2.6
+- Prefaced all Parola enumerated types with PA_ as some clash with othe libraries
+
 Nov 2016 - version 2.5
 - Added ambulance example
 - Updated branding to MD_ diamond
@@ -266,9 +269,9 @@ class MD_Parola;
 */
 enum textPosition_t 
 {
-	LEFT,	///< The leftmost column for the first character will be on the left side of the display
-	CENTER,	///< The text will be placed with equal number of blank display columns either side
-	RIGHT	///< The rightmost column of the last character will be on the right side of the display
+  PA_LEFT,	  ///< The leftmost column for the first character will be on the left side of the display
+  PA_CENTER,	///< The text will be placed with equal number of blank display columns either side
+  PA_RIGHT	  ///< The rightmost column of the last character will be on the right side of the display
 };
 
 /**
@@ -278,42 +281,42 @@ enum textPosition_t
 */
 enum textEffect_t
 {
-  NO_EFFECT,		///< Used as a place filler, executes no operation
-  PRINT,	  		///< Text just appears (printed)
-  SCROLL_UP,		///< Text scrolls up through the display
-  SCROLL_DOWN,	///< Text scrolls down through the display
-  SCROLL_LEFT,	///< Text scrolls right to left on the display
-  SCROLL_RIGHT,	///< Text scrolls left to right on the display
+  PA_NO_EFFECT,		///< Used as a place filler, executes no operation
+  PA_PRINT,	  		///< Text just appears (printed)
+  PA_SCROLL_UP,		///< Text scrolls up through the display
+  PA_SCROLL_DOWN,	///< Text scrolls down through the display
+  PA_SCROLL_LEFT,	///< Text scrolls right to left on the display
+  PA_SCROLL_RIGHT,	///< Text scrolls left to right on the display
 #if ENA_MISC
-  SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
-  MESH,         ///< Text enters and exits in columns moving in alternate direction (U/D)
-  FADE,         ///< Text enters and exits by fading from/to 0 and intensity setting
-  DISSOLVE,		  ///< Text dissolves from one display to another
-  BLINDS,			  ///< Text is replaced behind vertical blinds
+  PA_SLICE,		  	///< Text enters and exits a slice (column) at a time from the right
+  PA_MESH,        ///< Text enters and exits in columns moving in alternate direction (U/D)
+  PA_FADE,        ///< Text enters and exits by fading from/to 0 and intensity setting
+  PA_DISSOLVE,    ///< Text dissolves from one display to another
+  PA_BLINDS,		  ///< Text is replaced behind vertical blinds
 #endif //ENA_MISC
 #if ENA_WIPE
-  WIPE,			    ///< Text appears/disappears one column at a time, looks like it is wiped on and off
-  WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
+  PA_WIPE,			  ///< Text appears/disappears one column at a time, looks like it is wiped on and off
+  PA_WIPE_CURSOR,	///< WIPE with a light bar ahead of the change
 #endif  // ENA_WIPES
 #if ENA_SCAN
-  SCAN_HORIZ,		///< Scan one column at a time then appears/disappear at end
-  SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
+  PA_SCAN_HORIZ,	///< Scan one column at a time then appears/disappear at end
+  PA_SCAN_VERT,		///< Scan one row at a time then appears/disappear at end
 #endif // ENA_SCAN
 #if ENA_OPNCLS
-  OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
-  OPENING_CURSOR,	///< OPENING with light bars ahead of the change
-  CLOSING,		  ///< Appear and disappear from the ends of the display, towards the middle
-  CLOSING_CURSOR,	///< CLOSING with light bars ahead of the change
+  PA_OPENING,		  ///< Appear and disappear from the center of the display, towards the ends
+  PA_OPENING_CURSOR,	///< OPENING with light bars ahead of the change
+  PA_CLOSING,		  ///< Appear and disappear from the ends of the display, towards the middle
+  PA_CLOSING_CURSOR,	///< CLOSING with light bars ahead of the change
 #endif // ENA_OPNCLS
 #if ENA_SCR_DIA
-  SCROLL_UP_LEFT,		///< Text moves in/out in a diagonal path up and left (North East)
-  SCROLL_UP_RIGHT,	///< Text moves in/out in a diagonal path up and right (North West)
-  SCROLL_DOWN_LEFT,	///< Text moves in/out in a diagonal path down and left (South East)
-  SCROLL_DOWN_RIGHT,///< Text moves in/out in a diagonal path down and right (North West)
+  PA_SCROLL_UP_LEFT,		///< Text moves in/out in a diagonal path up and left (North East)
+  PA_SCROLL_UP_RIGHT,	  ///< Text moves in/out in a diagonal path up and right (North West)
+  PA_SCROLL_DOWN_LEFT,	///< Text moves in/out in a diagonal path down and left (South East)
+  PA_SCROLL_DOWN_RIGHT, ///< Text moves in/out in a diagonal path down and right (North West)
 #endif // ENA_SCR_DIA
 #if ENA_GROW
-  GROW_UP,		  ///< Text grows from the bottom up and shrinks from the top down 
-  GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
+  PA_GROW_UP,		  ///< Text grows from the bottom up and shrinks from the top down 
+  PA_GROW_DOWN,		///< Text grows from the top down and and shrinks from the bottom up 
 #endif // ENA_GROW
 };
 
@@ -329,8 +332,8 @@ enum textEffect_t
 */
 enum zoneEffect_t
 {
-	FLIP_UD,	///< Flip the zone Up to Down (effectively upside down). Works with all textEffect_t values
-	FLIP_LR,	///< Flip the zone Left to Right (effectively mirrored). Does not work with textEffect_t types SLICE, SCROLL_LEFT, SCROLL_RIGHT
+  PA_FLIP_UD,	///< Flip the zone Up to Down (effectively upside down). Works with all textEffect_t values
+  PA_FLIP_LR,	///< Flip the zone Left to Right (effectively mirrored). Does not work with textEffect_t types SLICE, SCROLL_LEFT, SCROLL_RIGHT
 };
 
 /**
@@ -1013,7 +1016,7 @@ public:
    * \param	effectOut	parameter suitable for the setTextEffect() method.
    * \return No return value.
    */
-	inline void displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = NO_EFFECT)
+  inline void displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = PA_NO_EFFECT)
 		{ displayZoneText(0, pText, align, speed, pause, effectIn, effectOut); };
 	
  /**
@@ -1032,7 +1035,7 @@ public:
    * \param	effectOut	parameter suitable for the setTextEffect() method.
    * \return No return value.
    */
-	void displayZoneText(uint8_t z, char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = NO_EFFECT);
+  void displayZoneText(uint8_t z, char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = PA_NO_EFFECT);
 	
   /** @} */
   //--------------------------------------------------------------
@@ -1136,7 +1139,7 @@ public:
    * \param z		zone number.
    * \return the current text alignment setting for the specified zone.
    */
-	inline textPosition_t getTextAlignment(uint8_t z) { return (z < _numZones ? _Z[z].getTextAlignment() : CENTER); };
+  inline textPosition_t getTextAlignment(uint8_t z) { return (z < _numZones ? _Z[z].getTextAlignment() : PA_CENTER); };
   
  /** 
    * Get the value of specified display effect.

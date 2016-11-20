@@ -55,30 +55,30 @@ char	*pc[] =
 uint8_t	curFX = 0;
 textEffect_t	effect[] =
 {
-  PRINT,
-  SCAN_HORIZ,
-  SCROLL_LEFT,
-  WIPE,
-  SCROLL_UP_LEFT,
-  SCROLL_UP,
-  FADE,
-  OPENING_CURSOR,
-  GROW_UP,
-  SCROLL_UP_RIGHT,
-  BLINDS,
-  MESH,
-  CLOSING,
-  GROW_DOWN,
-  SCAN_VERT,
-  SCROLL_DOWN_LEFT,
-  WIPE_CURSOR,
-  DISSOLVE,
-  OPENING,
-  CLOSING_CURSOR,
-  SCROLL_DOWN_RIGHT,
-  SCROLL_RIGHT,
-  SLICE,
-  SCROLL_DOWN,
+  PA_PRINT,
+  PA_SCAN_HORIZ,
+  PA_SCROLL_LEFT,
+  PA_WIPE,
+  PA_SCROLL_UP_LEFT,
+  PA_SCROLL_UP,
+  PA_FADE,
+  PA_OPENING_CURSOR,
+  PA_GROW_UP,
+  PA_SCROLL_UP_RIGHT,
+  PA_BLINDS,
+  PA_MESH,
+  PA_CLOSING,
+  PA_GROW_DOWN,
+  PA_SCAN_VERT,
+  PA_SCROLL_DOWN_LEFT,
+  PA_WIPE_CURSOR,
+  PA_DISSOLVE,
+  PA_OPENING,
+  PA_CLOSING_CURSOR,
+  PA_SCROLL_DOWN_RIGHT,
+  PA_SCROLL_RIGHT,
+  PA_SLICE,
+  PA_SCROLL_DOWN,
 };
 
 void setup(void)
@@ -109,7 +109,7 @@ void loop(void)
   PRINT("\nNew Z", curZone);
   PRINT(": ", pc[curText]);
   PRINT(" @ ", millis());
-  P.displayZoneText(curZone, pc[curText], LEFT, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
+  P.displayZoneText(curZone, pc[curText], PA_LEFT, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
   
   // Check for individual zone completion. Note that we check the status of the zone rather than use the 
   // return status of the displayAnimate() method as the other unused zones are completed, but we 

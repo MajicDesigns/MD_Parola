@@ -93,9 +93,9 @@ void doUI(void)
     textPosition_t	align = P.getTextAlignment();
     textPosition_t	textAlign[] = 
     { 
-      LEFT, 
-      CENTER, 
-      RIGHT
+      PA_LEFT,
+      PA_CENTER,
+      PA_RIGHT
     };
 
     DEBUG("\nChanging alignment to ", curMode);
@@ -110,41 +110,41 @@ void doUI(void)
 
     textEffect_t effect[] =
     {
-      PRINT,
-      SCROLL_UP,
-      SCROLL_DOWN,
-      SCROLL_LEFT,
-      SCROLL_RIGHT,
+      PA_PRINT,
+      PA_SCROLL_UP,
+      PA_SCROLL_DOWN,
+      PA_SCROLL_LEFT,
+      PA_SCROLL_RIGHT,
 #if ENA_MISC
-      SLICE,
-      FADE,
-      MESH,
-      BLINDS,
-      DISSOLVE,
+      PA_SLICE,
+      PA_FADE,
+      PA_MESH,
+      PA_BLINDS,
+      PA_DISSOLVE,
 #endif
 #if ENA_WIPE
-      WIPE,
-      WIPE_CURSOR,
+      PA_WIPE,
+      PA_WIPE_CURSOR,
 #endif
 #if ENA_OPNCLS
-      OPENING,
-      OPENING_CURSOR,
-      CLOSING,
-      CLOSING_CURSOR,
+      PA_OPENING,
+      PA_OPENING_CURSOR,
+      PA_CLOSING,
+      PA_CLOSING_CURSOR,
 #endif
 #if ENA_SCR_DIA
-      SCROLL_UP_LEFT,
-      SCROLL_UP_RIGHT,
-      SCROLL_DOWN_LEFT,
-      SCROLL_DOWN_RIGHT,
+      PA_SCROLL_UP_LEFT,
+      PA_SCROLL_UP_RIGHT,
+      PA_SCROLL_DOWN_LEFT,
+      PA_SCROLL_DOWN_RIGHT,
 #endif
 #if ENA_SCAN
-      SCAN_HORIZ,
-      SCAN_VERT,
+      PA_SCAN_HORIZ,
+      PA_SCAN_VERT,
 #endif
 #if ENA_GROW
-      GROW_UP,
-      GROW_DOWN,
+      PA_GROW_UP,
+      PA_GROW_DOWN,
 #endif
    };
 
@@ -179,8 +179,8 @@ void doUI(void)
 
   if (uiFlip.read() == MD_KeySwitch::KS_PRESS)      // FLIP
   {
-    P.setZoneEffect(0, !P.getZoneEffect(0, FLIP_LR), FLIP_LR);
-    P.setZoneEffect(0, !P.getZoneEffect(0, FLIP_UD), FLIP_UD);
+    P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_LR), PA_FLIP_LR);
+    P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_UD), PA_FLIP_UD);
   }
 }
 
@@ -201,7 +201,7 @@ void setup(void)
 
   // parola object
   P.begin();
-  P.displayText(pc[curString], CENTER, P.getSpeed(), PAUSE_TIME, PRINT, PRINT);
+  P.displayText(pc[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
   curString = NEXT_STRING;
 }
 
