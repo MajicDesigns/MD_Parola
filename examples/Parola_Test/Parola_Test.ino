@@ -8,7 +8,7 @@
 // Pause between animations, LED intensity, Display flip, and invert mode. 
 // UI switches are normally HIGH.
 //
-// Keyswitch library can be found at https://github.com/MajicDesigns/KeySwitch
+// Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
 //
 
 #include <MD_Parola.h>

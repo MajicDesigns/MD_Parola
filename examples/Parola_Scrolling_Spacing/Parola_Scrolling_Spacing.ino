@@ -10,7 +10,7 @@
 // Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
 //
-// Keyswitch library can be found at https://github.com/MajicDesigns/KeySwitch
+// Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
 //
 
 #include <MD_Parola.h>
