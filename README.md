@@ -4,7 +4,7 @@
 
 [Version 2.0 Video](http://www.youtube.com/watch?v=u1iELyROjW8)
 
-[Library Documentation](https://majicdesigns.github.io/Parola/)
+[Library Documentation](https://majicdesigns.github.io/MD_Parola/)
 
 Parola is a modular scrolling text display using MAX7219 or MAX7221 LED matrix display controllers using Arduino. The display is made up of any number of identical modules that are plugged together to create a wider/longer display.
 * Text left, right or center justification in the display
