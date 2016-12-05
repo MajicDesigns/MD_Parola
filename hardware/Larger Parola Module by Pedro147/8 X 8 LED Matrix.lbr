@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="6.5.0">
+<drawing>
+<settings>
+<setting alwaysvectorfont="no"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+</layers>
+<library>
+<packages>
+<package name="8X8-LED-MATRIX">
+<description>8 x 8 LED Matrix Row Anode</description>
+<pad name="P$1" x="-23.2" y="9.04" drill="0.8" shape="square"/>
+<pad name="P$2" x="-23.2" y="6.5" drill="0.8" shape="square"/>
+<pad name="P$3" x="-23.2" y="3.96" drill="0.8" shape="square" rot="R180"/>
+<pad name="P$4" x="-23.2" y="1.42" drill="0.8" shape="square" rot="R180"/>
+<pad name="P$5" x="-23.2" y="-1.12" drill="0.8" shape="square" rot="R180"/>
+<pad name="P$6" x="-23.2" y="-3.66" drill="0.8" shape="square" rot="R180"/>
+<pad name="P$7" x="-23.2" y="-6.2" drill="0.8" shape="square" rot="R180"/>
+<pad name="P$8" x="-23.2" y="-8.74" drill="0.8" shape="square" rot="R180"/>
+<pad name="P$9" x="23.23" y="-8.84" drill="0.8" shape="square"/>
+<pad name="P$10" x="23.23" y="-6.3" drill="0.8" shape="square"/>
+<pad name="P$11" x="23.23" y="-3.76" drill="0.8" shape="square"/>
+<pad name="P$12" x="23.23" y="-1.22" drill="0.8" shape="square"/>
+<pad name="P$13" x="23.23" y="1.32" drill="0.8" shape="square"/>
+<pad name="P$14" x="23.23" y="3.86" drill="0.8" shape="square"/>
+<pad name="P$15" x="23.23" y="6.4" drill="0.8" shape="square"/>
+<pad name="P$16" x="23.23" y="8.94" drill="0.8" shape="square"/>
+<wire x1="-30" y1="-30" x2="-30" y2="30" width="0.127" layer="21"/>
+<wire x1="-30" y1="30" x2="30" y2="30" width="0.127" layer="21"/>
+<wire x1="30" y1="30" x2="30" y2="-30" width="0.127" layer="21"/>
+<wire x1="-30" y1="-30" x2="30" y2="-30" width="0.127" layer="21"/>
+<text x="-2.54" y="-33.02" size="1.27" layer="27">&gt;VALUE</text>
+<text x="-2.54" y="31.75" size="1.27" layer="25">&gt;NAMES</text>
+</package>
+</packages>
+<symbols>
+<symbol name="8X8-LED-MATRIX">
+<wire x1="-22.86" y1="-22.86" x2="22.86" y2="-22.86" width="0.254" layer="94"/>
+<wire x1="22.86" y1="-22.86" x2="22.86" y2="22.86" width="0.254" layer="94"/>
+<wire x1="22.86" y1="22.86" x2="-22.86" y2="22.86" width="0.254" layer="94"/>
+<wire x1="-22.86" y1="22.86" x2="-22.86" y2="-22.86" width="0.254" layer="94"/>
+<pin name="1" x="-25.4" y="17.78" visible="pin" length="short"/>
+<pin name="2" x="-25.4" y="12.7" visible="pin" length="short"/>
+<pin name="3" x="-25.4" y="7.62" visible="pin" length="short"/>
+<pin name="4" x="-25.4" y="2.54" visible="pin" length="short"/>
+<pin name="5" x="-25.4" y="-2.54" visible="pin" length="short"/>
+<pin name="6" x="-25.4" y="-7.62" visible="pin" length="short"/>
+<pin name="7" x="-25.4" y="-12.7" visible="pin" length="short"/>
+<pin name="8" x="-25.4" y="-17.78" visible="pin" length="short"/>
+<pin name="9" x="25.4" y="-17.78" visible="pin" length="short" rot="R180"/>
+<pin name="10" x="25.4" y="-12.7" visible="pin" length="short" rot="R180"/>
+<pin name="11" x="25.4" y="-7.62" visible="pin" length="short" rot="R180"/>
+<pin name="12" x="25.4" y="-2.54" visible="pin" length="short" rot="R180"/>
+<pin name="13" x="25.4" y="2.54" visible="pin" length="short" rot="R180"/>
+<pin name="14" x="25.4" y="7.62" visible="pin" length="short" rot="R180"/>
+<pin name="15" x="25.4" y="12.7" visible="pin" length="short" rot="R180"/>
+<pin name="16" x="25.4" y="17.78" visible="pin" length="short" rot="R180"/>
+<text x="-2.54" y="25.4" size="1.778" layer="95">&gt;NAME</text>
+<text x="-2.54" y="-27.94" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="8X8-LED-MATRIX">
+<gates>
+<gate name="G$1" symbol="8X8-LED-MATRIX" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="8X8-LED-MATRIX">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="10" pad="P$10"/>
+<connect gate="G$1" pin="11" pad="P$11"/>
+<connect gate="G$1" pin="12" pad="P$12"/>
+<connect gate="G$1" pin="13" pad="P$13"/>
+<connect gate="G$1" pin="14" pad="P$14"/>
+<connect gate="G$1" pin="15" pad="P$15"/>
+<connect gate="G$1" pin="16" pad="P$16"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+<connect gate="G$1" pin="3" pad="P$3"/>
+<connect gate="G$1" pin="4" pad="P$4"/>
+<connect gate="G$1" pin="5" pad="P$5"/>
+<connect gate="G$1" pin="6" pad="P$6"/>
+<connect gate="G$1" pin="7" pad="P$7"/>
+<connect gate="G$1" pin="8" pad="P$8"/>
+<connect gate="G$1" pin="9" pad="P$9"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+</drawing>
+</eagle>
