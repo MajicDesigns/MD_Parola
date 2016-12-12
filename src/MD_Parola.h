@@ -30,6 +30,10 @@ Revision History
 ----------------
 xxx 2016 - version 2.6
 - Prefaced all Parola enumerated types with PA_ as some clash with othe libraries
+- Edited main library core rouines to allow scrolling in double height mode
+- Eliminated trailing char separator from displayed string
+- Adjusted some animations to allow for changes to core utility functions
+- Changed Double_Height_v2 example to allow for Generic and Parola modules
 
 Nov 2016 - version 2.5
 - Added ambulance example
@@ -770,7 +774,7 @@ private:
 	MD_MAX72XX::fontType_t *_fontDef;	// font for this zone
 
 	uint8_t		findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
-	uint8_t		makeChar(char c);	// load a character bitmap and add in trailing _charSpacing blanks
+	uint8_t		makeChar(char c, bool addBlank);	// load a character bitmap and add in trailing _charSpacing blanks if req'd
 	void  		reverseBuf(uint8_t *p, uint8_t size);	// reverse the elements of the buffer
 	void  		invertBuf(uint8_t *p, uint8_t size);	// invert the elements of the buffer
 

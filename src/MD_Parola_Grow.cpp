@@ -59,7 +59,7 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
 
 			// blank out the part of the display we don't need
 			FSMPRINT("Keep bits ", _nextPos);
-			for (uint8_t i = _startPos; i != _endPos; i += _posOffset)
+			for (uint8_t i = _startPos; i != _endPos+_posOffset; i += _posOffset)
 			{
 				uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
@@ -98,7 +98,7 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
 
 			// blank out the part of the display we don't need
 			FSMPRINT(" Keep bits ", _nextPos);
-			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
+			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
 			{
 				uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 

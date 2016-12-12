@@ -58,7 +58,7 @@ void MD_PZone::effectHScan(bool bIn)
 
 			// blank out the part of the display we don't need
 			FSMPRINT("Keep ", _nextPos);
-			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
+			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
 			{
 				if (i != _nextPos)
 					_MX->setColumn(i, EMPTY_BAR);
@@ -91,7 +91,7 @@ void MD_PZone::effectHScan(bool bIn)
 
 			// blank out the part of the display we don't need
 			FSMPRINT(" Keep ", _nextPos);
-			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
+			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
 			{
 				if (i != _nextPos)
 					_MX->setColumn(i, EMPTY_BAR);
@@ -146,7 +146,7 @@ void MD_PZone::effectVScan(bool bIn)
 			// blank out the part of the display we don't need
 			FSMPRINT("Keep bit ", _nextPos);
 			maskCol = (1 << _nextPos);
-			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
+			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
 			{
 				uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
 
@@ -184,7 +184,7 @@ void MD_PZone::effectVScan(bool bIn)
 			FSMPRINT(" Keep bit ", _nextPos);
 		  if (_nextPos >= 0)
         maskCol = 1 << _nextPos;
-			for (uint8_t i=_startPos; i != _endPos; i += _posOffset)
+			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
 			{
 				uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
 

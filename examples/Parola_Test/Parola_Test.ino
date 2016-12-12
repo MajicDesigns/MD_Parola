@@ -110,14 +110,14 @@ void doUI(void)
 
     textEffect_t effect[] =
     {
-      PA_PRINT,
+/*      PA_PRINT,
       PA_SCROLL_UP,
       PA_SCROLL_DOWN,
       PA_SCROLL_LEFT,
       PA_SCROLL_RIGHT,
 #if ENA_MISC
-      PA_SLICE,
-      PA_FADE,
+*/      PA_SLICE,
+/*      PA_FADE,
       PA_MESH,
       PA_BLINDS,
       PA_DISSOLVE,
@@ -146,7 +146,7 @@ void doUI(void)
       PA_GROW_UP,
       PA_GROW_DOWN,
 #endif
-   };
+*/   };
 
     curFX = (curFX + 1) % ARRAY_SIZE(effect);
     DEBUG("\nChanging effect to ", curFX);

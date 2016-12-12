@@ -3,9 +3,14 @@
 // Largely based on code shared by arduino.cc forum user Arek00, 26 Sep 2015.
 // Video of running display can be seen at https://www.youtube.com/watch?v=7nPCIMVUo5g
 //
-// Key to the duble height code is the definition of 2 fonts and 2 zones 'stacked' 
-// on top of each other. Each font displays letters for either top or bottom half 
-// of the message. Sending the same string to both zones creates the complete message
+// Key to the double height code is the definition of 2 fonts and 2 zones 'stacked' 
+// on top of each other so that the modules numbers are in sequence like
+//
+//  n n-1 n-2 ... n/2+1   <- this direction top row
+//  n/2 ... 3  2  1  0    <- this direction bottom row
+/
+// Each font displays letters for either top or bottom half of the message. Sending the 
+// same string to both zones creates the complete message
 // on the display.
 // 
 #include <MD_Parola.h>
@@ -17,7 +22,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
 #define MAX_ZONES 2
-#define ZONE_SIZE 6
+#define ZONE_SIZE 4
 #define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
@@ -60,7 +65,6 @@ void setup(void)
 
   P.setZone(ZONE_UPPER, ZONE_SIZE, MAX_DEVICES-1);
   P.setFont(ZONE_UPPER, BigFontUpper);
-
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
 }
 

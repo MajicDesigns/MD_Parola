@@ -5,6 +5,23 @@
 // - Optional use of DS1307 module for time
 // - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 //
+// Each font file has the lower part of a character as ASCII codes 0-127 and the 
+// upper part of the character in ASCII code 128-255. Adding 128 to each lower 
+// character creates the correct index for the upper character.
+// The upper and lower portions are managed as 2 zones 'stacked' on top of each other
+// so that the module numbers are in the sequence shown below:
+//
+// * Modules (like FC-16) that can fit over each other with no gap
+//  n n-1 n-2 ... n/2+1   <- this direction top row
+//  n/2 ... 3  2  1  0    <- this direction bottom row
+//
+// * Modules (like Generic and Parola) that cannot fit over each other with no gap
+//  n/2+1 ... n-2 n-1 n   -> this direction top row
+//  n/2 ... 3  2  1  0    <- this direction bottom row
+//
+// Sending the original string to the lower zone and the modified (+128) string to the
+// upper zone creates the complete message on the display.
+
 
 // Use the DS1307 clock module
 #define	USE_DS1307	0

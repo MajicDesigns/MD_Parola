@@ -47,6 +47,9 @@ void MD_PZone::effectSlice(bool bIn)
 			_nextPos = ZONE_START_COL(_zoneStart);
 			_endPos = _limitLeft;
 
+      FSMPRINT(" - Start ", _nextPos);
+      FSMPRINT(", End ", _endPos);
+
 			_fsmState = PUT_CHAR;
 			break;
 
@@ -67,18 +70,19 @@ void MD_PZone::effectSlice(bool bIn)
 			FSMPRINT(" - Next ", _endPos);
 			FSMPRINT(", anim ", _nextPos);
 
-      // if the text is too long for the zone, stop when we have are at the last column of the zone
+      // if the text is too long for the zone, stop when we are at the last column of the zone
       if (_nextPos == _endPos)
       {
+        _MX->setColumn(_nextPos, DATA_BAR(_cBuf[_countCols]));
         _fsmState = PAUSE;
         break;
       }
-
-			if (_cBuf[_countCols] == 0)
+      
+      if (_cBuf[_countCols] == 0) // empty column ?
 			{
 				_nextPos = _endPos;	// pretend we just animated it!
 			}
-			else
+      else    // somthing to animate
 			{
 				// clear the column and animate the next one
 				if (_nextPos != _endPos) _MX->setColumn(_nextPos, EMPTY_BAR);
@@ -120,7 +124,7 @@ void MD_PZone::effectSlice(bool bIn)
 			while(_MX->getColumn(_nextPos) == EMPTY_BAR && _endPos >= _limitRight)
 				_nextPos = _endPos--;	// pretend we just animated it!
 
-			if (_endPos < _limitRight)
+			if (_endPos+1 < _limitRight)
 				_fsmState = END;	//reached the end
 			else
 			{

@@ -90,7 +90,7 @@ void MD_PZone::setInitialEffectConditions(void)
 	PRINTS("\nsetInitialFSMConditions");
 
   _startPos = _nextPos = (_textAlignment == PA_RIGHT ? _limitRight : _limitLeft);
-  _endPos = (_textAlignment == PA_RIGHT ? _limitLeft + _charSpacing : _limitRight - _charSpacing);
+  _endPos = (_textAlignment == PA_RIGHT ? _limitLeft : _limitRight);
   _posOffset = (_textAlignment == PA_RIGHT ? 1 : -1);
 }
 
@@ -109,6 +109,8 @@ uint16_t MD_PZone::getTextWidth(char *p)
 		  sum += _charSpacing;
 	}
 
+  if (sum != 0)              // not an empty string!
+    sum -= _charSpacing;    // do not have a space at the end of the string
 	PRINT(": W=", sum);
 
 	return(sum);
@@ -282,8 +284,8 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 	return(len);
 }
 
-uint8_t MD_PZone::makeChar(char c)
-// Load a character bitmap and add in trailing char spacing blanks
+uint8_t MD_PZone::makeChar(char c, bool addBlank)
+// Load a character bitmap and add in trailing char spacing blanks 
 {
 	uint8_t	len;
 
@@ -293,11 +295,14 @@ uint8_t MD_PZone::makeChar(char c)
 	len = findChar((uint8_t)c, ARRAY_SIZE(_cBuf), _cBuf);
 
 	// Add in the inter char spacing
-	for (uint8_t i = 0; i<_charSpacing; i++)
-	{
-		if (len < ARRAY_SIZE(_cBuf))
-		_cBuf[len++] = 0;
-	}
+  if (addBlank)
+  {
+    for (uint8_t i = 0; i < _charSpacing; i++)
+    {
+      if (len < ARRAY_SIZE(_cBuf))
+        _cBuf[len++] = 0;
+    }
+  }
 
 	PRINT(", len=", len);
 
@@ -345,7 +350,7 @@ void MD_PZone::moveTextPointer(void)
 {
 	PRINTS("\nMovePtr");
 
-  if (SFX(PA_SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
 	{
 		PRINTS(" --");
 		_endOfText = (_pCurChar == _pText);
@@ -377,13 +382,13 @@ uint8_t MD_PZone::getFirstChar(void)
 		return(0);
 	}
 	_endOfText = false;
-  if (SFX(PA_SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
 		_pCurChar += strlen(_pText) - 1;
 
 	// good string, get the first char into the current buffer
-	len = makeChar(*_pCurChar);
+	len = makeChar(*_pCurChar, *(_pCurChar+1) != '\0');
 
-  if (SFX(PA_SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
 		reverseBuf(_cBuf, len);
     
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
@@ -403,11 +408,11 @@ uint8_t MD_PZone::getNextChar(void)
 	PRINTS("\ngetNext ");
 
 	if (_endOfText)
-	return(0);
+	  return(0);
 
-	len = makeChar(*_pCurChar);
+	len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
-  if (SFX(PA_SCROLL_RIGHT))
+  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
 	  reverseBuf(_cBuf, len);
 
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
@@ -452,10 +457,6 @@ bool MD_PZone::zoneAnimate(void)
         cycleStartTime = millis();
 #endif
 				setInitialConditions();
-        // MC 2015-07-19 - zoneClear() below was removed when Scroll Spacing was implemented. 
-        // Animations seem to work without this step. H Scroll will remain on the display, 
-        // but that is the point!
-				// zoneClear();
 				_moveIn = true;
 			// fall through to process the effect, first call will be with INITIALISE
 
