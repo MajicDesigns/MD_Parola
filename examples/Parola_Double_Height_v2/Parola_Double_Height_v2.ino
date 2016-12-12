@@ -23,7 +23,7 @@
 #include <SPI.h>
 #include "Font_Data.h"
 
-#if USE_GENERIC_HW || USE_PAROLA_HW1
+#if USE_GENERIC_HW || USE_PAROLA_HW
 #define INVERT_UPPER_ZONE
 #endif
 
@@ -31,7 +31,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may 
 // need to be adapted
 #define MAX_ZONES 2
-#define ZONE_SIZE 7
+#define ZONE_SIZE 4
 #define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
