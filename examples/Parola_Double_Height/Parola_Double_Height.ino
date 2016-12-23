@@ -8,7 +8,7 @@
 //
 //  n n-1 n-2 ... n/2+1   <- this direction top row
 //  n/2 ... 3  2  1  0    <- this direction bottom row
-/
+//
 // Each font displays letters for either top or bottom half of the message. Sending the 
 // same string to both zones creates the complete message
 // on the display.
@@ -48,7 +48,7 @@ char *msg[] =
   "abcdefghijklmnopqrstuvwxyz",
   "0123456789",
   "`!@#$%^&*()_+-={};:'\"<>?,./|\\{}",
-  "Download the Parola at parola.codeplex.com",
+  "Download the Parola at github.com/MajicDesigns",
   "Watch the video on YouTube"
 };
 
@@ -71,43 +71,52 @@ void setup(void)
 void loop(void)
 {
   static uint8_t cycle = 0;
+  static bool doAnimate = false;
 
-  switch (cycle)
+  if (doAnimate)
   {
-  default:
-    P.setFont(ZONE_LOWER, BigFontLower);
-    P.setFont(ZONE_UPPER, BigFontUpper);
-    P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-    P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-    break;
-
-  case 1:
-    P.setFont(ZONE_LOWER, NULL);
-    P.setFont(ZONE_UPPER, BigFontUpper);
-    P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-    P.displayZoneText(ZONE_UPPER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
-    break;
-
-  case 2:
-    P.setFont(ZONE_LOWER, BigFontLower);
-    P.setFont(ZONE_UPPER, NULL);
-    P.displayZoneText(ZONE_LOWER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
-    P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-    break;
-
-  case 3:
-    P.setFont(ZONE_LOWER, BigFontLower);
-    P.setFont(ZONE_UPPER, BigFontUpper);
-    P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_UP);
-    P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_DOWN);
-    break;
-  }
-
-  // prepare for next pass
-  cycle = (cycle + 1) % ARRAY_SIZE(msg);
-
-  // synchronise the start and run the display to completion
-  P.synchZoneStart();
-  while (!P.getZoneStatus(ZONE_LOWER) || !P.getZoneStatus(ZONE_UPPER))
     P.displayAnimate();
+    doAnimate &= (!P.getZoneStatus(ZONE_LOWER) && !P.getZoneStatus(ZONE_UPPER));
+  }
+  else
+  {
+    switch (cycle)
+    {
+    case 0:
+    default:
+      P.setFont(ZONE_LOWER, BigFontLower);
+      P.setFont(ZONE_UPPER, BigFontUpper);
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      break;
+
+    case 1:
+      P.setFont(ZONE_LOWER, NULL);
+      P.setFont(ZONE_UPPER, BigFontUpper);
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+      break;
+
+    case 2:
+      P.setFont(ZONE_LOWER, BigFontLower);
+      P.setFont(ZONE_UPPER, NULL);
+      P.displayZoneText(ZONE_LOWER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      break;
+
+    case 3:
+      P.setFont(ZONE_LOWER, BigFontLower);
+      P.setFont(ZONE_UPPER, BigFontUpper);
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_UP);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_DOWN);
+      break;
+    }
+
+    // prepare for next pass
+    cycle = (cycle + 1) % ARRAY_SIZE(msg);
+
+    // synchronise the start
+    P.synchZoneStart();
+    doAnimate = true;
+  }
 }

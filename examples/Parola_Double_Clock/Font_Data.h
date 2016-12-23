@@ -2,7 +2,7 @@
 #ifndef FONTDATA_H
 #define FONTDATA_H
 
-const uint8_t numeric7SegDouble[] PROGMEM = {
+MD_MAX72XX::fontType_t numeric7SegDouble[] PROGMEM = {
     0,		// 0
     0,		// 1
     0,		// 2

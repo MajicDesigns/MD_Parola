@@ -14,7 +14,7 @@
 #define	USE_DHT11	0
 
 // Use the DS1307 clock module
-#define	USE_DS1307	1
+#define	USE_DS1307	0
 
 // Header file includes
 #include <MD_Parola.h>

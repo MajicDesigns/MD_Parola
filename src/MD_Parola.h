@@ -34,6 +34,7 @@ xxx 2016 - version 2.6
 - Eliminated trailing char separator from displayed string
 - Adjusted some animations to allow for changes to core utility functions
 - Changed Double_Height_v2 example to allow for Generic and Parola modules
+- Fixed font definitions for font based examples
 
 Nov 2016 - version 2.5
 - Added ambulance example

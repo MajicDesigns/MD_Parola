@@ -95,23 +95,30 @@ void createHString(char *pH, char *pL)
 void loop(void)
 {
   static uint8_t cycle = 0;
+  static bool doAnimate = false;
 
-  // set up the string
-  createHString(msgH, msgL[cycle]);
+  if (doAnimate)
+  {
+    P.displayAnimate();
+    doAnimate &= (!P.getZoneStatus(ZONE_LOWER) && !P.getZoneStatus(ZONE_UPPER));
+  }
+  else
+  {
+	  // set up the string
+	  createHString(msgH, msgL[cycle]);
 #ifdef INVERT_UPPER_ZONE
-  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_NO_EFFECT);
-  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_RIGHT, PA_NO_EFFECT);
+	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_NO_EFFECT);
+	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_RIGHT, PA_NO_EFFECT);
 #else
-  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_RIGHT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_RIGHT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 #endif
 
-  // prepare for next pass
-  cycle = (cycle + 1) % ARRAY_SIZE(msgL);
+	  // prepare for next pass
+	  cycle = (cycle + 1) % ARRAY_SIZE(msgL);
 
-  // synchronise the start and run the display to completion
-  P.displayClear();
-  P.synchZoneStart();
-  while (!P.getZoneStatus(ZONE_LOWER) || !P.getZoneStatus(ZONE_UPPER))
-    P.displayAnimate();
+	  // synchronise the start and run the display
+	  P.synchZoneStart();
+    doAnimate = true;
+	}
 }

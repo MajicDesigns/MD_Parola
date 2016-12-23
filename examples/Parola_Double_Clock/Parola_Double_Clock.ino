@@ -129,23 +129,31 @@ void setup(void)
 void loop(void)
 {
   static uint32_t	lastTime = 0;		// millis() memory
-  static bool	flasher = false;	// seconds passing flasher
+  static bool	flasher = false;	  // seconds passing flasher
+  static bool doAnimate = false;  // animation switch
 
-  // Adjust the time string if we have to. It will be adjusted
-  // every second at least for the flashing colon separator.
-  if (millis() - lastTime >= 1000)
+  if (doAnimate)
   {
-    lastTime = millis();
-    getTime(szTimeL, flasher);
-    createHString(szTimeH, szTimeL);
-    flasher = !flasher;
-
-    P.displayReset(ZONE_LOWER);
-    P.displayReset(ZONE_UPPER);
-  }
-
-  // synchronise the start and run the display to completion
-  P.synchZoneStart();
-  while (!P.getZoneStatus(ZONE_LOWER) || !P.getZoneStatus(ZONE_UPPER))
     P.displayAnimate();
+    doAnimate &= (!P.getZoneStatus(ZONE_LOWER) && !P.getZoneStatus(ZONE_UPPER));
+  }
+  else
+  {
+	  // Adjust the time string if we have to. It will be adjusted
+	  // every second at least for the flashing colon separator.
+    if (millis() - lastTime >= 1000)
+    {
+      lastTime = millis();
+      getTime(szTimeL, flasher);
+      createHString(szTimeH, szTimeL);
+      flasher = !flasher;
+
+      P.displayReset(ZONE_LOWER);
+      P.displayReset(ZONE_UPPER);
+
+      // synchronise the start
+      P.synchZoneStart();
+      doAnimate = true;
+    }
+  }
 }

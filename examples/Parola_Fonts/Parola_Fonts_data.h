@@ -2,7 +2,7 @@
 #ifndef FONTS_DATA_H
 #define FONTS_DATA_H
 
-MD_MAX72XX::fontType_t fontGreek[] = 
+MD_MAX72XX::fontType_t fontGreek[] PROGMEM = 
 {
 	0,		// 0
 	0,		// 1
@@ -262,7 +262,7 @@ MD_MAX72XX::fontType_t fontGreek[] =
 	0,		// 255
 };
 
-MD_MAX72XX::fontType_t fontArabic[] = // modern arabic
+MD_MAX72XX::fontType_t fontArabic[] PROGMEM = // modern arabic
 {
 	0,		// 0
 	0,		// 1
@@ -522,7 +522,7 @@ MD_MAX72XX::fontType_t fontArabic[] = // modern arabic
 	0,		// 255
 };
 
-MD_MAX72XX::fontType_t fontKatakana[] = 
+MD_MAX72XX::fontType_t fontKatakana[] PROGMEM =
 {
 	0,		// 0
 	0,		// 1

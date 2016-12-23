@@ -2,7 +2,7 @@
 #ifndef FONTDATA_H
 #define FONTDATA_H
 
-const uint8_t BigFontLower[] PROGMEM = 
+MD_MAX72XX::fontType_t BigFontLower[] PROGMEM = 
 {
   0,    // 0
   0,    // 1
@@ -263,7 +263,7 @@ const uint8_t BigFontLower[] PROGMEM =
 };
 
 
-const uint8_t BigFontUpper[] PROGMEM = 
+MD_MAX72XX::fontType_t BigFontUpper[] PROGMEM = 
 {
   0,    // 0
   0,    // 1
