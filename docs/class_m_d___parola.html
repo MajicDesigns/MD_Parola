@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Parola for Arduino
-   &#160;<span id="projectnumber">2.5</span>
+   &#160;<span id="projectnumber">2.6</span>
    </div>
    <div id="projectbrief">Text effects for LED Matrix modular hardware</div>
   </td>
@@ -91,6 +91,20 @@ $(document).ready(function(){initNavTree('class_m_d___parola.html','');});
 <div class="contents">
 
 <p><code>#include &lt;MD_Parola.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for MD_Parola:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_m_d___parola__inherit__graph.png" border="0" usemap="#_m_d___parola_inherit__map" alt="Inheritance graph"/></div>
+<map name="_m_d___parola_inherit__map" id="_m_d___parola_inherit__map">
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for MD_Parola:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_m_d___parola__coll__graph.png" border="0" usemap="#_m_d___parola_coll__map" alt="Collaboration graph"/></div>
+<map name="_m_d___parola_coll__map" id="_m_d___parola_coll__map">
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -204,6 +218,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a619357fd65bc4b6a30a5d2e74b5d2140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97bf4988df87bb0d4a03dea69a32293c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a97bf4988df87bb0d4a03dea69a32293c">setFont</a> (uint8_t z, MD_MAX72XX::fontType_t *fontDef)</td></tr>
 <tr class="separator:a97bf4988df87bb0d4a03dea69a32293c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Support methods for Print class extension.</div></td></tr>
+<tr class="memitem:a6c5fe7373f27edf29abb639cf3cb1dfb"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a6c5fe7373f27edf29abb639cf3cb1dfb">write</a> (uint8_t c)</td></tr>
+<tr class="separator:a6c5fe7373f27edf29abb639cf3cb1dfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a933934ad1ec191419dad4ddceedb9fd6"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a933934ad1ec191419dad4ddceedb9fd6">write</a> (const char *str)</td></tr>
+<tr class="separator:a933934ad1ec191419dad4ddceedb9fd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace798ba32cb774792e602778654cd159"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#ace798ba32cb774792e602778654cd159">write</a> (const uint8_t *buffer, size_t size)</td></tr>
+<tr class="separator:ace798ba32cb774792e602778654cd159"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Core object for the Parola library. This class contains one or more zones for display. </p>
@@ -1917,6 +1938,122 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a6c5fe7373f27edf29abb639cf3cb1dfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c5fe7373f27edf29abb639cf3cb1dfb">&sect;&nbsp;</a></span>write() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t MD_Parola::write </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Write a single character to the output display</p>
+<p>Display a character when given the ASCII code for it. The character is converted to a string and the string printing function invoked. The LED display is designed for string based output, so it does not make much sense to do this. Creating the short string is a consistent way to way to handle single the character.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>ASCII code for the character to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of characters written. </dd></dl>
+
+</div>
+</div>
+<a id="a933934ad1ec191419dad4ddceedb9fd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a933934ad1ec191419dad4ddceedb9fd6">&sect;&nbsp;</a></span>write() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t MD_Parola::write </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Write a NUL terminated string to the output display.</p>
+<p>Display a nul terminated string when given a pointer to the char array. Invokes an animation using PA_PRINT, CENTERED in the display. This method also invokes the animation for the print and returns when that has finished, so it blocks while the printing is happening.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>Pointer to the nul terminated char array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of characters written. </dd></dl>
+
+</div>
+</div>
+<a id="ace798ba32cb774792e602778654cd159"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace798ba32cb774792e602778654cd159">&sect;&nbsp;</a></span>write() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t MD_Parola::write </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Write a character buffer to the output display.</p>
+<p>Display a non-nul terminated string given a pointer to the buffer and the size of the buffer. The buffer is turned into a nul terminated string and the simple <a class="el" href="class_m_d___parola.html#a6c5fe7373f27edf29abb639cf3cb1dfb">write()</a> method is invoked. Memory is allocated and freed in this methods to copy the string.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>Pointer to the data buffer. </td></tr>
+    <tr><td class="paramname">size</td><td>The number of bytes to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of bytes written. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="_m_d___parola_8h.html">MD_Parola.h</a></li>
 <li>src/<a class="el" href="_m_d___parola_8cpp.html">MD_Parola.cpp</a></li>
@@ -1927,7 +2064,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Sun Nov 20 2016 13:52:26 for Parola for Arduino by
+    <li class="footer">Generated on Sat Dec 24 2016 11:57:23 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.12 </li>
   </ul>

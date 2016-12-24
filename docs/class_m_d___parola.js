@@ -52,5 +52,8 @@ var class_m_d___parola =
     [ "setTextEffect", "class_m_d___parola.html#a00c348909a79340e3c0bec1568f87ac7", null ],
     [ "setZone", "class_m_d___parola.html#a218bd5860a6023b58e5d00de2b1d976a", null ],
     [ "setZoneEffect", "class_m_d___parola.html#aa978891dd1382e933cb40c61c78c5956", null ],
-    [ "synchZoneStart", "class_m_d___parola.html#ab3f9f4f3174555085d75faf987a3d398", null ]
+    [ "synchZoneStart", "class_m_d___parola.html#ab3f9f4f3174555085d75faf987a3d398", null ],
+    [ "write", "class_m_d___parola.html#a6c5fe7373f27edf29abb639cf3cb1dfb", null ],
+    [ "write", "class_m_d___parola.html#a933934ad1ec191419dad4ddceedb9fd6", null ],
+    [ "write", "class_m_d___parola.html#ace798ba32cb774792e602778654cd159", null ]
 ];

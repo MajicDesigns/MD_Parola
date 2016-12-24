@@ -28,13 +28,14 @@ System Components
 
 Revision History 
 ----------------
-xxx 2016 - version 2.6
+Dec 2016 - version 2.6
 - Prefaced all Parola enumerated types with PA_ as some clash with othe libraries
 - Edited main library core rouines to allow scrolling in double height mode
 - Eliminated trailing char separator from displayed string
 - Adjusted some animations to allow for changes to core utility functions
 - Changed Double_Height_v2 example to allow for Generic and Parola modules
 - Fixed font definitions for font based examples
+- Added Arduino Library Print Class extension for easy printing
 
 Nov 2016 - version 2.5
 - Added ambulance example
@@ -817,7 +818,7 @@ private:
  * Core object for the Parola library.
  * This class contains one or more zones for display.
  */
-class MD_Parola 
+class MD_Parola: public Print
 {
 public:
   /** 
@@ -1463,6 +1464,54 @@ public:
    * \return No return value.
    */
 	inline void setFont(uint8_t z, MD_MAX72XX::fontType_t *fontDef) { if (z < _numZones) _Z[z].setZoneFont(fontDef); };
+
+  /** @} */
+
+  //--------------------------------------------------------------
+  /** \name Support methods for Print class extension.
+  * @{
+  */
+
+  /**
+  * Write a single character to the output display
+  *
+  * Display a character when given the ASCII code for it. The character is 
+  * converted to a string and the string printing function invoked.
+  * The LED display is designed for string based output, so it does not make much 
+  * sense to do this. Creating the short string is a consistent way to way to handle
+  * single the character.
+  *
+  * \param c	ASCII code for the character to write.
+  * \return the number of characters written.
+  */
+  virtual size_t write(uint8_t c) { char sz[2]; sz[0] = c; sz[1] = '\0'; write(sz); return(1); }
+
+  /**
+  * Write a NUL terminated string to the output display.
+  *
+  * Display a nul terminated string when given a pointer to the char array.
+  * Invokes an animation using PA_PRINT, CENTERED in the display.
+  * This method also invokes the animation for the print and returns when that has 
+  * finished, so it blocks while the printing is happening.
+  * 
+  * \param str	Pointer to the nul terminated char array.
+  * \return the number of characters written.
+  */
+  virtual size_t write(const char *str);
+
+  /**
+  * Write a character buffer to the output display.
+  *
+  * Display a non-nul terminated string given a pointer to the buffer and 
+  * the size of the buffer. The buffer is turned into a nul terminated string
+  * and the simple write() method is invoked. Memory is allocated and freed
+  * in this methods to copy the string.
+  *
+  * \param buffer	Pointer to the data buffer.
+  * \param size The number of bytes to write.
+  * \return the number of bytes written.
+  */
+  virtual size_t write(const uint8_t *buffer, size_t size);
 
   /** @} */
 
