@@ -3,15 +3,9 @@
 // Demonstrates the use of the scrolling function to display text received 
 // from the serial interface
 //
-// User can enter text on the serial monitor and this will display as a
-// scrolling message on the display. User can enter text through 
-// a web browser and this will display as a scrolling message on 
-// the display. Some parameters for the text can also be controlled from 
-// the web page.
-//
-// Speed for the display is controlled by a pot on SPEED_IN analog in.
-// Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
-// Invert ON/OFF is set by a switch on INVERT_SET digital in.
+// User can enter text through a web browser and this will display as a 
+// scrolling message on the display. Some parameters for the text can also 
+// be controlled from the web page.
 //
 // IP address for the ESP8266 is displayed on the scrolling display 
 // after startup initialisation and connected to the WiFi network.
