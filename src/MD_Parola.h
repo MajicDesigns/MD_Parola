@@ -28,6 +28,10 @@ System Components
 
 Revision History 
 ----------------
+xxx 2017 - version 2.7
+- Added ESP8266 example
+- Corrected keywords.txt file and main header file
+
 Dec 2016 - version 2.6
 - Prefaced all Parola enumerated types with PA_ as some clash with othe libraries
 - Edited main library core rouines to allow scrolling in double height mode

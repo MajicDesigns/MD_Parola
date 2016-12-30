@@ -131,6 +131,7 @@ void readSerial(void)
 void setup()
 {
   Serial.begin(57600);
+  Serial.print("\n[Parola Scrolling Display]\nType a message for the scrolling display\nEnd message line with a newline");
 
 #if USE_UI_CONTROL
   uiDirection.begin();
@@ -148,9 +149,6 @@ void setup()
 
   strcpy(curMessage, "Hello! Enter new message?");
   newMessage[0] = '\0';
-
-  Serial.begin(57600);
-  Serial.print("\n[Parola Scrolling Display]\nType a message for the scrolling display\nEnd message line with a newline");
 }
 
 void loop() 

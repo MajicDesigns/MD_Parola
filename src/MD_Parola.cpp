@@ -114,7 +114,7 @@ bool MD_Parola::displayAnimate(void)
 
 size_t MD_Parola::write(const char *str) 
 { 
-  displayText(str, PA_CENTER, 0, 0, PA_PRINT, PA_NO_EFFECT); 
+  displayText((char *)str, PA_CENTER, 0, 0, PA_PRINT, PA_NO_EFFECT); 
   while (displayAnimate())
     /* do nothing */; 
 
@@ -123,7 +123,7 @@ size_t MD_Parola::write(const char *str)
 
 size_t MD_Parola::write(const uint8_t *buffer, size_t size)
 {
-  char *psz = malloc(sizeof(char) * (size + 1));
+  char *psz = (char *)malloc(sizeof(char) * (size + 1));
 
   if (psz == NULL) return(0);
 
