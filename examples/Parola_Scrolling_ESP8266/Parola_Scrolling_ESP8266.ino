@@ -263,7 +263,6 @@ void handleWiFi(void)
     }
     break;
 
-
   case S_EXTRACT: // extract data
     PRINTS("\nS_EXTRACT");
     // Extract the string from the message if there is one
@@ -297,14 +296,6 @@ void setup()
   Serial.begin(57600);
   PRINTS("\n[MD_Parola WiFi Message Display]\nType a message for the scrolling display from your internet browser");
 
-#if USE_UI_CONTROL
-  uiDirection.begin();
-  uiInvert.begin();
-  pinMode(SPEED_IN, INPUT);
-
-  doUI();
-#endif // USE_UI_CONTROL
-
   P.begin();
   P.displayClear();
   P.displaySuspend(false);
@@ -336,10 +327,6 @@ void setup()
 
 void loop() 
 {
-#if USE_UI_CONTROL
-	doUI();
-#endif // USE_UI_CONTROL
-
   handleWiFi();
 
   if (P.displayAnimate()) 
