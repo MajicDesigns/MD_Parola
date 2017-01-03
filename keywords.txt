@@ -43,6 +43,8 @@ setTextBuffer	KEYWORD2
 setTextEffect	KEYWORD2
 setZoneEffect	KEYWORD2
 setZone	KEYWORD2
+synchZoneStart	KEYWORD2
+displayZoneText	KEYWORD2
 
 ######################################
 # Constants/defines (LITERAL1)

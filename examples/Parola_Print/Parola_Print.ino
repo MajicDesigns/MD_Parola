@@ -2,6 +2,12 @@
 //
 // Simplest program that does something useful - Hello World!
 // Uses the Arduino Print Class extension
+//
+// NOTE: MD_MAX72xx library must be installed and configured for the LED
+// matrix type being used. Refer documentation included in the MD_MAX72xx 
+// library or see this link: 
+// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+//
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>

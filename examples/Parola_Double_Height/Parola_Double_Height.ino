@@ -3,20 +3,37 @@
 // Largely based on code shared by arduino.cc forum user Arek00, 26 Sep 2015.
 // Video of running display can be seen at https://www.youtube.com/watch?v=7nPCIMVUo5g
 //
-// Key to the double height code is the definition of 2 fonts and 2 zones 'stacked' 
-// on top of each other so that the modules numbers are in sequence like
+// The upper and lower portions are managed as 2 zones 'stacked' on top of each other
+// so that the module numbers are in the sequence shown below:
 //
+// * Modules (like FC-16) that can fit over each other with no gap
 //  n n-1 n-2 ... n/2+1   <- this direction top row
+//  n/2 ... 3  2  1  0    <- this direction bottom row
+//
+// * Modules (like Generic and Parola) that cannot fit over each other with no gap
+//  n/2+1 ... n-2 n-1 n   -> this direction top row
 //  n/2 ... 3  2  1  0    <- this direction bottom row
 //
 // Each font displays letters for either top or bottom half of the message. Sending the 
 // same string to both zones creates the complete message
 // on the display.
+//
+// NOTE: MD_MAX72xx library must be installed and confugured for the LED
+// matrix type being used. Refer documentation included in the MD_MAX72xx 
+// library or see this link: 
+// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 // 
+
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 #include "Font_Data.h"
+
+#if USE_GENERIC_HW || USE_PAROLA_HW
+#define INVERT_UPPER_ZONE
+#endif
+
+#define DEBUG 1
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
@@ -66,49 +83,68 @@ void setup(void)
   P.setZone(ZONE_UPPER, ZONE_SIZE, MAX_DEVICES-1);
   P.setFont(ZONE_UPPER, BigFontUpper);
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
+#ifdef INVERT_UPPER_ZONE
+  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
+  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
+#endif
+
+#if DEBUG
+  Serial.begin(57600);
+  Serial.println("[Double Height demo start]");
+#endif
 }
 
 void loop(void)
 {
   static uint8_t cycle = 0;
-  static bool doAnimate = false;
 
-  if (doAnimate)
+  // Run the animation and then check if BOTH zones have
+  // completed. The animations are not the same length due 
+  // to upper/lower effects being displayed differently.
+  P.displayAnimate();
+  if (P.getZoneStatus(ZONE_LOWER) && P.getZoneStatus(ZONE_UPPER))
   {
-    P.displayAnimate();
-    doAnimate &= (!P.getZoneStatus(ZONE_LOWER) && !P.getZoneStatus(ZONE_UPPER));
-  }
-  else
-  {
+#if DEBUG
+    Serial.println(cycle);
+#endif
+
     switch (cycle)
     {
-    case 0:
     default:
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, BigFontUpper);
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+#ifdef INVERT_UPPER_ZONE
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_LEFT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, 30, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+#else
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_RIGHT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+#endif
       break;
 
     case 1:
       P.setFont(ZONE_LOWER, NULL);
       P.setFont(ZONE_UPPER, BigFontUpper);
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+      P.displayZoneText(ZONE_LOWER, msg[1], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[3], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
       break;
 
     case 2:
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, NULL);
-      P.displayZoneText(ZONE_LOWER, msg[4], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_LOWER, msg[3], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+#ifdef INVERT_UPPER_ZONE
+      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, 30, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+#else
+      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+#endif
       break;
 
     case 3:
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, BigFontUpper);
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_UP);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_CENTER, 30, 2000, PA_PRINT, PA_SCROLL_DOWN);
+      P.displayZoneText(ZONE_LOWER, msg[3], PA_LEFT, 30, 2000, PA_PRINT, PA_SCROLL_UP);
+      P.displayZoneText(ZONE_UPPER, msg[3], PA_RIGHT, 30, 2000, PA_PRINT, PA_SCROLL_UP);
       break;
     }
 
@@ -117,6 +153,5 @@ void loop(void)
 
     // synchronise the start
     P.synchZoneStart();
-    doAnimate = true;
   }
 }

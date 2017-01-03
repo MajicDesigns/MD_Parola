@@ -9,6 +9,11 @@
 // - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 // - DHT11 library (DHT11_lib) found at http://arduino.cc/playground/Main/DHT11Lib
 //
+// NOTE: MD_MAX72xx library must be installed and configured for the LED
+// matrix type being used. Refer documentation included in the MD_MAX72xx 
+// library or see this link: 
+// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+//
 
 // Use the DHT11 temp and humidity sensor
 #define	USE_DHT11	0

@@ -21,7 +21,12 @@
 //
 // Sending the original string to the lower zone and the modified (+128) string to the
 // upper zone creates the complete message on the display.
-
+//
+// NOTE: MD_MAX72xx library must be installed and configured for the LED
+// matrix type being used. Refer documentation included in the MD_MAX72xx 
+// library or see this link: 
+// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+//
 
 // Use the DS1307 clock module
 #define	USE_DS1307	0
@@ -132,12 +137,7 @@ void loop(void)
   static bool	flasher = false;	  // seconds passing flasher
   static bool doAnimate = false;  // animation switch
 
-  if (doAnimate)
-  {
-    P.displayAnimate();
-    doAnimate &= (!P.getZoneStatus(ZONE_LOWER) && !P.getZoneStatus(ZONE_UPPER));
-  }
-  else
+  if (P.displayAnimate())
   {
 	  // Adjust the time string if we have to. It will be adjusted
 	  // every second at least for the flashing colon separator.

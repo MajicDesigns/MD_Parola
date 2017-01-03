@@ -17,7 +17,13 @@
 //
 // Sending the original string to the lower zone and the modified (+128) string to the
 // upper zone creates the complete message on the display.
+//
+// NOTE: MD_MAX72xx library must be installed and configured for the LED
+// matrix type being used. Refer documentation included in the MD_MAX72xx 
+// library or see this link: 
+// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 // 
+
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
@@ -95,20 +101,14 @@ void createHString(char *pH, char *pL)
 void loop(void)
 {
   static uint8_t cycle = 0;
-  static bool doAnimate = false;
 
-  if (doAnimate)
-  {
-    P.displayAnimate();
-    doAnimate &= (!P.getZoneStatus(ZONE_LOWER) && !P.getZoneStatus(ZONE_UPPER));
-  }
-  else
+  if (P.displayAnimate())
   {
 	  // set up the string
 	  createHString(msgH, msgL[cycle]);
 #ifdef INVERT_UPPER_ZONE
-	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_NO_EFFECT);
-	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_RIGHT, PA_NO_EFFECT);
+	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 #else
 	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_RIGHT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
@@ -119,6 +119,5 @@ void loop(void)
 
 	  // synchronise the start and run the display
 	  P.synchZoneStart();
-    doAnimate = true;
 	}
 }

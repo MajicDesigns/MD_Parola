@@ -17,6 +17,11 @@
 // CS or LD   D8     HSPICS or HCS
 // CLK        D5     CLK or HCLK
 //
+// NOTE: MD_MAX72xx library must be installed and configured for the LED
+// matrix type being used. Refer documentation included in the MD_MAX72xx 
+// library or see this link: 
+// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+//
 
 #include <ESP8266WiFi.h>
 #include <MD_Parola.h>
@@ -37,8 +42,8 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
-// need to be adapted
+// NOTE: These pin numbers are for ESO8266 hardware SPI and will probably not 
+// work with your hardware and may need to be adapted
 #define	MAX_DEVICES	8
 #define	CLK_PIN		  D5 // or SCK
 #define	DATA_PIN	  D7 // or MOSI
@@ -66,7 +71,7 @@ char curMessage[BUF_SIZE];
 char newMessage[BUF_SIZE];
 bool newMessageAvailable = false;
 
-char WebResponse[] = "HTTP / 1.1 200 OK\nContent-Type: text/html\n\n";
+const char WebResponse[] = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
 
 char WebPage[] =
 "<!DOCTYPE html>" \
@@ -242,10 +247,12 @@ void handleWiFi(void)
   break;
 
   case S_READ: // get the first line of data
-    PRINTS("\nS_READ");
+    PRINTS("\nS_READ ");
+
     while (client.available())
     {
       char c = client.read();
+
       if ((c == '\r') || (c == '\n'))
       {
         szBuf[idxBuf] = '\0';
@@ -273,9 +280,7 @@ void handleWiFi(void)
   case S_RESPONSE: // send the response to the client
     PRINTS("\nS_RESPONSE");
     // Return the response to the client (web page)
-    client.println("HTTP/1.1 200 OK");
-    client.println("Content-Type: text/html");
-    client.println(""); //  do not forget this one
+    client.print(WebResponse);
     client.print(WebPage);
     state = S_DISCONN;
     break;
