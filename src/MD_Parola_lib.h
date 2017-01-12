@@ -49,4 +49,6 @@
 #define ZE_FLIP_UD_MASK 0x01  ///< mask bit 0
 #define ZE_FLIP_LR_MASK 0x02  ///< mask bit 1
 
+#define	SFX(s)	((_moveIn && _effectIn == (s)) || (!_moveIn && _effectOut == (s)))	///< Effect is selected if it is the effect for the current motion
+
 #endif

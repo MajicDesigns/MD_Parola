@@ -30,12 +30,49 @@
 #include "Font_Data.h"
 
 #if USE_GENERIC_HW || USE_PAROLA_HW
-#define INVERT_UPPER_ZONE
+#define INVERT_UPPER_ZONE 1
 #endif
 
+// Turn debugging on and off
+#define DEBUG 0
+
+#if DEBUG
+#define PRINTS(s)   { Serial.print(F(s)); }
+#define PRINT(s, v) { Serial.print(F(s)); Serial.print(v); }
+#else
+#define PRINTS(s)
+#define PRINT(s, v)
+#endif
+
+// Define the main direction for scrolling double height.
+// if 1, scroll left; if 0, scroll right
+#define SCROLL_LEFT 1
+
+#if INVERT_UPPER_ZONE
+
+#if SCROLL_LEFT // invert and scroll left
+#define SCROLL_UPPER  PA_SCROLL_RIGHT
+#define SCROLL_LOWER  PA_SCROLL_LEFT
+#else           // invert and scroll right
+#define SCROLL_UPPER  PA_SCROLL_LEFT
+#define SCROLL_LOWER  PA_SCROLL_RIGHT
+#endif
+
+#else // not invert
+
+#if SCROLL_LEFT // not invert and scroll left
+#define SCROLL_UPPER  PA_SCROLL_LEFT
+#define SCROLL_LOWER  PA_SCROLL_LEFT
+#else           // not invert and scroll right
+#define SCROLL_UPPER  PA_SCROLL_RIGHT
+#define SCROLL_LOWER  PA_SCROLL_RIGHT
+#endif
+
+#endif
+
+
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
-// need to be adapted
+// NOTE: These pin numbers may not work with your hardware and may need changing
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
 #define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
@@ -44,7 +81,7 @@
 #define ZONE_LOWER  0
 
 #define PAUSE_TIME  0
-#define SCROLL_SPEED  25
+#define SCROLL_SPEED  50
 
 #define	CLK_PIN		13
 #define	DATA_PIN	11
@@ -58,7 +95,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 char *msgL[] = 
 {
-  "Managing double height displays with custom fonts and 2 zones",
+  "Double height with custom font & 2 zones",
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   "abcdefghijklmnopqrstuvwxyz",
   "0123456789",
@@ -69,6 +106,11 @@ char *msgH; // allocated memory in setup()
 void setup(void)
 {
   uint8_t max = 0;
+
+#if DEBUG
+  Serial.begin(57600);
+  PRINTS("\n[Double_Height_v2]");
+#endif
 
   // work out the size of buffer required
   for (uint8_t i = 0; i<ARRAY_SIZE(msgL); i++)
@@ -84,10 +126,13 @@ void setup(void)
   P.setZone(ZONE_UPPER, ZONE_SIZE, MAX_DEVICES-1);
   P.setFont(BigFont);
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
-#ifdef INVERT_UPPER_ZONE
+#if INVERT_UPPER_ZONE
   P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
   P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
 #endif
+  PRINT("\nFLIP_UD=", P.getZoneEffect(ZONE_UPPER, PA_FLIP_UD));
+  PRINT("\nFLIP_LR=", P.getZoneEffect(ZONE_UPPER, PA_FLIP_LR));
+  PRINT("\nSCROLL_LEFT=", SCROLL_LEFT);
 }
 
 void createHString(char *pH, char *pL)
@@ -104,14 +149,17 @@ void loop(void)
 
   if (P.displayAnimate())
   {
+    PRINT("\n", cycle);
+    PRINT(": ", msgL[cycle]);
+
 	  // set up the string
 	  createHString(msgH, msgL[cycle]);
-#ifdef INVERT_UPPER_ZONE
-	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
-	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+#if INVERT_UPPER_ZONE
+	  P.displayZoneText(ZONE_UPPER, msgH, PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
+	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
 #else
-	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_RIGHT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
+	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
 #endif
 
 	  // prepare for next pass

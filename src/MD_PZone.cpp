@@ -339,18 +339,17 @@ void MD_PZone::invertBuf(uint8_t *p, uint8_t size)
   }
 }
 
-#define	SFX(s)	((_moveIn && _effectIn == (s)) || (!_moveIn && _effectOut == (s)))	///< Effect is selected if it is the effect for the current motion
-
 void MD_PZone::moveTextPointer(void)
 // This method works when increment is done AFTER processing the character
-// the _endOfText flag is set as a look ahead (ie, when the last character
+// The _endOfText flag is set as a look ahead (ie, when the last character
 // is still valid)
 // We need to move a pointer forward or back, depending on the way we are
 // travelling through the text buffer.
 {
 	PRINTS("\nMovePtr");
 
-  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
 	{
 		PRINTS(" --");
 		_endOfText = (_pCurChar == _pText);
@@ -372,7 +371,8 @@ uint8_t MD_PZone::getFirstChar(void)
 {
 	uint8_t len = 0;
 
-	PRINTS("\ngetFirst");
+	PRINT("\ngetFirst SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
+  PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
 	// initialise pointers and make sure we have a good string to process
 	_pCurChar = _pText;
@@ -382,14 +382,16 @@ uint8_t MD_PZone::getFirstChar(void)
 		return(0);
 	}
 	_endOfText = false;
-  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
 		_pCurChar += strlen(_pText) - 1;
 
 	// good string, get the first char into the current buffer
 	len = makeChar(*_pCurChar, *(_pCurChar+1) != '\0');
 
-  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
-		reverseBuf(_cBuf, len);
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
+    reverseBuf(_cBuf, len);
     
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
     invertBuf(_cBuf, len);
@@ -405,15 +407,17 @@ uint8_t MD_PZone::getNextChar(void)
 {
 	uint8_t len = 0;
 
-	PRINTS("\ngetNext ");
+  PRINT("\ngetNexChart SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
+  PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
 	if (_endOfText)
 	  return(0);
 
 	len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
-  if (SFX(PA_SCROLL_RIGHT) && !ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK))
-	  reverseBuf(_cBuf, len);
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
+    reverseBuf(_cBuf, len);
 
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
     invertBuf(_cBuf, len);

@@ -15,7 +15,7 @@
 // matrix type being used. Refer documentation included in the MD_MAX72xx 
 // library or see this link: 
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
-/
+//
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
@@ -29,7 +29,7 @@
 #endif
 
 // Turn on debug statements to the serial output
-#define  DEBUG  1
+#define  DEBUG  0
 
 #if  DEBUG
 #define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
