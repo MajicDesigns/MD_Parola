@@ -12,6 +12,7 @@ var _m_d___parola__lib_8h =
     [ "PRINT_STATE", "_m_d___parola__lib_8h.html#a3fda4e1a5122a16a21bd96ae5217402c", null ],
     [ "PRINTS", "_m_d___parola__lib_8h.html#ad68f35c3cfe67be8d09d1cea8e788e13", null ],
     [ "PRINTX", "_m_d___parola__lib_8h.html#abf55b44e8497cbc3addccdeb294138cc", null ],
+    [ "SFX", "_m_d___parola__lib_8h.html#ad54e2a00e5f8efd51a0acb7f1d239dd7", null ],
     [ "TIME_PROFILING", "_m_d___parola__lib_8h.html#ad5074ed4add7f6c0b8052896efd82cd3", null ],
     [ "ZE_FLIP_LR_MASK", "_m_d___parola__lib_8h.html#aff6634f99953ac1d32cb641a5a84d1fb", null ],
     [ "ZE_FLIP_UD_MASK", "_m_d___parola__lib_8h.html#a86cdcfe3b6b8376543e78ceb5901f5a9", null ],

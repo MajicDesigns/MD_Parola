@@ -11,5 +11,6 @@ var searchData=
   ['zoneclear',['zoneClear',['../class_m_d___p_zone.html#aa3bcf2d00a423e53f7dd2acb869bc19e',1,'MD_PZone']]],
   ['zoneeffect_5ft',['zoneEffect_t',['../_m_d___parola_8h.html#a8b150a33856e93a2596b6622117f08f5',1,'MD_Parola.h']]],
   ['zonereset',['zoneReset',['../class_m_d___p_zone.html#aaf0e61286fbc501702ae6f449f80178e',1,'MD_PZone']]],
+  ['zoneshutdown',['zoneShutdown',['../class_m_d___p_zone.html#a880c51e209b32b20d1945b6dcbee9d43',1,'MD_PZone']]],
   ['zonesuspend',['zoneSuspend',['../class_m_d___p_zone.html#ae6f7f80b81e8ba442d32a02695c5b5ba',1,'MD_PZone']]]
 ];

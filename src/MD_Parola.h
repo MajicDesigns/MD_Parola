@@ -28,6 +28,9 @@ System Components
 
 Revision History 
 ----------------
+xxx - version 2.6.2
+- Added shutdown() method to enable low power mode
+
 Jan 2017 - version 2.6.1
 - Added ESP8266 example
 - Corrected keywords.txt file and main header file
@@ -423,7 +426,17 @@ public:
    */
 	inline void zoneReset(void) { _fsmState = INITIALISE; };
 
-  /** 
+  /**
+  * Sshutdown or resume zone hardware.
+  *
+  * See comments for the MD_Parola namesake method.
+  *
+  * \param b	boolean value to shutdown (true) or resume (false).
+  * \return No return value.
+  */
+  inline void zoneShutdown(bool b) { _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::SHUTDOWN, b ? MD_MAX72XX::ON : MD_MAX72XX::OFF); };
+
+  /**
    * Suspend or resume zone updates.
    *
    * See comments for the MD_Parola namesake method.
@@ -746,9 +759,9 @@ private:
 	textEffect_t	_effectOut;	// the effect for text exiting the display
 	bool		_moveIn;		// animation is moving IN when true, OUT when false
 	bool		_inverted;		// true if the display needs to be inverted
-    uint16_t    _scrollDistance;  // the space in columns between the end of one message and the start of the next
-    uint8_t     _zoneEffect;    // bit mapped zone effects
-    uint8_t     _intensity;     // display intensity
+  uint16_t    _scrollDistance;  // the space in columns between the end of one message and the start of the next
+  uint8_t     _zoneEffect;    // bit mapped zone effects
+  uint8_t     _intensity;     // display intensity
 
 	void		setInitialConditions(void);	// set up initial conditions for an effect
 	uint16_t	getTextWidth(char *p);		// width of text in columns
@@ -790,32 +803,32 @@ private:
 	void	commonPrint(void);
 	void	effectPrint(bool bIn);
 //#if ENA_MISC
-    void	effectSlice(bool bIn);
-    void    effectMesh(bool bIn);
-    void    effectFade(bool bIn);
-    void	effectBlinds(bool bIn);
-    void	effectDissolve(bool bIn);
+  void  effectSlice(bool bIn);
+  void  effectMesh(bool bIn);
+  void  effectFade(bool bIn);
+  void  effectBlinds(bool bIn);
+  void  effectDissolve(bool bIn);
 //#endif // ENA_MISC
 //#if ENA_WIPE
-	void	effectWipe(bool bLightBar, bool bIn);
+  void  effectWipe(bool bLightBar, bool bIn);
 //#endif
 //#if ENA_OPNCLS
-	void	effectOpen(bool bLightBar, bool bIn);
-	void	effectClose(bool bLightBar, bool bIn);
+  void  effectOpen(bool bLightBar, bool bIn);
+  void  effectClose(bool bLightBar, bool bIn);
 //#endif // ENA_OPNCLS
 //#if ENA_SCR_STR
-    void	effectVScroll(bool bUp, bool bIn);
-    void	effectHScroll(bool bLeft, bool bIn);
+  void  effectVScroll(bool bUp, bool bIn);
+  void  effectHScroll(bool bLeft, bool bIn);
 //#endif // ENA_SCR_STR
 //#if ENA_SCR_DIA
-    void	effectDiag(bool bUp, bool bLeft, bool bIn);
+  void  effectDiag(bool bUp, bool bLeft, bool bIn);
 //#endif // ENA_SCR_DIA
 //#if ENA_SCAN
-	void	effectHScan(bool bIn);
-	void	effectVScan(bool bIn);
+  void  effectHScan(bool bIn);
+  void  effectVScan(bool bIn);
 //#endif // ENA_SCAN
 //#if ENA_GROW
-    void	effectGrow(bool bUp, bool bIn);
+  void  effectGrow(bool bUp, bool bIn);
 //#endif // ENA_GROW
 };
 
@@ -962,17 +975,31 @@ public:
 	inline void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); }; 
 
    /** 
-   * Suspend or resume display updates.
+   * Shutdown or restart display hardware.
    *
-   * Stop the current display animation. When pausing it leaves the 
-   * display showing the current text. Resuming will restart the animation where 
-   * it left off. To reset the animation back to the beginning, use the 
-   * displayReset() method.
+   * Shutdown the display hardware to a low power state. The display will 
+   * be blank during the shutdown. Calling animate() will continue to 
+   * animate the display in the memory buffers but this will not be visible
+   * on the display (ie, the librarie still function but the display does not).
+   * To reset the animation back to the beginning, use the displayReset() method.
    * 
-   * \param b	boolean value to suspend (true) or resume (false).
+   * \param b	boolean value to shutdown (true) or resume (false).
    * \return No return value.
    */
-	inline void displaySuspend(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
+	inline void displayShutdown(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneShutdown(b); };
+
+  /**
+  * Suspend or resume display updates.
+  *
+  * Stop the current display animation. When pausing it leaves the
+  * display showing the current text. Resuming will restart the animation where
+  * it left off. To reset the animation back to the beginning, use the
+  * displayReset() method.
+  *
+  * \param b	boolean value to suspend (true) or resume (false).
+  * \return No return value.
+  */
+  inline void displaySuspend(bool b) { for (uint8_t i = 0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
 
   /**
    * Define the module limits for a zone.

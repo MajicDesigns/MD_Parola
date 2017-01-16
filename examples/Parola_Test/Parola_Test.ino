@@ -173,8 +173,17 @@ void doUI(void)
     static uint8_t	intensity = 7;
 
     intensity = ++intensity % (MAX_INTENSITY + 1);
-    P.setIntensity(intensity);
-    DEBUG("\nChanged intensity to ", intensity);
+    if (intensity == 0)
+    {
+      P.displayShutdown(true);
+      DEBUG("\nDisplay shutdown ", intensity);
+    }
+    else
+    {
+      P.setIntensity(intensity);
+      P.displayShutdown(false);
+      DEBUG("\nChanged intensity to ", intensity);
+    }
   }
 
   if (uiInverse.read() == MD_KeySwitch::KS_PRESS)		// INVERSE

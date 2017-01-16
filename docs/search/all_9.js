@@ -14,7 +14,7 @@ var searchData=
   ['setzone',['setZone',['../class_m_d___p_zone.html#ad55d2d87d2c77891f6fdc1d222bba1b0',1,'MD_PZone::setZone()'],['../class_m_d___parola.html#a218bd5860a6023b58e5d00de2b1d976a',1,'MD_Parola::setZone()']]],
   ['setzoneeffect',['setZoneEffect',['../class_m_d___p_zone.html#a640b04efaa2d96a529ed41bf0d8f2aa5',1,'MD_PZone::setZoneEffect()'],['../class_m_d___parola.html#aa978891dd1382e933cb40c61c78c5956',1,'MD_Parola::setZoneEffect()']]],
   ['setzonefont',['setZoneFont',['../class_m_d___p_zone.html#a05718245a06f05c150d6d23d96bfbb7a',1,'MD_PZone']]],
-  ['sfx',['SFX',['../_m_d___p_zone_8cpp.html#ad54e2a00e5f8efd51a0acb7f1d239dd7',1,'MD_PZone.cpp']]],
+  ['sfx',['SFX',['../_m_d___parola__lib_8h.html#ad54e2a00e5f8efd51a0acb7f1d239dd7',1,'MD_Parola_lib.h']]],
   ['start_5fposition',['START_POSITION',['../_m_d___parola___h_scroll_8cpp.html#a3a8e077835d0dfe86f6c1197738357c9',1,'MD_Parola_HScroll.cpp']]],
   ['synchzonestart',['synchZoneStart',['../class_m_d___parola.html#ab3f9f4f3174555085d75faf987a3d398',1,'MD_Parola']]]
 ];

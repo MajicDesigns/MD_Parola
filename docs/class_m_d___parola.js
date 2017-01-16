@@ -15,6 +15,7 @@ var class_m_d___parola =
     [ "displayReset", "class_m_d___parola.html#ac2215961f392389a6ab9b17a5f098e4f", null ],
     [ "displayReset", "class_m_d___parola.html#a9b59392e8233a36b9d733a9b9a1fc4f5", null ],
     [ "displayScroll", "class_m_d___parola.html#adf278c039b7313486420a8774250d751", null ],
+    [ "displayShutdown", "class_m_d___parola.html#a2ce974c7eca26a5d25eb1e8e5be7b872", null ],
     [ "displaySuspend", "class_m_d___parola.html#a4ebabd68838a04997d4b0493df59f998", null ],
     [ "displayText", "class_m_d___parola.html#a53b4c922a283ce2304a91e970e56c45d", null ],
     [ "displayZoneText", "class_m_d___parola.html#a5512bde50d6ee000d59a9bc46c1fb54b", null ],

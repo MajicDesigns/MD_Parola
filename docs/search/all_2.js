@@ -8,6 +8,7 @@ var searchData=
   ['displayclear',['displayClear',['../class_m_d___parola.html#a7f0368381f03ba2a6ee2704e47687829',1,'MD_Parola::displayClear(void)'],['../class_m_d___parola.html#a55e620af6a648e96121fdafdfd5c699b',1,'MD_Parola::displayClear(uint8_t z)']]],
   ['displayreset',['displayReset',['../class_m_d___parola.html#ac2215961f392389a6ab9b17a5f098e4f',1,'MD_Parola::displayReset(void)'],['../class_m_d___parola.html#a9b59392e8233a36b9d733a9b9a1fc4f5',1,'MD_Parola::displayReset(uint8_t z)']]],
   ['displayscroll',['displayScroll',['../class_m_d___parola.html#adf278c039b7313486420a8774250d751',1,'MD_Parola']]],
+  ['displayshutdown',['displayShutdown',['../class_m_d___parola.html#a2ce974c7eca26a5d25eb1e8e5be7b872',1,'MD_Parola']]],
   ['displaysuspend',['displaySuspend',['../class_m_d___parola.html#a4ebabd68838a04997d4b0493df59f998',1,'MD_Parola']]],
   ['displaytext',['displayText',['../class_m_d___parola.html#a53b4c922a283ce2304a91e970e56c45d',1,'MD_Parola']]],
   ['displayzonetext',['displayZoneText',['../class_m_d___parola.html#a5512bde50d6ee000d59a9bc46c1fb54b',1,'MD_Parola']]]
