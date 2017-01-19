@@ -10,7 +10,7 @@
 [Mm]edia/video/
 
 #Stuff
-*.zip
+#*.zip
 
 #Visual Studio and Atmel Studio files
 *.sln
