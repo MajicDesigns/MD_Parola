@@ -22,6 +22,7 @@ displayReset	KEYWORD2
 displayScroll	KEYWORD2
 displayText	KEYWORD2
 displaySuspend	KEYWORD2
+displayShutdown	KEYWORD2
 getCharSpacing	KEYWORD2
 getIntensity	KEYWORD2
 getInvert	KEYWORD2

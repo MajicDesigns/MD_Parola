@@ -1,6 +1,6 @@
 // Program to demonstrate the MD_Parola library
 //
-// Simplest program that does something useful - Hello World!
+// Simplest program that does something useful - Hello!
 // Uses the Arduino Print Class extension
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
@@ -31,26 +31,9 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 void setup(void)
 {
   P.begin();
+  P.print("Hello!");
 }
 
 void loop(void)
 {
-  P.print("Hello");
-  delay(WAIT_TIME);
-  P.print(1234, DEC);
-  delay(WAIT_TIME);
-  P.print(1234, HEX);
-  delay(WAIT_TIME);
-  P.print(12.5);      // float not supported by Arduino Print class
-  delay(WAIT_TIME);
-  P.print(9876l);
-  delay(WAIT_TIME);
-  P.println("end");   // only get the /r/n characters - avoid using println
-  delay(WAIT_TIME);
-  P.write('A');
-  delay(WAIT_TIME);
-  P.write('B');
-  delay(WAIT_TIME);
-  P.write('C');
-  delay(WAIT_TIME);
 }

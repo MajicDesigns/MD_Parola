@@ -28,8 +28,9 @@ System Components
 
 Revision History 
 ----------------
-xxx - version 2.6.2
+Jan 2017 - version 2.6.2
 - Added shutdown() method to enable low power mode
+- Corrected alignment offset problems in low level functions
 
 Jan 2017 - version 2.6.1
 - Added ESP8266 example

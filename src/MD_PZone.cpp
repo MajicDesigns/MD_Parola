@@ -100,18 +100,15 @@ uint16_t MD_PZone::getTextWidth(char *p)
 {
 	uint16_t	sum = 0;
 
-	PRINTS("\ngetTextWidth");
+	PRINT("\ngetTextWidth: ", p);
 
 	while (*p != '\0')
 	{
-		sum += findChar(*p++, ARRAY_SIZE(_cBuf), _cBuf);
-		if (*p)
-		  sum += _charSpacing;
-	}
+    sum += findChar(*p++, ARRAY_SIZE(_cBuf), _cBuf);
+    if (*p) sum += _charSpacing;  // next character is not nul, so add inter-character spacing
+  }
 
-  if (sum != 0)              // not an empty string!
-    sum -= _charSpacing;    // do not have a space at the end of the string
-	PRINT(": W=", sum);
+  PRINT("\ngetTextWidth: W=", sum);
 
 	return(sum);
 }
@@ -122,11 +119,12 @@ bool MD_PZone::calcTextLimits(char *p)
 // in the current display the return false, otherwise true.
 {
 	bool b = true;
-	uint16_t	displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart);
+	uint16_t	displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart) + 1;
 	
 	_textLen = getTextWidth(p);
 
-	PRINTS("\ncalcTextLimits");
+	PRINT("\ncalcTextLimits: disp=", displayWidth);
+  PRINT(" text=", _textLen);
 
 	switch (_textAlignment)
 	{
@@ -139,7 +137,7 @@ bool MD_PZone::calcTextLimits(char *p)
 		}
 		else
 		{
-			_limitRight = _limitLeft - _textLen;
+			_limitRight = _limitLeft - _textLen + 1;
 		}
 		break;
 
@@ -152,7 +150,7 @@ bool MD_PZone::calcTextLimits(char *p)
 		}
 		else
 		{
-			_limitLeft = _limitRight + _textLen;
+			_limitLeft = _limitRight + _textLen - 1;
 		}
 		break;
 
@@ -165,15 +163,15 @@ bool MD_PZone::calcTextLimits(char *p)
 		}
 		else
 		{
-			_limitRight = ZONE_START_COL(_zoneStart) + (displayWidth - _textLen)/2;
-			_limitLeft = _limitRight + _textLen;
+			_limitRight = ZONE_START_COL(_zoneStart) + ((displayWidth - _textLen)/2);
+			_limitLeft = _limitRight + _textLen - 1;
 		}
 		break;
 	}
 
-	PRINT(" L:", _limitLeft);
+	PRINT(" -> L:", _limitLeft);
 	PRINT(" R:", _limitRight);
-	PRINT(" O:", !b);
+	PRINT(" Oveflow:", !b);
 
 	return (b);
 }
@@ -349,7 +347,7 @@ void MD_PZone::moveTextPointer(void)
 	PRINTS("\nMovePtr");
 
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
 	{
 		PRINTS(" --");
 		_endOfText = (_pCurChar == _pText);
@@ -372,6 +370,8 @@ uint8_t MD_PZone::getFirstChar(void)
 	uint8_t len = 0;
 
 	PRINT("\ngetFirst SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
+  PRINT(" SFX(PRINT):", SFX(PA_PRINT));
+  PRINT(" ZETEST(UD):", ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK));
   PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
 	// initialise pointers and make sure we have a good string to process
@@ -382,19 +382,28 @@ uint8_t MD_PZone::getFirstChar(void)
 		return(0);
 	}
 	_endOfText = false;
-  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
-		_pCurChar += strlen(_pText) - 1;
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+  {
+    PRINTS("\nReversed String");
+    _pCurChar += strlen(_pText) - 1;
+  }
 
 	// good string, get the first char into the current buffer
 	len = makeChar(*_pCurChar, *(_pCurChar+1) != '\0');
 
-  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+  {
+    PRINTS("\nReverse Buffer");
     reverseBuf(_cBuf, len);
+  }
     
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
+  {
+    PRINTS("\nInvert buffer");
     invertBuf(_cBuf, len);
+  }
 	
 	moveTextPointer();
 
@@ -407,7 +416,9 @@ uint8_t MD_PZone::getNextChar(void)
 {
 	uint8_t len = 0;
 
-  PRINT("\ngetNexChart SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
+  PRINT("\ngetNexChar SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
+  PRINT(" SFX(PRINT):", SFX(PA_PRINT));
+  PRINT(" ZETEST(UD):", ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK));
   PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
 	if (_endOfText)
@@ -415,12 +426,18 @@ uint8_t MD_PZone::getNextChar(void)
 
 	len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
-  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
+  if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+  {
+    PRINTS("\nReversed Buffer");
     reverseBuf(_cBuf, len);
+  }
 
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
+  {
+    PRINTS("\nInvert Buffer");
     invertBuf(_cBuf, len);
+  }
 
 	moveTextPointer();
 

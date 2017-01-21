@@ -33,7 +33,7 @@
 #define INVERT_UPPER_ZONE
 #endif
 
-#define DEBUG 1
+#define DEBUG 0
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may 
@@ -41,6 +41,7 @@
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
 #define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
+#define SCROLL_SPEED  30
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
@@ -114,37 +115,37 @@ void loop(void)
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, BigFontUpper);
 #ifdef INVERT_UPPER_ZONE
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_LEFT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, 30, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
 #else
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_RIGHT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_RIGHT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 #endif
       break;
 
     case 1:
       P.setFont(ZONE_LOWER, NULL);
       P.setFont(ZONE_UPPER, BigFontUpper);
-      P.displayZoneText(ZONE_LOWER, msg[1], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[3], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+      P.displayZoneText(ZONE_LOWER, msg[1], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[3], PA_CENTER, SCROLL_SPEED, 0, PA_PRINT, PA_NO_EFFECT);
       break;
 
     case 2:
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, NULL);
-      P.displayZoneText(ZONE_LOWER, msg[3], PA_CENTER, 30, 0, PA_PRINT, PA_NO_EFFECT);
+      P.displayZoneText(ZONE_LOWER, msg[3], PA_CENTER, SCROLL_SPEED, 0, PA_PRINT, PA_NO_EFFECT);
 #ifdef INVERT_UPPER_ZONE
-      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, 30, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
 #else
-      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 #endif
       break;
 
     case 3:
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, BigFontUpper);
-      P.displayZoneText(ZONE_LOWER, msg[3], PA_LEFT, 30, 2000, PA_PRINT, PA_SCROLL_UP);
-      P.displayZoneText(ZONE_UPPER, msg[3], PA_RIGHT, 30, 2000, PA_PRINT, PA_SCROLL_UP);
+      P.displayZoneText(ZONE_LOWER, msg[3], PA_CENTER, SCROLL_SPEED, 2000, PA_PRINT, PA_NO_EFFECT); // PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      P.displayZoneText(ZONE_UPPER, msg[3], PA_CENTER, SCROLL_SPEED, 2000, PA_PRINT, PA_NO_EFFECT); //PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
       break;
     }
 
@@ -152,6 +153,7 @@ void loop(void)
     cycle = (cycle + 1) % ARRAY_SIZE(msg);
 
     // synchronise the start
+    P.displayClear();
     P.synchZoneStart();
   }
 }
