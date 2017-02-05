@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or

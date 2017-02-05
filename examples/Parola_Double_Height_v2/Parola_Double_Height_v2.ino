@@ -1,8 +1,8 @@
 // Demonstrates one double height display using Parola using a single font file
 // defintion created with the MD_MAX72xx font builder.
 //
-// Each font file has the lower part of a character as ASCII codes 0-127 and the 
-// upper part of the character in ASCII code 128-255. Adding 128 to each lower 
+// Each font file has the lower part of a character as ASCII codes 0-127 and the
+// upper part of the character in ASCII code 128-255. Adding 128 to each lower
 // character creates the correct index for the upper character.
 // The upper and lower portions are managed as 2 zones 'stacked' on top of each other
 // so that the module numbers are in the sequence shown below:
@@ -19,10 +19,10 @@
 // upper zone creates the complete message on the display.
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
-// 
+//
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
@@ -93,7 +93,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-char *msgL[] = 
+char *msgL[] =
 {
   "Double height with custom font & 2 zones",
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -147,13 +147,17 @@ void loop(void)
 {
   static uint8_t cycle = 0;
 
-  if (P.displayAnimate())
+  P.displayAnimate();
+
+  if (P.getZoneStatus(ZONE_LOWER) && P.getZoneStatus(ZONE_UPPER))
   {
     PRINT("\n", cycle);
     PRINT(": ", msgL[cycle]);
 
 	  // set up the string
 	  createHString(msgH, msgL[cycle]);
+
+    P.displayClear();
 #if INVERT_UPPER_ZONE
 	  P.displayZoneText(ZONE_UPPER, msgH, PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
 	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);

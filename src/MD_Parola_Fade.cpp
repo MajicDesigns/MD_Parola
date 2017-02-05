@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2016 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_PZone::effectFade(bool bIn)
 // Fade the display in and out.
-// If the overall intensity is changed while the animation is running, the 
+// If the overall intensity is changed while the animation is running, the
 // intensity at the start of the animation will be restored at the end, overriding
 // any user code changes.
 {
@@ -89,7 +89,7 @@ void MD_PZone::effectFade(bool bIn)
 
       setIntensity(_nextPos);
       commonPrint();
-      
+
       _fsmState = PUT_CHAR;
       break;
 

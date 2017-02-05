@@ -3,8 +3,8 @@
 // Simplest program that does something useful - Hello World!
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -13,7 +13,7 @@
 #include <SPI.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	4
 #define	CLK_PIN		13

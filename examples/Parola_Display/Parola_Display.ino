@@ -1,13 +1,13 @@
 // Program to demonstrate the MD_Parola library
 //
-// For every string defined by pc[] iterate through all combinations 
+// For every string defined by pc[] iterate through all combinations
 // of entry and exit effects.
 //
 // Animation speed can be controlled using a pot on pin SPEED_IN
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -16,7 +16,7 @@
 #include <SPI.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 #define	CLK_PIN		13
@@ -54,8 +54,8 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char	*pc[] = 
-{ 
+char	*pc[] =
+{
   "Parola for",
   "Arduino",
 };
@@ -95,7 +95,7 @@ void doUI(void)
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 250);
 
-    if (speed != (int16_t)P.getSpeed()) 
+    if (speed != (int16_t)P.getSpeed())
     {
       P.setSpeed(speed);
       P.setPause(speed);
@@ -144,7 +144,7 @@ void loop(void)
         if (inFX == 0)
           P.setInvert(!P.getInvert());
       }
-        
+
       P.setTextEffect(effect[inFX], effect[outFX]);
     }
 

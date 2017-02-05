@@ -1,12 +1,12 @@
 // Program to demonstrate the MD_Parola library
 //
-// Iterate through all combinations of entry and exit effects 
-// in 2 zones - one in normal mode and the second in inverted 
+// Iterate through all combinations of entry and exit effects
+// in 2 zones - one in normal mode and the second in inverted
 // mirrored mode.
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -15,7 +15,7 @@
 #include <SPI.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 #define	MAX_ZONES	2
@@ -93,7 +93,7 @@ void setup(void)
 
   P.begin(MAX_ZONES);
   P.setInvert(false);
-  
+
   for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
   {
     catalog[i].speed *= P.getSpeed();     // use the library defaults as multiplier
@@ -101,8 +101,8 @@ void setup(void)
   }
 
   P.setZone(0, 0, (MAX_DEVICES/2) - 1);
-  P.setZone(1, MAX_DEVICES/2, MAX_DEVICES-1); 
-  
+  P.setZone(1, MAX_DEVICES/2, MAX_DEVICES-1);
+
   P.setZoneEffect(1, true, PA_FLIP_UD);
   P.setZoneEffect(1, true, PA_FLIP_LR);
 }
@@ -110,9 +110,9 @@ void setup(void)
 void loop(void)
 {
   static uint8_t  nCurIdx = 0;
-  
+
   // animates and returns true when an animation is completed. These are synchronised, so assume they are all done.
-  if (P.displayAnimate()) 
+  if (P.displayAnimate())
   {
     for (uint8_t z=0; z<MAX_ZONES; z++)
       P.displayZoneText(z, catalog[nCurIdx].psz, PA_CENTER, catalog[nCurIdx].speed, catalog[nCurIdx].pause, catalog[nCurIdx].effect, catalog[nCurIdx].effect);

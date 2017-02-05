@@ -1,6 +1,6 @@
 // Use the Parola library to scroll text on the display
 //
-// Demonstrates the use of the scrolling function to display text received 
+// Demonstrates the use of the scrolling function to display text received
 // from the serial interface on multiple lines of matrix displays
 //
 // User can enter text on the serial monitor and this will display as a
@@ -13,8 +13,8 @@
 // Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -93,7 +93,7 @@ void doUI(void)
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
 
-    if ((speed >= ((int16_t)Line[0].P.getSpeed() + SPEED_DEADBAND)) || 
+    if ((speed >= ((int16_t)Line[0].P.getSpeed() + SPEED_DEADBAND)) ||
       (speed <= ((int16_t)Line[0].P.getSpeed() - SPEED_DEADBAND)))
     {
       for (uint8_t i=0; i<MAX_LINES; i++)
@@ -114,7 +114,7 @@ void doUI(void)
     {
       Line[i].P.setTextEffect(scrollEffect, scrollEffect);
       Line[i].P.displayReset();
-    }    
+    }
   }
 
   if (uiInvert.read() == MD_KeySwitch::KS_PRESS)	// INVERT MODE
@@ -123,7 +123,7 @@ void doUI(void)
     for (uint8_t i=0; i<MAX_LINES; i++)
     {
       Line[i].P.setInvert(!Line[i].P.getInvert());
-    }      
+    }
   }
 }
 #endif // USE_UI_CONTROL
@@ -142,7 +142,7 @@ void readSerial(void)
        {
          putLine = c - '0';
          putIndex = 0;
-       }    
+       }
     }
     else if ((c == '\n') || (putIndex >= BUF_SIZE-2))	// end of message character or full buffer
     {
@@ -187,7 +187,7 @@ void setup()
   Serial.print(" lines\nType a message for the scrolling display\nStart message with display number\nEnd message line with a newline");
 }
 
-void loop() 
+void loop()
 {
 #if USE_UI_CONTROL
 	doUI();
@@ -196,7 +196,7 @@ void loop()
   readSerial();
   for (uint8_t i=0; i<MAX_LINES; i++)
   {
-    if (Line[i].P.displayAnimate()) 
+    if (Line[i].P.displayAnimate())
     {
       if (Line[i].newMessageAvailable)
       {

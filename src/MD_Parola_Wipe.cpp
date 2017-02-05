@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_PZone::effectWipe(bool bLightBar, bool bIn)
 // Wipe the message over with a new one
-// Print up the whole message and then remove the parts we 
+// Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
 	if (bIn)	// incoming
@@ -51,7 +51,7 @@ void MD_PZone::effectWipe(bool bLightBar, bool bIn)
 				_fsmState = PUT_CHAR;
 
 			commonPrint();
-      
+
 			// blank out the part of the display we don't need
 			FSMPRINT(" - Clear ", _nextPos);
 			FSMPRINT(" to ", _endPos);

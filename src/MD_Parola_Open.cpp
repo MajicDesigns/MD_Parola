@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -53,7 +53,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
 		case PUT_CHAR:
 			PRINT_STATE("I OPEN");
 			FSMPRINT(" - offset ", _nextPos);
-			if (_nextPos < 0) 
+			if (_nextPos < 0)
 			{
 				_fsmState = PAUSE;
 			}
@@ -65,7 +65,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
 				{
 					_MX->setColumn(_limitRight + i, EMPTY_BAR);
 					_MX->setColumn(_limitLeft - i, EMPTY_BAR);
-				}	
+				}
 
 				_nextPos--;
 				if (bLightBar && (_nextPos >= 0))
@@ -85,7 +85,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
 	{
 		switch (_fsmState)
 		{
-		case PAUSE:	
+		case PAUSE:
 		case GET_FIRST_CHAR:
 		case GET_NEXT_CHAR:
 			PRINT_STATE("O OPEN");

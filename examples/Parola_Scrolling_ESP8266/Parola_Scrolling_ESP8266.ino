@@ -1,25 +1,25 @@
 // Use the Parola library to scroll text on the display
 //
-// Demonstrates the use of the scrolling function to display text received 
+// Demonstrates the use of the scrolling function to display text received
 // from the serial interface
 //
-// User can enter text through a web browser and this will display as a 
-// scrolling message on the display. Some parameters for the text can also 
+// User can enter text through a web browser and this will display as a
+// scrolling message on the display. Some parameters for the text can also
 // be controlled from the web page.
 //
-// IP address for the ESP8266 is displayed on the scrolling display 
+// IP address for the ESP8266 is displayed on the scrolling display
 // after startup initialisation and connected to the WiFi network.
 //
 // Connections for ESP8266 hardware SPI are:
 // Vcc       3v3     LED matrices seem to work at 3.3V
-// GND       GND     GND     
+// GND       GND     GND
 // DIN        D7     HSPID or HMOSI
 // CS or LD   D8     HSPICS or HCS
 // CLK        D5     CLK or HCLK
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -42,7 +42,7 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers are for ESO8266 hardware SPI and will probably not 
+// NOTE: These pin numbers are for ESO8266 hardware SPI and will probably not
 // work with your hardware and may need to be adapted
 #define	MAX_DEVICES	8
 #define	CLK_PIN		  D5 // or SCK
@@ -330,11 +330,11 @@ void setup()
   PRINT("\nAssigned IP ", curMessage);
 }
 
-void loop() 
+void loop()
 {
   handleWiFi();
 
-  if (P.displayAnimate()) 
+  if (P.displayAnimate())
   {
     if (newMessageAvailable)
     {

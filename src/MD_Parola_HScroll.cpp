@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -125,13 +125,13 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
       {
         uint16_t  spaceCount = 0;
         uint16_t  maxCount = (_zoneEnd - _zoneStart + 1) * COL_SIZE;
-        
-        if ((_scrollDistance != 0) && (maxCount > _scrollDistance)) maxCount = _scrollDistance; 
-        
+
+        if ((_scrollDistance != 0) && (maxCount > _scrollDistance)) maxCount = _scrollDistance;
+
         if (bLeft)
         {
-			    for (int16_t i = ZONE_START_COL(_zoneStart); 
-              (i <= ZONE_END_COL(_zoneEnd)) && (_MX->getColumn(i) == EMPTY_BAR); 
+			    for (int16_t i = ZONE_START_COL(_zoneStart);
+              (i <= ZONE_END_COL(_zoneEnd)) && (_MX->getColumn(i) == EMPTY_BAR);
                i++, spaceCount++);
         }
         else
@@ -140,9 +140,9 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
 			        (i >= ZONE_START_COL(_zoneStart)) && (_MX->getColumn(i) == EMPTY_BAR);
 			        i--, spaceCount++);
         }
-     
+
 			  if (maxCount <= spaceCount) _fsmState = END;	// enough of a space between messages, end this FSM
-      }      
+      }
 			break;
 
 		default:

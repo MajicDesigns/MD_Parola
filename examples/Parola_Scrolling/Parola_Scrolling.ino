@@ -1,6 +1,6 @@
 // Use the Parola library to scroll text on the display
 //
-// Demonstrates the use of the scrolling function to display text received 
+// Demonstrates the use of the scrolling function to display text received
 // from the serial interface
 //
 // User can enter text on the serial monitor and this will display as a
@@ -12,8 +12,8 @@
 // Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -42,7 +42,7 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 #define	CLK_PIN		13
@@ -86,7 +86,7 @@ void doUI(void)
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
 
-    if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) || 
+    if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) ||
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
       P.setSpeed(speed);
@@ -156,14 +156,14 @@ void setup()
   newMessage[0] = '\0';
 }
 
-void loop() 
+void loop()
 {
 #if USE_UI_CONTROL
 	doUI();
 #endif // USE_UI_CONTROL
 
   readSerial();
-  if (P.displayAnimate()) 
+  if (P.displayAnimate())
   {
     if (newMessageAvailable)
     {

@@ -1,18 +1,18 @@
 // Program to exercise the MD_Parola library
-// 
+//
 // Demonstrates most of the functions of the Parola library.
 // All animations can be run and tested under user control.
 //
 // Speed for the display is controlled by a pot on SPEED_IN analog input.
-// Digital switches used for control of Justification, Effect progression, 
-// Pause between animations, LED intensity, Display flip, and invert mode. 
+// Digital switches used for control of Justification, Effect progression,
+// Pause between animations, LED intensity, Display flip, and invert mode.
 // UI switches are normally HIGH.
 //
 // Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -22,7 +22,7 @@
 #include <MD_KeySwitch.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 #define	CLK_PIN		13
@@ -61,12 +61,12 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t	curString = 0;
-char	*pc[] = 
-{ 
+char	*pc[] =
+{
   "Parola for",
-  "Arduino", 
+  "Arduino",
   "LED Matrix",
-  "Display" 
+  "Display"
 };
 #define	NEXT_STRING	((curString + 1) % ARRAY_SIZE(pc))
 
@@ -83,7 +83,7 @@ void doUI(void)
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 100);
 
-    if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) || 
+    if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) ||
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
       P.setSpeed(speed);
@@ -96,8 +96,8 @@ void doUI(void)
   {
     static uint8_t	curMode = 0;
     textPosition_t	align = P.getTextAlignment();
-    textPosition_t	textAlign[] = 
-    { 
+    textPosition_t	textAlign[] =
+    {
       PA_LEFT,
       PA_CENTER,
       PA_RIGHT
@@ -223,7 +223,7 @@ void loop(void)
 {
   doUI();
 
-  if (P.displayAnimate()) 
+  if (P.displayAnimate())
   {
     P.setTextBuffer(pc[curString]);
     P.displayReset();

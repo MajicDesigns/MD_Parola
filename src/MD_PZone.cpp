@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements MD_PZone class methods
  */
 
-MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL), 
+MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL),
   _scrollDistance(0),_zoneEffect(0)
 {
 }
@@ -35,11 +35,11 @@ MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef
 MD_PZone::~MD_PZone(void)
 {
 	// release the memory for user defined characters
-	charDef *p = _userChars;
+	charDef_t *p = _userChars;
 
 	while (p!= NULL)
 	{
-		charDef	*pt = p;
+		charDef_t	*pt = p;
 		p = pt->next;
 		delete pt;
 	};
@@ -47,7 +47,7 @@ MD_PZone::~MD_PZone(void)
 
 void MD_PZone::begin(MD_MAX72XX *p)
 {
-	_MX = p;	
+  _MX = p;
 }
 
 void MD_PZone::setZoneEffect(boolean b, zoneEffect_t ze)
@@ -56,8 +56,8 @@ void MD_PZone::setZoneEffect(boolean b, zoneEffect_t ze)
   {
   case PA_FLIP_LR: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_LR_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_LR_MASK));  break;
   case PA_FLIP_UD: _zoneEffect = (b ? ZE_SET(_zoneEffect, ZE_FLIP_UD_MASK) : ZE_RESET(_zoneEffect, ZE_FLIP_UD_MASK));  break;
-  }  
-  
+  }
+
   return;
 }
 
@@ -68,7 +68,7 @@ boolean MD_PZone::getZoneEffect(zoneEffect_t ze)
   case PA_FLIP_LR: return(ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK)); break;
   case PA_FLIP_UD: return(ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)); break;
   }
-  
+
   return(false);
 }
 
@@ -120,7 +120,7 @@ bool MD_PZone::calcTextLimits(char *p)
 {
 	bool b = true;
 	uint16_t	displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart) + 1;
-	
+
 	_textLen = getTextWidth(p);
 
 	PRINT("\ncalcTextLimits: disp=", displayWidth);
@@ -179,7 +179,7 @@ bool MD_PZone::calcTextLimits(char *p)
 bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 // Add a user defined character to the replacement list
 {
-	charDef	*pcd;
+	charDef_t	*pcd;
 
 	if (code == 0)
 	return(false);
@@ -214,7 +214,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 	}
 
 	// default is to add a new node to the front of the list
-	if ((pcd = new charDef) != NULL)
+	if ((pcd = new charDef_t) != NULL)
 	{
 		pcd->code = code;
 		pcd->data = data;
@@ -233,7 +233,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 bool MD_PZone::delChar(uint8_t code)
 // Delete a user defined character from the replacement list
 {
-	charDef	*pcd = _userChars;
+	charDef_t	*pcd = _userChars;
 
 	if (code == 0)
 	return(false);
@@ -256,7 +256,7 @@ bool MD_PZone::delChar(uint8_t code)
 uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 // Find a character either in user defined list or from font table
 {
-	charDef	*pcd = _userChars;
+	charDef_t	*pcd = _userChars;
 	uint8_t	len;
 
 	PRINTX("\nfindUserChar 0x", code);
@@ -283,7 +283,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 }
 
 uint8_t MD_PZone::makeChar(char c, bool addBlank)
-// Load a character bitmap and add in trailing char spacing blanks 
+// Load a character bitmap and add in trailing char spacing blanks
 {
 	uint8_t	len;
 
@@ -332,7 +332,7 @@ void MD_PZone::invertBuf(uint8_t *p, uint8_t size)
     v = ((v >> 1) & 0x55) | ((v & 0x55) << 1);  // swap odd and even bits
     v = ((v >> 2) & 0x33) | ((v & 0x33) << 2);  // swap consecutive pairs
     v = ((v >> 4) & 0x0F) | ((v & 0x0F) << 4);  // swap nibbles ...
-    
+
     p[i] = v;
   }
 }
@@ -347,7 +347,7 @@ void MD_PZone::moveTextPointer(void)
 	PRINTS("\nMovePtr");
 
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && SFX(PA_SCROLL_RIGHT)) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
 	{
 		PRINTS(" --");
 		_endOfText = (_pCurChar == _pText);
@@ -370,7 +370,6 @@ uint8_t MD_PZone::getFirstChar(void)
 	uint8_t len = 0;
 
 	PRINT("\ngetFirst SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
-  PRINT(" SFX(PRINT):", SFX(PA_PRINT));
   PRINT(" ZETEST(UD):", ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK));
   PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
@@ -383,7 +382,7 @@ uint8_t MD_PZone::getFirstChar(void)
 	}
 	_endOfText = false;
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
   {
     PRINTS("\nReversed String");
     _pCurChar += strlen(_pText) - 1;
@@ -393,18 +392,18 @@ uint8_t MD_PZone::getFirstChar(void)
 	len = makeChar(*_pCurChar, *(_pCurChar+1) != '\0');
 
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
   {
     PRINTS("\nReverse Buffer");
     reverseBuf(_cBuf, len);
   }
-    
+
   if ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK)
   {
     PRINTS("\nInvert buffer");
     invertBuf(_cBuf, len);
   }
-	
+
 	moveTextPointer();
 
 	return(len);
@@ -417,7 +416,6 @@ uint8_t MD_PZone::getNextChar(void)
 	uint8_t len = 0;
 
   PRINT("\ngetNexChar SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
-  PRINT(" SFX(PRINT):", SFX(PA_PRINT));
   PRINT(" ZETEST(UD):", ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK));
   PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
@@ -427,7 +425,7 @@ uint8_t MD_PZone::getNextChar(void)
 	len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
-    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !(SFX(PA_SCROLL_RIGHT) || SFX(PA_PRINT))))
+    (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
   {
     PRINTS("\nReversed Buffer");
     reverseBuf(_cBuf, len);
@@ -538,7 +536,7 @@ bool MD_PZone::zoneAnimate(void)
   {
     Serial.print("\nCycle time: ");
     Serial.print(millis()-cycleStartTime);
-  }    
+  }
 #endif
 
 	return(_fsmState == END);

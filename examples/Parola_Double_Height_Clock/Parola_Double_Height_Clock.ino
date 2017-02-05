@@ -5,8 +5,8 @@
 // - Optional use of DS1307 module for time
 // - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 //
-// Each font file has the lower part of a character as ASCII codes 0-127 and the 
-// upper part of the character in ASCII code 128-255. Adding 128 to each lower 
+// Each font file has the lower part of a character as ASCII codes 0-127 and the
+// upper part of the character in ASCII code 128-255. Adding 128 to each lower
 // character creates the correct index for the upper character.
 // The upper and lower portions are managed as 2 zones 'stacked' on top of each other
 // so that the module numbers are in the sequence shown below:
@@ -23,8 +23,8 @@
 // upper zone creates the complete message on the display.
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -42,7 +42,7 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define MAX_ZONES 2
 #define ZONE_SIZE 7
@@ -86,7 +86,7 @@ void getTime(char *psz, bool f = true)
   sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
   uint16_t	h, m, s;
-	
+
   m = millis()/1000;
   h = (m/60) % 24;
   m %= 60;
@@ -135,9 +135,9 @@ void loop(void)
 {
   static uint32_t	lastTime = 0;		// millis() memory
   static bool	flasher = false;	  // seconds passing flasher
-  static bool doAnimate = false;  // animation switch
 
-  if (P.displayAnimate())
+  P.displayAnimate();
+  if (P.getZoneStatus(ZONE_LOWER) && P.getZoneStatus(ZONE_UPPER))
   {
 	  // Adjust the time string if we have to. It will be adjusted
 	  // every second at least for the flashing colon separator.
@@ -148,12 +148,10 @@ void loop(void)
       createHString(szTimeH, szTimeL);
       flasher = !flasher;
 
-      P.displayReset(ZONE_LOWER);
-      P.displayReset(ZONE_UPPER);
+      P.displayReset();
 
       // synchronise the start
       P.synchZoneStart();
-      doAnimate = true;
     }
   }
 }

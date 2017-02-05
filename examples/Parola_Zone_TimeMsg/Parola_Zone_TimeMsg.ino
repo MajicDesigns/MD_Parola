@@ -1,8 +1,8 @@
 // Program to demonstrate the MD_Parola library
 //
 // Display the time in one zone and other information scrolling through in
-// another zone. 
-// - Time is shown in a user defined fixed width font 
+// another zone.
+// - Time is shown in a user defined fixed width font
 // - Scrolling text uses the default font
 // - Temperature display uses user defined characters
 // - Optional use of DS1307 module for time and DHT11 sensor for temp and humidity
@@ -10,8 +10,8 @@
 // - DHT11 library (DHT11_lib) found at http://arduino.cc/playground/Main/DHT11Lib
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -29,7 +29,7 @@
 #include "Font_Data.h"
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	10
 
@@ -75,10 +75,10 @@ char *mon2str(uint8_t mon, char *psz, uint8_t len)
 
 // Get a label from PROGMEM into a char array
 {
-  static const __FlashStringHelper*	str[] = 
+  static const __FlashStringHelper*	str[] =
   {
-    F("Jan"), F("Feb"), F("Mar"), F("Apr"), 
-    F("May"), F("Jun"), F("Jul"), F("Aug"), 
+    F("Jan"), F("Feb"), F("Mar"), F("Apr"),
+    F("May"), F("Jun"), F("Jul"), F("Aug"),
     F("Sep"), F("Oct"), F("Nov"), F("Dec")
   };
 
@@ -90,13 +90,13 @@ char *mon2str(uint8_t mon, char *psz, uint8_t len)
 
 char *dow2str(uint8_t code, char *psz, uint8_t len)
 {
-  static const __FlashStringHelper*	str[] = 
+  static const __FlashStringHelper*	str[] =
   {
-    F("Sunday"), F("Monday"), F("Tuesday"), 
-    F("Wednesday"), F("Thursday"), F("Friday"), 
+    F("Sunday"), F("Monday"), F("Tuesday"),
+    F("Wednesday"), F("Thursday"), F("Friday"),
     F("Saturday")
   };
-  
+
   strncpy_P(psz, (const char PROGMEM *)str[code-1], len);
   psz[len] = '\0';
 
@@ -111,7 +111,7 @@ void getTime(char *psz, bool f = true)
   sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
   uint16_t	h, m, s;
-	
+
   s = millis()/1000;
   m = s/60;
   h = m/60;
@@ -126,7 +126,7 @@ void getDate(char *psz)
 {
 #if	USE_DS1307
   char	szBuf[10];
-	
+
   RTC.readTime();
   sprintf(psz, "%d %s %04d", RTC.dd, mon2str(RTC.mm, szBuf, sizeof(szBuf)-1), RTC.yyyy);
 #else
@@ -138,14 +138,14 @@ void setup(void)
 {
   P.begin(2);
   P.setInvert(false);
-  
+
   P.setZone(0, 0, MAX_DEVICES-5);
   P.setZone(1, MAX_DEVICES-4, MAX_DEVICES-1);
   P.setFont(1, numeric7Seg);
 
   P.displayZoneText(1, szTime, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
   P.displayZoneText(0, szMesg, PA_CENTER, SPEED_TIME, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-  
+
   P.addChar('$', degC);
   P.addChar('&', degF);
 
@@ -162,9 +162,9 @@ void loop(void)
   static uint32_t	lastTime = 0;		// millis() memory
   static uint8_t	display = 0;		// current display mode
   static bool	flasher = false;	// seconds passing flasher
-  
+
   P.displayAnimate();
-  
+
   if (P.getZoneStatus(0))
   {
     switch (display)
@@ -176,13 +176,13 @@ void loop(void)
         if (DHT11.read(DHT11_PIN) == 0)
         {
           dtostrf(DHT11.temperature, 3, 1, szMesg);
-          strcat(szMesg, "$"); 
+          strcat(szMesg, "$");
         }
 #else
         strcpy(szMesg, "22.0$");
 #endif
         break;
-			
+
       case 1:	// Temperature deg F
         P.setTextEffect(0, PA_SCROLL_UP_LEFT, PA_SCROLL_LEFT);
         display++;
@@ -190,7 +190,7 @@ void loop(void)
         if (DHT11.read(DHT11_PIN) == 0)
         {
           dtostrf((1.8 * DHT11.temperature)+32, 3, 1, szMesg);
-          strcat(szMesg, "&"); 
+          strcat(szMesg, "&");
         }
 #else
         strcpy(szMesg, "71.6&");
@@ -204,7 +204,7 @@ void loop(void)
         if (DHT11.read(DHT11_PIN) == 0)
         {
           dtostrf(DHT11.humidity, 3, 0, szMesg);
-          strcat(szMesg, "% RH"); 
+          strcat(szMesg, "% RH");
         }
 #else
         strcpy(szMesg, "36 % RH");
@@ -215,7 +215,7 @@ void loop(void)
         P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display++;
 #if	USE_DS1307
-        dow2str(RTC.dow, szMesg, MAX_MESG);			
+        dow2str(RTC.dow, szMesg, MAX_MESG);
 #else
         dow2str(4, szMesg, MAX_MESG);
 #endif
@@ -227,17 +227,17 @@ void loop(void)
         getDate(szMesg);
         break;
     }
-		
-    P.displayReset(0); 
+
+    P.displayReset(0);
   }
-  
+
   // Finally, adjust the time string if we have to
   if (millis() - lastTime >= 1000)
   {
     lastTime = millis();
     getTime(szTime, flasher);
     flasher = !flasher;
-	  
+
     P.displayReset(1);
   }
 }

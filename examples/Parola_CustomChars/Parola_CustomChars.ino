@@ -1,8 +1,8 @@
 // Program to exercise the MD_Parola library
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -11,7 +11,7 @@
 #include <SPI.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 
@@ -52,18 +52,17 @@ typedef struct
 	char *	msg;		// message to display
 } msgDef_t;
 
-msgDef_t	M[] = 
+msgDef_t	M[] =
 {
   { 1, "User char" },
-  { 0, "~~~~" }, 
+  { 0, "~~~~" },
   { 1, "24$" },
-  { 0, "++++" }, 
+  { 0, "++++" },
   { 1, "40&" },
-  { 0, "^^^^" } 
+  { 0, "^^^^" }
 };
 #define	MAX_STRINGS  (sizeof(M)/sizeof(M[0]))
 
-	
 void setup(void)
 {
   Serial.begin(57600);
@@ -76,7 +75,7 @@ void setup(void)
   P.addChar('~', waveSine);
   P.addChar('+', waveSqar);
   P.addChar('^', waveTrng);
-  
+
   P.setCharSpacing(M[0].spacing);
   P.displayText(M[0].msg, PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
 }
@@ -85,7 +84,7 @@ void loop(void)
 {
   static uint8_t	n = 1;
 
-  if (P.displayAnimate()) 
+  if (P.displayAnimate())
   {
     P.setTextBuffer(M[n].msg);
     P.setCharSpacing(M[n].spacing);

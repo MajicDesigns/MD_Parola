@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_PZone::effectHScan(bool bIn)
 // Scan the message over with a new one
-// Print up the whole message and then remove the parts we 
+// Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
 	if (bIn)	// incoming
@@ -113,7 +113,7 @@ void MD_PZone::effectHScan(bool bIn)
 
 void MD_PZone::effectVScan(bool bIn)
 // Scan the message over with a new one
-// Print up the whole message and then remove the parts we 
+// Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
 	uint8_t	maskCol = 0;
@@ -137,7 +137,7 @@ void MD_PZone::effectVScan(bool bIn)
 			commonPrint();
 
 			// check if we have finished
-			if (_nextPos == 8)		// bits numbered 0 to 7	
+			if (_nextPos == 8)		// bits numbered 0 to 7
 			{
 				_fsmState = PAUSE;
 				break;

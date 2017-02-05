@@ -1,13 +1,13 @@
 // Program to demonstrate the MD_Parola library
 //
-// For every string defined by pc[] iterate through all combinations 
+// For every string defined by pc[] iterate through all combinations
 // of entry and exit effects in each zone independently.
 //
 // Animation speed can be controlled using a pot on pin SPEED_IN
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -16,7 +16,7 @@
 #include <SPI.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	9
 #define	MAX_ZONES	3
@@ -55,8 +55,8 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char	*pc[MAX_ZONES] = 
-{ 
+char	*pc[MAX_ZONES] =
+{
   "GHI",
   "DEF",
   "ABC",
@@ -91,7 +91,7 @@ textEffect_t	effect[] =
 };
 
 uint8_t	inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
-uint8_t	outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 }; 
+uint8_t	outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
 
 #if USE_UI_CONTROL
 void doUI(void)
@@ -100,7 +100,7 @@ void doUI(void)
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 250);
 
-    if (speed != (int16_t)P.getSpeed()) 
+    if (speed != (int16_t)P.getSpeed())
     {
       P.setSpeed(speed);
       P.setPause(speed);
@@ -124,11 +124,11 @@ void setup(void)
 
   P.begin(MAX_ZONES);
   P.setInvert(false);
-  
+
   P.setZone(0, 0, 2);
   P.setZone(1, 3, 5);
   P.setZone(2, 6, 8);
-  
+
   for (uint8_t i=0; i<MAX_ZONES; i++)
     P.displayZoneText(i, pc[i], PA_CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }
@@ -148,7 +148,7 @@ void loop(void)
         outFX[i] = (++outFX[i]) % ARRAY_SIZE(effect);
         if (outFX[i] == 0)
         inFX[i] = (++inFX[i]) % ARRAY_SIZE(effect);
-        
+
         P.setTextEffect(i, effect[inFX[i]], effect[outFX[i]]);
 
         // Tell Parola we have a new animation

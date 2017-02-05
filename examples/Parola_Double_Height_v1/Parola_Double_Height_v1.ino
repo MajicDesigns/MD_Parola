@@ -14,15 +14,15 @@
 //  n/2+1 ... n-2 n-1 n   -> this direction top row
 //  n/2 ... 3  2  1  0    <- this direction bottom row
 //
-// Each font displays letters for either top or bottom half of the message. Sending the 
+// Each font displays letters for either top or bottom half of the message. Sending the
 // same string to both zones creates the complete message
 // on the display.
 //
 // NOTE: MD_MAX72xx library must be installed and confugured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
-// 
+//
 
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
@@ -36,7 +36,7 @@
 #define DEBUG 0
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
@@ -56,7 +56,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-char *msg[] = 
+char *msg[] =
 {
   "Create double height displays using 2 custom fonts and 2 zones",
   "Zone 0 for lower half",
@@ -100,9 +100,10 @@ void loop(void)
   static uint8_t cycle = 0;
 
   // Run the animation and then check if BOTH zones have
-  // completed. The animations are not the same length due 
+  // completed. The animations are not the same length due
   // to upper/lower effects being displayed differently.
   P.displayAnimate();
+
   if (P.getZoneStatus(ZONE_LOWER) && P.getZoneStatus(ZONE_UPPER))
   {
 #if DEBUG

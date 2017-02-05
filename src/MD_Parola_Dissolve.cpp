@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -39,7 +39,7 @@ void MD_PZone::effectDissolve(bool bIn)
 		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			uint8_t	col = DATA_BAR(_MX->getColumn(i));
-				
+
 			col |= (i&1 ? 0x55 : 0xaa);	// checkerboard pattern
 			_MX->setColumn(i, DATA_BAR(col));
 		}
@@ -53,7 +53,7 @@ void MD_PZone::effectDissolve(bool bIn)
 		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
 		{
 			uint8_t	col = DATA_BAR(_MX->getColumn(i));
-				
+
 			col |= (i&1 ? 0xaa : 0x55);	// alternate checkerboard pattern
 			_MX->setColumn(i, DATA_BAR(col));
 		}

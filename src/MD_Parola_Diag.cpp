@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -53,8 +53,8 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 			for (uint8_t i = _nextPos; i < 7; i++)
 			{
 				// scroll the whole display so that the message appears to be animated
-				// Note: Directions are reversed because we start with the message in the 
-				// middle position thru commonPrint() and to see it animated move DOWN we 
+				// Note: Directions are reversed because we start with the message in the
+				// middle position thru commonPrint() and to see it animated move DOWN we
 				// need to scroll it UP, and vice versa.
 				_MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
 				_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSR : MD_MAX72XX::TSL);

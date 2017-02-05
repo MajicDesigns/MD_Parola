@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ _D(dataPin, clkPin, csPin, numDevices), _numModules(numDevices)
 {
 }
 
-MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices): 
+MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices):
 _D(csPin, numDevices), _numModules(numDevices)
 {
 }
@@ -41,7 +41,7 @@ _D(csPin, numDevices), _numModules(numDevices)
 void MD_Parola::begin(uint8_t numZones)
 {
 	_D.begin();
-	
+
 	// Create the zone objects
 	_numZones = numZones;
 	_Z = new MD_PZone[_numZones];
@@ -50,7 +50,7 @@ void MD_Parola::begin(uint8_t numZones)
 
 	for (uint8_t i=0; i<_numZones; i++)
 		_Z[i].begin(&_D);
-		
+
 	// initialise zone-independent options
 	setSpeed(10);
 	setPause(10*getSpeed());
@@ -81,7 +81,7 @@ bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)
 		_Z[z].setZone(moduleStart, moduleEnd);
 		return(true);
 	}
-		
+
 	return(false);
 }
 
@@ -99,7 +99,7 @@ void MD_Parola::displayZoneText(uint8_t z, char *pText, textPosition_t align, ui
 bool MD_Parola::displayAnimate(void)
 {
 	bool b = false;
-	
+
 	// suspend the display while we animate a frame
 	_D.update(MD_MAX72XX::OFF);
 
@@ -108,17 +108,17 @@ bool MD_Parola::displayAnimate(void)
 
 	// re-enable and update the display
 	_D.update(MD_MAX72XX::ON);
-		
+
 	return(b);
 }
 
-size_t MD_Parola::write(const char *str) 
-{ 
-  displayText((char *)str, PA_CENTER, 0, 0, PA_PRINT, PA_NO_EFFECT); 
+size_t MD_Parola::write(const char *str)
+{
+  displayText((char *)str, PA_CENTER, 0, 0, PA_PRINT, PA_NO_EFFECT);
   while (displayAnimate())
-    /* do nothing */; 
+    /* do nothing */;
 
-  return(strlen(str)); 
+  return(strlen(str));
 }
 
 size_t MD_Parola::write(const uint8_t *buffer, size_t size)

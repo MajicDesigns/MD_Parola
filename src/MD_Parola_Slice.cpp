@@ -1,8 +1,8 @@
 /*
 MD_Parola - Library for modular scrolling text and Effects
-  
+
 See header file for comments
-  
+
 Copyright (C) 2013 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -77,7 +77,7 @@ void MD_PZone::effectSlice(bool bIn)
         _fsmState = PAUSE;
         break;
       }
-      
+
       if (_cBuf[_countCols] == 0) // empty column ?
 			{
 				_nextPos = _endPos;	// pretend we just animated it!
@@ -91,7 +91,7 @@ void MD_PZone::effectSlice(bool bIn)
 			}
 
 			// set up for the next time
-			if (_nextPos == _endPos) 
+			if (_nextPos == _endPos)
 			{
 				_nextPos = ZONE_START_COL(_zoneStart);
 				_countCols++;
@@ -135,7 +135,7 @@ void MD_PZone::effectSlice(bool bIn)
 				_nextPos++;
 
 				// set up for the next time
-				if (_nextPos == ZONE_END_COL(_zoneEnd)+1) 
+				if (_nextPos == ZONE_END_COL(_zoneEnd)+1)
 					_nextPos = _endPos--;
 		}
 			break;

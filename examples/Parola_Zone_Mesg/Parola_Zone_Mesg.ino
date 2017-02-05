@@ -5,8 +5,8 @@
 // Animation speed can be controlled using a pot on pin SPEED_IN
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx 
-// library or see this link: 
+// matrix type being used. Refer documentation included in the MD_MAX72xx
+// library or see this link:
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
@@ -15,7 +15,7 @@
 #include <SPI.h>
 
 // Define the number of devices we have in the chain and the hardware interface
-// NOTE: These pin numbers will probably not work with your hardware and may 
+// NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define	MAX_DEVICES	8
 #define	MAX_ZONES	  4
@@ -48,8 +48,8 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char	*pc[] = 
-{ 
+char	*pc[] =
+{
   "M1",
   "M2",
   "M3",
@@ -103,7 +103,7 @@ void setup(void)
     PRINT("\nZ", i);
     PRINT(" from ", ZONE_SIZE*i);
     PRINT(" to ", (ZONE_SIZE*(i+1))-1);
-  }  
+  }
 }
 
 void loop(void)
@@ -111,14 +111,14 @@ void loop(void)
   static uint8_t  curZone = 0;
   uint8_t inFX = ++curFX % ARRAY_SIZE(effect);
   uint8_t outFX = ++curFX % ARRAY_SIZE(effect);
-    
+
   PRINT("\nNew Z", curZone);
   PRINT(": ", pc[curText]);
   PRINT(" @ ", millis());
   P.displayZoneText(curZone, pc[curText], PA_LEFT, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
-  
-  // Check for individual zone completion. Note that we check the status of the zone rather than use the 
-  // return status of the displayAnimate() method as the other unused zones are completed, but we 
+
+  // Check for individual zone completion. Note that we check the status of the zone rather than use the
+  // return status of the displayAnimate() method as the other unused zones are completed, but we
   // still need to call it to run the animations.
   while (!P.getZoneStatus(curZone))
     P.displayAnimate();
