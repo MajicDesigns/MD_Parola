@@ -28,6 +28,9 @@ System Components
 
 Revision History
 ----------------
+xxx 2017 - version 2.6.4
+- Added Parola_UFT-8_Display example for double multi-byte character handling
+
 Feb 2017 - version 2.6.3
 - Full review of double height functionality, mods as required
 - Added Double_Height_Test example
