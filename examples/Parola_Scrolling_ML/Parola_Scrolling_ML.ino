@@ -130,7 +130,7 @@ void doUI(void)
 
 void readSerial(void)
 {
-  static int8_t	putIndex = -1;
+  static int16_t	putIndex = -1;
   char c;
 
   while (Serial.available())

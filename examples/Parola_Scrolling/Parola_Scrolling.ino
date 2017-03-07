@@ -114,22 +114,20 @@ void doUI(void)
 
 void readSerial(void)
 {
-  static uint8_t	putIndex = 0;
+  static char *cp = newMessage;
 
   while (Serial.available())
   {
-    newMessage[putIndex] = (char)Serial.read();
-    if ((newMessage[putIndex] == '\n') || (putIndex >= BUF_SIZE-2))	// end of message character or full buffer
+    *cp = (char)Serial.read();
+    if ((*cp == '\n') || (cp - newMessage >= BUF_SIZE-2))	// end of message character or full buffer
     {
-      // put in a message separator and end the string
-      newMessage[putIndex] = '\0';
+      *cp = '\0';	// end the string
       // restart the index for next filling spree and flag we have a message waiting
-      putIndex = 0;
+      cp = newMessage;
       newMessageAvailable = true;
     }
-      else
-      // Just save the next char in next location
-      newMessage[putIndex++];
+    else  // move char pointer to next position
+      cp++;
   }
 }
 

@@ -55,8 +55,8 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // WiFi login parameters - network name and password
-const char* ssid = "NovoCS";
-const char* password = "WifiTestNetwork";
+const char* ssid = "";
+const char* password = "";
 
 // WiFi Server object and parameters
 WiFiServer server(80);
@@ -90,7 +90,7 @@ char WebPage[] =
 "  strLine = strLine + \"/&SD=\" + document.getElementById(\"data_form\").ScrollType.value;" \
 "  strLine = strLine + \"/&I=\" + document.getElementById(\"data_form\").Invert.value;" \
 "  strLine = strLine + \"/&SP=\" + document.getElementById(\"data_form\").Speed.value;" \
-"  request.open(\"GET\", strLine + nocache, true);" \
+"  request.open(\"GET\", strLine + nocache, false);" \
 "  request.send(null);" \
 "}" \
 "</script>" \

@@ -24,7 +24,7 @@
 #include <MD_KeySwitch.h>
 
 // Turn on debug statements to the serial output
-#define  DEBUG  1
+#define  DEBUG  0
 
 #if  DEBUG
 #define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
@@ -49,7 +49,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define	PAUSE_TIME		500
+#define	PAUSE_TIME		0
 #define FRAME_TIME    50
 #define SPACE_DEADBAND  2
 
@@ -99,22 +99,20 @@ void doUI(void)
 
 void readSerial(void)
 {
-  static uint8_t	putIndex = 0;
+  static char *cp = newMessage;
 
   while (Serial.available())
   {
-    newMessage[putIndex] = (char)Serial.read();
-    if ((newMessage[putIndex] == '\n') || (putIndex >= BUF_SIZE-2))	// end of message character or full buffer
+    *cp = (char)Serial.read();
+    if ((*cp == '\n') || (cp - newMessage >= BUF_SIZE-2))	// end of message character or full buffer
     {
-      // put in a message separator and end the string
-      newMessage[putIndex] = '\0';
+      *cp = '\0';      // end the string
       // restart the index for next filling spree and flag we have a message waiting
-      putIndex = 0;
+      cp = newMessage;
       newMessageAvailable = true;
     }
-      else
-      // Just save the next char in next location
-      newMessage[putIndex++];
+    else  // move char pointer to next position
+      cp++;
   }
 }
 
