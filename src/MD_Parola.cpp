@@ -114,7 +114,7 @@ bool MD_Parola::displayAnimate(void)
 
 size_t MD_Parola::write(const char *str)
 {
-  displayText((char *)str, PA_CENTER, 0, 0, PA_PRINT, PA_NO_EFFECT);
+  displayText((char *)str, getTextAlignment(), 0, 0, PA_PRINT, PA_NO_EFFECT);
   while (displayAnimate())
     /* do nothing */;
 

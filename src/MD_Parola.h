@@ -1529,12 +1529,14 @@ public:
   virtual size_t write(uint8_t c) { char sz[2]; sz[0] = c; sz[1] = '\0'; write(sz); return(1); }
 
   /**
-  * Write a NUL terminated string to the output display.
+  * Write a null terminated string to the output display.
   *
-  * Display a nul terminated string when given a pointer to the char array.
-  * Invokes an animation using PA_PRINT, CENTERED in the display.
+  * Display a null terminated string when given a pointer to the char array.
+  * Invokes an animation using PA_PRINT with all other settings (alignment,
+  * speed, etc) taken from current defaults.
   * This method also invokes the animation for the print and returns when that has
-  * finished, so it blocks while the printing is happening.
+  * finished, so it blocks while the printing is happening, which should be at least 
+  * one iteration of the wait loop.
   *
   * \param str	Pointer to the nul terminated char array.
   * \return the number of characters written.
@@ -1544,10 +1546,10 @@ public:
   /**
   * Write a character buffer to the output display.
   *
-  * Display a non-nul terminated string given a pointer to the buffer and
+  * Display a non-null terminated string given a pointer to the buffer and
   * the size of the buffer. The buffer is turned into a nul terminated string
   * and the simple write() method is invoked. Memory is allocated and freed
-  * in this methods to copy the string.
+  * in this method to copy the string.
   *
   * \param buffer	Pointer to the data buffer.
   * \param size The number of bytes to write.
