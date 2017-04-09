@@ -83,7 +83,7 @@ uint8_t utf8Ascii(uint8_t ascii)
   {
     switch (cPrev)  // Conversion depending on preceding UTF8-character
     {
-	  case 0xC2: c = ascii;  break;
+	case 0xC2: c = ascii;  break;
     case 0xC3: c = ascii | 0xC0;  break;
     case 0x82: if (ascii==0xAC) c = 0x80; // Euro symbol special case
     }

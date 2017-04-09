@@ -22,21 +22,21 @@
 #include <SPI.h>
 
 // set to 1 if we are implementing the user interface pot, switch, etc
-#define	USE_UI_CONTROL	0
+#define USE_UI_CONTROL 0
 
 #if USE_UI_CONTROL
 #include <MD_KeySwitch.h>
 #endif
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define DEBUG 0
 
-#if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(x)	Serial.println(x, HEX)
+#if DEBUG
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTX(x) Serial.println(x, HEX)
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTX(x)
 #endif
@@ -44,10 +44,10 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define MAX_DEVICES 8
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -55,19 +55,20 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 
-#define	PAUSE_TIME		1000
-#define	SPEED_DEADBAND	5
 
 // Scrolling parameters
 #if USE_UI_CONTROL
-#define	SPEED_IN		A5
-#define	DIRECTION_SET	8	// change the effect
-#define	INVERT_SET		9	// change the invert
+const uint8_t SPEED_IN = A5;
+const uint8_t DIRECTION_SET = 8;  // change the effect
+const uint8_t INVERT_SET = 9;     // change the invert
 
+const uint8_t SPEED_DEADBAND = 5;
 #endif // USE_UI_CONTROL
 
-uint8_t	frameDelay = 25;	// default frame delay value
-textEffect_t	scrollEffect = PA_SCROLL_LEFT;
+uint8_t scrollSpeed = 25;    // default frame delay value
+textEffect_t scrollEffect = PA_SCROLL_LEFT;
+textPosition_t scrollAlign = PA_LEFT;
+uint16_t scrollPause = 2000; // in milliseconds
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
@@ -90,21 +91,21 @@ void doUI(void)
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
       P.setSpeed(speed);
-      P.setPause(speed);
-      frameDelay = speed;
+      scrollSpeed = speed;
       PRINT("\nChanged speed to ", P.getSpeed());
     }
   }
 
-  if (uiDirection.read() == MD_KeySwitch::KS_PRESS)	// SCROLL DIRECTION
+  if (uiDirection.read() == MD_KeySwitch::KS_PRESS) // SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
     scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
     P.setTextEffect(scrollEffect, scrollEffect);
+    P.displayClear();
     P.displayReset();
   }
 
-  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)	// INVERT MODE
+  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)  // INVERT MODE
   {
     PRINTS("\nChanging invert mode");
     P.setInvert(!P.getInvert());
@@ -119,7 +120,7 @@ void readSerial(void)
   while (Serial.available())
   {
     *cp = (char)Serial.read();
-    if ((*cp == '\n') || (cp - newMessage >= BUF_SIZE-2))	// end of message character or full buffer
+    if ((*cp == '\n') || (cp - newMessage >= BUF_SIZE-2)) // end of message character or full buffer
     {
       *cp = '\0';	// end the string
       // restart the index for next filling spree and flag we have a message waiting
@@ -148,7 +149,7 @@ void setup()
   P.displayClear();
   P.displaySuspend(false);
 
-  P.displayScroll(curMessage, PA_LEFT, scrollEffect, frameDelay);
+  P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
 
   strcpy(curMessage, "Hello! Enter new message?");
   newMessage[0] = '\0';
@@ -157,7 +158,7 @@ void setup()
 void loop()
 {
 #if USE_UI_CONTROL
-	doUI();
+  doUI();
 #endif // USE_UI_CONTROL
 
   readSerial();

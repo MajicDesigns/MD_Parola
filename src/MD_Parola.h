@@ -30,6 +30,8 @@ Revision History
 ----------------
 xxx 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling
+- Fixed bug: single blank column in SCROLL_LEFT with PA_LEFT
+- Changed Scrolling example to parametrize more options
 
 Feb 2017 - version 2.6.3
 - Full review of double height functionality, mods as required
