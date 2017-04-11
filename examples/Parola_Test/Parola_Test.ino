@@ -24,10 +24,10 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define MAX_DEVICES 8
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -38,26 +38,26 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #define  DEBUG_ENABLE  1
 
 #if  DEBUG_ENABLE
-#define	DEBUG(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	DEBUGS(x)	Serial.print(F(x))
-#define	DEBUGX(x)	Serial.println(x, HEX)
+#define DEBUG(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define DEBUGS(x) Serial.print(F(x))
+#define DEBUGX(x) Serial.println(x, HEX)
 #else
-#define	DEBUG(s, x)
+#define DEBUG(s, x)
 #define DEBUGS(x)
 #define DEBUGX(x)
 #endif
 
 // User interface pin and switch definitions
-#define	SPEED_IN	A5	// control the speed with an external pot
-#define	PAUSE_SET	4	// toggle pause time
-#define FLIP_SET  5 // toggle flip status
-#define JUSTIFY_SET	6	// change the justification
-#define	INTENSITY_SET	7	// change the intensity of the display
-#define	EFFECT_SET	8	// change the effect
-#define	INVERSE_SET	9	// set/reset the display to inverse
+#define SPEED_IN  A5    // control the speed with an external pot
+#define PAUSE_SET 4     // toggle pause time
+#define FLIP_SET  5     // toggle flip status
+#define JUSTIFY_SET 6   // change the justification
+#define INTENSITY_SET 7 // change the intensity of the display
+#define EFFECT_SET  8   // change the effect
+#define INVERSE_SET 9   // set/reset the display to inverse
 
-#define	PAUSE_TIME		1000	// in milliseconds
-#define	SPEED_DEADBAND	5		// in analog units
+#define PAUSE_TIME      1000  // in milliseconds
+#define SPEED_DEADBAND  5     // in analog units
 
 // Global variables
 uint8_t	curString = 0;
@@ -92,7 +92,7 @@ void doUI(void)
   }
 
   // now process the digital inputs
-  if (uiJustify.read() == MD_KeySwitch::KS_PRESS)	// TEXT ALIGNMENT
+  if (uiJustify.read() == MD_KeySwitch::KS_PRESS) // TEXT ALIGNMENT
   {
     static uint8_t	curMode = 0;
     textPosition_t	align = P.getTextAlignment();
@@ -109,7 +109,7 @@ void doUI(void)
     curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
   }
 
-  if (uiEffect.read() == MD_KeySwitch::KS_PRESS)	// EFFECT CHANGE
+  if (uiEffect.read() == MD_KeySwitch::KS_PRESS)  // EFFECT CHANGE
   {
     static uint8_t  curFX = 0;
 
@@ -126,6 +126,7 @@ void doUI(void)
       PA_MESH,
       PA_BLINDS,
       PA_DISSOLVE,
+      PA_RANDOM,
 #endif
 #if ENA_WIPE
       PA_WIPE,
@@ -151,15 +152,16 @@ void doUI(void)
       PA_GROW_UP,
       PA_GROW_DOWN,
 #endif
-   };
+    };
 
     curFX = (curFX + 1) % ARRAY_SIZE(effect);
     DEBUG("\nChanging effect to ", curFX);
     P.setTextEffect(effect[curFX], effect[curFX]);
+    P.displayClear();
     P.displayReset();
   }
 
-  if (uiPause.read() == MD_KeySwitch::KS_PRESS)	// PAUSE DELAY
+  if (uiPause.read() == MD_KeySwitch::KS_PRESS) // PAUSE DELAY
   {
     DEBUGS("\nChanging pause");
     if (P.getPause() <= P.getSpeed())
@@ -168,7 +170,7 @@ void doUI(void)
       P.setPause(0);
   }
 
-  if (uiIntensity.read() == MD_KeySwitch::KS_PRESS)	// INTENSITY
+  if (uiIntensity.read() == MD_KeySwitch::KS_PRESS) // INTENSITY
   {
     static uint8_t	intensity = 7;
 
@@ -186,12 +188,12 @@ void doUI(void)
     }
   }
 
-  if (uiInverse.read() == MD_KeySwitch::KS_PRESS)		// INVERSE
+  if (uiInverse.read() == MD_KeySwitch::KS_PRESS) // INVERSE
   {
     P.setInvert(!P.getInvert());
   }
 
-  if (uiFlip.read() == MD_KeySwitch::KS_PRESS)      // FLIP
+  if (uiFlip.read() == MD_KeySwitch::KS_PRESS)  // FLIP
   {
     P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_LR), PA_FLIP_LR);
     P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_UD), PA_FLIP_UD);

@@ -75,17 +75,17 @@
 // NOTE: These pin numbers may not work with your hardware and may need changing
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
-#define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
 
-#define PAUSE_TIME  0
-#define SCROLL_SPEED  50
+#define PAUSE_TIME 0
+#define SCROLL_SPEED 50
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -154,22 +154,22 @@ void loop(void)
     PRINT("\n", cycle);
     PRINT(": ", msgL[cycle]);
 
-	  // set up the string
-	  createHString(msgH, msgL[cycle]);
+    // set up the string
+    createHString(msgH, msgL[cycle]);
 
     P.displayClear();
 #if INVERT_UPPER_ZONE
-	  P.displayZoneText(ZONE_UPPER, msgH, PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
-	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
+    P.displayZoneText(ZONE_UPPER, msgH, PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
+    P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
 #else
-	  P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
-	  P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
+    P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
+    P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
 #endif
 
-	  // prepare for next pass
-	  cycle = (cycle + 1) % ARRAY_SIZE(msgL);
+    // prepare for next pass
+    cycle = (cycle + 1) % ARRAY_SIZE(msgL);
 
-	  // synchronise the start and run the display
-	  P.synchZoneStart();
-	}
+    // synchronise the start and run the display
+    P.synchZoneStart();
+  }
 }

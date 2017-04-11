@@ -30,45 +30,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 void MD_PZone::effectDissolve(bool bIn)
 // Dissolve the current message in/out
 {
-	switch (_fsmState)
-	{
-	case INITIALISE:	// bIn = true
-	case PAUSE:			// bIn = false
-	case GET_FIRST_CHAR:	// first stage dissolve
-		PRINT_STATE("IO DISS");
-		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
-		{
-			uint8_t	col = DATA_BAR(_MX->getColumn(i));
+  switch (_fsmState)
+  {
+  case INITIALISE:  // bIn = true
+  case PAUSE:   // bIn = false
+  case GET_FIRST_CHAR:  // first stage dissolve
+    PRINT_STATE("IO DISS");
+    for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    {
+      uint8_t	col = DATA_BAR(_MX->getColumn(i));
 
-			col |= (i&1 ? 0x55 : 0xaa);	// checkerboard pattern
-			_MX->setColumn(i, DATA_BAR(col));
-		}
-		_fsmState = GET_NEXT_CHAR;
-		break;
+      col |= (i&1 ? 0x55 : 0xaa); // checkerboard pattern
+      _MX->setColumn(i, DATA_BAR(col));
+    }
+    _fsmState = GET_NEXT_CHAR;
+    break;
 
-	case GET_NEXT_CHAR:		// second stage dissolve
-		PRINT_STATE("IO DISS");
-		zoneClear();
-		if (bIn) commonPrint();
-		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
-		{
-			uint8_t	col = DATA_BAR(_MX->getColumn(i));
+  case GET_NEXT_CHAR:   // second stage dissolve
+    PRINT_STATE("IO DISS");
+    zoneClear();
+    if (bIn) commonPrint();
+    for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    {
+      uint8_t	col = DATA_BAR(_MX->getColumn(i));
 
-			col |= (i&1 ? 0xaa : 0x55);	// alternate checkerboard pattern
-			_MX->setColumn(i, DATA_BAR(col));
-		}
-		_fsmState = PUT_CHAR;
-		break;
+      col |= (i&1 ? 0xaa : 0x55); // alternate checkerboard pattern
+      _MX->setColumn(i, DATA_BAR(col));
+    }
+    _fsmState = PUT_CHAR;
+    break;
 
-	case PUT_CHAR:
-		PRINT_STATE("IO DISS");
-		zoneClear();
-		if (bIn) commonPrint();
-		_fsmState = (bIn ? PAUSE : END);
-		break;
+  case PUT_CHAR:
+    PRINT_STATE("IO DISS");
+    zoneClear();
+    if (bIn) commonPrint();
+    _fsmState = (bIn ? PAUSE : END);
+    break;
 
-	default:
-		PRINT_STATE("IO DISS");
-		_fsmState = (bIn ? PAUSE : END);
-	}
+  default:
+    PRINT_STATE("IO DISS");
+    _fsmState = (bIn ? PAUSE : END);
+  }
 }

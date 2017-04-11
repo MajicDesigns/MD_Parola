@@ -27,62 +27,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements blinds effect
  */
 
-#define	BLINDS_SIZE	4	///< The width of the blinds in pixels
+#define BLINDS_SIZE 4 ///< The width of the blinds in pixels
 
 void MD_PZone::effectBlinds(bool bIn)
 // Transfer between messages with blinds effects
 {
-	switch (_fsmState)
-	{
-	case INITIALISE:	// bIn = true
-	case PAUSE:			// bIn = false
-		PRINT_STATE("IO BLIND");
-		_nextPos = 0;
-		_fsmState = GET_FIRST_CHAR;
-		// fall through
+  switch (_fsmState)
+  {
+  case INITIALISE:  // bIn = true
+  case PAUSE:       // bIn = false
+    PRINT_STATE("IO BLIND");
+    _nextPos = 0;
+    _fsmState = GET_FIRST_CHAR;
+    // fall through
 
-	case GET_FIRST_CHAR:	// blinds closing
-		PRINT_STATE("IO BLIND");
+  case GET_FIRST_CHAR:  // blinds closing
+    PRINT_STATE("IO BLIND");
 
-		_nextPos++;
-		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
-		{
-			if (i % BLINDS_SIZE < _nextPos)
-				_MX->setColumn(i, LIGHT_BAR);
-		}
+    _nextPos++;
+    for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    {
+      if (i % BLINDS_SIZE < _nextPos)
+        _MX->setColumn(i, LIGHT_BAR);
+    }
 
-		if (_nextPos == BLINDS_SIZE)
-		{
-			_nextPos = BLINDS_SIZE;
-			_fsmState = GET_NEXT_CHAR;
-		}
-		break;
+    if (_nextPos == BLINDS_SIZE)
+    {
+      _nextPos = BLINDS_SIZE;
+      _fsmState = GET_NEXT_CHAR;
+    }
+    break;
 
-	case GET_NEXT_CHAR:		// blinds opening
-		PRINT_STATE("IO BLIND");
-		zoneClear();
-		if (bIn) commonPrint();	// only do this when putting the message up
+  case GET_NEXT_CHAR:   // blinds opening
+    PRINT_STATE("IO BLIND");
+    zoneClear();
+    if (bIn) commonPrint(); // only do this when putting the message up
 
-		_nextPos--;
-		for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
-		{
-			if (i % BLINDS_SIZE < _nextPos)
-				_MX->setColumn(i, LIGHT_BAR);
-		}
+    _nextPos--;
+    for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    {
+      if (i % BLINDS_SIZE < _nextPos)
+        _MX->setColumn(i, LIGHT_BAR);
+    }
 
-		if (_nextPos == 0)
-			_fsmState = PUT_CHAR;
-		break;
+    if (_nextPos == 0)
+      _fsmState = PUT_CHAR;
+    break;
 
-	case PUT_CHAR:
-		PRINT_STATE("IO BLIND");
-		zoneClear();
-		if (bIn) commonPrint();
-		_fsmState = (bIn ? PAUSE : END);
-		break;
+  case PUT_CHAR:
+    PRINT_STATE("IO BLIND");
+    zoneClear();
+    if (bIn) commonPrint();
+    _fsmState = (bIn ? PAUSE : END);
+    break;
 
-	default:
-		PRINT_STATE("IO BLIND");
-		_fsmState = (bIn ? PAUSE : END);
-	}
+  default:
+    PRINT_STATE("IO BLIND");
+    _fsmState = (bIn ? PAUSE : END);
+  }
 }

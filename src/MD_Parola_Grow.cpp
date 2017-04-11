@@ -32,94 +32,94 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
-	if (bIn)	// incoming
-	{
-		switch (_fsmState)
-		{
-		case INITIALISE:
-			PRINT_STATE("I GROW");
-			setInitialEffectConditions();
-			_nextPos = (bUp ? 0xff : 1);		// this is the bit mask
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+  if (bIn)  // incoming
+  {
+    switch (_fsmState)
+    {
+    case INITIALISE:
+      PRINT_STATE("I GROW");
+      setInitialEffectConditions();
+      _nextPos = (bUp ? 0xff : 1);		// this is the bit mask
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-		case PAUSE:
-			PRINT_STATE("I GROW");
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+    case PAUSE:
+      PRINT_STATE("I GROW");
 
-			commonPrint();
-			// check if we have finished
-			if (_nextPos == (bUp ? 0 : 0xff))	// all bits covered
-			{
-				_fsmState = PAUSE;
-				break;
-			}
+      commonPrint();
+      // check if we have finished
+      if (_nextPos == (bUp ? 0 : 0xff)) // all bits covered
+      {
+        _fsmState = PAUSE;
+        break;
+      }
 
-			// blank out the part of the display we don't need
-			FSMPRINT("Keep bits ", _nextPos);
-			for (uint8_t i = _startPos; i != _endPos+_posOffset; i += _posOffset)
-			{
-				uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+      // blank out the part of the display we don't need
+      FSMPRINT("Keep bits ", _nextPos);
+      for (uint8_t i = _startPos; i != _endPos+_posOffset; i += _posOffset)
+      {
+        uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
-				_MX->setColumn(i, DATA_BAR(c));
-			}
+        _MX->setColumn(i, DATA_BAR(c));
+      }
 
-			// for the next time around
-			if (bUp)
-				_nextPos >>= 1;
-			else
-				_nextPos = (_nextPos << 1) | 1;
-			break;
+      // for the next time around
+      if (bUp)
+        _nextPos >>= 1;
+      else
+        _nextPos = (_nextPos << 1) | 1;
+      break;
 
-		default:
-			PRINT_STATE("I GROW");
-			_fsmState = PAUSE;
-		}
-	}
-	else	// exiting
-	{
-		switch (_fsmState)
-		{
-		case PAUSE:
-		case INITIALISE:
-			PRINT_STATE("O GROW");
-			setInitialEffectConditions();
-			_nextPos = (bUp ? 1 : 0xff);		// this is the bit mask
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+    default:
+      PRINT_STATE("I GROW");
+      _fsmState = PAUSE;
+    }
+  }
+  else  // exiting
+  {
+    switch (_fsmState)
+    {
+    case PAUSE:
+    case INITIALISE:
+      PRINT_STATE("O GROW");
+      setInitialEffectConditions();
+      _nextPos = (bUp ? 1 : 0xff);  // this is the bit mask
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-			PRINT_STATE("O GROW");
-			commonPrint();
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+      PRINT_STATE("O GROW");
+      commonPrint();
 
-			// blank out the part of the display we don't need
-			FSMPRINT(" Keep bits ", _nextPos);
-			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
-			{
-				uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+      // blank out the part of the display we don't need
+      FSMPRINT(" Keep bits ", _nextPos);
+      for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      {
+        uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
-				_MX->setColumn(i, DATA_BAR(c));
-			}
+        _MX->setColumn(i, DATA_BAR(c));
+      }
 
-			// check if we have finished
-			if (_nextPos == (bUp ? 0xff : 0x0))	// all bits covered
-				_fsmState = END;
+      // check if we have finished
+      if (_nextPos == (bUp ? 0xff : 0x0))	// all bits covered
+        _fsmState = END;
 
-			// for the next time around
-			if (bUp)
-				_nextPos = (_nextPos << 1) | 1;
-			else
-				_nextPos >>= 1;
-			break;
+      // for the next time around
+      if (bUp)
+        _nextPos = (_nextPos << 1) | 1;
+      else
+        _nextPos >>= 1;
+      break;
 
-		default:
-			PRINT_STATE("O GROW");
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      PRINT_STATE("O GROW");
+      _fsmState = END;
+      break;
+    }
+  }
 }

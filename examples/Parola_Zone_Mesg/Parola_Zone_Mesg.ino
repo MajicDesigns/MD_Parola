@@ -17,31 +17,31 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
-#define	MAX_ZONES	  4
+#define MAX_DEVICES 8
+#define MAX_ZONES   4
 #define ZONE_SIZE (MAX_DEVICES/MAX_ZONES)   // integer multiple works best
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // Hardware SPI connection
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
 // MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define	SPEED_TIME	25
-#define	PAUSE_TIME	1000
+#define SPEED_TIME  25
+#define PAUSE_TIME  1000
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define DEBUG  0
 
 #if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(x)	Serial.println(x, HEX)
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTX(x) Serial.println(x, HEX)
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTX(x)
 #endif
@@ -58,13 +58,14 @@ char	*pc[] =
 };
 
 
-uint8_t	curFX = 0;
-textEffect_t	effect[] =
+uint8_t curFX = 0;
+textEffect_t  effect[] =
 {
   PA_PRINT,
   PA_SCAN_HORIZ,
   PA_SCROLL_LEFT,
   PA_WIPE,
+  PA_RANDOM,
   PA_SCROLL_UP_LEFT,
   PA_SCROLL_UP,
   PA_FADE,
@@ -115,7 +116,7 @@ void loop(void)
   PRINT("\nNew Z", curZone);
   PRINT(": ", pc[curText]);
   PRINT(" @ ", millis());
-  P.displayZoneText(curZone, pc[curText], PA_LEFT, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
+  P.displayZoneText(curZone, pc[curText], PA_CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX], effect[outFX]);
 
   // Check for individual zone completion. Note that we check the status of the zone rather than use the
   // return status of the displayAnimate() method as the other unused zones are completed, but we

@@ -85,7 +85,7 @@ void doUI(void)
 {
   // set the speed if it has changed
   {
-    int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
+    int16_t speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
 
     if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) ||
       (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
@@ -122,7 +122,7 @@ void readSerial(void)
     *cp = (char)Serial.read();
     if ((*cp == '\n') || (cp - newMessage >= BUF_SIZE-2)) // end of message character or full buffer
     {
-      *cp = '\0';	// end the string
+      *cp = '\0'; // end the string
       // restart the index for next filling spree and flag we have a message waiting
       cp = newMessage;
       newMessageAvailable = true;

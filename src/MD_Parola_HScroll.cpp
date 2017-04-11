@@ -27,100 +27,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements horizontal scrolling effect
  */
 
-#define	START_POSITION		(bLeft) ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd)	///< Start position depends on the scrolling direction
+#define	START_POSITION (bLeft) ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd) ///< Start position depends on the scrolling direction
 
 void MD_PZone::effectHScroll(bool bLeft, bool bIn)
 {
-	if (bIn)
-	{
-		switch(_fsmState)
-		{
-		case INITIALISE:
-		case GET_FIRST_CHAR: // Load the first character from the font table
-			PRINT_STATE("I HSCROLL");
+  if (bIn)
+  {
+    switch(_fsmState)
+    {
+    case INITIALISE:
+    case GET_FIRST_CHAR: // Load the first character from the font table
+      PRINT_STATE("I HSCROLL");
 
-			if ((_charCols = getFirstChar()) == 0)
-			{
-				_fsmState = END;
-				break;
-			}
-			_countCols = 0;
-			_fsmState = PUT_CHAR;
-			break;
+      if ((_charCols = getFirstChar()) == 0)
+      {
+        _fsmState = END;
+        break;
+      }
+      _countCols = 0;
+      _fsmState = PUT_CHAR;
+      break;
 
-		case GET_NEXT_CHAR:	// Load the next character from the font table
-			PRINT_STATE("I HSCROLL");
+    case GET_NEXT_CHAR: // Load the next character from the font table
+      PRINT_STATE("I HSCROLL");
 
-			// Have we reached the end of the characters string?
-			_charCols = getNextChar();
-			FSMPRINT("\ncharCols ", _charCols);
-			if (_charCols == 0)
-			{
-				_fsmState = PAUSE;
-				break;
-			}
+      // Have we reached the end of the characters string?
+      _charCols = getNextChar();
+      FSMPRINT("\ncharCols ", _charCols);
+      if (_charCols == 0)
+      {
+        _fsmState = PAUSE;
+        break;
+      }
 
-			_countCols = 0;
-			_fsmState = PUT_CHAR;
-			FSMPRINTS(", fall thru");
-			// !! fall through to next state to start displaying
+      _countCols = 0;
+      _fsmState = PUT_CHAR;
+      FSMPRINTS(", fall thru");
+      // !! fall through to next state to start displaying
 
-		case PUT_CHAR:	// display the next part of the character
-			PRINT_STATE("I HSCROLL");
+    case PUT_CHAR:  // display the next part of the character
+      PRINT_STATE("I HSCROLL");
 
-			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-			_MX->setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
-			FSMPRINTS(", scroll");
+      _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+      _MX->setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
+      FSMPRINTS(", scroll");
 
-			// end of this buffer - we may need to get another one
-			if (_countCols == _charCols)
-			{
-				if (!_endOfText)
-					_fsmState = GET_NEXT_CHAR;
-				else
-				{
-					// work out the number of filler columns
-					_countCols = (bLeft ? _limitLeft-_textLen-ZONE_START_COL(_zoneStart) + 1 : ZONE_END_COL(_zoneEnd)-_limitLeft);
-					FSMPRINT(", filler count ", _countCols);
-					_fsmState = (_countCols <= 0) ? PAUSE : PUT_FILLER;
-				}
-			}
-		break;
+      // end of this buffer - we may need to get another one
+      if (_countCols == _charCols)
+      {
+        if (!_endOfText)
+          _fsmState = GET_NEXT_CHAR;
+        else
+        {
+          // work out the number of filler columns
+          _countCols = (bLeft ? _limitLeft-_textLen-ZONE_START_COL(_zoneStart) + 1 : ZONE_END_COL(_zoneEnd)-_limitLeft);
+          FSMPRINT(", filler count ", _countCols);
+          _fsmState = (_countCols <= 0) ? PAUSE : PUT_FILLER;
+        }
+      }
+    break;
 
-		case PUT_FILLER:		// keep sending out blank columns until aligned
-			PRINT_STATE("I HSCROLL");
+    case PUT_FILLER:    // keep sending out blank columns until aligned
+      PRINT_STATE("I HSCROLL");
 
-			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-			_MX->setColumn(START_POSITION, EMPTY_BAR);
-			FSMPRINTS(", fill");
+      _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+      _MX->setColumn(START_POSITION, EMPTY_BAR);
+      FSMPRINTS(", fill");
 
-			if (--_countCols == 0)
-				_fsmState = PAUSE;
-		break;
+      if (--_countCols == 0)
+        _fsmState = PAUSE;
+    break;
 
-		default:
-			_fsmState = PAUSE;
-			break;
-	  }
-	}
-	else	// exiting
-	{
-		bool	b;
+    default:
+      _fsmState = PAUSE;
+      break;
+    }
+  }
+  else  // exiting
+  {
+    bool b;
 
-		switch(_fsmState)
-		{
-		case PAUSE:
-			PRINT_STATE("O HSCROLL");
-			_fsmState = PUT_FILLER;
-			FSMPRINTS(" falling thru");
-			// fall through
+    switch(_fsmState)
+    {
+    case PAUSE:
+      PRINT_STATE("O HSCROLL");
+      _fsmState = PUT_FILLER;
+      FSMPRINTS(" falling thru");
+      // fall through
 
-		case PUT_FILLER:
-			PRINT_STATE("O HSCROLL");
-			_MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-			_MX->setColumn(START_POSITION, EMPTY_BAR);
+    case PUT_FILLER:
+      PRINT_STATE("O HSCROLL");
+      _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+      _MX->setColumn(START_POSITION, EMPTY_BAR);
 
-			// check if enough scrolled off to say that new message should start
+      // check if enough scrolled off to say that new message should start
       // how we count depends on the direction for scrolling
       {
         uint16_t  spaceCount = 0;
@@ -130,24 +130,24 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
 
         if (bLeft)
         {
-			    for (int16_t i = ZONE_START_COL(_zoneStart);
+          for (int16_t i = ZONE_START_COL(_zoneStart);
               (i <= ZONE_END_COL(_zoneEnd)) && (_MX->getColumn(i) == EMPTY_BAR);
                i++, spaceCount++);
         }
         else
         {
-			    for (int16_t i = ZONE_END_COL(_zoneEnd);
-			        (i >= ZONE_START_COL(_zoneStart)) && (_MX->getColumn(i) == EMPTY_BAR);
-			        i--, spaceCount++);
+          for (int16_t i = ZONE_END_COL(_zoneEnd);
+              (i >= ZONE_START_COL(_zoneStart)) && (_MX->getColumn(i) == EMPTY_BAR);
+              i--, spaceCount++);
         }
 
-			  if (maxCount <= spaceCount) _fsmState = END;	// enough of a space between messages, end this FSM
+        if (maxCount <= spaceCount) _fsmState = END;  // enough of a space between messages, end this FSM
       }
-			break;
+      break;
 
-		default:
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      _fsmState = END;
+      break;
+    }
+  }
 }

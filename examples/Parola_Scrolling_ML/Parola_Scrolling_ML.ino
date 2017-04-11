@@ -23,7 +23,7 @@
 #include <SPI.h>
 
 // set to 1 if we are implementing the user interface pot, switch, etc
-#define	USE_UI_CONTROL	0
+#define USE_UI_CONTROL  0
 
 #if USE_UI_CONTROL
 #include <MD_KeySwitch.h>
@@ -33,18 +33,18 @@
 #define  DEBUG  1
 
 #if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(x)	Serial.println(x, HEX)
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTX(x) Serial.println(x, HEX)
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTX(x)
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
-#define	MAX_DEVICES	4
-#define	BUF_SIZE	75
+#define MAX_DEVICES 4
+#define BUF_SIZE  75
 
 struct LineDefinition
 {
@@ -64,19 +64,19 @@ struct LineDefinition  Line[] =
 
 #define MAX_LINES   (sizeof(Line)/sizeof(LineDefinition))
 
-#define	PAUSE_TIME		1000
-#define	SPEED_DEADBAND	5
+#define PAUSE_TIME      1000
+#define SPEED_DEADBAND  5
 
 // Scrolling parameters
 #if USE_UI_CONTROL
-#define	SPEED_IN		A5
-#define	DIRECTION_SET	7	// change the effect
-#define	INVERT_SET		6	// change the invert
+#define SPEED_IN      A5
+#define DIRECTION_SET 7 // change the effect
+#define INVERT_SET    6 // change the invert
 
 #endif // USE_UI_CONTROL
 
-uint8_t	frameDelay = 25;	// default frame delay value
-textEffect_t	scrollEffect = PA_SCROLL_LEFT;
+uint8_t frameDelay = 25;  // default frame delay value
+textEffect_t  scrollEffect = PA_SCROLL_LEFT;
 
 // Global message buffer shared by Serial and Scrolling functions
 char newMessage[BUF_SIZE];
@@ -91,7 +91,7 @@ void doUI(void)
 {
   // set the speed if it has changed
   {
-    int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
+    int16_t speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
 
     if ((speed >= ((int16_t)Line[0].P.getSpeed() + SPEED_DEADBAND)) ||
       (speed <= ((int16_t)Line[0].P.getSpeed() - SPEED_DEADBAND)))
@@ -106,7 +106,7 @@ void doUI(void)
     }
   }
 
-  if (uiDirection.read() == MD_KeySwitch::KS_PRESS)	// SCROLL DIRECTION
+  if (uiDirection.read() == MD_KeySwitch::KS_PRESS) // SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
     scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
@@ -117,7 +117,7 @@ void doUI(void)
     }
   }
 
-  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)	// INVERT MODE
+  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)  // INVERT MODE
   {
     PRINTS("\nChanging invert mode");
     for (uint8_t i=0; i<MAX_LINES; i++)
@@ -130,7 +130,7 @@ void doUI(void)
 
 void readSerial(void)
 {
-  static int16_t	putIndex = -1;
+  static int16_t putIndex = -1;
   char c;
 
   while (Serial.available())
@@ -144,7 +144,7 @@ void readSerial(void)
          putIndex = 0;
        }
     }
-    else if ((c == '\n') || (putIndex >= BUF_SIZE-2))	// end of message character or full buffer
+    else if ((c == '\n') || (putIndex >= BUF_SIZE-2)) // end of message character or full buffer
     {
       // put in a message separator and end the string
       newMessage[putIndex] = '\0';
@@ -190,7 +190,7 @@ void setup()
 void loop()
 {
 #if USE_UI_CONTROL
-	doUI();
+  doUI();
 #endif // USE_UI_CONTROL
 
   readSerial();
@@ -209,4 +209,3 @@ void loop()
     }
   }
 }
-

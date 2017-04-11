@@ -32,82 +32,82 @@ void MD_PZone::effectMesh(bool bIn)
 {
   bool bUp = true;
 
-	if (bIn)	// incoming
-	{
-		switch (_fsmState)
-		{
-		case INITIALISE:
-			PRINT_STATE("I MESH");
-			_nextPos = 0;
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+  if (bIn)  // incoming
+  {
+    switch (_fsmState)
+    {
+    case INITIALISE:
+      PRINT_STATE("I MESH");
+      _nextPos = 0;
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-		case PAUSE:
-			PRINT_STATE("I MESH");
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+    case PAUSE:
+      PRINT_STATE("I MESH");
 
-			zoneClear();
-			commonPrint();
+      zoneClear();
+      commonPrint();
 
-			for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
+      for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
       {
-				// scroll the whole display so that the message appears to be animated
-				// Note: Directions are reversed because we start with the message in the
-				// middle position thru commonPrint() and to see it animated move DOWN we
-				// need to scroll it UP, and vice versa.
+        // scroll the whole display so that the message appears to be animated
+        // Note: Directions are reversed because we start with the message in the
+        // middle position thru commonPrint() and to see it animated move DOWN we
+        // need to scroll it UP, and vice versa.
         uint8_t col = _MX->getColumn(c);
 
         col = (bUp ? col >> COL_SIZE-1-_nextPos : col << COL_SIZE-1-_nextPos);
-				_MX->setColumn(c, col);
+        _MX->setColumn(c, col);
         bUp = !bUp;
       }
 
-			// check if we have finished
-			_nextPos++;
-			if (_nextPos == COL_SIZE) _fsmState = PAUSE;
-			break;
+      // check if we have finished
+      _nextPos++;
+      if (_nextPos == COL_SIZE) _fsmState = PAUSE;
+      break;
 
-		default:
-			PRINT_STATE("I MESH");
-			_fsmState = PAUSE;
-		}
-	}
-	else	// exiting
-	{
-		switch (_fsmState)
-		{
-		case PAUSE:
-		case INITIALISE:
-			PRINT_STATE("O MESH");
-			_nextPos = 1;
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+    default:
+      PRINT_STATE("I MESH");
+      _fsmState = PAUSE;
+    }
+  }
+  else  // exiting
+  {
+    switch (_fsmState)
+    {
+    case PAUSE:
+    case INITIALISE:
+      PRINT_STATE("O MESH");
+      _nextPos = 1;
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-			PRINT_STATE("O MESH");
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+      PRINT_STATE("O MESH");
 
-			for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
-			{
-  			uint8_t col = _MX->getColumn(c);
+      for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
+      {
+        uint8_t col = _MX->getColumn(c);
 
-  			col = (bUp ? col << _nextPos : col >> _nextPos);
-  			_MX->setColumn(c, col);
-  			bUp = !bUp;
-			}
+        col = (bUp ? col << _nextPos : col >> _nextPos);
+        _MX->setColumn(c, col);
+        bUp = !bUp;
+      }
 
-			// check if we have finished
-			_nextPos++;
-			if (_nextPos == COL_SIZE) _fsmState = END;
-			break;
+      // check if we have finished
+      _nextPos++;
+      if (_nextPos == COL_SIZE) _fsmState = END;
+      break;
 
-		default:
-			PRINT_STATE("O MESH");
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      PRINT_STATE("O MESH");
+      _fsmState = END;
+      break;
+    }
+  }
 }

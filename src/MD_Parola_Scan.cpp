@@ -32,83 +32,83 @@ void MD_PZone::effectHScan(bool bIn)
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
-	if (bIn)	// incoming
-	{
-		switch (_fsmState)
-		{
-		case INITIALISE:
-			PRINT_STATE("I SCANH");
-			setInitialEffectConditions();
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+  if (bIn)  // incoming
+  {
+    switch (_fsmState)
+    {
+    case INITIALISE:
+      PRINT_STATE("I SCANH");
+      setInitialEffectConditions();
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-		case PAUSE:
-			PRINT_STATE("I SCANH");
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+    case PAUSE:
+      PRINT_STATE("I SCANH");
 
-			commonPrint();
-			// check if we have finished
-			if (_nextPos == _endPos)
-			{
-				_fsmState = PAUSE;
-				break;
-			}
+      commonPrint();
+      // check if we have finished
+      if (_nextPos == _endPos)
+      {
+        _fsmState = PAUSE;
+        break;
+      }
 
-			// blank out the part of the display we don't need
-			FSMPRINT("Keep ", _nextPos);
-			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
-			{
-				if (i != _nextPos)
-					_MX->setColumn(i, EMPTY_BAR);
-			}
+      // blank out the part of the display we don't need
+      FSMPRINT("Keep ", _nextPos);
+      for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      {
+        if (i != _nextPos)
+          _MX->setColumn(i, EMPTY_BAR);
+      }
 
-			_nextPos += _posOffset;	// for the next time around
-			break;
+      _nextPos += _posOffset; // for the next time around
+      break;
 
-		default:
-			PRINT_STATE("I SCANH");
-			_fsmState = PAUSE;
-		}
-	}
-	else	// exiting
-	{
-		switch (_fsmState)
-		{
-		case PAUSE:
-		case INITIALISE:
-			PRINT_STATE("O SCANH");
-			setInitialEffectConditions();
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+    default:
+      PRINT_STATE("I SCANH");
+      _fsmState = PAUSE;
+    }
+  }
+  else  // exiting
+  {
+    switch (_fsmState)
+    {
+    case PAUSE:
+    case INITIALISE:
+      PRINT_STATE("O SCANH");
+      setInitialEffectConditions();
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-			PRINT_STATE("O SCANH");
-			commonPrint();
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+      PRINT_STATE("O SCANH");
+      commonPrint();
 
-			// blank out the part of the display we don't need
-			FSMPRINT(" Keep ", _nextPos);
-			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
-			{
-				if (i != _nextPos)
-					_MX->setColumn(i, EMPTY_BAR);
-			}
+      // blank out the part of the display we don't need
+      FSMPRINT(" Keep ", _nextPos);
+      for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      {
+        if (i != _nextPos)
+          _MX->setColumn(i, EMPTY_BAR);
+      }
 
-			// check if we have finished
-			if (_nextPos == _endPos) _fsmState = END;
+      // check if we have finished
+      if (_nextPos == _endPos) _fsmState = END;
 
-			_nextPos += _posOffset;	// for the next time around
-			break;
+      _nextPos += _posOffset;	// for the next time around
+      break;
 
-		default:
-			PRINT_STATE("O SCANH");
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      PRINT_STATE("O SCANH");
+      _fsmState = END;
+      break;
+    }
+  }
 }
 
 void MD_PZone::effectVScan(bool bIn)
@@ -116,92 +116,92 @@ void MD_PZone::effectVScan(bool bIn)
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
-	uint8_t	maskCol = 0;
+  uint8_t	maskCol = 0;
 
-	if (bIn)	// incoming
-	{
-		switch (_fsmState)
-		{
-		case INITIALISE:
-			PRINT_STATE("I SCANV");
-			setInitialEffectConditions();
-			_nextPos = 0;		// this is the bit number
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+  if (bIn)  // incoming
+  {
+    switch (_fsmState)
+    {
+    case INITIALISE:
+      PRINT_STATE("I SCANV");
+      setInitialEffectConditions();
+      _nextPos = 0;		// this is the bit number
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-		case PAUSE:
-			PRINT_STATE("I SCANV");
-			commonPrint();
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+    case PAUSE:
+      PRINT_STATE("I SCANV");
+      commonPrint();
 
-			// check if we have finished
-			if (_nextPos == 8)		// bits numbered 0 to 7
-			{
-				_fsmState = PAUSE;
-				break;
-			}
+      // check if we have finished
+      if (_nextPos == 8)		// bits numbered 0 to 7
+      {
+        _fsmState = PAUSE;
+        break;
+      }
 
-			// blank out the part of the display we don't need
-			FSMPRINT("Keep bit ", _nextPos);
-			maskCol = (1 << _nextPos);
-			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
-			{
-				uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
+      // blank out the part of the display we don't need
+      FSMPRINT("Keep bit ", _nextPos);
+      maskCol = (1 << _nextPos);
+      for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      {
+        uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
 
-				_MX->setColumn(i, DATA_BAR(c));
-			}
+        _MX->setColumn(i, DATA_BAR(c));
+      }
 
-			_nextPos++;	// for the next time around
-			break;
+      _nextPos++;	// for the next time around
+      break;
 
-		default:
-			PRINT_STATE("I SCANV");
-			_fsmState = PAUSE;
-		}
-	}
-	else	// exiting
-	{
-		switch (_fsmState)
-		{
-		case PAUSE:
-		case INITIALISE:
-			PRINT_STATE("O SCANV");
-			setInitialEffectConditions();
-			_nextPos = 7;	// the bit number
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+    default:
+      PRINT_STATE("I SCANV");
+      _fsmState = PAUSE;
+    }
+  }
+  else  // exiting
+  {
+    switch (_fsmState)
+    {
+    case PAUSE:
+    case INITIALISE:
+      PRINT_STATE("O SCANV");
+      setInitialEffectConditions();
+      _nextPos = 7;	// the bit number
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-			PRINT_STATE("O SCANV");
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+      PRINT_STATE("O SCANV");
 
-			commonPrint();
+      commonPrint();
 
-			// blank out the part of the display we don't need
-			FSMPRINT(" Keep bit ", _nextPos);
-		  if (_nextPos >= 0)
+      // blank out the part of the display we don't need
+      FSMPRINT(" Keep bit ", _nextPos);
+      if (_nextPos >= 0)
         maskCol = 1 << _nextPos;
-			for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
-			{
-				uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
+      for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      {
+        uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
 
-				_MX->setColumn(i, DATA_BAR(c));
-			}
+        _MX->setColumn(i, DATA_BAR(c));
+      }
 
       // check if we have finished
       if (_nextPos < 0)
         _fsmState = END;
 
-			_nextPos--;	// for the next time around
-			break;
+      _nextPos--;	// for the next time around
+      break;
 
-		default:
-			PRINT_STATE("O SCANV");
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      PRINT_STATE("O SCANV");
+      _fsmState = END;
+      break;
+    }
+  }
 }

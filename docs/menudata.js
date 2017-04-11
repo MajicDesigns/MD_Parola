@@ -41,5 +41,6 @@ var menudata={children:[
 {text:"t",url:"globals.html#index_t"},
 {text:"z",url:"globals.html#index_z"}]},
 {text:"Enumerations",url:"globals_enum.html"},
-{text:"Enumerator",url:"globals_eval.html"},
+{text:"Enumerator",url:"globals_eval.html",children:[
+{text:"p",url:"globals_eval.html#index_p"}]},
 {text:"Macros",url:"globals_defs.html"}]}]}]}

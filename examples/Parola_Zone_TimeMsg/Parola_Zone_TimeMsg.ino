@@ -16,10 +16,10 @@
 //
 
 // Use the DHT11 temp and humidity sensor
-#define	USE_DHT11	0
+#define USE_DHT11 0
 
 // Use the DS1307 clock module
-#define	USE_DS1307	0
+#define USE_DS1307 0
 
 // Header file includes
 #include <MD_Parola.h>
@@ -31,22 +31,22 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	10
+#define MAX_DEVICES 10
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 
-#if	USE_DHT11
+#if USE_DHT11
 #include <dht11.h>
 
-#define	DHT11_PIN	2
+#define DHT11_PIN 2
 
-dht11	DHT11;
+dht11 DHT11;
 #endif
 
-#if	USE_DS1307
+#if USE_DS1307
 #include <MD_DS1307.h>
 #include <Wire.h>
 #endif
@@ -56,26 +56,26 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
 // MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define	SPEED_TIME	75
-#define	PAUSE_TIME	0
+#define SPEED_TIME  75
+#define PAUSE_TIME  0
 
-#define	MAX_MESG	20
+#define MAX_MESG  20
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define DEBUG 0
 
 // Global variables
-char	szTime[9];		// mm:ss\0
-char	szMesg[MAX_MESG+1] = "";
+char szTime[9];    // mm:ss\0
+char szMesg[MAX_MESG+1] = "";
 
-uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 };	// Deg C
-uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 };	// Deg F
+uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 }; // Deg C
+uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 }; // Deg F
 
 char *mon2str(uint8_t mon, char *psz, uint8_t len)
 
 // Get a label from PROGMEM into a char array
 {
-  static const __FlashStringHelper*	str[] =
+  static const __FlashStringHelper* str[] =
   {
     F("Jan"), F("Feb"), F("Mar"), F("Apr"),
     F("May"), F("Jun"), F("Jul"), F("Aug"),
@@ -110,7 +110,7 @@ void getTime(char *psz, bool f = true)
   RTC.readTime();
   sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
-  uint16_t	h, m, s;
+  uint16_t  h, m, s;
 
   s = millis()/1000;
   m = s/60;
@@ -159,9 +159,9 @@ void setup(void)
 
 void loop(void)
 {
-  static uint32_t	lastTime = 0;		// millis() memory
-  static uint8_t	display = 0;		// current display mode
-  static bool	flasher = false;	// seconds passing flasher
+  static uint32_t lastTime = 0; // millis() memory
+  static uint8_t  display = 0;  // current display mode
+  static bool flasher = false;  // seconds passing flasher
 
   P.displayAnimate();
 
@@ -169,7 +169,7 @@ void loop(void)
   {
     switch (display)
     {
-      case 0:	// Temperature deg C
+      case 0: // Temperature deg C
         P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_UP_LEFT);
         display++;
 #if USE_DHT11
@@ -183,7 +183,7 @@ void loop(void)
 #endif
         break;
 
-      case 1:	// Temperature deg F
+      case 1: // Temperature deg F
         P.setTextEffect(0, PA_SCROLL_UP_LEFT, PA_SCROLL_LEFT);
         display++;
 #if USE_DHT11
@@ -197,7 +197,7 @@ void loop(void)
 #endif
         break;
 
-      case 2:	// Relative Humidity
+      case 2: // Relative Humidity
         P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display++;
 #if	USE_DHT11
@@ -211,7 +211,7 @@ void loop(void)
 #endif
         break;
 
-      case 3:	// day of week
+      case 3: // day of week
         P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display++;
 #if	USE_DS1307
@@ -221,7 +221,7 @@ void loop(void)
 #endif
         break;
 
-      default:	// Calendar
+      default:  // Calendar
         P.setTextEffect(0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
         display = 0;
         getDate(szMesg);

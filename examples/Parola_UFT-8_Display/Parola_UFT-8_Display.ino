@@ -17,10 +17,10 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	8
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define MAX_DEVICES 8
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // Hardware SPI connection
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -33,11 +33,11 @@ const uint16_t PAUSE_TIME = 2000;
 #define  DEBUG  0
 
 #if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(s, x)	{ Serial.print(F(s)); Serial.print(x, HEX); }
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTX(s, x)  { Serial.print(F(s)); Serial.print(x, HEX); }
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTX(s, x)
 #endif
@@ -76,14 +76,14 @@ uint8_t utf8Ascii(uint8_t ascii)
 
   if (ascii < 0x7f)   // Standard ASCII-set 0..0x7F, no conversion
   {
-	  cPrev = '\0';
+    cPrev = '\0';
     c = ascii;
   }
   else
   {
     switch (cPrev)  // Conversion depending on preceding UTF8-character
     {
-	case 0xC2: c = ascii;  break;
+    case 0xC2: c = ascii;  break;
     case 0xC3: c = ascii | 0xC0;  break;
     case 0x82: if (ascii==0xAC) c = 0x80; // Euro symbol special case
     }
@@ -123,7 +123,7 @@ void setup(void)
 
   // Do one time in-place conversion of the strings to be displayed
   for (uint8_t i=0; i<ARRAY_SIZE(pc); i++)
-	  utf8Ascii(pc[i]);
+    utf8Ascii(pc[i]);
 
   // Initialise the Parola library
   P.begin();

@@ -13,10 +13,10 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	4
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define MAX_DEVICES 4
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // Hardware SPI connection
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -46,6 +46,7 @@ sCatalog  catalog[] =
   { PA_OPENING_CURSOR, "OPN_C", 4, 1 },
   { PA_CLOSING, "CLOSE", 3, 1 },
   { PA_CLOSING_CURSOR, "CLS_C", 4, 1 },
+  { PA_RANDOM, "RAND", 3, 1 },
   { PA_BLINDS, "BLIND", 7, 1 },
   { PA_DISSOLVE, "DSLVE", 7, 1 },
   { PA_SCROLL_UP, "SC_U", 5, 1 },

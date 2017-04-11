@@ -21,6 +21,7 @@ var _m_d___parola_8h =
       [ "PA_FADE", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae5e485df24f7a4e3120aa2876806d958", null ],
       [ "PA_DISSOLVE", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa2da3a4230287c733a19102a73341e94f", null ],
       [ "PA_BLINDS", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaab81ef7a0c3fe92b98386bd2decda8534", null ],
+      [ "PA_RANDOM", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa98aec2f1905ed10ec1f3751cb7101dca", null ],
       [ "PA_WIPE", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae7744273c94ba436a27b4359e2e6089e", null ],
       [ "PA_WIPE_CURSOR", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa0fd7f078a92b7c8ba1932d9d4ad2544d", null ],
       [ "PA_SCAN_HORIZ", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaadf43a4fcab04c2a431e8bab32846604e", null ],

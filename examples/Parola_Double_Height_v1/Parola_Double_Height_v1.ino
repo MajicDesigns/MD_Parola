@@ -40,15 +40,15 @@
 // need to be adapted
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
-#define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
 #define SCROLL_SPEED  30
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);

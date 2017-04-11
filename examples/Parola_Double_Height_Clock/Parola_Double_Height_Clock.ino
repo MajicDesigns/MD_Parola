@@ -46,14 +46,14 @@
 // need to be adapted
 #define MAX_ZONES 2
 #define ZONE_SIZE 7
-#define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 #if	USE_DS1307
 #include <MD_DS1307.h>
@@ -65,27 +65,27 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
 // MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define	SPEED_TIME	75
-#define	PAUSE_TIME	0
+#define SPEED_TIME  75
+#define PAUSE_TIME  0
 
-#define	MAX_MESG	6
+#define MAX_MESG  6
 
 // Turn on debug statements to the serial output
 #define  DEBUG  0
 
 // Global variables
-char	szTimeL[MAX_MESG];		// mm:ss\0
+char  szTimeL[MAX_MESG];    // mm:ss\0
 char  szTimeH[MAX_MESG];
 
 void getTime(char *psz, bool f = true)
 // Code for reading clock time
 // Simulated clock runs 1 minute every seond
 {
-#if	USE_DS1307
+#if USE_DS1307
   RTC.readTime();
   sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
-  uint16_t	h, m, s;
+  uint16_t  h, m, s;
 
   m = millis()/1000;
   h = (m/60) % 24;
@@ -133,14 +133,14 @@ void setup(void)
 
 void loop(void)
 {
-  static uint32_t	lastTime = 0;		// millis() memory
-  static bool	flasher = false;	  // seconds passing flasher
+  static uint32_t	lastTime = 0; // millis() memory
+  static bool	flasher = false;  // seconds passing flasher
 
   P.displayAnimate();
   if (P.getZoneStatus(ZONE_LOWER) && P.getZoneStatus(ZONE_UPPER))
   {
-	  // Adjust the time string if we have to. It will be adjusted
-	  // every second at least for the flashing colon separator.
+    // Adjust the time string if we have to. It will be adjusted
+    // every second at least for the flashing colon separator.
     if (millis() - lastTime >= 1000)
     {
       lastTime = millis();

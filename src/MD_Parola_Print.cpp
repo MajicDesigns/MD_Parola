@@ -29,38 +29,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_PZone::commonPrint(void)
 {
-	int16_t	nextPos;
+  int16_t nextPos;
 
-	FSMPRINTS("\ncommonPrint");
+  FSMPRINTS("\ncommonPrint");
   zoneClear();
-	nextPos = _limitLeft;
-	_charCols = getFirstChar();
-	_countCols = 0;
+  nextPos = _limitLeft;
+  _charCols = getFirstChar();
+  _countCols = 0;
 
-	while (nextPos >= _limitRight)
-	{
-		if (_countCols == _charCols)
-		{
-			_charCols = getNextChar();
-			_countCols = 0;
-		}
+  while (nextPos >= _limitRight)
+  {
+    if (_countCols == _charCols)
+    {
+      _charCols = getNextChar();
+      _countCols = 0;
+    }
 
-		// now put something on the display
-		_MX->setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
-	}
+    // now put something on the display
+    _MX->setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
+  }
 }
 
 void MD_PZone::effectPrint(bool bIn)
 // Just print the message in the justification selected
 {
-	if (bIn)	// incoming
-	{
-		commonPrint();
-		_fsmState = PAUSE;
-	}
-	else	//exiting
-	{
-		zoneClear();
-		_fsmState = END;
-	}
+  if (bIn)  // incoming
+  {
+    commonPrint();
+    _fsmState = PAUSE;
+  }
+  else  //exiting
+  {
+    zoneClear();
+    _fsmState = END;
+  }
 }

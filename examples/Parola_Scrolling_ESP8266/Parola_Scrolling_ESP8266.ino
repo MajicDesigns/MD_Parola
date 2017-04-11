@@ -32,11 +32,11 @@
 #define  DEBUG  0
 
 #if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(x)	Serial.println(x, HEX)
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTX(x) Serial.println(x, HEX)
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTX(x)
 #endif
@@ -44,10 +44,10 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers are for ESO8266 hardware SPI and will probably not
 // work with your hardware and may need to be adapted
-#define	MAX_DEVICES	8
-#define	CLK_PIN		  D5 // or SCK
-#define	DATA_PIN	  D7 // or MOSI
-#define	CS_PIN		  D8 // or SS
+#define MAX_DEVICES 8
+#define CLK_PIN   D5 // or SCK
+#define DATA_PIN  D7 // or MOSI
+#define CS_PIN    D8 // or SS
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -62,11 +62,11 @@ const char* password = "";
 WiFiServer server(80);
 
 // Scrolling parameters
-uint8_t	frameDelay = 25;	// default frame delay value
+uint8_t frameDelay = 25;  // default frame delay value
 textEffect_t	scrollEffect = PA_SCROLL_LEFT;
 
 // Global message buffers shared by Wifi and Scrolling functions
-#define	BUF_SIZE	512
+#define BUF_SIZE  512
 char curMessage[BUF_SIZE];
 char newMessage[BUF_SIZE];
 bool newMessageAvailable = false;

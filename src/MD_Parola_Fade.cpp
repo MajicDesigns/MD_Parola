@@ -33,13 +33,13 @@ void MD_PZone::effectFade(bool bIn)
 // intensity at the start of the animation will be restored at the end, overriding
 // any user code changes.
 {
-	if (bIn)	// incoming
-	{
-		switch (_fsmState)
-		{
-		case INITIALISE:
-			PRINT_STATE("I FADE");
-			_nextPos = 0;
+  if (bIn) // incoming
+  {
+    switch (_fsmState)
+    {
+    case INITIALISE:
+      PRINT_STATE("I FADE");
+      _nextPos = 0;
       _endPos = getIntensity();
 
       zoneClear();
@@ -47,7 +47,7 @@ void MD_PZone::effectFade(bool bIn)
       _fsmState = GET_FIRST_CHAR;
       break;
 
-		case GET_FIRST_CHAR:
+    case GET_FIRST_CHAR:
       FSMPRINT(" I:", _nextPos);
       FSMPRINT("/", _endPos);
 
@@ -56,10 +56,10 @@ void MD_PZone::effectFade(bool bIn)
       _fsmState = PUT_CHAR;
       break;
 
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-		case PAUSE:
-			PRINT_STATE("I FADE");
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+    case PAUSE:
+      PRINT_STATE("I FADE");
       FSMPRINT(" I:", _nextPos);
       FSMPRINT("/", _endPos);
 
@@ -68,21 +68,21 @@ void MD_PZone::effectFade(bool bIn)
         _fsmState = PAUSE;
       else
         setIntensity(_nextPos++);
-			break;
+      break;
 
-		default:
-			PRINT_STATE("I FADE");
-			_fsmState = PAUSE;
-		}
-	}
-	else	// exiting
-	{
-		switch (_fsmState)
-		{
-		case PAUSE:
-		case INITIALISE:
-			PRINT_STATE("O FADE");
-			_nextPos = _endPos = getIntensity();
+    default:
+      PRINT_STATE("I FADE");
+      _fsmState = PAUSE;
+    }
+  }
+  else  // exiting
+  {
+    switch (_fsmState)
+    {
+    case PAUSE:
+    case INITIALISE:
+      PRINT_STATE("O FADE");
+      _nextPos = _endPos = getIntensity();
 
       FSMPRINT(" I:", _nextPos);
       FSMPRINT("/", _endPos);
@@ -93,10 +93,10 @@ void MD_PZone::effectFade(bool bIn)
       _fsmState = PUT_CHAR;
       break;
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-			PRINT_STATE("O FADE");
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+      PRINT_STATE("O FADE");
 
       FSMPRINT(" I:", _nextPos);
       FSMPRINT("/", _endPos);
@@ -110,12 +110,12 @@ void MD_PZone::effectFade(bool bIn)
       }
       else
         setIntensity(_nextPos--);
-			break;
+      break;
 
-		default:
-			PRINT_STATE("O FADE");
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      PRINT_STATE("O FADE");
+      _fsmState = END;
+      break;
+    }
+  }
 }

@@ -18,18 +18,18 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	9
-#define	MAX_ZONES	3
+#define MAX_DEVICES 9
+#define MAX_ZONES 3
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // set to 1 if we are implementing the user interface pot
-#define	USE_UI_CONTROL	0
+#define USE_UI_CONTROL  0
 
 #if USE_UI_CONTROL
-#define	SPEED_IN	A5
+#define SPEED_IN  A5
 #endif // USE_UI_CONTROL
 
 // Hardware SPI connection
@@ -37,32 +37,32 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
 // MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define	SPEED_TIME	25
-#define	PAUSE_TIME	1000
+#define SPEED_TIME  25
+#define PAUSE_TIME  1000
 
 // Turn on debug statements to the serial output
 #define  DEBUG  0
 
 #if  DEBUG
-#define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
-#define	PRINTS(x)	Serial.print(F(x))
-#define	PRINTX(x)	Serial.println(x, HEX)
+#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
+#define PRINTS(x) Serial.print(F(x))
+#define PRINTX(x) Serial.println(x, HEX)
 #else
-#define	PRINT(s, x)
+#define PRINT(s, x)
 #define PRINTS(x)
 #define PRINTX(x)
 #endif
 
 // Global variables
 uint8_t  curText;
-char	*pc[MAX_ZONES] =
+char  *pc[MAX_ZONES] =
 {
   "GHI",
   "DEF",
   "ABC",
 };
 
-textEffect_t	effect[] =
+textEffect_t  effect[] =
 {
   PA_PRINT,
   PA_SCAN_HORIZ,
@@ -90,8 +90,8 @@ textEffect_t	effect[] =
   PA_SCROLL_DOWN,
 };
 
-uint8_t	inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
-uint8_t	outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
+uint8_t inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
+uint8_t outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
 
 #if USE_UI_CONTROL
 void doUI(void)

@@ -32,82 +32,82 @@ void MD_PZone::effectWipe(bool bLightBar, bool bIn)
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
-	if (bIn)	// incoming
-	{
-		switch (_fsmState)
-		{
-		case INITIALISE:
-			PRINT_STATE("I WIPE");
-			setInitialEffectConditions();
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+  if (bIn)  // incoming
+  {
+    switch (_fsmState)
+    {
+    case INITIALISE:
+      PRINT_STATE("I WIPE");
+      setInitialEffectConditions();
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-		case PAUSE:
-			PRINT_STATE("I WIPE");
-			if (_fsmState == PAUSE)
-				_fsmState = PUT_CHAR;
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+    case PAUSE:
+      PRINT_STATE("I WIPE");
+      if (_fsmState == PAUSE)
+        _fsmState = PUT_CHAR;
 
-			commonPrint();
+      commonPrint();
 
-			// blank out the part of the display we don't need
-			FSMPRINT(" - Clear ", _nextPos);
-			FSMPRINT(" to ", _endPos);
-			FSMPRINT(" step ", _posOffset);
-			for (uint8_t i=_nextPos; i != _endPos+_posOffset; i += _posOffset)
-				_MX->setColumn(i, EMPTY_BAR);
+      // blank out the part of the display we don't need
+      FSMPRINT(" - Clear ", _nextPos);
+      FSMPRINT(" to ", _endPos);
+      FSMPRINT(" step ", _posOffset);
+      for (uint8_t i=_nextPos; i != _endPos+_posOffset; i += _posOffset)
+        _MX->setColumn(i, EMPTY_BAR);
 
-			if (bLightBar && (_nextPos != _endPos+_posOffset)) _MX->setColumn(_nextPos, LIGHT_BAR);
+      if (bLightBar && (_nextPos != _endPos+_posOffset)) _MX->setColumn(_nextPos, LIGHT_BAR);
 
-			// check if we have finished
-			if (_nextPos == _endPos+_posOffset) _fsmState = PAUSE;
+      // check if we have finished
+      if (_nextPos == _endPos+_posOffset) _fsmState = PAUSE;
 
-			_nextPos += _posOffset;	// for the next time around
-			break;
+      _nextPos += _posOffset; // for the next time around
+      break;
 
-		default:
-			PRINT_STATE("I WIPE");
-			_fsmState = PAUSE;
-		}
-	}
-	else	// exiting
-	{
-		switch (_fsmState)
-		{
-		case PAUSE:
-		case INITIALISE:
-			PRINT_STATE("O WIPE");
-			setInitialEffectConditions();
-			_fsmState = PUT_CHAR;
-			// fall through to next state
+    default:
+      PRINT_STATE("I WIPE");
+      _fsmState = PAUSE;
+    }
+  }
+  else  // exiting
+  {
+    switch (_fsmState)
+    {
+    case PAUSE:
+    case INITIALISE:
+      PRINT_STATE("O WIPE");
+      setInitialEffectConditions();
+      _fsmState = PUT_CHAR;
+      // fall through to next state
 
-		case GET_FIRST_CHAR:
-		case GET_NEXT_CHAR:
-		case PUT_CHAR:
-			PRINT_STATE("O WIPE");
-			commonPrint();
+    case GET_FIRST_CHAR:
+    case GET_NEXT_CHAR:
+    case PUT_CHAR:
+      PRINT_STATE("O WIPE");
+      commonPrint();
 
-			// blank out the part of the display we don't need
-			FSMPRINT(" - Clear ", _nextPos);
-			FSMPRINT(" to ", _endPos);
-			FSMPRINT(" step ", _posOffset);
-			for (uint8_t i=_startPos; i != _nextPos+_posOffset; i += _posOffset)
-				_MX->setColumn(i, EMPTY_BAR);
+      // blank out the part of the display we don't need
+      FSMPRINT(" - Clear ", _nextPos);
+      FSMPRINT(" to ", _endPos);
+      FSMPRINT(" step ", _posOffset);
+      for (uint8_t i=_startPos; i != _nextPos+_posOffset; i += _posOffset)
+        _MX->setColumn(i, EMPTY_BAR);
 
-			if (bLightBar && (_nextPos != _endPos+_posOffset)) _MX->setColumn(_nextPos, LIGHT_BAR);
+      if (bLightBar && (_nextPos != _endPos+_posOffset)) _MX->setColumn(_nextPos, LIGHT_BAR);
 
-			// check if we have finished
-			if (_nextPos == _endPos+_posOffset) _fsmState = END;
+      // check if we have finished
+      if (_nextPos == _endPos+_posOffset) _fsmState = END;
 
-			_nextPos += _posOffset;	// for the next time around
-			break;
+      _nextPos += _posOffset; // for the next time around
+      break;
 
-		default:
-			PRINT_STATE("O WIPE");
-			_fsmState = END;
-			break;
-		}
-	}
+    default:
+      PRINT_STATE("O WIPE");
+      _fsmState = END;
+      break;
+    }
+  }
 }

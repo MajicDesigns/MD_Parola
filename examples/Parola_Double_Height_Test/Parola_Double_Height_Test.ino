@@ -46,20 +46,20 @@
 #endif
 
 // User interface pin and switch definitions
-#define	SPEED_IN	A5	// control the speed with an external pot
+#define SPEED_IN  A5  // control the speed with an external pot
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers may not work with your hardware and may need changing
 #define MAX_ZONES 2
 #define ZONE_SIZE 6
-#define	MAX_DEVICES	(MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
 
-#define PAUSE_TIME 1000
-#define	SPEED_DEADBAND	5		// in analog units
+#define PAUSE_TIME      1000
+#define SPEED_DEADBAND  5 // in analog units
 
-#define	CLK_PIN		13
-#define	DATA_PIN	11
-#define	CS_PIN		10
+#define CLK_PIN   13
+#define DATA_PIN  11
+#define CS_PIN    10
 
 // HARDWARE SPI
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
@@ -68,8 +68,8 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
-#define ZONE_LOWER  0
-#define ZONE_UPPER  1
+#define ZONE_LOWER 0
+#define ZONE_UPPER 1
 
 // Alignment of the two zones
 #ifdef INVERT_UPPER_ZONE
