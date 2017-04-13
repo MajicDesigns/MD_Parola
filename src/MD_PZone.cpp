@@ -542,3 +542,20 @@ bool MD_PZone::zoneAnimate(void)
 
   return(_fsmState == END);
 }
+
+#if DEBUG_PAROLA_FSM
+char *MD_PZone::state2string(fsmState_t s)
+{
+  switch (s)
+  {
+  case INITIALISE:     return("INI");
+  case GET_FIRST_CHAR: return("GFC");
+  case GET_NEXT_CHAR:  return("GNC");
+  case PUT_CHAR:       return("PC");
+  case PUT_FILLER:     return("PF");
+  case PAUSE:          return("PSE");
+  case END:            return("END");
+  }
+  return("???");
+};
+#endif

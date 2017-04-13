@@ -31,7 +31,7 @@ void MD_PZone::commonPrint(void)
 {
   int16_t nextPos;
 
-  FSMPRINTS("\ncommonPrint");
+  PRINTS("\ncommonPrint");
   zoneClear();
   nextPos = _limitLeft;
   _charCols = getFirstChar();

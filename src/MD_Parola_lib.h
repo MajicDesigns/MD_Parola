@@ -24,7 +24,7 @@
 #define FSMPRINT(s, v) { Serial.print(F(s)); Serial.print(v); }   ///< (FSM) Print a string followed by a value (decimal)
 #define FSMPRINTX(s, v) { Serial.print(F(s)); Serial.print(v, HEX); } ///< (FSM) Print a string followed by a value (hex)
 #define FSMPRINTS(s) Serial.print(F(s)) ///< (FSM) Print a string
-#define PRINT_STATE(f) { Serial.print(F("\n")); Serial.print(F(f)); Serial.print(F(" fsm ")); Serial.print(_fsmState); } ///< (FSM) Print the current FSM state information
+#define PRINT_STATE(f) { Serial.print(F("\n")); Serial.print(F(f)); Serial.print(F(" fsm ")); Serial.print(state2string(_fsmState)); } ///< (FSM) Print the current FSM state information
 #else
 #define FSMPRINT(s, v)  ///< (FSM) Print a string followed by a value (decimal)
 #define FSMPRINTX(s, v) ///< (FSM) Print a string followed by a value (hex)

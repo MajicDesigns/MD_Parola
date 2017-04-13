@@ -29,6 +29,7 @@ System Components
 Revision History
 ----------------
 xxx 2017 - version 2.6.5
+- Fixed RANDOM effect locking issue
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling
@@ -285,7 +286,7 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #define ENA_GROW    1   ///< Enable grow effects
 
 // Miscellaneous defines
-#define	ARRAY_SIZE(x)	(sizeof(x)/sizeof(x[0]))	///< Generic macro for obtaining number of elements of an array
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
 
 class MD_Parola;
 
@@ -813,6 +814,9 @@ private:
   uint8_t   makeChar(char c, bool addBlank);      // load a character bitmap and add in trailing _charSpacing blanks if req'd
   void      reverseBuf(uint8_t *p, uint8_t size); // reverse the elements of the buffer
   void      invertBuf(uint8_t *p, uint8_t size);  // invert the elements of the buffer
+
+  // Debugging aid
+  char *state2string(fsmState_t s);
 
   // Effect functions
   void  commonPrint(void);

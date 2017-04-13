@@ -64,6 +64,7 @@ char  *pc[MAX_ZONES] =
 
 textEffect_t  effect[] =
 {
+  PA_RANDOM,
   PA_PRINT,
   PA_SCAN_HORIZ,
   PA_SCROLL_LEFT,

@@ -64,6 +64,7 @@ sCatalog catalog[] =
   { PA_MESH, "MESH", 20, 1 },
   { PA_WIPE, "WIPE", 3, 1 },
   { PA_WIPE_CURSOR, "WPE_C", 4, 1 },
+  { PA_RANDOM, "RAND", 3, 1 },
   { PA_OPENING, "OPEN", 3, 1 },
   { PA_OPENING_CURSOR, "OPN_C", 4, 1 },
   { PA_CLOSING, "CLOSE", 3, 1 },
