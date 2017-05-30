@@ -17,7 +17,7 @@ Parola is a modular scrolling text display using MAX7219 or MAX7221 LED matrix d
 
 The aim was to create a 'lego-like' LED matrix display, using standard 8x8 LED matrices. The software supports this flexibility through a scalable approach that only requires the definition of the number of modules to adapt existing software to a new configuration.
 
-The Parola software has a dependency on the [MD_MAX72xx Arduino library](https://github.com/MajicDesigns/MAX72xx) which implements hardware functions of the LED matrix. The library needs to be configured for the type of matrices being used - please refer to the hardware section of documentation for the [MD_MAX72xx library] (https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html).
+The Parola software has a dependency on the [MD_MAX72xx Arduino library](https://github.com/MajicDesigns/MAX72xx) which implements hardware functions of the LED matrix. The library needs to be configured for the type of matrices being used - please refer to the hardware section of documentation for the [MD_MAX72xx library](https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html).
 
 Parola discussion on the [Arduino forum](http://forum.arduino.cc/index.php?topic=171056.0) and kits available from [ElectroDragon](http://www.electrodragon.com/product/dot-matrix-chain-display-kit-max7219-v2).
 
