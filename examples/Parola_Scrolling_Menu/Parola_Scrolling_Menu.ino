@@ -1,11 +1,12 @@
 // Use the Parola library to scroll text on the display
 //
 // Demonstrates the use of the scrolling function to display text received
-// from the serial interface and shared with a menu to change the parateres 
-// for the scrolling display.
+// from the serial interface and shared with a menu to change the parameters 
+// for the scrolling display and save to EEPROM.
 //
 // User can enter text on the serial monitor and this will display as a
 // scrolling message on the display.
+//
 // Speed, scroll direction, brightness and invert are controlled from the menu.
 //
 // Interface for menu control can be either 3 momentary on (tact) switches or
@@ -21,6 +22,7 @@
 // https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
 //
 
+#include <EEPROM.h>
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
@@ -30,8 +32,11 @@
 #define MENU_SWITCH   0
 #define MENU_RENCODER 1
 
+const uint16_t MENU_TIMEOUT = 5000;  // in milliseconds
+const uint16_t EEPROM_ADDRESS = 0;   // config data address
+
 // Turn on debug statements to the serial output
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
@@ -56,13 +61,18 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-// Scrolling parameters
-uint8_t speed = 25;    // default frame delay value
-uint8_t bright = 7;    // default brightness
-textEffect_t effect = PA_SCROLL_LEFT;
-textPosition_t align = PA_LEFT;
-uint16_t pause = 2000; // in milliseconds
-bool invert = false;
+// Scrolling parameters configuration block
+struct cfgParameter_t
+{
+  uint8_t signature[2];   // signature for EEPROM
+
+  uint8_t speed;        // animation frame delay
+  uint16_t pause = 2000;// animation pause in milliseconds
+  uint8_t bright;       // display intensity
+  textEffect_t effect;  // text animation effect
+  textPosition_t align; // text alignment at pause
+  bool invert = false;  // inverted display
+} Config;
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
@@ -111,19 +121,31 @@ MD_Menu M(navigation, display,// user navigation and display
   mnuItm, ARRAY_SIZE(mnuItm), // menu item data
   mnuInp, ARRAY_SIZE(mnuInp));// menu input data
 
-// Menu timeout data and functions
-const uint16_t MENU_TIMEOUT = 5000;  // in milliseconds
-uint32_t timeStart;
-
-void timerStart(void)
+// Configuration Load/Save to/from EEPROM
+void paramLoad(void)
 {
-  timeStart = millis();
+  uint8_t sig[2] = { 0xa5, 0x5a };
+
+  EEPROM.get(EEPROM_ADDRESS, Config);
+
+  if (Config.signature[0] != sig[0] || 
+      Config.signature[1] != sig[1])
+  {
+    PRINTS("\n\nSetting Default Parameters");
+    Config.signature[0] = sig[0];
+    Config.signature[1] = sig[1];
+    Config.speed = 25;
+    Config.bright = 7;
+    Config.effect = PA_SCROLL_LEFT;
+    Config.align = PA_LEFT;
+    Config.pause = 2000;
+    Config.invert = false;
+  }
 }
 
-void timerCheck(void)
+void paramSave(void)
 {
-  if (millis() - timeStart >= MENU_TIMEOUT)
-    M.reset();
+  EEPROM.put(EEPROM_ADDRESS, Config);
 }
 
 // Menu system callback functions
@@ -135,32 +157,32 @@ void *mnuValueRqst(MD_Menu::mnuId_t id, uint8_t idx, bool bGet)
   switch (id)
   {
   case 10:  // Speed
-    if (bGet) return((void *)&speed);
-    else P.setSpeed(speed);
+    if (bGet) return((void *)&Config.speed);
+    else P.setSpeed(Config.speed);
     break;
 
   case 11:  // Pause
-    if (bGet) return((void *)&pause);
-    else P.setPause(pause);
+    if (bGet) return((void *)&Config.pause);
+    else P.setPause(Config.pause);
     break;
 
   case 12:  // Scroll
     if (bGet)
     {
-      listValue = (effect == PA_SCROLL_LEFT ? 0 : 1);
+      listValue = (Config.effect == PA_SCROLL_LEFT ? 0 : 1);
       return((void *)&listValue);
     }
     else
     {
-      effect = (listValue == 0 ? PA_SCROLL_LEFT : PA_SCROLL_RIGHT);
-      P.setTextEffect(effect, effect);
+      Config.effect = (listValue == 0 ? PA_SCROLL_LEFT : PA_SCROLL_RIGHT);
+      P.setTextEffect(Config.effect, Config.effect);
     }
     break;
 
   case 13:  // Align
     if (bGet)
     {
-      switch (align)
+      switch (Config.align)
       {
       case PA_LEFT: listValue = 0; break;
       case PA_CENTER: listValue = 1; break;
@@ -172,24 +194,27 @@ void *mnuValueRqst(MD_Menu::mnuId_t id, uint8_t idx, bool bGet)
     {
       switch (listValue)
       {
-      case 0: align = PA_LEFT;  break;
-      case 1: align = PA_CENTER; break;
-      case 2: align = PA_RIGHT; break;
+      case 0: Config.align = PA_LEFT;  break;
+      case 1: Config.align = PA_CENTER; break;
+      case 2: Config.align = PA_RIGHT; break;
       }
-      P.setTextAlignment(align);
+      P.setTextAlignment(Config.align);
     }
     break;
 
   case 14: // Bright
-    if (bGet) return((void *)&bright);
-    else P.setIntensity(bright);
+    if (bGet) return((void *)&Config.bright);
+    else P.setIntensity(Config.bright);
     break;
 
   case 15: // Invert
-    if (bGet) return((void *)&invert);
-    else P.setInvert(invert);
+    if (bGet) return((void *)&Config.invert);
+    else P.setInvert(Config.invert);
     break;
   }
+
+  // if things were set, save the parameters
+  if (!bGet) paramSave();
 
   return(nullptr);
 }
@@ -252,8 +277,6 @@ MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
   case MD_KeySwitch::KS_LONGPRESS: nav = MD_Menu::NAV_ESC; break;
   }
 
-  if (nav != MD_Menu::NAV_NULL) timerStart();
-
   return(nav);
 }
 #endif // USE_UI_CONTROL
@@ -294,20 +317,20 @@ MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
   if (re != DIR_NONE)
   {
     if (M.isInEdit()) incDelta = 1 << abs(RE.speed() / 10);
-    timerStart();
     return(re == DIR_CCW ? MD_Menu::NAV_DEC : MD_Menu::NAV_INC);
   }
 
   switch (swCtl.read())
   {
-  case MD_KeySwitch::KS_PRESS:     timerStart(); return(MD_Menu::NAV_SEL);
-  case MD_KeySwitch::KS_LONGPRESS: timerStart(); return(MD_Menu::NAV_ESC);
+  case MD_KeySwitch::KS_PRESS:     return(MD_Menu::NAV_SEL);
+  case MD_KeySwitch::KS_LONGPRESS: return(MD_Menu::NAV_ESC);
   }
 
   return(MD_Menu::NAV_NULL);
 }
 #endif
 
+// Serial input for new message
 void readSerial(void)
 {
   static char *cp = newMessage;
@@ -330,57 +353,54 @@ void readSerial(void)
 void setup()
 {
   Serial.begin(57600);
-  Serial.print("\n[Parola Scrolling Display]\nType a message for the scrolling display\nEnd message line with a newline");
+  Serial.print("\n[Parola Scrolling Display]\nPress SEL button for configuration menu");
+  Serial.print("\nType a message for the scrolling display\nEnd message line with a newline");
 
-  setupNav();
-  M.begin();
-
-  P.begin();
-  P.displayClear();
-  P.displaySuspend(false);
-
-  P.displayText(curMessage, align, speed, pause, effect, effect);
-  P.setInvert(invert);
-  P.setIntensity(bright);
+  paramLoad();
 
   strcpy(curMessage, "Hello! Enter new message?");
   newMessage[0] = '\0';
+  setupNav();
+
+  M.begin();
+  M.setAutoStart(true);
+  M.setTimeout(MENU_TIMEOUT);
+
+  P.begin();
+  P.setInvert(Config.invert);
+  P.setIntensity(Config.bright);
 }
 
 void loop()
 {
-  // receive new serial characters
-  readSerial();
-
-  if (M.isInMenu())
+  static bool wasInMenu = true;
+  
+  if (wasInMenu && !M.isInMenu())   // was running, now no more
   {
-    M.runMenu();        // keep running the menu
-    timerCheck();       // timeout check/reset
-    if (!M.isInMenu())  // was running, now no more, so reset the display
-    {
-      P.displayClear();
-      P.displayText(curMessage, align, speed, pause, effect, effect);
-    }
+    // Reset the display to show message
+    PRINTS("\nMenu Stopped, running message");
+    P.displayClear();
+    P.displayText(curMessage, Config.align, Config.speed, Config.pause, Config.effect, Config.effect);
+    wasInMenu = false;
   }
-  else
+  
+  wasInMenu = M.isInMenu(); // save current status;
+  M.runMenu();              // run or the autostart the menu
+  
+  if (!M.isInMenu())         // not running the menu? do something else
   {
-    uint16_t delta;
-
-    if (navigation(delta) == MD_Menu::NAV_SEL)
-      M.runMenu(true);  // start the menu display
-    else
+    // animate display and swap message
+    if (P.displayAnimate())
     {
-      // animate and swap message if not displaying menu
-      if (P.displayAnimate())
+      if (newMessageAvailable)
       {
-        if (newMessageAvailable)
-        {
-          strcpy(curMessage, newMessage);
-          newMessageAvailable = false;
-        }
-        P.displayReset();
+        strcpy(curMessage, newMessage);
+        newMessageAvailable = false;
       }
+      P.displayReset();
     }
   }
+
+  readSerial();   // receive new serial characters
 }
 
