@@ -76,9 +76,9 @@ struct cfgParameter_t
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
-char curMessage[BUF_SIZE];
-char newMessage[BUF_SIZE];
-bool newMessageAvailable = false;
+char curMessage[BUF_SIZE] = { "" };
+char newMessage[BUF_SIZE] = { "Hello! Enter new message?" };
+bool newMessageAvailable = true;
 
 // Function prototypes for Navigation/Display
 bool display(MD_Menu::userDisplayAction_t, char*);
@@ -107,12 +107,12 @@ const PROGMEM char listScroll[] = "L|R";
 
 const PROGMEM MD_Menu::mnuInput_t mnuInp[] =
 {
-  { 10, 0, "Spd",  MD_Menu::INP_INT8,  mnuValueRqst, 3, 0, 255, 10, nullptr },
-  { 11, 0, "Pse",  MD_Menu::INP_INT16, mnuValueRqst, 4, 0, 2000, 10, nullptr },
-  { 12, 0, "Scrl", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0, 0, listScroll },
-  { 13, 0, "Algn", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0, 0, listAlign },
-  { 14, 0, "Bri",  MD_Menu::INP_INT8,  mnuValueRqst, 2, 0, 15, 10, nullptr },
-  { 15, 0, "Inv",  MD_Menu::INP_BOOL,  mnuValueRqst, 1, 0, 0, 0, nullptr },
+  { 10, "Spd",  MD_Menu::INP_INT8,  mnuValueRqst, 3, 0, 255, 10, nullptr },
+  { 11, "Pse",  MD_Menu::INP_INT16, mnuValueRqst, 4, 0, 2000, 10, nullptr },
+  { 12, "Scrl", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0, 0, listScroll },
+  { 13, "Algn", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0, 0, listAlign },
+  { 14, "Bri",  MD_Menu::INP_INT8,  mnuValueRqst, 2, 0, 15, 10, nullptr },
+  { 15, "Inv",  MD_Menu::INP_BOOL,  mnuValueRqst, 1, 0, 0, 0, nullptr },
 };
 
 // Menu global object
@@ -358,8 +358,6 @@ void setup()
 
   paramLoad();
 
-  strcpy(curMessage, "Hello! Enter new message?");
-  newMessage[0] = '\0';
   setupNav();
 
   M.begin();
@@ -373,9 +371,9 @@ void setup()
 
 void loop()
 {
-  static bool wasInMenu = true;
+  static bool wasInMenu = true;   // ensure we initialise the display first
   
-  if (wasInMenu && !M.isInMenu())   // was running, now no more
+  if (wasInMenu && !M.isInMenu())   // was running, but not any more
   {
     // Reset the display to show message
     PRINTS("\nMenu Stopped, running message");
@@ -384,12 +382,12 @@ void loop()
     wasInMenu = false;
   }
   
-  wasInMenu = M.isInMenu(); // save current status;
-  M.runMenu();              // run or the autostart the menu
+  wasInMenu = M.isInMenu(); // save current status
+  M.runMenu();              // run or autostart the menu
   
   if (!M.isInMenu())         // not running the menu? do something else
   {
-    // animate display and swap message
+    // animate display and check swap message if ended
     if (P.displayAnimate())
     {
       if (newMessageAvailable)

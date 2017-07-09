@@ -31,8 +31,9 @@ Revision History
 xxx 2017 - version 2.6.5
 - Fixed RANDOM effect locking issue
 - Added Parola_Bluetooth example
-- Added Double Height Russian example
-- Added Scrolling Menu example
+- Added Double_Height_Russian example
+- Added Scrolling_Menu example
+- Added Scrolling_Vertical example
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling

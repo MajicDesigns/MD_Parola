@@ -54,8 +54,6 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-
-
 // Scrolling parameters
 #if USE_UI_CONTROL
 const uint8_t SPEED_IN = A5;
@@ -72,9 +70,9 @@ uint16_t scrollPause = 2000; // in milliseconds
 
 // Global message buffers shared by Serial and Scrolling functions
 #define	BUF_SIZE	75
-char curMessage[BUF_SIZE];
-char newMessage[BUF_SIZE];
-bool newMessageAvailable = false;
+char curMessage[BUF_SIZE] = { "" };
+char newMessage[BUF_SIZE] = { "Hello! Enter new message?" };
+bool newMessageAvailable = true;
 
 #if USE_UI_CONTROL
 
@@ -146,13 +144,7 @@ void setup()
 #endif // USE_UI_CONTROL
 
   P.begin();
-  P.displayClear();
-  P.displaySuspend(false);
-
   P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
-
-  strcpy(curMessage, "Hello! Enter new message?");
-  newMessage[0] = '\0';
 }
 
 void loop()
@@ -161,7 +153,6 @@ void loop()
   doUI();
 #endif // USE_UI_CONTROL
 
-  readSerial();
   if (P.displayAnimate())
   {
     if (newMessageAvailable)
@@ -171,5 +162,6 @@ void loop()
     }
     P.displayReset();
   }
+  readSerial();
 }
 

@@ -1,12 +1,11 @@
 // Use the Parola library to scroll text on the display
 //
 // Demonstrates the use of the scrolling function to display text received
-// from the serial interface and how to adjust the spacing between the end
-// of one message at the start of the following one.
+// from the serial interface in a vertical display.
 //
 // User can enter text on the serial monitor and this will display as a
 // scrolling message on the display.
-// Spacing for the display is controlled by a pot on SPACE_IN analog in.
+// Speed for the display is controlled by a pot on SPEED_IN analog in.
 // Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
 //
@@ -21,12 +20,19 @@
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
+#include "Parola_Fonts_data.h"
+
+// set to 1 if we are implementing the user interface pot, switch, etc
+#define USE_UI_CONTROL 0
+
+#if USE_UI_CONTROL
 #include <MD_KeySwitch.h>
+#endif
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define DEBUG 0
 
-#if  DEBUG
+#if DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
 #define PRINTS(x) Serial.print(F(x))
 #define PRINTX(x) Serial.println(x, HEX)
@@ -49,36 +55,43 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define PAUSE_TIME    0
-#define FRAME_TIME    50
-#define SPACE_DEADBAND  2
-
 // Scrolling parameters
-#define SPACE_IN      A5
-#define DIRECTION_SET 8 // change the effect
-#define INVERT_SET    9 // change the invert
+#if USE_UI_CONTROL
+const uint8_t SPEED_IN = A5;
+const uint8_t DIRECTION_SET = 8;  // change the effect
+const uint8_t INVERT_SET = 9;     // change the invert
 
-textEffect_t  scrollEffect = PA_SCROLL_LEFT;
+const uint8_t SPEED_DEADBAND = 5;
+#endif // USE_UI_CONTROL
+
+uint8_t scrollSpeed = 25;    // default frame delay value
+textEffect_t scrollEffect = PA_SCROLL_RIGHT;
+textPosition_t scrollAlign = PA_CENTER;
+uint16_t scrollPause = 2000; // in milliseconds
 
 // Global message buffers shared by Serial and Scrolling functions
-#define BUF_SIZE  75
+#define	BUF_SIZE	75
 char curMessage[BUF_SIZE] = { "" };
-char newMessage[BUF_SIZE] = { "Hi! Enter new message?" };
+char newMessage[BUF_SIZE] = { "Hello! Enter new message?" };
 bool newMessageAvailable = true;
+
+#if USE_UI_CONTROL
 
 MD_KeySwitch uiDirection(DIRECTION_SET);
 MD_KeySwitch uiInvert(INVERT_SET);
 
 void doUI(void)
 {
-  // SPACING
+  // set the speed if it has changed
   {
-    uint16_t  space = map(analogRead(SPACE_IN), 0, 1023, 0, (MAX_DEVICES+1)*COL_SIZE);
+    int16_t speed = map(analogRead(SPEED_IN), 0, 1023, 10, 150);
 
-    if (space != P.getScrollSpacing())
+    if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) ||
+      (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
-      P.setScrollSpacing(space);
-      PRINT("\nChanged spacing to ", P.getScrollSpacing());
+      P.setSpeed(speed);
+      scrollSpeed = speed;
+      PRINT("\nChanged speed to ", P.getSpeed());
     }
   }
 
@@ -87,6 +100,7 @@ void doUI(void)
     PRINTS("\nChanging scroll direction");
     scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
     P.setTextEffect(scrollEffect, scrollEffect);
+    P.displayClear();
     P.displayReset();
   }
 
@@ -96,6 +110,7 @@ void doUI(void)
     P.setInvert(!P.getInvert());
   }
 }
+#endif // USE_UI_CONTROL
 
 void readSerial(void)
 {
@@ -106,7 +121,7 @@ void readSerial(void)
     *cp = (char)Serial.read();
     if ((*cp == '\n') || (cp - newMessage >= BUF_SIZE-2)) // end of message character or full buffer
     {
-      *cp = '\0';      // end the string
+      *cp = '\0'; // end the string
       // restart the index for next filling spree and flag we have a message waiting
       cp = newMessage;
       newMessageAvailable = true;
@@ -119,30 +134,38 @@ void readSerial(void)
 void setup()
 {
   Serial.begin(57600);
-  Serial.print("\n[Parola Scrolling Spacing]\nType a message for the scrolling display\nEnd message line with a newline");
+  Serial.print("\n[Parola Scrolling Display]\nType a message for the scrolling display\nEnd message line with a newline");
 
+#if USE_UI_CONTROL
   uiDirection.begin();
   uiInvert.begin();
-  pinMode(SPACE_IN, INPUT);
+  pinMode(SPEED_IN, INPUT);
 
   doUI();
+#endif // USE_UI_CONTROL
 
   P.begin();
-  P.displayText(curMessage, PA_CENTER, FRAME_TIME, PAUSE_TIME, scrollEffect, scrollEffect);
+  P.setFont(_fontVertical);
+  P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
 }
 
 void loop()
 {
+#if USE_UI_CONTROL
   doUI();
+#endif // USE_UI_CONTROL
 
   if (P.displayAnimate())
   {
     if (newMessageAvailable)
     {
+      strrev(newMessage);   // reverse the string for proper display order
       strcpy(curMessage, newMessage);
       newMessageAvailable = false;
     }
     P.displayReset();
   }
+
   readSerial();
 }
+
