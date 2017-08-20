@@ -57,8 +57,10 @@ sCatalog  catalog[] =
   { PA_SCROLL_UP_RIGHT, "SC_UR", 7, 1 },
   { PA_SCROLL_DOWN_LEFT, "SC_DL", 7, 1 },
   { PA_SCROLL_DOWN_RIGHT, "SC_DR", 7, 1 },
-  { PA_SCAN_HORIZ, "SCANH", 4, 1 },
-  { PA_SCAN_VERT, "SCANV", 3, 1 },
+  { PA_SCAN_HORIZ0, "SCNH0", 4, 1 },
+  { PA_SCAN_HORIZ1, "SCNH1", 4, 1 },
+  { PA_SCAN_VERT0, "SCNV0", 3, 1 },
+  { PA_SCAN_VERT1, "SCNV1", 3, 1 },
   { PA_GROW_UP, "GRW_U", 7, 1 },
   { PA_GROW_DOWN, "GRW_D", 7, 1 },
 };

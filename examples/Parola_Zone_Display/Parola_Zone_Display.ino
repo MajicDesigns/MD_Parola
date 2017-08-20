@@ -66,7 +66,7 @@ textEffect_t  effect[] =
 {
   PA_RANDOM,
   PA_PRINT,
-  PA_SCAN_HORIZ,
+  PA_SCAN_HORIZ1,
   PA_SCROLL_LEFT,
   PA_WIPE,
   PA_SCROLL_UP_LEFT,
@@ -78,7 +78,7 @@ textEffect_t  effect[] =
   PA_BLINDS,
   PA_CLOSING,
   PA_GROW_DOWN,
-  PA_SCAN_VERT,
+  PA_SCAN_VERT1,
   PA_SCROLL_DOWN_LEFT,
   PA_WIPE_CURSOR,
   PA_DISSOLVE,
