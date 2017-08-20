@@ -115,7 +115,7 @@ void doUI(void)
 
     textEffect_t effect[] =
     {
-      PA_PRINT,
+/*      PA_PRINT,
       PA_SCROLL_UP,
       PA_SCROLL_DOWN,
       PA_SCROLL_LEFT,
@@ -144,9 +144,11 @@ void doUI(void)
       PA_SCROLL_DOWN_LEFT,
       PA_SCROLL_DOWN_RIGHT,
 #endif
-#if ENA_SCAN
-      PA_SCAN_HORIZ,
-      PA_SCAN_VERT,
+*/#if ENA_SCAN
+      PA_SCAN_HORIZ0,
+      PA_SCAN_HORIZ1,
+      PA_SCAN_VERT0,
+      PA_SCAN_VERT1,
 #endif
 #if ENA_GROW
       PA_GROW_UP,

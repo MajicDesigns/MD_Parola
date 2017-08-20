@@ -501,8 +501,10 @@ bool MD_PZone::zoneAnimate(void)
         case PA_WIPE_CURSOR:  effectWipe(true, _moveIn);  break;
 #endif // ENA_WIPE
 #if ENA_SCAN
-        case PA_SCAN_HORIZ: effectHScan(_moveIn); break;
-        case PA_SCAN_VERT:  effectVScan(_moveIn); break;
+        case PA_SCAN_HORIZ0: effectHScan(_moveIn, true); break;
+        case PA_SCAN_HORIZ1: effectHScan(_moveIn, false); break;
+        case PA_SCAN_VERT0:  effectVScan(_moveIn, true); break;
+        case PA_SCAN_VERT1:  effectVScan(_moveIn, false); break;
 #endif // ENA_SCAN
 #if ENA_OPNCLS
         case PA_OPENING:        effectOpen(false, _moveIn); break;

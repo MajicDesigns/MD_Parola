@@ -27,8 +27,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements scan effect
  */
 
-void MD_PZone::effectHScan(bool bIn)
-// Scan the message over with a new one
+void MD_PZone::effectHScan(bool bIn, bool bBlank)
+// Scan the message end to end.
+// if bBlank is true, t a blank column scans the text. If false, a non-blank scans the text.
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
@@ -57,10 +58,10 @@ void MD_PZone::effectHScan(bool bIn)
       }
 
       // blank out the part of the display we don't need
-      FSMPRINT("Keep ", _nextPos);
+      FSMPRINT("Scan col ", _nextPos);
       for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
       {
-        if (i != _nextPos)
+        if ((bBlank && (i != _nextPos)) || (!bBlank && (i == _nextPos)))
           _MX->setColumn(i, EMPTY_BAR);
       }
 
@@ -90,10 +91,10 @@ void MD_PZone::effectHScan(bool bIn)
       commonPrint();
 
       // blank out the part of the display we don't need
-      FSMPRINT(" Keep ", _nextPos);
+      FSMPRINT(" Scan col ", _nextPos);
       for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
       {
-        if (i != _nextPos)
+        if ((bBlank && (i != _nextPos)) || (!bBlank && (i == _nextPos)))
           _MX->setColumn(i, EMPTY_BAR);
       }
 
@@ -111,7 +112,7 @@ void MD_PZone::effectHScan(bool bIn)
   }
 }
 
-void MD_PZone::effectVScan(bool bIn)
+void MD_PZone::effectVScan(bool bIn, bool bBlank)
 // Scan the message over with a new one
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
@@ -148,7 +149,7 @@ void MD_PZone::effectVScan(bool bIn)
       maskCol = (1 << _nextPos);
       for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
       {
-        uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
+        uint8_t	c = DATA_BAR(_MX->getColumn(i) & (bBlank ? ~maskCol : maskCol));
 
         _MX->setColumn(i, DATA_BAR(c));
       }
@@ -186,7 +187,7 @@ void MD_PZone::effectVScan(bool bIn)
         maskCol = 1 << _nextPos;
       for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
       {
-        uint8_t	c = DATA_BAR(_MX->getColumn(i) & maskCol);
+        uint8_t	c = DATA_BAR(_MX->getColumn(i) & (bBlank ? ~maskCol : maskCol));
 
         _MX->setColumn(i, DATA_BAR(c));
       }
