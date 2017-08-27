@@ -34,7 +34,7 @@ xxx 2017 - version 2.6.5
 - Added Double_Height_Russian example
 - Added Scrolling_Menu example
 - Added Scrolling_Vertical example
-- SCAN_HORIZ/SCAN_VERT now have variants HORIZ0, VERT0 to scan an empty row/column; HORIZ1, VERT1 scan a text column (previous behaviour)
+- SCAN_HORIZX/SCAN_VERTX text effect that scan empty row/column across text
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling
@@ -335,10 +335,10 @@ enum textEffect_t
   PA_WIPE_CURSOR, ///< WIPE with a light bar ahead of the change
 #endif  // ENA_WIPES
 #if ENA_SCAN
-  PA_SCAN_HORIZ0, ///< Scan a blank column through the text one column at a time then appears/disappear at end
-  PA_SCAN_HORIZ1, ///< Scan the LED column one at a time then appears/disappear at end (previously PA_SCAN_HORIZ)
-  PA_SCAN_VERT0,  ///< Scan a blank row through the text one row at a time then appears/disappear at end
-  PA_SCAN_VERT1,  ///< Scan the LED row one at a time then appears/disappear at end (previously PA_SCAN_VERT)
+  PA_SCAN_HORIZ,  ///< Scan the LED column one at a time then appears/disappear at end
+  PA_SCAN_HORIZX, ///< Scan a blank column through the text one column at a time then appears/disappear at end
+  PA_SCAN_VERT,   ///< Scan the LED row one at a time then appears/disappear at end
+  PA_SCAN_VERTX,  ///< Scan a blank row through the text one row at a time then appears/disappear at end
 #endif // ENA_SCAN
 #if ENA_OPNCLS
   PA_OPENING,     ///< Appear and disappear from the center of the display, towards the ends

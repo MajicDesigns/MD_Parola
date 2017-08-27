@@ -62,7 +62,7 @@ uint8_t curFX = 0;
 textEffect_t  effect[] =
 {
   PA_PRINT,
-  PA_SCAN_HORIZ1,
+  PA_SCAN_HORIZ,
   PA_SCROLL_LEFT,
   PA_WIPE,
   PA_RANDOM,
@@ -76,7 +76,7 @@ textEffect_t  effect[] =
   PA_MESH,
   PA_CLOSING,
   PA_GROW_DOWN,
-  PA_SCAN_VERT1,
+  PA_SCAN_VERT,
   PA_SCROLL_DOWN_LEFT,
   PA_WIPE_CURSOR,
   PA_DISSOLVE,

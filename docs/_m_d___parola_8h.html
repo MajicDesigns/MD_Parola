@@ -188,11 +188,11 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae7744273c94ba436a27b4359e2e6089e">PA_WIPE</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa0fd7f078a92b7c8ba1932d9d4ad2544d">PA_WIPE_CURSOR</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaabf74cc8ad461200812650bdf1a01f308">PA_SCAN_HORIZ0</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa0d489dc6b408fd04528e9a82ce4b309f">PA_SCAN_HORIZ1</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaadf43a4fcab04c2a431e8bab32846604e">PA_SCAN_HORIZ</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaabd9180021766e98a2ad60cc300966dae">PA_SCAN_HORIZX</a>, 
 <br />
-&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa03ac760908aeb19a9be27f3759e6f1f2">PA_SCAN_VERT0</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa886002e392b2bb926cabe1c5ac32dde9">PA_SCAN_VERT1</a>, 
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaf6713d23a47d9f32cd66f66fe83d8a83">PA_SCAN_VERT</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaab3547aef11cf5b5fec653b193c4fcfd">PA_SCAN_VERTX</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa3bba17d858630b5dbd1d3842096d0c92">PA_OPENING</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa781b03148fc439ca816cb0bf4e47ef45">PA_OPENING_CURSOR</a>, 
 <br />
@@ -258,13 +258,13 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa0fd7f078a92b7c8ba1932d9d4ad2544d"></a>PA_WIPE_CURSOR&#160;</td><td class="fielddoc"><p>WIPE with a light bar ahead of the change. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaabf74cc8ad461200812650bdf1a01f308"></a>PA_SCAN_HORIZ0&#160;</td><td class="fielddoc"><p>Scan a blank column through the text one column at a time then appears/disappear at end. </p>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaadf43a4fcab04c2a431e8bab32846604e"></a>PA_SCAN_HORIZ&#160;</td><td class="fielddoc"><p>Scan the LED column one at a time then appears/disappear at end. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa0d489dc6b408fd04528e9a82ce4b309f"></a>PA_SCAN_HORIZ1&#160;</td><td class="fielddoc"><p>Scan the LED column one at a time then appears/disappear at end (previously PA_SCAN_HORIZ) </p>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaabd9180021766e98a2ad60cc300966dae"></a>PA_SCAN_HORIZX&#160;</td><td class="fielddoc"><p>Scan a blank column through the text one column at a time then appears/disappear at end. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa03ac760908aeb19a9be27f3759e6f1f2"></a>PA_SCAN_VERT0&#160;</td><td class="fielddoc"><p>Scan a blank row through the text one row at a time then appears/disappear at end. </p>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaaf6713d23a47d9f32cd66f66fe83d8a83"></a>PA_SCAN_VERT&#160;</td><td class="fielddoc"><p>Scan the LED row one at a time then appears/disappear at end. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa886002e392b2bb926cabe1c5ac32dde9"></a>PA_SCAN_VERT1&#160;</td><td class="fielddoc"><p>Scan the LED row one at a time then appears/disappear at end (previously PA_SCAN_VERT) </p>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaaab3547aef11cf5b5fec653b193c4fcfd"></a>PA_SCAN_VERTX&#160;</td><td class="fielddoc"><p>Scan a blank row through the text one row at a time then appears/disappear at end. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa3bba17d858630b5dbd1d3842096d0c92"></a>PA_OPENING&#160;</td><td class="fielddoc"><p>Appear and disappear from the center of the display, towards the ends. </p>
 </td></tr>
@@ -343,7 +343,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_m_d___parola_8h.html">MD_Parola.h</a></li>
-    <li class="footer">Generated on Sun Aug 20 2017 16:26:26 for Parola for Arduino by
+    <li class="footer">Generated on Sun Aug 27 2017 15:13:13 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

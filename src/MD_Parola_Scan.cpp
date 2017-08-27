@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_PZone::effectHScan(bool bIn, bool bBlank)
 // Scan the message end to end.
-// if bBlank is true, t a blank column scans the text. If false, a non-blank scans the text.
+// if bBlank is true, a blank column scans the text. If false, a non-blank scans the text.
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
@@ -61,7 +61,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
       FSMPRINT("Scan col ", _nextPos);
       for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
       {
-        if ((bBlank && (i != _nextPos)) || (!bBlank && (i == _nextPos)))
+        if ((!bBlank && (i != _nextPos)) || (bBlank && (i == _nextPos)))
           _MX->setColumn(i, EMPTY_BAR);
       }
 
@@ -94,7 +94,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
       FSMPRINT(" Scan col ", _nextPos);
       for (uint8_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
       {
-        if ((bBlank && (i != _nextPos)) || (!bBlank && (i == _nextPos)))
+        if ((!bBlank && (i != _nextPos)) || (bBlank && (i == _nextPos)))
           _MX->setColumn(i, EMPTY_BAR);
       }
 
@@ -114,6 +114,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
 
 void MD_PZone::effectVScan(bool bIn, bool bBlank)
 // Scan the message over with a new one
+// if bBlank is true, a blank column scans the text. If false, a non-blank scans the text.
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {

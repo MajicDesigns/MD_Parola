@@ -77,14 +77,15 @@ MD_KeySwitch uiIntensity(INTENSITY_SET);
 MD_KeySwitch uiInverse(INVERSE_SET);
 MD_KeySwitch uiFlip(FLIP_SET);
 
-void doUI(void)
+void doUI(boolean bInitialise = false)
 {
   // set the speed if it has changed
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 100);
 
     if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) ||
-      (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
+      (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)) ||
+      bInitialise)
     {
       P.setSpeed(speed);
       DEBUG("\nChanged speed to ", P.getSpeed());
@@ -92,7 +93,7 @@ void doUI(void)
   }
 
   // now process the digital inputs
-  if (uiJustify.read() == MD_KeySwitch::KS_PRESS) // TEXT ALIGNMENT
+  if (uiJustify.read() == MD_KeySwitch::KS_PRESS) // TEXT ALIGNMENT - nothing on initialise
   {
     static uint8_t	curMode = 0;
     textPosition_t	align = P.getTextAlignment();
@@ -109,13 +110,13 @@ void doUI(void)
     curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
   }
 
-  if (uiEffect.read() == MD_KeySwitch::KS_PRESS)  // EFFECT CHANGE
+  if ((uiEffect.read() == MD_KeySwitch::KS_PRESS) || bInitialise)  // EFFECT CHANGE
   {
     static uint8_t  curFX = 0;
 
     textEffect_t effect[] =
     {
-/*      PA_PRINT,
+      PA_PRINT,
       PA_SCROLL_UP,
       PA_SCROLL_DOWN,
       PA_SCROLL_LEFT,
@@ -144,11 +145,11 @@ void doUI(void)
       PA_SCROLL_DOWN_LEFT,
       PA_SCROLL_DOWN_RIGHT,
 #endif
-*/#if ENA_SCAN
-      PA_SCAN_HORIZ0,
-      PA_SCAN_HORIZ1,
-      PA_SCAN_VERT0,
-      PA_SCAN_VERT1,
+#if ENA_SCAN
+      PA_SCAN_HORIZ,
+      PA_SCAN_HORIZX,
+      PA_SCAN_VERT,
+      PA_SCAN_VERTX,
 #endif
 #if ENA_GROW
       PA_GROW_UP,
@@ -156,27 +157,26 @@ void doUI(void)
 #endif
     };
 
-    curFX = (curFX + 1) % ARRAY_SIZE(effect);
     DEBUG("\nChanging effect to ", curFX);
     P.setTextEffect(effect[curFX], effect[curFX]);
     P.displayClear();
     P.displayReset();
+    curFX = (curFX + 1) % ARRAY_SIZE(effect);
   }
 
-  if (uiPause.read() == MD_KeySwitch::KS_PRESS) // PAUSE DELAY
+  if ((uiPause.read() == MD_KeySwitch::KS_PRESS) || bInitialise) // PAUSE DELAY
   {
     DEBUGS("\nChanging pause");
-    if (P.getPause() <= P.getSpeed())
+    if ((P.getPause() <= P.getSpeed()) || bInitialise)
       P.setPause(PAUSE_TIME);
     else
       P.setPause(0);
   }
 
-  if (uiIntensity.read() == MD_KeySwitch::KS_PRESS) // INTENSITY
+  if ((uiIntensity.read() == MD_KeySwitch::KS_PRESS) || bInitialise) // INTENSITY
   {
     static uint8_t	intensity = 7;
 
-    intensity = ++intensity % (MAX_INTENSITY + 1);
     if (intensity == 0)
     {
       P.displayShutdown(true);
@@ -188,14 +188,16 @@ void doUI(void)
       P.displayShutdown(false);
       DEBUG("\nChanged intensity to ", intensity);
     }
+
+    intensity = (intensity + 1) % (MAX_INTENSITY + 1);
   }
 
-  if (uiInverse.read() == MD_KeySwitch::KS_PRESS) // INVERSE
+  if (uiInverse.read() == MD_KeySwitch::KS_PRESS)  // INVERSE - do nothing on initialise
   {
-    P.setInvert(!P.getInvert());
+    P.setInvert(!P.getInvert() || bInitialise);
   }
 
-  if (uiFlip.read() == MD_KeySwitch::KS_PRESS)  // FLIP
+  if (uiFlip.read() == MD_KeySwitch::KS_PRESS) // FLIP - do nothing when initialising
   {
     P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_LR), PA_FLIP_LR);
     P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_UD), PA_FLIP_UD);
@@ -217,10 +219,12 @@ void setup(void)
   uiInverse.begin();
   uiFlip.begin();
 
-  // parola object
+  // Parola object
   P.begin();
   P.displayText(pc[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
   curString = NEXT_STRING;
+
+  doUI(true); // initialise stuff
 }
 
 void loop(void)
