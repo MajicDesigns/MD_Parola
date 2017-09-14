@@ -21,7 +21,7 @@
 // Hardware SPI connection
 MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
-// MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES)
+// MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define ARRAY_SIZE(x)  (sizeof(x)/sizeof(x[0]))
 
@@ -57,10 +57,10 @@ sCatalog  catalog[] =
   { PA_SCROLL_UP_RIGHT, "SC_UR", 7, 1 },
   { PA_SCROLL_DOWN_LEFT, "SC_DL", 7, 1 },
   { PA_SCROLL_DOWN_RIGHT, "SC_DR", 7, 1 },
-  { PA_SCAN_HORIZ0, "SCNH", 4, 1 },
-  { PA_SCAN_HORIZ1, "SCNHX", 4, 1 },
-  { PA_SCAN_VERT0, "SCNV", 3, 1 },
-  { PA_SCAN_VERT1, "SCNVX", 3, 1 },
+  { PA_SCAN_HORIZ, "SCNH", 4, 1 },
+  { PA_SCAN_HORIZX, "SCNHX", 4, 1 },
+  { PA_SCAN_VERT, "SCNV", 3, 1 },
+  { PA_SCAN_VERTX, "SCNVX", 3, 1 },
   { PA_GROW_UP, "GRW_U", 7, 1 },
   { PA_GROW_DOWN, "GRW_D", 7, 1 },
 };

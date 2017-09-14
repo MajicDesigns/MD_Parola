@@ -23,7 +23,7 @@ at the [Parola website] (http://github.com/MajicDesigns/Parola).
 
 System Components
 -----------------
-- Hardware - documentation for supported hardware found in the MD_MAX72xx library documentation.
+- Hardware - documentation for supported hardware found in the [MD_MAX72xx library] (http://github.com/MajicDesigns/MD_MAX72XX) documentation.
 - \subpage pageSoftware
 
 Revision History
@@ -34,7 +34,7 @@ xxx 2017 - version 2.6.5
 - Added Double_Height_Russian example
 - Added Scrolling_Menu example
 - Added Scrolling_Vertical example
-- SCAN_HORIZX/SCAN_VERTX text effect that scan empty row/column across text
+- Added SCAN_HORIZX/SCAN_VERTX text effects
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling
@@ -772,7 +772,7 @@ private:
   uint16_t  _pauseTime;   // time to pause the animation between 'in' and 'out'
 
   // Display control data and methods
-  fsmState_t       _fsmState;   // fsm state for all FSMs used to display text
+  fsmState_t      _fsmState;    // fsm state for all FSMs used to display text
   uint16_t        _textLen;     // length of current text in columns
   int16_t         _limitLeft;   // leftmost limit for the current display effect
   int16_t         _limitRight;  // rightmost limit for the current display effect
@@ -790,12 +790,12 @@ private:
   uint16_t  getTextWidth(char *p);      // width of text in columns
   bool      calcTextLimits(char *p);    // calculate the right and left limits for the text
 
-  // Variables used in the scrolling routines
+  // Variables used in the effects routines. These can be used by the functions as needed.
   uint8_t   _zoneStart;   // First zone module number
   uint8_t   _zoneEnd;     // Last zone module number
   int16_t   _nextPos;     // Next position for animation. Can be used in several different ways depending on the function.
   int8_t    _posOffset;   // Looping increment depends on the direction of the scan for animation
-  uint16_t  _startPos;    // Start position for the text LED
+  int16_t   _startPos;    // Start position for the text LED
   int16_t   _endPos;      // End limit for the text LED.
 
   void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM

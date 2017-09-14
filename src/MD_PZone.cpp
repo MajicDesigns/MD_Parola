@@ -519,8 +519,8 @@ bool MD_PZone::zoneAnimate(void)
         case PA_SCROLL_DOWN_RIGHT:  effectDiag(false, false, _moveIn);break;
 #endif // ENA_SCR_DIA
 #if ENA_GROW
-        case PA_GROW_UP:    effectGrow(true, _moveIn);  break;
-        case PA_GROW_DOWN:  effectGrow(false, _moveIn); break;
+        case PA_GROW_UP:     effectGrow(true, _moveIn);  break;
+        case PA_GROW_DOWN:   effectGrow(false, _moveIn); break;
 #endif // ENA_GROW
         default:
         _fsmState = END;
@@ -550,12 +550,12 @@ char *MD_PZone::state2string(fsmState_t s)
 {
   switch (s)
   {
-  case INITIALISE:     return("INI");
-  case GET_FIRST_CHAR: return("GFC");
-  case GET_NEXT_CHAR:  return("GNC");
-  case PUT_CHAR:       return("PC");
-  case PUT_FILLER:     return("PF");
-  case PAUSE:          return("PSE");
+  case INITIALISE:     return("INIT");
+  case GET_FIRST_CHAR: return("FIRST");
+  case GET_NEXT_CHAR:  return("NEXT");
+  case PUT_CHAR:       return("PUT");
+  case PUT_FILLER:     return("FILLER");
+  case PAUSE:          return("PAUSE");
   case END:            return("END");
   }
   return("???");

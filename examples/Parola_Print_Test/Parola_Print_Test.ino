@@ -12,6 +12,8 @@
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 
+const uint16_t WAIT_TIME = 1000;
+
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
