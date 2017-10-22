@@ -35,6 +35,7 @@ xxx 2017 - version 2.6.5
 - Added Scrolling_Menu example
 - Added Scrolling_Vertical example
 - Added SCAN_HORIZX/SCAN_VERTX text effects
+- Fixed bug with WIPE, SCAN and GROW when using 1 module only
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling

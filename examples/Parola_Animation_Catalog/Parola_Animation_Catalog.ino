@@ -65,7 +65,6 @@ sCatalog  catalog[] =
   { PA_GROW_DOWN, "GRW_D", 7, 1 },
 };
 
-
 void setup(void)
 {
   P.begin();

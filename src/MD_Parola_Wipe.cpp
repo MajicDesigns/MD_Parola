@@ -56,7 +56,7 @@ void MD_PZone::effectWipe(bool bLightBar, bool bIn)
       FSMPRINT(" - Clear ", _nextPos);
       FSMPRINT(" to ", _endPos);
       FSMPRINT(" step ", _posOffset);
-      for (uint8_t i=_nextPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i=_nextPos; i != _endPos+_posOffset; i += _posOffset)
         _MX->setColumn(i, EMPTY_BAR);
 
       if (bLightBar && (_nextPos != _endPos+_posOffset)) _MX->setColumn(_nextPos, LIGHT_BAR);
@@ -93,13 +93,13 @@ void MD_PZone::effectWipe(bool bLightBar, bool bIn)
       FSMPRINT(" - Clear ", _nextPos);
       FSMPRINT(" to ", _endPos);
       FSMPRINT(" step ", _posOffset);
-      for (uint8_t i=_startPos; i != _nextPos+_posOffset; i += _posOffset)
+      for (int16_t i = _startPos; i != _nextPos + _posOffset; i += _posOffset)
         _MX->setColumn(i, EMPTY_BAR);
 
       if (bLightBar && (_nextPos != _endPos+_posOffset)) _MX->setColumn(_nextPos, LIGHT_BAR);
 
       // check if we have finished
-      if (_nextPos == _endPos+_posOffset) _fsmState = END;
+      if (_nextPos == _endPos + _posOffset) _fsmState = END;
 
       _nextPos += _posOffset; // for the next time around
       break;
