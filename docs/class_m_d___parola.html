@@ -1301,7 +1301,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set the display font for all zones.</p>
-<p>Set the display font to a user defined font table. This can be created using the MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library). Passing NULL resets to the library default font.</p>
+<p>Set the display font to a user defined font table. This can be created using the MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library). Passing nullptr resets to the library default font.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fontDef</td><td>Pointer to the font definition to be used. </td></tr>
@@ -1338,7 +1338,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Set the display font for a specific zone.</p>
-<p>Set the display font to a user defined font table. This can be created using the MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library). Passing NULL resets to the library default font.</p>
+<p>Set the display font to a user defined font table. This can be created using the MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library). Passing nullptr resets to the library default font.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">z</td><td>specified zone. </td></tr>
@@ -2021,8 +2021,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Write a null terminated string to the output display.</p>
-<p>Display a null terminated string when given a pointer to the char array. Invokes an animation using PA_PRINT with all other settings (alignment, speed, etc) taken from current defaults. This method also invokes the animation for the print and returns when that has finished, so it blocks while the printing is happening, which should be at least one iteration of the wait loop.</p>
+<p>Write a nul terminated string to the output display.</p>
+<p>Display a nul terminated string when given a pointer to the char array. Invokes an animation using PA_PRINT with all other settings (alignment, speed, etc) taken from current defaults. This method also invokes the animation for the print and returns when that has finished, so it blocks while the printing is happening, which should be at least one iteration of the wait loop.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">str</td><td>Pointer to the nul terminated char array. </td></tr>
@@ -2067,7 +2067,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Write a character buffer to the output display.</p>
-<p>Display a non-null terminated string given a pointer to the buffer and the size of the buffer. The buffer is turned into a nul terminated string and the simple <a class="el" href="class_m_d___parola.html#a6c5fe7373f27edf29abb639cf3cb1dfb">write()</a> method is invoked. Memory is allocated and freed in this method to copy the string.</p>
+<p>Display a non-nul terminated string given a pointer to the buffer and the size of the buffer. The buffer is turned into a nul terminated string and the simple <a class="el" href="class_m_d___parola.html#a6c5fe7373f27edf29abb639cf3cb1dfb">write()</a> method is invoked. Memory is allocated and freed in this method to copy the string.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">buffer</td><td>Pointer to the data buffer. </td></tr>
@@ -2089,7 +2089,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Sun Aug 27 2017 15:13:14 for Parola for Arduino by
+    <li class="footer">Generated on Sat Oct 28 2017 11:40:28 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

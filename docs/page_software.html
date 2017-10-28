@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 <p>For backward compatibility, all the methods from version 1 remain. If the new library is compiled with older user source code, the library defaults to using a single zone for the whole display. Zone-aware functions have an added parameter to specify the zone to which the method invocation applies. Methods invoked without specifying a zone (such as set*()) usually have their effect applied to all zones. </p><hr/>
 <h2>Fonts </h2>
 <p>The standard MD_MAX72xx library font can be substituted with a user font definition conforming to the font encoding rules in the MD_MAX72XX documentation. New fonts can be designed with the the MD_MAX72xx font builder.</p>
-<p>Each zone can have its own substituted font. The default font can be reselected for the zone by specifying a NULL font table pointer. </p><hr/>
+<p>Each zone can have its own substituted font. The default font can be reselected for the zone by specifying a nullptr font table pointer. </p><hr/>
 <h2>User Characters </h2>
 <p>Individual characters can be substituted for user character definitions. These can be added and deleted to individual zones as required.</p>
 <p>The character data is the same format as a single character from the font definition file, and is held in a local lookup table that is parsed before loading the defined font character. If a character is specified with a code the same as an existing character, the existing data will be substituted for the new data.</p>
@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Main Page</a></li>
-    <li class="footer">Generated on Sun Aug 27 2017 15:13:14 for Parola for Arduino by
+    <li class="footer">Generated on Sat Oct 28 2017 11:40:28 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -36,6 +36,7 @@ xxx 2017 - version 2.6.5
 - Added Scrolling_Vertical example
 - Added SCAN_HORIZX/SCAN_VERTX text effects
 - Fixed bug with WIPE, SCAN and GROW when using 1 module only
+- Removed hard coded internal font buffer size
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling
@@ -183,7 +184,7 @@ to the font encoding rules in the MD_MAX72XX documentation. New fonts can be des
 the MD_MAX72xx font builder.
 
 Each zone can have its own substituted font. The default font can be reselected for the zone by
-specifying a NULL font table pointer.
+specifying a nullptr font table pointer.
 ___
 
 User Characters
@@ -735,8 +736,7 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-  inline void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; };
-
+  inline void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; _MX->setFont(_fontDef); allocateFontBuffer(); };
   /** @} */
 
 private:
@@ -812,12 +812,14 @@ private:
 
   // Font character handling data and methods
   charDef_t *_userChars;  // the root of the list of user defined characters
-  uint8_t   _cBuf[15];    // buffer for loading character font
+  uint8_t   _cBufSize;    // allocated size of the array for loading character font (cBuf)
+  uint8_t   *_cBuf;       // buffer for loading character font - allocated when font is set
   uint8_t   _charSpacing; // spacing in columns between characters
   uint8_t   _charCols;    // number of columns for this character
   int16_t   _countCols;   // count of number of columns already shown
   MD_MAX72XX::fontType_t  *_fontDef;  // font for this zone
 
+  void      allocateFontBuffer(void); // allocate _cBuf based on the size of the largest font characters
   uint8_t   findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
   uint8_t   makeChar(char c, bool addBlank);      // load a character bitmap and add in trailing _charSpacing blanks if req'd
   void      reverseBuf(uint8_t *p, uint8_t size); // reverse the elements of the buffer
@@ -1506,7 +1508,7 @@ public:
    *
    * Set the display font to a user defined font table. This can be created using the
    * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
-   * Passing NULL resets to the library default font.
+   * Passing nullptr resets to the library default font.
    *
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
@@ -1518,7 +1520,7 @@ public:
    *
    * Set the display font to a user defined font table. This can be created using the
    * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
-   * Passing NULL resets to the library default font.
+   * Passing nullptr resets to the library default font.
    *
    * \param z		specified zone.
    * \param fontDef	Pointer to the font definition to be used.
@@ -1548,9 +1550,9 @@ public:
   virtual size_t write(uint8_t c) { char sz[2]; sz[0] = c; sz[1] = '\0'; write(sz); return(1); }
 
   /**
-  * Write a null terminated string to the output display.
+  * Write a nul terminated string to the output display.
   *
-  * Display a null terminated string when given a pointer to the char array.
+  * Display a nul terminated string when given a pointer to the char array.
   * Invokes an animation using PA_PRINT with all other settings (alignment,
   * speed, etc) taken from current defaults.
   * This method also invokes the animation for the print and returns when that has
@@ -1565,7 +1567,7 @@ public:
   /**
   * Write a character buffer to the output display.
   *
-  * Display a non-null terminated string given a pointer to the buffer and
+  * Display a non-nul terminated string given a pointer to the buffer and
   * the size of the buffer. The buffer is turned into a nul terminated string
   * and the simple write() method is invoked. Memory is allocated and freed
   * in this method to copy the string.

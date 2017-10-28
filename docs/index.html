@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 The final product with 8 modules connected together</div></div>
  <h2>System Components </h2>
 <ul>
-<li>Hardware - documentation for supported hardware found in the MD_MAX72xx library documentation.</li>
+<li>Hardware - documentation for supported hardware found in the <a href="http://github.com/MajicDesigns/MD_MAX72XX">MD_MAX72xx library</a> documentation.</li>
 <li><a class="el" href="page_software.html">Parola Library</a></li>
 </ul>
 <h2>Revision History </h2>
@@ -113,7 +113,9 @@ The final product with 8 modules connected together</div></div>
 <li>Added Double_Height_Russian example</li>
 <li>Added Scrolling_Menu example</li>
 <li>Added Scrolling_Vertical example</li>
-<li>SCAN_HORIZX/SCAN_VERTX text effect that scan empty row/column across text</li>
+<li>Added SCAN_HORIZX/SCAN_VERTX text effects</li>
+<li>Fixed bug with WIPE, SCAN and GROW when using 1 module only</li>
+<li>Removed hard coded internal font buffer size</li>
 </ul>
 <p>Apr 2017 - version 2.6.4</p><ul>
 <li>Added Parola_UFT-8_Display example for double multi-byte character handling</li>
@@ -214,7 +216,7 @@ The final product with 8 modules connected together</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Aug 27 2017 15:13:14 for Parola for Arduino by
+    <li class="footer">Generated on Sat Oct 28 2017 11:40:28 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -44,6 +44,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 // Global variables
 typedef struct
 {
+  char  name[10];
   MD_MAX72XX::fontType_t *pFont;
   textEffect_t      effect;
   char *            pMsg;
@@ -51,10 +52,10 @@ typedef struct
 
 message_t	M[] =
 {
-  { NULL, PA_SCROLL_LEFT, "Arduino" },
-  { fontKatakana, PA_SCROLL_LEFT, "\x0b1\x0b0\x0c2\x0b2\x0c9" },
-  { fontArabic, PA_SCROLL_RIGHT, "\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
-  { fontGreek, PA_SCROLL_LEFT, "\x080\x0a8\x09b\x0b2\x0a0\x0a4\x0a6" }
+  { "Roman",    nullptr,      PA_SCROLL_LEFT,  "Arduino" },
+  { "Japanese", fontKatakana, PA_SCROLL_LEFT,  "\x0b1\x0b0\x0c2\x0b2\x0c9" },
+  { "Arabic",   fontArabic,   PA_SCROLL_RIGHT, "\x0a9\x0a7\x0ab\x0a9\x090\x0a5\x088" },		// ا ر د و ي ن و
+  { "Greek",    fontGreek,    PA_SCROLL_LEFT,  "\x080\x0a8\x09b\x0b2\x0a0\x0a4\x0a6" }
 };
 #define MAX_MESG (sizeof(M)/sizeof(M[0]))
 
@@ -79,8 +80,7 @@ void loop(void)
     P.setTextBuffer(M[curM].pMsg);
     P.setTextEffect(M[curM].effect, M[curM].effect);
 
-    PRINT("\nChanging font to ", curM);
-    PRINTS("\n");
+    PRINT("\nChanging font to ", M[curM].name);
     for (uint8_t i=0; i<strlen(M[curM].pMsg); i++)
     {
       PRINT(" ", (uint8_t) M[curM].pMsg[i]);

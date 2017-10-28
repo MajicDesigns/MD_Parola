@@ -27,8 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements MD_PZone class methods
  */
 
-MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(NULL), _MX(NULL), _fontDef(NULL),
-  _scrollDistance(0),_zoneEffect(0)
+MD_PZone::MD_PZone(void) : _fsmState(END), _userChars(nullptr), _MX(nullptr), _fontDef(nullptr),
+_scrollDistance(0), _zoneEffect(0), _cBufSize(0), _cBuf(nullptr)
 {
 }
 
@@ -37,17 +37,34 @@ MD_PZone::~MD_PZone(void)
   // release the memory for user defined characters
   charDef_t *p = _userChars;
 
-  while (p!= NULL)
+  while (p!= nullptr)
   {
     charDef_t	*pt = p;
     p = pt->next;
     delete pt;
   };
+
+  // release memory for the character buffer
+  delete[] _cBuf;
 }
 
 void MD_PZone::begin(MD_MAX72XX *p)
 {
   _MX = p;
+  allocateFontBuffer();
+}
+
+void MD_PZone::allocateFontBuffer(void)
+{
+  uint8_t size = _MX->getMaxFontWidth();
+  PRINTS("\nallocateFontBuffer");
+  if (size > _cBufSize)
+  {
+    delete[] _cBuf;
+    _cBufSize = size;
+    PRINT(" new size ", _cBufSize);
+    _cBuf = new uint8_t[_cBufSize];
+  }
 }
 
 void MD_PZone::setZoneEffect(boolean b, zoneEffect_t ze)
@@ -77,7 +94,7 @@ void MD_PZone::setInitialConditions(void)
 {
   PRINTS("\nsetInitialConditions");
 
-  if (_pText == NULL)
+  if (_pText == nullptr)
     return;
 
   _pCurChar = _pText;
@@ -104,7 +121,7 @@ uint16_t MD_PZone::getTextWidth(char *p)
 
   while (*p != '\0')
   {
-    sum += findChar(*p++, ARRAY_SIZE(_cBuf), _cBuf);
+    sum += findChar(*p++, _cBufSize, _cBuf);
     if (*p) sum += _charSpacing;  // next character is not nul, so add inter-character spacing
   }
 
@@ -188,7 +205,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 
   // first see if we have the code in our list
   pcd = _userChars;
-  while (pcd != NULL)
+  while (pcd != nullptr)
   {
     if (pcd->code == code)
     {
@@ -201,7 +218,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 
   // Now see if we have an empty slot in our list
   pcd = _userChars;
-  while (pcd != NULL)
+  while (pcd != nullptr)
   {
     if (pcd->code == 0)
     {
@@ -214,7 +231,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
   }
 
   // default is to add a new node to the front of the list
-  if ((pcd = new charDef_t) != NULL)
+  if ((pcd = new charDef_t) != nullptr)
   {
     pcd->code = code;
     pcd->data = data;
@@ -227,7 +244,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
     PRINTS(" failed allocating new node");
   }
 
-  return(pcd != NULL);
+  return(pcd != nullptr);
 }
 
 bool MD_PZone::delChar(uint8_t code)
@@ -239,18 +256,18 @@ bool MD_PZone::delChar(uint8_t code)
     return(false);
 
   // Scan down the linked list
-  while (pcd != NULL)
+  while (pcd != nullptr)
   {
     if (pcd->code == code)
     {
       pcd->code = 0;
-      pcd->data = NULL;
+      pcd->data = nullptr;
       break;
     }
     pcd = pcd->next;
   }
 
-  return(pcd != NULL);
+  return(pcd != nullptr);
 }
 
 uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
@@ -261,7 +278,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 
   PRINTX("\nfindUserChar 0x", code);
   // check local list first
-  while (pcd != NULL)
+  while (pcd != nullptr)
   {
     PRINTX(" ", pcd->code);
     if (pcd->code == code)  // found it
@@ -290,14 +307,14 @@ uint8_t MD_PZone::makeChar(char c, bool addBlank)
   PRINTX("\nmakeChar 0x", c);
 
   // look for the character
-  len = findChar((uint8_t)c, ARRAY_SIZE(_cBuf), _cBuf);
+  len = findChar((uint8_t)c, _cBufSize, _cBuf);
 
   // Add in the inter char spacing
   if (addBlank)
   {
     for (uint8_t i = 0; i < _charSpacing; i++)
     {
-      if (len < ARRAY_SIZE(_cBuf))
+      if (len < _cBufSize)
         _cBuf[len++] = 0;
     }
   }
@@ -375,7 +392,7 @@ uint8_t MD_PZone::getFirstChar(void)
 
   // initialise pointers and make sure we have a good string to process
   _pCurChar = _pText;
-  if ((_pCurChar == NULL) || (*_pCurChar == '\0'))
+  if ((_pCurChar == nullptr) || (*_pCurChar == '\0'))
   {
     _endOfText = true;
     return(0);
@@ -462,7 +479,7 @@ bool MD_PZone::zoneAnimate(void)
   _lastRunTime = millis();
 
   // any text to display?
-  if (_pText != NULL)
+  if (_pText != nullptr)
   {
     switch (_fsmState)
     {
