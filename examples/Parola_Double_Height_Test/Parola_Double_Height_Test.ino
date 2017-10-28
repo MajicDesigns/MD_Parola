@@ -32,17 +32,20 @@
 #if USE_GENERIC_HW || USE_PAROLA_HW
 #define INVERT_UPPER_ZONE
 #else
+#undef INVERT_UPPER_ZONE
 #endif
 
 // Turn debugging on and off
 #define DEBUG 0
 
 #if DEBUG
-#define PRINTS(s)   { Serial.print(F(s)); }
-#define PRINT(s, v) { Serial.print(F(s)); Serial.print(v); }
+#define PRINTS(s)    { Serial.print(F(s)); }
+#define PRINT(s, v)  { Serial.print(F(s)); Serial.print(v); }
+#define PRINTX(s, v) { Serial.print(F(s)); Serial.print(F("0x")); Serial.print(v, HEX); }
 #else
 #define PRINTS(s)
 #define PRINT(s, v)
+#define PRINTX(s, v)
 #endif
 
 // User interface pin and switch definitions
@@ -73,7 +76,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Alignment of the two zones
 #ifdef INVERT_UPPER_ZONE
-// if inverted, aligm=nment should be opposite and
+// if inverted, alignment should be opposite and
 // CENTER may not work well depending on message
 #define ALIGN_LOWER PA_LEFT
 #define ALIGN_UPPER PA_RIGHT
@@ -87,7 +90,7 @@ char *msgL[] =
 {
   "Abc",
   "123",
-  "Zyx"
+  "xyz"
 };
 char* msgH; // allocated memory in setup()
 
@@ -201,8 +204,10 @@ void doUI(void)
 
 #if DEBUG
   Serial.begin(57600);
-  PRINTS("\n[Double_Height_Test]");
 #endif
+  PRINTS("\n[Double_Height_Test]");
+  PRINT("\nSize of catalogItem_t ", sizeof(catalogItem_t)); 
+
   // work out the size of buffer required
   for (uint8_t i = 0; i<ARRAY_SIZE(msgL); i++)
   {
@@ -239,7 +244,7 @@ void createHString(char *pH, char *pL)
 void loop(void)
 {
   static uint8_t idxMsg = 0;   // message string index
-  static uint8_t idxCat = 0;   // catalog item index
+  static uint16_t idxCat = 0;   // catalog item index
 
   doUI();
   P.displayAnimate();
@@ -250,10 +255,11 @@ void loop(void)
 
     PRINT("\nC", idxCat);
     PRINT(": M", idxMsg);
+    PRINT(": A ", (uint16_t)&catalog[idxCat]);
     PRINT(": ", msgL[idxMsg]);
 
     // copy the next catalog item into RAM
-    memcpy_P(&ci, catalog + (idxCat * sizeof(catalogItem_t)), sizeof(catalogItem_t));
+    memcpy_P(&ci, &catalog[idxCat], sizeof(catalogItem_t));
 
     // set up the ZONE_UPPER string
     createHString(msgH, msgL[idxMsg]);

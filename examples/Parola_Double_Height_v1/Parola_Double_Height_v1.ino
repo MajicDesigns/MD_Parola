@@ -66,7 +66,7 @@ char *msg[] =
   "abcdefghijklmnopqrstuvwxyz",
   "0123456789",
   "`!@#$%^&*()_+-={};:'\"<>?,./|\\{}",
-  "Download the Parola at github.com/MajicDesigns",
+  "Download Parola at github.com/MajicDesigns",
   "Watch the video on YouTube"
 };
 

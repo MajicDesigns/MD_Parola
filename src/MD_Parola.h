@@ -574,7 +574,7 @@ public:
    * \param cs	space between characters in columns.
    * \return No return value.
    */
-  inline void setCharSpacing(uint8_t cs) { _charSpacing = cs; };
+  inline void setCharSpacing(uint8_t cs) { _charSpacing = cs; allocateFontBuffer(); };
 
   /**
    * Set the zone brightness.

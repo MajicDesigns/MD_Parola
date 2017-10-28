@@ -56,7 +56,7 @@ void MD_PZone::begin(MD_MAX72XX *p)
 
 void MD_PZone::allocateFontBuffer(void)
 {
-  uint8_t size = _MX->getMaxFontWidth();
+  uint8_t size = _MX->getMaxFontWidth() + getCharSpacing();
   PRINTS("\nallocateFontBuffer");
   if (size > _cBufSize)
   {
@@ -304,10 +304,12 @@ uint8_t MD_PZone::makeChar(char c, bool addBlank)
 {
   uint8_t len;
 
-  PRINTX("\nmakeChar 0x", c);
 
   // look for the character
   len = findChar((uint8_t)c, _cBufSize, _cBuf);
+
+  PRINTX("\nmakeChar 0x", c);
+  PRINT(", len=", len);
 
   // Add in the inter char spacing
   if (addBlank)
@@ -318,8 +320,6 @@ uint8_t MD_PZone::makeChar(char c, bool addBlank)
         _cBuf[len++] = 0;
     }
   }
-
-  PRINT(", len=", len);
 
   return(len);
 }
