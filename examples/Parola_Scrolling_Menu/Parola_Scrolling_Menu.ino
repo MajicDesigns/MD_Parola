@@ -12,7 +12,7 @@
 // Interface for menu control can be either 3 momentary on (tact) switches or
 // a rotary encoder with integrated switch.
 //
-// Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
+// UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
 // Rotary Encoder library can be found at https://github.com/MajicDesigns/MD_REncoder
 // Menu library can be found at https://github.com/MajicDesigns/MD_Menu
 //
@@ -246,35 +246,45 @@ bool display(MD_Menu::userDisplayAction_t action, char *msg)
 // one switch each for INC, DEC
 // one switch for SEL (click) or ESC (long press)
 
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 
-const uint8_t INC_PIN = 2;
-const uint8_t DEC_PIN = 3;
-const uint8_t CTL_PIN = 4;
+const uint8_t INC_PIN = 9;
+const uint8_t DEC_PIN = 8;
+const uint8_t CTL_PIN = 6;
 
-MD_KeySwitch swInc(INC_PIN);
-MD_KeySwitch swDec(DEC_PIN);
-MD_KeySwitch swCtl(CTL_PIN);
+uint8_t pins[] = { INC_PIN, DEC_PIN, CTL_PIN };
+
+MD_UISwitch_Digital swNav(pins, ARRAY_SIZE(pins));
 
 void setupNav(void)
 {
-  swInc.begin();
-  swDec.begin();
-  swCtl.begin();
-  swCtl.enableRepeat(false);
+  swNav.begin();
+  swNav.enableRepeat(false);
 }
 
 MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
 {
   MD_Menu::userNavAction_t nav = MD_Menu::NAV_NULL;
 
-  if (swInc.read() == MD_KeySwitch::KS_PRESS) nav = MD_Menu::NAV_INC;
-  else if (swDec.read() == MD_KeySwitch::KS_PRESS) nav = MD_Menu::NAV_DEC;
-
-  switch (swCtl.read())
+  switch (swNav.read())
   {
-  case MD_KeySwitch::KS_PRESS: nav = MD_Menu::NAV_SEL; break;;
-  case MD_KeySwitch::KS_LONGPRESS: nav = MD_Menu::NAV_ESC; break;
+    case MD_UISwitch::KEY_PRESS:
+    {
+      switch (swNav.getKey())
+      {
+      case 0: nav = MD_Menu::NAV_INC; break;
+      case 1: nav = MD_Menu::NAV_DEC; break;
+      case 2: nav = MD_Menu::NAV_SEL; break;
+      }
+    }
+    break;
+
+    case MD_UISwitch::KEY_LONGPRESS:
+    {
+      if (swNav.getKey() == 2)
+        nav = MD_Menu::NAV_ESC;
+    }
+    break;
   }
 
   return(nav);
@@ -292,7 +302,7 @@ MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
 // numeric input only.
 
 #include <MD_REncoder.h>
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 
 extern MD_Menu M;
 
@@ -301,7 +311,7 @@ const uint8_t RE_B_PIN = 3;
 const uint8_t CTL_PIN = 4;
 
 MD_REncoder  RE(RE_A_PIN, RE_B_PIN);
-MD_KeySwitch swCtl(CTL_PIN);
+MD_UISwitch_Digital swCtl(CTL_PIN);
 
 void setupNav(void)
 {
@@ -322,8 +332,8 @@ MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
 
   switch (swCtl.read())
   {
-  case MD_KeySwitch::KS_PRESS:     return(MD_Menu::NAV_SEL);
-  case MD_KeySwitch::KS_LONGPRESS: return(MD_Menu::NAV_ESC);
+  case MD_UISwitch::KEY_PRESS:     return(MD_Menu::NAV_SEL);
+  case MD_UISwitch::KEY_LONGPRESS: return(MD_Menu::NAV_ESC);
   }
 
   return(MD_Menu::NAV_NULL);

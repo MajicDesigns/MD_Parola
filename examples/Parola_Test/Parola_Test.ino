@@ -8,7 +8,7 @@
 // Pause between animations, LED intensity, Display flip, and invert mode.
 // UI switches are normally HIGH.
 //
-// Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
+// UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
 // matrix type being used. Refer documentation included in the MD_MAX72xx
@@ -19,7 +19,7 @@
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
@@ -70,12 +70,12 @@ char	*pc[] =
 };
 #define	NEXT_STRING	((curString + 1) % ARRAY_SIZE(pc))
 
-MD_KeySwitch uiJustify(JUSTIFY_SET);
-MD_KeySwitch uiEffect(EFFECT_SET);
-MD_KeySwitch uiPause(PAUSE_SET);
-MD_KeySwitch uiIntensity(INTENSITY_SET);
-MD_KeySwitch uiInverse(INVERSE_SET);
-MD_KeySwitch uiFlip(FLIP_SET);
+MD_UISwitch_Digital uiJustify(JUSTIFY_SET);
+MD_UISwitch_Digital uiEffect(EFFECT_SET);
+MD_UISwitch_Digital uiPause(PAUSE_SET);
+MD_UISwitch_Digital uiIntensity(INTENSITY_SET);
+MD_UISwitch_Digital uiInverse(INVERSE_SET);
+MD_UISwitch_Digital uiFlip(FLIP_SET);
 
 void doUI(boolean bInitialise = false)
 {
@@ -93,7 +93,7 @@ void doUI(boolean bInitialise = false)
   }
 
   // now process the digital inputs
-  if (uiJustify.read() == MD_KeySwitch::KS_PRESS) // TEXT ALIGNMENT - nothing on initialise
+  if (uiJustify.read() == MD_UISwitch::KEY_PRESS) // TEXT ALIGNMENT - nothing on initialise
   {
     static uint8_t	curMode = 0;
     textPosition_t	align = P.getTextAlignment();
@@ -110,7 +110,7 @@ void doUI(boolean bInitialise = false)
     curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
   }
 
-  if ((uiEffect.read() == MD_KeySwitch::KS_PRESS) || bInitialise)  // EFFECT CHANGE
+  if ((uiEffect.read() == MD_UISwitch::KEY_PRESS) || bInitialise)  // EFFECT CHANGE
   {
     static uint8_t  curFX = 0;
 
@@ -164,7 +164,7 @@ void doUI(boolean bInitialise = false)
     curFX = (curFX + 1) % ARRAY_SIZE(effect);
   }
 
-  if ((uiPause.read() == MD_KeySwitch::KS_PRESS) || bInitialise) // PAUSE DELAY
+  if ((uiPause.read() == MD_UISwitch::KEY_PRESS) || bInitialise) // PAUSE DELAY
   {
     DEBUGS("\nChanging pause");
     if ((P.getPause() <= P.getSpeed()) || bInitialise)
@@ -173,7 +173,7 @@ void doUI(boolean bInitialise = false)
       P.setPause(0);
   }
 
-  if ((uiIntensity.read() == MD_KeySwitch::KS_PRESS) || bInitialise) // INTENSITY
+  if ((uiIntensity.read() == MD_UISwitch::KEY_PRESS) || bInitialise) // INTENSITY
   {
     static uint8_t	intensity = 7;
 
@@ -192,12 +192,12 @@ void doUI(boolean bInitialise = false)
     intensity = (intensity + 1) % (MAX_INTENSITY + 1);
   }
 
-  if (uiInverse.read() == MD_KeySwitch::KS_PRESS)  // INVERSE - do nothing on initialise
+  if (uiInverse.read() == MD_UISwitch::KEY_PRESS)  // INVERSE - do nothing on initialise
   {
     P.setInvert(!P.getInvert() || bInitialise);
   }
 
-  if (uiFlip.read() == MD_KeySwitch::KS_PRESS) // FLIP - do nothing when initialising
+  if (uiFlip.read() == MD_UISwitch::KEY_PRESS) // FLIP - do nothing when initialising
   {
     P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_LR), PA_FLIP_LR);
     P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_UD), PA_FLIP_UD);

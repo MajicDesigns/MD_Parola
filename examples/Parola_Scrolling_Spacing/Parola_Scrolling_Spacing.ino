@@ -10,7 +10,7 @@
 // Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
 //
-// Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
+// UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
 // matrix type being used. Refer documentation included in the MD_MAX72xx
@@ -21,7 +21,7 @@
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 
 // Turn on debug statements to the serial output
 #define  DEBUG  0
@@ -66,8 +66,8 @@ char curMessage[BUF_SIZE] = { "" };
 char newMessage[BUF_SIZE] = { "Hi! Enter new message?" };
 bool newMessageAvailable = true;
 
-MD_KeySwitch uiDirection(DIRECTION_SET);
-MD_KeySwitch uiInvert(INVERT_SET);
+MD_UISwitch_Digital uiDirection(DIRECTION_SET);
+MD_UISwitch_Digital uiInvert(INVERT_SET);
 
 void doUI(void)
 {
@@ -82,7 +82,7 @@ void doUI(void)
     }
   }
 
-  if (uiDirection.read() == MD_KeySwitch::KS_PRESS) // SCROLL DIRECTION
+  if (uiDirection.read() == MD_UISwitch::KEY_PRESS) // SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
     scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
@@ -90,7 +90,7 @@ void doUI(void)
     P.displayReset();
   }
 
-  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)  // INVERT MODE
+  if (uiInvert.read() == MD_UISwitch::KEY_PRESS)  // INVERT MODE
   {
     PRINTS("\nChanging invert mode");
     P.setInvert(!P.getInvert());

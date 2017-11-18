@@ -28,7 +28,7 @@ System Components
 
 Revision History
 ----------------
-xxx 2017 - version 2.6.5
+Nov 2017 - version 2.6.5
 - Fixed RANDOM effect locking issue
 - Added Parola_Bluetooth example
 - Added Double_Height_Russian example
@@ -37,6 +37,7 @@ xxx 2017 - version 2.6.5
 - Added SCAN_HORIZX/SCAN_VERTX text effects
 - Fixed bug with WIPE, SCAN and GROW when using 1 module only
 - Removed hard coded internal font buffer size
+- Changed examples - replaced MD_KeySwitch with new MD_UISwitch library
 
 Apr 2017 - version 2.6.4
 - Added Parola_UFT-8_Display example for double multi-byte character handling

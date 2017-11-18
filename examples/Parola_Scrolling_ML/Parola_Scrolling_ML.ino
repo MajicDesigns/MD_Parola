@@ -10,7 +10,7 @@
 // Scrolling direction is controlled by a switch on DIRECTION_SET digital in.
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
 //
-// Keyswitch library can be found at https://github.com/MajicDesigns/MD_KeySwitch
+// UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
 //
 // NOTE: MD_MAX72xx library must be installed and configured for the LED
 // matrix type being used. Refer documentation included in the MD_MAX72xx
@@ -23,14 +23,14 @@
 #include <SPI.h>
 
 // set to 1 if we are implementing the user interface pot, switch, etc
-#define USE_UI_CONTROL  0
+#define USE_UI_CONTROL  1
 
 #if USE_UI_CONTROL
-#include <MD_KeySwitch.h>
+#include <MD_UISwitch.h>
 #endif
 
 // Turn on debug statements to the serial output
-#define  DEBUG  1
+#define  DEBUG  0
 
 #if  DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
@@ -70,8 +70,8 @@ struct LineDefinition  Line[] =
 // Scrolling parameters
 #if USE_UI_CONTROL
 #define SPEED_IN      A5
-#define DIRECTION_SET 7 // change the effect
-#define INVERT_SET    6 // change the invert
+#define DIRECTION_SET 8 // change the effect
+#define INVERT_SET    9 // change the invert
 
 #endif // USE_UI_CONTROL
 
@@ -84,8 +84,8 @@ uint8_t putLine = 0;
 
 #if USE_UI_CONTROL
 
-MD_KeySwitch uiDirection(DIRECTION_SET);
-MD_KeySwitch uiInvert(INVERT_SET);
+MD_UISwitch_Digital uiDirection(DIRECTION_SET);
+MD_UISwitch_Digital uiInvert(INVERT_SET);
 
 void doUI(void)
 {
@@ -106,7 +106,7 @@ void doUI(void)
     }
   }
 
-  if (uiDirection.read() == MD_KeySwitch::KS_PRESS) // SCROLL DIRECTION
+  if (uiDirection.read() == MD_UISwitch::KEY_PRESS) // SCROLL DIRECTION
   {
     PRINTS("\nChanging scroll direction");
     scrollEffect = (scrollEffect == PA_SCROLL_LEFT ? PA_SCROLL_RIGHT : PA_SCROLL_LEFT);
@@ -117,7 +117,7 @@ void doUI(void)
     }
   }
 
-  if (uiInvert.read() == MD_KeySwitch::KS_PRESS)  // INVERT MODE
+  if (uiInvert.read() == MD_UISwitch::KEY_PRESS)  // INVERT MODE
   {
     PRINTS("\nChanging invert mode");
     for (uint8_t i=0; i<MAX_LINES; i++)
