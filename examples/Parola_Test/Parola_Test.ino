@@ -48,159 +48,147 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 #endif
 
 // User interface pin and switch definitions
-#define SPEED_IN  A5    // control the speed with an external pot
-#define PAUSE_SET 4     // toggle pause time
-#define FLIP_SET  5     // toggle flip status
-#define JUSTIFY_SET 6   // change the justification
-#define INTENSITY_SET 7 // change the intensity of the display
-#define EFFECT_SET  8   // change the effect
-#define INVERSE_SET 9   // set/reset the display to inverse
+const uint8_t SPEED_IN = A5;      // control the speed with an external pot
+const uint8_t PAUSE_SET = 4;      // toggle pause time
+const uint8_t FLIP_SET = 5;       // toggle flip status
+const uint8_t JUSTIFY_SET = 6;    // change the justification
+const uint8_t INTENSITY_SET = 7;  // change the intensity of the display
+const uint8_t EFFECT_SET = 8;     // change the effect
+const uint8_t INVERSE_SET = 9;    // set/reset the display to inverse
 
-#define PAUSE_TIME      1000  // in milliseconds
-#define SPEED_DEADBAND  5     // in analog units
+uint8_t uiPins[] = { PAUSE_SET, FLIP_SET, JUSTIFY_SET, INTENSITY_SET, EFFECT_SET, INVERSE_SET };
+
+const uint16_t PAUSE_TIME = 1000; // in milliseconds
+const uint8_t SPEED_DEADBAND = 5; // in analog units
 
 // Global variables
 uint8_t	curString = 0;
-char	*pc[] =
+const char *msg[] =
 {
   "Parola for",
   "Arduino",
   "LED Matrix",
   "Display"
 };
-#define	NEXT_STRING	((curString + 1) % ARRAY_SIZE(pc))
+#define NEXT_STRING ((curString + 1) % ARRAY_SIZE(msg))
 
-MD_UISwitch_Digital uiJustify(JUSTIFY_SET);
-MD_UISwitch_Digital uiEffect(EFFECT_SET);
-MD_UISwitch_Digital uiPause(PAUSE_SET);
-MD_UISwitch_Digital uiIntensity(INTENSITY_SET);
-MD_UISwitch_Digital uiInverse(INVERSE_SET);
-MD_UISwitch_Digital uiFlip(FLIP_SET);
+MD_UISwitch_Digital uiSwitches(uiPins, ARRAY_SIZE(uiPins));
 
-void doUI(boolean bInitialise = false)
+void doUI(void)
 {
-  // set the speed if it has changed
+  // set the speed if it has changed - Analog read
   {
     int16_t	speed = map(analogRead(SPEED_IN), 0, 1023, 0, 100);
 
     if ((speed >= ((int16_t)P.getSpeed() + SPEED_DEADBAND)) ||
-      (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)) ||
-      bInitialise)
+        (speed <= ((int16_t)P.getSpeed() - SPEED_DEADBAND)))
     {
       P.setSpeed(speed);
       DEBUG("\nChanged speed to ", P.getSpeed());
     }
   }
 
-  // now process the digital inputs
-  if (uiJustify.read() == MD_UISwitch::KEY_PRESS) // TEXT ALIGNMENT - nothing on initialise
+  // now process the switch digital inputs
+  if (uiSwitches.read() == MD_UISwitch::KEY_PRESS) // a switch was pressed!
   {
-    static uint8_t	curMode = 0;
-    textPosition_t	align = P.getTextAlignment();
-    textPosition_t	textAlign[] =
+    switch (uiSwitches.getKey())
     {
-      PA_LEFT,
-      PA_CENTER,
-      PA_RIGHT
-    };
+      case JUSTIFY_SET: // TEXT ALIGNMENT - nothing on initialise
+      {
+        static uint8_t	curMode = 1;
+        textPosition_t	align = P.getTextAlignment();
+        textPosition_t	textAlign[] =
+        {
+          PA_CENTER,
+          PA_LEFT,
+          PA_RIGHT
+        };
 
-    DEBUG("\nChanging alignment to ", curMode);
-    P.setTextAlignment(textAlign[curMode]);
-    P.displayReset();
-    curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
-  }
+        DEBUG("\nChanging alignment to ", curMode);
+        P.setTextAlignment(textAlign[curMode]);
+        P.displayReset();
+        curMode = (curMode + 1) % ARRAY_SIZE(textAlign);
+      }
+      break;
 
-  if ((uiEffect.read() == MD_UISwitch::KEY_PRESS) || bInitialise)  // EFFECT CHANGE
-  {
-    static uint8_t  curFX = 0;
+      case EFFECT_SET:  // EFFECT CHANGE
+      {
+        static uint8_t  curFX = 1;
 
-    textEffect_t effect[] =
-    {
-      PA_PRINT,
-      PA_SCROLL_UP,
-      PA_SCROLL_DOWN,
-      PA_SCROLL_LEFT,
-      PA_SCROLL_RIGHT,
+        textEffect_t effect[] =
+        {
+          PA_PRINT, PA_SCROLL_UP, PA_SCROLL_DOWN, PA_SCROLL_LEFT, PA_SCROLL_RIGHT,
 #if ENA_MISC
-      PA_SLICE,
-      PA_FADE,
-      PA_MESH,
-      PA_BLINDS,
-      PA_DISSOLVE,
-      PA_RANDOM,
+          PA_SLICE, PA_FADE, PA_MESH, PA_BLINDS, PA_DISSOLVE, PA_RANDOM,
 #endif
 #if ENA_WIPE
-      PA_WIPE,
-      PA_WIPE_CURSOR,
+          PA_WIPE, PA_WIPE_CURSOR,
 #endif
 #if ENA_OPNCLS
-      PA_OPENING,
-      PA_OPENING_CURSOR,
-      PA_CLOSING,
-      PA_CLOSING_CURSOR,
+          PA_OPENING, PA_OPENING_CURSOR, PA_CLOSING, PA_CLOSING_CURSOR,
 #endif
 #if ENA_SCR_DIA
-      PA_SCROLL_UP_LEFT,
-      PA_SCROLL_UP_RIGHT,
-      PA_SCROLL_DOWN_LEFT,
-      PA_SCROLL_DOWN_RIGHT,
+          PA_SCROLL_UP_LEFT, PA_SCROLL_UP_RIGHT, PA_SCROLL_DOWN_LEFT, PA_SCROLL_DOWN_RIGHT,
 #endif
 #if ENA_SCAN
-      PA_SCAN_HORIZ,
-      PA_SCAN_HORIZX,
-      PA_SCAN_VERT,
-      PA_SCAN_VERTX,
+          PA_SCAN_HORIZ, PA_SCAN_HORIZX, PA_SCAN_VERT, PA_SCAN_VERTX,
 #endif
 #if ENA_GROW
-      PA_GROW_UP,
-      PA_GROW_DOWN,
+          PA_GROW_UP, PA_GROW_DOWN,
 #endif
-    };
+        };
 
-    DEBUG("\nChanging effect to ", curFX);
-    P.setTextEffect(effect[curFX], effect[curFX]);
-    P.displayClear();
-    P.displayReset();
-    curFX = (curFX + 1) % ARRAY_SIZE(effect);
-  }
+        DEBUG("\nChanging effect to ", curFX);
+        P.setTextEffect(effect[curFX], effect[curFX]);
+        P.displayClear();
+        P.displayReset();
+        curFX = (curFX + 1) % ARRAY_SIZE(effect);
+      }
+      break;
 
-  if ((uiPause.read() == MD_UISwitch::KEY_PRESS) || bInitialise) // PAUSE DELAY
-  {
-    DEBUGS("\nChanging pause");
-    if ((P.getPause() <= P.getSpeed()) || bInitialise)
-      P.setPause(PAUSE_TIME);
-    else
-      P.setPause(0);
-  }
+      case PAUSE_SET: // PAUSE DELAY
+      {
+        DEBUGS("\nChanging pause");
+        if ((P.getPause() <= P.getSpeed()))
+          P.setPause(PAUSE_TIME);
+        else
+          P.setPause(0);
+      }
+      break;
 
-  if ((uiIntensity.read() == MD_UISwitch::KEY_PRESS) || bInitialise) // INTENSITY
-  {
-    static uint8_t	intensity = 7;
+      case INTENSITY_SET: // INTENSITY
+      {
+        static uint8_t	intensity = MAX_INTENSITY/2;
 
-    if (intensity == 0)
-    {
-      P.displayShutdown(true);
-      DEBUG("\nDisplay shutdown ", intensity);
+        if (intensity == 0)
+        {
+          P.displayShutdown(true);
+          DEBUG("\nDisplay shutdown ", intensity);
+        }
+        else
+        {
+          P.setIntensity(intensity);
+          P.displayShutdown(false);
+          DEBUG("\nChanged intensity to ", intensity);
+        }
+
+        intensity = (intensity + 1) % (MAX_INTENSITY + 1);
+      }
+      break;
+
+      case INVERSE_SET:  // INVERSE
+      {
+        P.setInvert(!P.getInvert());
+      }
+      break;
+
+      case FLIP_SET: // FLIP
+      {
+        P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_LR), PA_FLIP_LR);
+        P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_UD), PA_FLIP_UD);
+      }
+      break;
     }
-    else
-    {
-      P.setIntensity(intensity);
-      P.displayShutdown(false);
-      DEBUG("\nChanged intensity to ", intensity);
-    }
-
-    intensity = (intensity + 1) % (MAX_INTENSITY + 1);
-  }
-
-  if (uiInverse.read() == MD_UISwitch::KEY_PRESS)  // INVERSE - do nothing on initialise
-  {
-    P.setInvert(!P.getInvert() || bInitialise);
-  }
-
-  if (uiFlip.read() == MD_UISwitch::KEY_PRESS) // FLIP - do nothing when initialising
-  {
-    P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_LR), PA_FLIP_LR);
-    P.setZoneEffect(0, !P.getZoneEffect(0, PA_FLIP_UD), PA_FLIP_UD);
   }
 }
 
@@ -212,19 +200,12 @@ void setup(void)
 #endif
 
   // user interface switches
-  uiJustify.begin();
-  uiEffect.begin();
-  uiPause.begin();
-  uiIntensity.begin();
-  uiInverse.begin();
-  uiFlip.begin();
+  uiSwitches.begin();
 
   // Parola object
   P.begin();
-  P.displayText(pc[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
+  P.displayText(msg[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
   curString = NEXT_STRING;
-
-  doUI(true); // initialise stuff
 }
 
 void loop(void)
@@ -233,7 +214,7 @@ void loop(void)
 
   if (P.displayAnimate())
   {
-    P.setTextBuffer(pc[curString]);
+    P.setTextBuffer(msg[curString]);
     P.displayReset();
     curString = NEXT_STRING;
   }

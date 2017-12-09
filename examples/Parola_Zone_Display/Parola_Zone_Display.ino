@@ -93,8 +93,8 @@ textEffect_t  effect[] =
   PA_SCROLL_DOWN,
 };
 
-uint8_t inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
-uint8_t outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect)/3, 2*ARRAY_SIZE(effect)/3 };
+uint8_t inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };
+uint8_t outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };
 
 #if USE_UI_CONTROL
 void doUI(void)
@@ -124,7 +124,6 @@ void setup(void)
   pinMode(SPEED_IN, INPUT);
   doUI();
 #endif // USE_UI_CONTROL
-
   P.begin(MAX_ZONES);
   P.setInvert(false);
 

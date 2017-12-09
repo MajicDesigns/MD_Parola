@@ -36,10 +36,12 @@ var menudata={children:[
 {text:"e",url:"globals.html#index_e"},
 {text:"f",url:"globals.html#index_f"},
 {text:"l",url:"globals.html#index_l"},
+{text:"m",url:"globals.html#index_m"},
 {text:"p",url:"globals.html#index_p"},
 {text:"s",url:"globals.html#index_s"},
 {text:"t",url:"globals.html#index_t"},
 {text:"z",url:"globals.html#index_z"}]},
+{text:"Variables",url:"globals_vars.html"},
 {text:"Enumerations",url:"globals_enum.html"},
 {text:"Enumerator",url:"globals_eval.html",children:[
 {text:"p",url:"globals_eval.html#index_p"}]},

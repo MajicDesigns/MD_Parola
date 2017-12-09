@@ -54,7 +54,7 @@ void MD_PZone::effectClose(bool bLightBar, bool bIn)
       zoneClear();
       commonPrint();
       {
-        const uint16_t	halfWidth = (_limitLeft - _limitRight)/2;
+        const int16_t	halfWidth = (_limitLeft - _limitRight)/2;
 
         if (_nextPos > halfWidth)
         {
@@ -62,7 +62,7 @@ void MD_PZone::effectClose(bool bLightBar, bool bIn)
         }
         else
         {
-          for (uint16_t i = _limitRight + _nextPos + 1; i < _limitLeft - _nextPos; i++)
+          for (int16_t i = _limitRight + _nextPos + 1; i < _limitLeft - _nextPos; i++)
             _MX->setColumn(i, EMPTY_BAR);
 
           _nextPos++;

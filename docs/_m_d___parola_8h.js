@@ -9,6 +9,7 @@ var _m_d___parola_8h =
     [ "ENA_SCAN", "_m_d___parola_8h.html#a331cda3fcb98cd028c9324fb0900389f", null ],
     [ "ENA_SCR_DIA", "_m_d___parola_8h.html#a8524e42d3a55958631b48350a5285fb3", null ],
     [ "ENA_WIPE", "_m_d___parola_8h.html#a1d721485b7473612e95d43c282ffee13", null ],
+    [ "MAX_ZONES", "_m_d___parola_8h.html#a3c8ce1beff274980c5636aa8a3811cdc", null ],
     [ "textEffect_t", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82eda", [
       [ "PA_NO_EFFECT", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa65db4b21517eaca3a0011552dda00a86", null ],
       [ "PA_PRINT", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa5a65e70e91a3a123cc678178a780667d", null ],

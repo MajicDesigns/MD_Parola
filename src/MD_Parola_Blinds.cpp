@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements blinds effect
  */
 
-#define BLINDS_SIZE 4 ///< The width of the blinds in pixels
+const uint8_t BLINDS_SIZE = 4; ///< The width of the blinds in pixels
 
 void MD_PZone::effectBlinds(bool bIn)
 // Transfer between messages with blinds effects
@@ -45,7 +45,7 @@ void MD_PZone::effectBlinds(bool bIn)
     PRINT_STATE("IO BLIND");
 
     _nextPos++;
-    for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    for (int16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
     {
       if (i % BLINDS_SIZE < _nextPos)
         _MX->setColumn(i, LIGHT_BAR);
@@ -64,7 +64,7 @@ void MD_PZone::effectBlinds(bool bIn)
     if (bIn) commonPrint(); // only do this when putting the message up
 
     _nextPos--;
-    for (uint16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    for (int16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
     {
       if (i % BLINDS_SIZE < _nextPos)
         _MX->setColumn(i, LIGHT_BAR);

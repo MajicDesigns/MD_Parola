@@ -25,9 +25,18 @@ System Components
 -----------------
 - Hardware - documentation for supported hardware found in the [MD_MAX72xx library] (http://github.com/MajicDesigns/MD_MAX72XX) documentation.
 - \subpage pageSoftware
+- \subpage pageRevHistory
+- \subpage pageCopyright
 
+\page pageRevHistory Revision History
 Revision History
 ----------------
+Dec 2017 - version 2.6.6
+- Created MAX_ZONES constant to allow static zones array. Interim measure until resolution
+  of the errors (?) caused when dynamically allocating the _Z array.
+- Cleaned up most compiler warnings.
+- Reworked Parola_Test example 
+
 Nov 2017 - version 2.6.5
 - Fixed RANDOM effect locking issue
 - Added Parola_Bluetooth example
@@ -122,9 +131,10 @@ September 2013 - version 1.1
 June 2013 - version 1.0
 - New library
 
+\page pageCopyright Copyright
 Copyright
 ---------
-Copyright (C) 2013-2016 Marco Colli. All rights reserved.
+Copyright (C) 2013-2017 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -295,6 +305,7 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 
 // Miscellaneous defines
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
+#define MAX_ZONES 4     ///< Maximum number of zones allowed. Change to allow more or less zones but uses RAM even if not used.
 
 class MD_Parola;
 
@@ -441,7 +452,7 @@ public:
    *
    * \return No return value.
    */
-  inline void zoneClear(void) { _MX->clear(_zoneStart, _zoneEnd); if (_inverted) _MX->transform(_zoneStart, _zoneEnd, MD_MAX72XX::TINV); };
+  void zoneClear(void) { _MX->clear(_zoneStart, _zoneEnd); if (_inverted) _MX->transform(_zoneStart, _zoneEnd, MD_MAX72XX::TINV); };
 
   /**
    * Reset the current zone animation to restart.
@@ -460,7 +471,7 @@ public:
   * \param b	boolean value to shutdown (true) or resume (false).
   * \return No return value.
   */
-  inline void zoneShutdown(bool b) { _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::SHUTDOWN, b ? MD_MAX72XX::ON : MD_MAX72XX::OFF); };
+  void zoneShutdown(bool b) { _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::SHUTDOWN, b ? MD_MAX72XX::ON : MD_MAX72XX::OFF); };
 
   /**
    * Suspend or resume zone updates.
@@ -737,7 +748,7 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-  inline void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; _MX->setFont(_fontDef); allocateFontBuffer(); };
+  void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; _MX->setFont(_fontDef); allocateFontBuffer(); };
   /** @} */
 
 private:
@@ -913,10 +924,11 @@ public:
    *
    * Initialise the object data. This needs to be called during setup() to initialise new
    * data for the class that cannot be done during the object creation. This form of the
-   * method allows specifying the maximum number of zones. The limits for these need to be
-   * initialized separately using setZone().
+   * method allows specifying the number of zones used. The maximum number of zones is set 
+   * by the MAX_ZONES constant which can be chanhed to allow more or fewer zones. The module
+   * limits for the zones need to be initialized separately using setZone().
    *
-   * \param numZones	maximum number of zones [0..numZones]
+   * \param numZones	maximum number of zones [1..MAX_ZONES]
    */
   void begin(uint8_t numZones);
 
@@ -962,7 +974,7 @@ public:
    * \param z		specified zone
    * \return bool	true if the zone animation has completed, false otherwise.
    */
-  inline bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); };
+  bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); };
 
   /**
    * Clear the display.
@@ -971,7 +983,7 @@ public:
    *
    * \return No return value.
    */
-  inline void displayClear(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneClear(); };
+  void displayClear(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneClear(); };
 
   /**
    * Clear one zone in the display.
@@ -981,7 +993,7 @@ public:
    * \param z		specified zone
    * \return No return value.
    */
-  inline void displayClear(uint8_t z) { if (z < _numZones) _Z[z].zoneClear(); };
+  void displayClear(uint8_t z) { if (z < _numZones) _Z[z].zoneClear(); };
 
   /**
    * Reset the current animation to restart for all zones.
@@ -993,7 +1005,7 @@ public:
    *
    * \return No return value.
    */
-  inline void displayReset(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneReset(); };
+  void displayReset(void) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneReset(); };
 
   /**
    * Reset the current animation to restart for the specified zone.
@@ -1003,7 +1015,7 @@ public:
    * \param z	specified zone
    * \return No return value.
    */
-  inline void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); };
+  void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); };
 
    /**
    * Shutdown or restart display hardware.
@@ -1017,7 +1029,7 @@ public:
    * \param b	boolean value to shutdown (true) or resume (false).
    * \return No return value.
    */
-  inline void displayShutdown(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneShutdown(b); };
+  void displayShutdown(bool b) { for (uint8_t i=0; i<_numZones; i++) _Z[i].zoneShutdown(b); };
 
   /**
   * Suspend or resume display updates.
@@ -1030,7 +1042,7 @@ public:
   * \param b	boolean value to suspend (true) or resume (false).
   * \return No return value.
   */
-  inline void displaySuspend(bool b) { for (uint8_t i = 0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
+  void displaySuspend(bool b) { for (uint8_t i = 0; i<_numZones; i++) _Z[i].zoneSuspend(b); };
 
   /**
    * Define the module limits for a zone.
@@ -1221,7 +1233,7 @@ public:
    * \param ze  the required text alignment.
    * \return true if the value is set, false otherwise.
    */
-  inline boolean getZoneEffect(uint8_t z, zoneEffect_t ze) { if (z < _numZones) return(_Z[z].getZoneEffect(ze)); };
+  inline boolean getZoneEffect(uint8_t z, zoneEffect_t ze) { return (z < _numZones ? _Z[z].getZoneEffect(ze) : false); };
 
   /**
    * Set the inter-character spacing in columns for all zones.
@@ -1231,7 +1243,7 @@ public:
    * \param cs	space between characters in columns.
    * \return No return value.
    */
-  inline void setCharSpacing(uint8_t cs) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setCharSpacing(cs); };
+  void setCharSpacing(uint8_t cs) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setCharSpacing(cs); };
 
   /**
    * Set the inter-character spacing in columns for the specified zone.
@@ -1252,7 +1264,7 @@ public:
    * \param intensity	the intensity to set the display (0-15).
    * \return No return value.
    */
-  inline void setIntensity(uint8_t intensity) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setIntensity(intensity); };
+  void setIntensity(uint8_t intensity) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setIntensity(intensity); };
 
   /**
    * Set the display brightness for the specified zone.
@@ -1273,7 +1285,7 @@ public:
    * \param invert	true for inverted display, false for normal display
    * \return No return value.
    */
-  inline void setInvert(uint8_t invert) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setInvert(invert); };
+  void setInvert(uint8_t invert) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setInvert(invert); };
 
   /**
    * Invert the display in the specified zone.
@@ -1296,7 +1308,7 @@ public:
    * \param pause	the time, in milliseconds, between animations.
    * \return No return value.
    */
-  inline void setPause(uint16_t pause) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setPause(pause); };
+  void setPause(uint16_t pause) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setPause(pause); };
 
   /**
    * Set the pause between ENTER and EXIT animations for the specified zone.
@@ -1307,7 +1319,7 @@ public:
    * \param pause	the time, in milliseconds, between animations.
    * \return No return value.
    */
-  inline void setPause(uint8_t z, uint16_t pause) { if (z < _numZones) _Z[z].setPause(pause); };
+  void setPause(uint8_t z, uint16_t pause) { if (z < _numZones) _Z[z].setPause(pause); };
 
   /**
    * Set the horizontal scrolling distance between messages for all the zones.
@@ -1320,7 +1332,7 @@ public:
    * \param space	the spacing, in columns, between messages; zero for default behaviour..
    * \return No return value.
    */
-  inline void setScrollSpacing(uint16_t space) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setScrollSpacing(space); };
+  void setScrollSpacing(uint16_t space) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setScrollSpacing(space); };
 
   /**
    * Set the animation frame speed for all zones.
@@ -1331,7 +1343,7 @@ public:
    * \param speed	the time, in milliseconds, between animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speed) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setSpeed(speed); };
+  void setSpeed(uint16_t speed) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setSpeed(speed); };
 
   /**
    * Set the animation frame speed for the specified zone.
@@ -1352,7 +1364,7 @@ public:
    * \param ta	the required text alignment.
    * \return No return value.
    */
-  inline void setTextAlignment(textPosition_t ta) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setTextAlignment(ta); };
+  void setTextAlignment(textPosition_t ta) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setTextAlignment(ta); };
 
   /**
    * Set the text alignment for the specified zone.
@@ -1366,7 +1378,7 @@ public:
   inline void setTextAlignment(uint8_t z, textPosition_t ta) { if (z < _numZones) _Z[z].setTextAlignment(ta); };
 
   /**
-   * Set the pointer to the text buffer (single zone display).
+   * Set the pointer to the text buffer.
    *
    * Sets the text buffer to be a pointer to user data. The library does not allocate
    * any memory for the text message, rather it is the calling program that supplies
@@ -1381,7 +1393,7 @@ public:
    * \param pb	pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(char *pb) { _Z[0].setTextBuffer(pb); };
+  void setTextBuffer(char *pb) { /*for (uint8_t i = 0; i<_numZones; i++) */_Z[0].setTextBuffer(pb); };
 
   /**
    * Set the pointer to the text buffer for the specified zone.
@@ -1406,7 +1418,7 @@ public:
    * \param	effectOut	the exit effect, one of the textEffect_t enumerated values.
    * \return No return value.
    */
-  inline void setTextEffect(textEffect_t effectIn, textEffect_t effectOut) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setTextEffect(effectIn, effectOut); };
+  void setTextEffect(textEffect_t effectIn, textEffect_t effectOut) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setTextEffect(effectIn, effectOut); };
 
   /**
    * Set the entry and exit text effects for a specific zone.
@@ -1444,7 +1456,7 @@ public:
   *
   * \return No return value.
   */
-  inline void synchZoneStart(void) { for (uint8_t i = 1; i < _numZones; i++) _Z[i].setSynchTime(_Z[0].getSynchTime()); }
+  void synchZoneStart(void) { for (uint8_t i = 1; i < _numZones; i++) _Z[i].setSynchTime(_Z[0].getSynchTime()); }
 
 /** @} */
   //--------------------------------------------------------------
@@ -1481,7 +1493,7 @@ public:
    * \param data	pointer to the character data.
    * \return true of the character was inserted in the substitution list.
    */
-  bool addChar(uint8_t z, uint8_t code, uint8_t *data) { if (z < _numZones) return(_Z[z].addChar(code, data)); };
+  inline bool addChar(uint8_t z, uint8_t code, uint8_t *data) { return(z < _numZones ? _Z[z].addChar(code, data) : false); };
 
   /**
    * Delete a user defined character to the replacement list for all zones.
@@ -1502,7 +1514,7 @@ public:
    * \param code	ASCII code for the character data.
    * \return true of the character was found in the substitution list.
    */
-  bool delChar(uint8_t z, uint8_t code) { if (z < _numZones) return(_Z[z].delChar(code)); };
+  inline bool delChar(uint8_t z, uint8_t code) { return(z < _numZones ? _Z[z].delChar(code) : false); };
 
   /**
    * Set the display font for all zones.
@@ -1514,7 +1526,7 @@ public:
    * \param fontDef	Pointer to the font definition to be used.
    * \return No return value.
    */
-  inline void setFont(MD_MAX72XX::fontType_t *fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); };
+  void setFont(MD_MAX72XX::fontType_t *fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); };
 
   /**
    * Set the display font for a specific zone.
@@ -1584,7 +1596,7 @@ public:
   private:
   // The display hardware controlled by this library
   MD_MAX72XX  _D;         ///< Hardware library object
-  MD_PZone    *_Z;        ///< Array to be allocated during begin()
+  MD_PZone    _Z[MAX_ZONES];  ///< Fixed number of zones
   uint8_t     _numModules;///< Number of display modules [0..numModules-1]
   uint8_t     _numZones;  ///< Max number of zones in the display [0..numZones-1]
 };

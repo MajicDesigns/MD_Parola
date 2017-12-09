@@ -105,8 +105,6 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
   }
   else  // exiting
   {
-    bool b;
-
     switch(_fsmState)
     {
     case PAUSE:

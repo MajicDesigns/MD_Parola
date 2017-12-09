@@ -458,10 +458,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Initialize the object.</p>
-<p>Initialise the object data. This needs to be called during setup() to initialise new data for the class that cannot be done during the object creation. This form of the method allows specifying the maximum number of zones. The limits for these need to be initialized separately using <a class="el" href="class_m_d___parola.html#a218bd5860a6023b58e5d00de2b1d976a">setZone()</a>.</p>
+<p>Initialise the object data. This needs to be called during setup() to initialise new data for the class that cannot be done during the object creation. This form of the method allows specifying the number of zones used. The maximum number of zones is set by the MAX_ZONES constant which can be chanhed to allow more or fewer zones. The module limits for the zones need to be initialized separately using <a class="el" href="class_m_d___parola.html#a218bd5860a6023b58e5d00de2b1d976a">setZone()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">numZones</td><td>maximum number of zones [0..numZones] </td></tr>
+    <tr><td class="paramname">numZones</td><td>maximum number of zones [1..MAX_ZONES] </td></tr>
   </table>
   </dd>
 </dl>
@@ -1717,7 +1717,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set the pointer to the text buffer (single zone display).</p>
+<p>Set the pointer to the text buffer.</p>
 <p>Sets the text buffer to be a pointer to user data. The library does not allocate any memory for the text message, rather it is the calling program that supplies a pointer to a buffer. This reduces memory requirements and offers the flexibility to keep a single buffer or rotate buffers with different messages, all under calling program control, with no library limit to the size or numbers of buffers. The text placed in the buffer must be properly terminated by the NUL ('\0') character or processing will overrun the end of the message.</p>
 <p>This form of the method assumes one zone only.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2089,7 +2089,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Sat Nov 18 2017 15:00:32 for Parola for Arduino by
+    <li class="footer">Generated on Sat Dec 9 2017 14:35:16 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

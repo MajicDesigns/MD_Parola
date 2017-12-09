@@ -42,14 +42,20 @@ void MD_Parola::begin(uint8_t numZones)
 {
   _D.begin();
 
-  // Create the zone objects
+  // Check boundaries for the number of zones
+  if (numZones == 0) numZones = 1;
+  if (numZones > MAX_ZONES) numZones = MAX_ZONES;
   _numZones = numZones;
-  _Z = new MD_PZone[_numZones];
-  if (_numZones == 1)
-    setZone(0, 0, _numModules-1);
 
-  for (uint8_t i=0; i<_numZones; i++)
+  // Create the zone objects array
+  //_Z = new MD_PZone[_numZones];   // for dynamic array
+
+  for (uint8_t i = 0; i < _numZones; i++)
     _Z[i].begin(&_D);
+
+  // for one zone automatically make it all modules, user will override if not intended
+  if (_numZones == 1)
+    setZone(0, 0, _numModules - 1);
 
   // initialise zone-independent options
   setSpeed(10);
@@ -58,20 +64,18 @@ void MD_Parola::begin(uint8_t numZones)
   setScrollSpacing(0);
   setTextAlignment(PA_LEFT);
   setTextEffect(PA_PRINT, PA_NO_EFFECT);
-  setTextBuffer(NULL);
+  setTextBuffer(nullptr);
   setInvert(false);
-  displaySuspend(false);
-  setIntensity(MAX_INTENSITY / 2);
-  displayClear();
+  setIntensity(MAX_INTENSITY/2);
 
   // Now set the default viewing parameters for this library
-  _D.setFont(NULL);
+  _D.setFont(nullptr);
 }
 
 MD_Parola::~MD_Parola(void)
 {
-  // release the zone array
-  delete [] _Z;
+  // release the zone array (dynamically alocated)
+  //delete [] _Z;
 }
 
 bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)
@@ -103,7 +107,7 @@ bool MD_Parola::displayAnimate(void)
   // suspend the display while we animate a frame
   _D.update(MD_MAX72XX::OFF);
 
-  for (uint8_t i=0; i<_numZones; i++)
+  for (uint8_t i = 0; i < _numZones; i++)
     b |= _Z[i].zoneAnimate();
 
   // re-enable and update the display
@@ -125,7 +129,7 @@ size_t MD_Parola::write(const uint8_t *buffer, size_t size)
 {
   char *psz = (char *)malloc(sizeof(char) * (size + 1));
 
-  if (psz == NULL) return(0);
+  if (psz == nullptr) return(0);
 
   memcpy(psz, buffer, size);
   psz[size] = '\0';

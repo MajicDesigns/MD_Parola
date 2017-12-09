@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['wipe',['WIPE',['../_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaee1c4cb977a3d28e023bedcb21fe7f69',1,'MD_Parola.h']]],
-  ['wipe_5fcursor',['WIPE_CURSOR',['../_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaacf53a7705aa6f3e58d8fea7ded77780c',1,'MD_Parola.h']]]
+  ['_7emd_5fparola',['~MD_Parola',['../class_m_d___parola.html#ad65afea65fbbae8ff399d92072a3d1a5',1,'MD_Parola']]],
+  ['_7emd_5fpzone',['~MD_PZone',['../class_m_d___p_zone.html#a8c7aa5cc1b3b52bd7b1bca81d975f43c',1,'MD_PZone']]]
 ];
