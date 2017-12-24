@@ -31,6 +31,9 @@ System Components
 \page pageRevHistory Revision History
 Revision History
 ----------------
+xxx 2018 - version 2.6.7
+- Adjusted Scrolling_Menu example for changes to MD_Menu library.
+
 Dec 2017 - version 2.6.6
 - Created MAX_ZONES constant to allow static zones array. Interim measure until resolution
   of the errors (?) caused when dynamically allocating the _Z array.

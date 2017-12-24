@@ -29,14 +29,14 @@
 #include <MD_Menu.h>
 
 // set to 1 if depending on the menu control interface
-#define MENU_SWITCH   0
-#define MENU_RENCODER 1
+#define MENU_SWITCH   0   // tact switches
+#define MENU_RENCODER 1   // rotary encoder
 
 const uint16_t MENU_TIMEOUT = 5000;  // in milliseconds
 const uint16_t EEPROM_ADDRESS = 0;   // config data address
 
 // Turn on debug statements to the serial output
-#define DEBUG 0
+#define DEBUG 1
 
 #if DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
@@ -83,7 +83,7 @@ bool newMessageAvailable = true;
 // Function prototypes for Navigation/Display
 bool display(MD_Menu::userDisplayAction_t, char*);
 MD_Menu::userNavAction_t navigation(uint16_t &incDelta);
-void *mnuValueRqst(MD_Menu::mnuId_t id, uint8_t idx, bool bGet);
+void *mnuValueRqst(MD_Menu::mnuId_t id, bool bGet);
 
 // Menu definition
 const PROGMEM MD_Menu::mnuHeader_t mnuHdr[] =
@@ -107,12 +107,12 @@ const PROGMEM char listScroll[] = "L|R";
 
 const PROGMEM MD_Menu::mnuInput_t mnuInp[] =
 {
-  { 10, "Spd",  MD_Menu::INP_INT8,  mnuValueRqst, 3, 0, 255, 10, nullptr },
-  { 11, "Pse",  MD_Menu::INP_INT16, mnuValueRqst, 4, 0, 2000, 10, nullptr },
-  { 12, "Scrl", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0, 0, listScroll },
-  { 13, "Algn", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0, 0, listAlign },
-  { 14, "Bri",  MD_Menu::INP_INT8,  mnuValueRqst, 2, 0, 15, 10, nullptr },
-  { 15, "Inv",  MD_Menu::INP_BOOL,  mnuValueRqst, 1, 0, 0, 0, nullptr },
+  { 10, "Spd",  MD_Menu::INP_INT8,  mnuValueRqst, 3, 0, 0,  255, 0, 10, nullptr },
+  { 11, "Pse",  MD_Menu::INP_INT16, mnuValueRqst, 4, 0, 0, 2000, 0, 10, nullptr },
+  { 12, "Scrl", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0,    0, 0,  0, listScroll },
+  { 13, "Algn", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0,    0, 0,  0, listAlign },
+  { 14, "Bri",  MD_Menu::INP_INT8,  mnuValueRqst, 2, 0, 0,   15, 0, 10, nullptr },
+  { 15, "Inv",  MD_Menu::INP_BOOL,  mnuValueRqst, 1, 0, 0,    0, 0,  0, nullptr },
 };
 
 // Menu global object
@@ -122,9 +122,17 @@ MD_Menu M(navigation, display,// user navigation and display
   mnuInp, ARRAY_SIZE(mnuInp));// menu input data
 
 // Configuration Load/Save to/from EEPROM
+void paramSave(void)
+{
+  PRINTS("\nSaving Parameters");
+  EEPROM.put(EEPROM_ADDRESS, Config);
+}
+
 void paramLoad(void)
 {
   uint8_t sig[2] = { 0xa5, 0x5a };
+
+  PRINTS("\nLoading Parameters");
 
   EEPROM.get(EEPROM_ADDRESS, Config);
 
@@ -140,42 +148,49 @@ void paramLoad(void)
     Config.align = PA_LEFT;
     Config.pause = 2000;
     Config.invert = false;
+
+    paramSave();
   }
 }
 
-void paramSave(void)
-{
-  EEPROM.put(EEPROM_ADDRESS, Config);
-}
-
 // Menu system callback functions
-void *mnuValueRqst(MD_Menu::mnuId_t id, uint8_t idx, bool bGet)
+void *mnuValueRqst(MD_Menu::mnuId_t id, bool bGet)
 // Value request callback for variables
 {
-  static uint8_t listValue;
+  static MD_Menu::value_t v;
 
   switch (id)
   {
   case 10:  // Speed
-    if (bGet) return((void *)&Config.speed);
-    else P.setSpeed(Config.speed);
+    if (bGet)
+      v.value = Config.speed;
+    else
+    {
+      Config.speed = v.value;
+      P.setSpeed(Config.speed);
+      PRINT("\nSet speed: ", Config.speed);
+    }
     break;
 
   case 11:  // Pause
-    if (bGet) return((void *)&Config.pause);
-    else P.setPause(Config.pause);
+    if (bGet)
+      v.value = Config.pause;
+    else
+    {
+      Config.pause = v.value;
+      P.setPause(Config.pause);
+      PRINT("\nSet pause: ", Config.pause);
+    }
     break;
 
   case 12:  // Scroll
     if (bGet)
-    {
-      listValue = (Config.effect == PA_SCROLL_LEFT ? 0 : 1);
-      return((void *)&listValue);
-    }
+      v.value = (Config.effect == PA_SCROLL_LEFT ? 0 : 1);
     else
     {
-      Config.effect = (listValue == 0 ? PA_SCROLL_LEFT : PA_SCROLL_RIGHT);
+      Config.effect = (v.value == 0 ? PA_SCROLL_LEFT : PA_SCROLL_RIGHT);
       P.setTextEffect(Config.effect, Config.effect);
+      PRINT("\nSet scroll effect: ", Config.effect);
     }
     break;
 
@@ -184,37 +199,52 @@ void *mnuValueRqst(MD_Menu::mnuId_t id, uint8_t idx, bool bGet)
     {
       switch (Config.align)
       {
-      case PA_LEFT: listValue = 0; break;
-      case PA_CENTER: listValue = 1; break;
-      case PA_RIGHT: listValue = 2; break;
+      case PA_LEFT:   v.value = 0; break;
+      case PA_CENTER: v.value = 1; break;
+      case PA_RIGHT:  v.value = 2; break;
       }
-      return((void *)&listValue);
     }
     else
     {
-      switch (listValue)
+      switch (v.value)
       {
-      case 0: Config.align = PA_LEFT;  break;
+      case 0: Config.align = PA_LEFT;   break;
       case 1: Config.align = PA_CENTER; break;
-      case 2: Config.align = PA_RIGHT; break;
+      case 2: Config.align = PA_RIGHT;  break;
       }
       P.setTextAlignment(Config.align);
+      PRINT("\nSet align: ", Config.align);
     }
     break;
 
   case 14: // Bright
-    if (bGet) return((void *)&Config.bright);
-    else P.setIntensity(Config.bright);
+    if (bGet)
+      v.value = Config.bright;
+    else
+    {
+      Config.bright = v.value;
+      P.setIntensity(Config.bright);
+      PRINT("\nSet intensity: ", Config.bright);
+    }
     break;
 
   case 15: // Invert
-    if (bGet) return((void *)&Config.invert);
-    else P.setInvert(Config.invert);
+    if (bGet)
+      v.value = Config.invert;
+    else
+    {
+      Config.invert = v.value;
+      P.setInvert(Config.invert);
+      PRINT("\nSet invert: ", Config.invert);
+    }
     break;
   }
 
-  // if things were set, save the parameters
-  if (!bGet) paramSave();
+  // if things were requested, return the buffer
+  if (bGet)
+    return(&v);
+  else  // save the parameters
+    paramSave();
 
   return(nullptr);
 }
@@ -272,9 +302,9 @@ MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
     {
       switch (swNav.getKey())
       {
-      case 0: nav = MD_Menu::NAV_INC; break;
-      case 1: nav = MD_Menu::NAV_DEC; break;
-      case 2: nav = MD_Menu::NAV_SEL; break;
+      case INC_PIN: nav = MD_Menu::NAV_INC; break;
+      case DEC_PIN: nav = MD_Menu::NAV_DEC; break;
+      case ESC_PIN: nav = MD_Menu::NAV_SEL; break;
       }
     }
     break;
@@ -326,7 +356,7 @@ MD_Menu::userNavAction_t navigation(uint16_t &incDelta)
 
   if (re != DIR_NONE)
   {
-    if (M.isInEdit()) incDelta = 1 << abs(RE.speed() / 10);
+    if (M.isInEdit()) incDelta = 1 << abs(RE.speed() >> 3);
     return(re == DIR_CCW ? MD_Menu::NAV_DEC : MD_Menu::NAV_INC);
   }
 
