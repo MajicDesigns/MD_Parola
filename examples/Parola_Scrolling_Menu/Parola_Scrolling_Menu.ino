@@ -107,12 +107,12 @@ const PROGMEM char listScroll[] = "L|R";
 
 const PROGMEM MD_Menu::mnuInput_t mnuInp[] =
 {
-  { 10, "Spd",  MD_Menu::INP_INT8,  mnuValueRqst, 3, 0, 0,  255, 0, 10, nullptr },
-  { 11, "Pse",  MD_Menu::INP_INT16, mnuValueRqst, 4, 0, 0, 2000, 0, 10, nullptr },
-  { 12, "Scrl", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0,    0, 0,  0, listScroll },
-  { 13, "Algn", MD_Menu::INP_LIST,  mnuValueRqst, 1, 0, 0,    0, 0,  0, listAlign },
-  { 14, "Bri",  MD_Menu::INP_INT8,  mnuValueRqst, 2, 0, 0,   15, 0, 10, nullptr },
-  { 15, "Inv",  MD_Menu::INP_BOOL,  mnuValueRqst, 1, 0, 0,    0, 0,  0, nullptr },
+  { 10, "Spd",  MD_Menu::INP_INT,  mnuValueRqst, 3, 0, 0,  255, 0, 10, nullptr },
+  { 11, "Pse",  MD_Menu::INP_INT,  mnuValueRqst, 4, 0, 0, 2000, 0, 10, nullptr },
+  { 12, "Scrl", MD_Menu::INP_LIST, mnuValueRqst, 1, 0, 0,    0, 0,  0, listScroll },
+  { 13, "Algn", MD_Menu::INP_LIST, mnuValueRqst, 1, 0, 0,    0, 0,  0, listAlign },
+  { 14, "Bri",  MD_Menu::INP_INT,  mnuValueRqst, 2, 0, 0,   15, 0, 10, nullptr },
+  { 15, "Inv",  MD_Menu::INP_BOOL, mnuValueRqst, 1, 0, 0,    0, 0,  0, nullptr },
 };
 
 // Menu global object
