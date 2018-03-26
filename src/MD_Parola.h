@@ -32,10 +32,10 @@ System Components
 \page pageRevHistory Revision History
 Revision History
 ----------------
-Mar 2018 - version 2.7.0
+Mar 2018 - version 2.7.1
 - Adjusted Scrolling_Menu example for changes to MD_Menu library.
 - Added graphics methods to support text + graphics displays
-- Added text & graphics example Test_T+G
+- Added text & graphics example Test_TG
 
 Dec 2017 - version 2.6.6
 - Created MAX_ZONES constant to allow static zones array. Interim measure until resolution
