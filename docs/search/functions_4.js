@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['md_5fparola',['MD_Parola',['../class_m_d___parola.html#a0526bfc333412a638c3f4d10a110bc5e',1,'MD_Parola::MD_Parola(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)'],['../class_m_d___parola.html#a44e6232c8b2f568538e8fc0102804885',1,'MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices=1)']]],
-  ['md_5fpzone',['MD_PZone',['../class_m_d___p_zone.html#aeb91378b5a7f1f902e12fc1f43a1be2b',1,'MD_PZone']]]
+  ['isanimationadvanced',['isAnimationAdvanced',['../class_m_d___p_zone.html#a5cb15091c385c91e07a91cdcdc7c05f8',1,'MD_PZone::isAnimationAdvanced()'],['../class_m_d___parola.html#ae94526b7b2fa5a40086dde50097e04d7',1,'MD_Parola::isAnimationAdvanced()']]]
 ];
