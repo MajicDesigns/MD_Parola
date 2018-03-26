@@ -14,6 +14,7 @@ Parola is a modular scrolling text display using MAX7219 or MAX7221 LED matrix d
 * Multiple virtual displays (zones) in each string of LED modules
 * User defined fonts and/or individual characters substitutions
 * Support for double height displays
+* Support for mixing text and graphics on the same display
 
 The aim was to create a 'lego-like' LED matrix display, using standard 8x8 LED matrices. The software supports this flexibility through a scalable approach that only requires the definition of the number of modules to adapt existing software to a new configuration.
 

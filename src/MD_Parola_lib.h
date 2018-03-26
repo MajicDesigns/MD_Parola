@@ -37,10 +37,6 @@
 #define EMPTY_BAR (_inverted ? 0xFF : 0)  ///< Turn display column to all LEDs off
 #define DATA_BAR(d) (_inverted ? ~d : d)  ///< Turn display column to specified data
 
-// Zone column calculations
-#define ZONE_START_COL(m) (m*COL_SIZE)    ///< The first column of the first zone module
-#define ZONE_END_COL(m)   (((m+1)*COL_SIZE)-1)///< The last column of the last zone module
-
 // Zone effects masks
 #define ZE_SET(b, mask)   ((b & ~mask) | mask)  ///< clear the bit then put it back in
 #define ZE_RESET(b, mask) (b & ~mask)           ///< clear the bit

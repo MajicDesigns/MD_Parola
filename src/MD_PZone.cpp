@@ -465,6 +465,8 @@ bool MD_PZone::zoneAnimate(void)
   static uint32_t  cycleStartTime;
 #endif
 
+  _animationAdvanced = false;   // assume this will not happen this time around
+
   if (_fsmState == END)
 	  return(true);
 
@@ -477,6 +479,7 @@ bool MD_PZone::zoneAnimate(void)
   // save the time now, before we run the animation, so that the animation is part of the
   // delay between animations giving more accurate frame timing.
   _lastRunTime = millis();
+  _animationAdvanced = true;    // we now know it will happen!
 
   // any text to display?
   if (_pText != nullptr)

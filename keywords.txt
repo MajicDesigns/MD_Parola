@@ -24,6 +24,8 @@ displayText	KEYWORD2
 displaySuspend	KEYWORD2
 displayShutdown	KEYWORD2
 getCharSpacing	KEYWORD2
+getDisplayExtent	KEYWORD2
+getGraphicObject	KEYWORD2
 getIntensity	KEYWORD2
 getInvert	KEYWORD2
 getPause	KEYWORD2
@@ -31,7 +33,10 @@ getScrollSpacing	KEYWORD2
 getSpeed	KEYWORD2
 getStatus	KEYWORD2
 getTextAlignment	KEYWORD2
+getTextExtent	KEYWORD2
 getZoneEffect	KEYWORD2
+getZoneExtent	KEYWORD2
+isAnimationAdvanced	KEYWORD2
 setCharSpacing	KEYWORD2
 setFont	KEYWORD2
 setIntensity	KEYWORD2

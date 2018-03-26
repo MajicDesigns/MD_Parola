@@ -3,6 +3,7 @@ var _m_d___parola_8h =
     [ "MD_PZone", "class_m_d___p_zone.html", "class_m_d___p_zone" ],
     [ "MD_Parola", "class_m_d___parola.html", "class_m_d___parola" ],
     [ "ARRAY_SIZE", "_m_d___parola_8h.html#a6242a25f9d996f0cc4f4cdb911218b75", null ],
+    [ "ENA_GRAPHICS", "_m_d___parola_8h.html#a30c6640ce269fb349beac0df6b428f37", null ],
     [ "ENA_GROW", "_m_d___parola_8h.html#a1fa46a28ec391f265379a65154570e2e", null ],
     [ "ENA_MISC", "_m_d___parola_8h.html#a64d0ca22d6919196de0c6f60a1fb3365", null ],
     [ "ENA_OPNCLS", "_m_d___parola_8h.html#a08ff33871af40a26c1a131f532b2f8c2", null ],
@@ -10,6 +11,8 @@ var _m_d___parola_8h =
     [ "ENA_SCR_DIA", "_m_d___parola_8h.html#a8524e42d3a55958631b48350a5285fb3", null ],
     [ "ENA_WIPE", "_m_d___parola_8h.html#a1d721485b7473612e95d43c282ffee13", null ],
     [ "MAX_ZONES", "_m_d___parola_8h.html#a3c8ce1beff274980c5636aa8a3811cdc", null ],
+    [ "ZONE_END_COL", "_m_d___parola_8h.html#a1470b74a1b8edbbe0427304c909eb116", null ],
+    [ "ZONE_START_COL", "_m_d___parola_8h.html#a96eea7631a186d5b36365c90ed697d16", null ],
     [ "textEffect_t", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82eda", [
       [ "PA_NO_EFFECT", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa65db4b21517eaca3a0011552dda00a86", null ],
       [ "PA_PRINT", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa5a65e70e91a3a123cc678178a780667d", null ],
