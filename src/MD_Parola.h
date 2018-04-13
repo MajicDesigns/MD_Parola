@@ -14,13 +14,13 @@ of text special effects on the Parola display.
 - Control display parameters and animation speed.
 - Multiple virtual displays (zones) in each string of LED modules.
 - User defined fonts and/or individual characters substitutions.
-- Double height displays.
+- Double height and vertical displays.
 - Support for mixing text and graphics on the same display.
 
 The latest copy of the Parola Software and hardware files can be found
-at the [Parola website] (http://github.com/MajicDesigns/Parola).
+at the [Parola distribution site] (http://github.com/MajicDesigns/Parola).
 
-![The final product with 8 modules connected together] (Working_Display.jpg "Working System")
+![Parola Display with 8 modules connected] (Working_Display.jpg "Working System")
 
 System Components
 -----------------
@@ -29,9 +29,24 @@ System Components
 - \subpage pageRevHistory
 - \subpage pageCopyright
 
+Parola A-to-Z Blog Articles
+---------------------------
+- [RAM Requirements] (https://arduinoplusplus.wordpress.com/2017/08/27/parola-a-to-z-ram-requirements/)
+- [Adapting for Different Hardware] (https://arduinoplusplus.wordpress.com/2017/04/14/parola-a-to-z-adapting-for-different-hardware/)
+- [Defining Fonts] (https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/)
+- [Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+- [Text Animation] (https://arduinoplusplus.wordpress.com/2017/02/10/parola-a-to-z-text-animation/)
+- [Managing Animation] (https://arduinoplusplus.wordpress.com/2017/03/02/parola-a-to-z-managing-animation/)
+- [Multi Zone Displays] (https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/)
+- [Vertical Displays] (https://arduinoplusplus.wordpress.com/2017/07/22/parola-a-to-z-vertical-displays/)
+- [Mixing Text and Graphics] (https://arduinoplusplus.wordpress.com/2018/03/29/parola-a-to-z-mixing-text-and-graphics/)
+
 \page pageRevHistory Revision History
 Revision History
 ----------------
+xxx 2018 - version 2.7.2
+- Fixed bug with last text column persisting for SCAN_HORIZ and SCAN_HORIZX effect.
+
 Mar 2018 - version 2.7.1
 - Adjusted Scrolling_Menu example for changes to MD_Menu library.
 - Added graphics methods to support text + graphics displays
@@ -77,7 +92,7 @@ Jan 2017 - version 2.6.1
 
 Dec 2016 - version 2.6
 - Prefaced all Parola enumerated types with PA_ as some clash with othe libraries
-- Edited main library core rouines to allow scrolling in double height mode
+- Edited main library core routines to allow scrolling in double height mode
 - Eliminated trailing char separator from displayed string
 - Adjusted some animations to allow for changes to core utility functions
 - Changed Double_Height_v2 example to allow for Generic and Parola modules
@@ -192,6 +207,10 @@ is compiled with older user source code, the library defaults to using a single 
 for the whole display. Zone-aware functions have an added parameter to specify the zone
 to which the method invocation applies. Methods invoked without specifying a zone (such
 as set*()) usually have their effect applied to all zones.
+
+### More Information
+- [Parola A to Z - Multi Zone Displays] (https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/)
+
 ___
 
 Fonts
@@ -202,6 +221,11 @@ the MD_MAX72xx font builder.
 
 Each zone can have its own substituted font. The default font can be reselected for the zone by
 specifying a nullptr font table pointer.
+
+### More Information
+- [Parola A to Z - Defining Fonts] (https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/)
+- [Parola A to Z - Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+
 ___
 
 User Characters
@@ -220,6 +244,10 @@ for C++ and cannot be used in an actual string.
 The library only retains a pointer to the user data definition, so the data must remain in scope.
 Also, any changes to the data storage in the calling program will be reflected by the library the
 next time the character is used.
+
+### More Information
+- [Parola A to Z - Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+
 ___
 
 Conditional Compilation Switches
@@ -231,6 +259,7 @@ related to the main header file MD_Parola.h.
 _NOTE_: Compile switches must be edited in the library header file. Arduino header file
 'mashing' during compilation makes the setting of these switches from user code
 completely unreliable.
+
 ___
 
 Implementing New Text Effects
@@ -270,6 +299,11 @@ within the effect method. The second phase starts with a PAUSE state and ends wh
 set to END by the method.  Aside from the INITIALISE state (set by the displayReset() method),
 all other state changes are under the control of the effect functions. Delays between frames and
 the pause between IN and OUT are handled outside of the effect method.
+
+### More Information
+- [Parola A to Z - Text Animation] (https://arduinoplusplus.wordpress.com/2017/02/10/parola-a-to-z-text-animation/)
+- [Parola A to Z - Managing Animation] (https://arduinoplusplus.wordpress.com/2017/03/02/parola-a-to-z-managing-animation/)
+
 ___
 
 Coding Tips
@@ -305,7 +339,7 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #define ENA_MISC    1   ///< Enable miscellaneous animations
 #define ENA_WIPE    1   ///< Enable wipe type animations
 #define ENA_SCAN    1   ///< Enable scanning animations
-#define ENA_SCR_DIA 1   ///< Enable disgonal scrolling animation
+#define ENA_SCR_DIA 1   ///< Enable diagonal scrolling animation
 #define ENA_OPNCLS  1   ///< Enable open and close scan effects
 #define ENA_GROW    1   ///< Enable grow effects
 // If function is not used at all , then some memory savings can be made

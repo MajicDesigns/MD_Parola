@@ -94,9 +94,9 @@ void doUI(void)
     {
       case JUSTIFY_SET: // TEXT ALIGNMENT - nothing on initialise
       {
-        static uint8_t	curMode = 1;
-        textPosition_t	align = P.getTextAlignment();
-        textPosition_t	textAlign[] =
+        static uint8_t  curMode = 1;
+        textPosition_t  align = P.getTextAlignment();
+        textPosition_t  textAlign[] =
         {
           PA_CENTER,
           PA_LEFT,
@@ -157,7 +157,7 @@ void doUI(void)
 
       case INTENSITY_SET: // INTENSITY
       {
-        static uint8_t	intensity = MAX_INTENSITY/2;
+        static uint8_t  intensity = MAX_INTENSITY/2;
 
         if (intensity == 0)
         {

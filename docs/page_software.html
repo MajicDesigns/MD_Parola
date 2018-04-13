@@ -109,18 +109,35 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 <h2>Display Zones </h2>
 <p>A matrix display can be treated as a single contiguous set of modules or it can be split into multiple 'virtual' displays (zones). Prior to version 2.0 of the library, each display was effectively a single zone.</p>
 <p>A zone is a contiguous subset of one or more display modules (LED matrices) that has all the attributes of a display - animation, speed, font, spacing, etc. This allows complex displays to be created. For example, one part can show relatively static text while a different one has animation and movement.</p>
-<p>For backward compatibility, all the methods from version 1 remain. If the new library is compiled with older user source code, the library defaults to using a single zone for the whole display. Zone-aware functions have an added parameter to specify the zone to which the method invocation applies. Methods invoked without specifying a zone (such as set*()) usually have their effect applied to all zones. </p><hr/>
+<p>For backward compatibility, all the methods from version 1 remain. If the new library is compiled with older user source code, the library defaults to using a single zone for the whole display. Zone-aware functions have an added parameter to specify the zone to which the method invocation applies. Methods invoked without specifying a zone (such as set*()) usually have their effect applied to all zones.</p>
+<h3>More Information</h3>
+<ul>
+<li><a href="https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/">Parola A to Z - Multi Zone Displays</a></li>
+</ul>
+<hr/>
 <h2>Fonts </h2>
 <p>The standard MD_MAX72xx library font can be substituted with a user font definition conforming to the font encoding rules in the MD_MAX72XX documentation. New fonts can be designed with the the MD_MAX72xx font builder.</p>
-<p>Each zone can have its own substituted font. The default font can be reselected for the zone by specifying a nullptr font table pointer. </p><hr/>
+<p>Each zone can have its own substituted font. The default font can be reselected for the zone by specifying a nullptr font table pointer.</p>
+<h3>More Information</h3>
+<ul>
+<li><a href="https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/">Parola A to Z - Defining Fonts</a></li>
+<li><a href="https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/">Parola A to Z - Managing Fonts</a></li>
+</ul>
+<hr/>
 <h2>User Characters </h2>
 <p>Individual characters can be substituted for user character definitions. These can be added and deleted to individual zones as required.</p>
 <p>The character data is the same format as a single character from the font definition file, and is held in a local lookup table that is parsed before loading the defined font character. If a character is specified with a code the same as an existing character, the existing data will be substituted for the new data.</p>
 <p>ASCII 0 character ('\0') cannot be substituted as this denotes the end of string character for C++ and cannot be used in an actual string.</p>
-<p>The library only retains a pointer to the user data definition, so the data must remain in scope. Also, any changes to the data storage in the calling program will be reflected by the library the next time the character is used. </p><hr/>
+<p>The library only retains a pointer to the user data definition, so the data must remain in scope. Also, any changes to the data storage in the calling program will be reflected by the library the next time the character is used.</p>
+<h3>More Information</h3>
+<ul>
+<li><a href="https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/">Parola A to Z - Managing Fonts</a></li>
+</ul>
+<hr/>
 <h2>Conditional Compilation Switches </h2>
 <p>The library allows the run time code to be tailored through the use of compilation switches. The compile options start with ENA_ and are documented in the section related to the main header file <a class="el" href="_m_d___parola_8h.html" title="Main header file for the MD_Parola library. ">MD_Parola.h</a>.</p>
-<p><em>NOTE</em>: Compile switches must be edited in the library header file. Arduino header file 'mashing' during compilation makes the setting of these switches from user code completely unreliable. </p><hr/>
+<p><em>NOTE</em>: Compile switches must be edited in the library header file. Arduino header file 'mashing' during compilation makes the setting of these switches from user code completely unreliable.</p>
+<hr/>
 <h2>Implementing New Text Effects </h2>
 <p>Each of the selected text effects is implemented as a function. This makes it easy to add new effects:</p><ul>
 <li>Choose a name for the effect and add it to the textEffect_t enumerated type.</li>
@@ -136,7 +153,13 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 </ul>
 <p>Which algorithm is used depends on the type animation and what is convenient for the coder. Examples of both are found in the supplied library text effects.</p>
 <p>Each effect method is implemented in 2 parts. One part implements the text move IN to the display (method parameter bIn is true) and the other when the text is moving OUT of the display (bIn false). Because the IN and OUT effects can be different for a display cycle, the method must not assume that the first part was ever called. The first phase should always end with the text in its display position (depending on the alignment specified) and the second phase should assume the text is in that position when called. Text position parameters are held in the class variables _limitLeft and _limitRight found in the library header file.</p>
-<p>The first phase starts with _fsmState set to INITIALISE and ends when the state is set to PAUSE within the effect method. The second phase starts with a PAUSE state and ends when the state is set to END by the method. Aside from the INITIALISE state (set by the displayReset() method), all other state changes are under the control of the effect functions. Delays between frames and the pause between IN and OUT are handled outside of the effect method. </p><hr/>
+<p>The first phase starts with _fsmState set to INITIALISE and ends when the state is set to PAUSE within the effect method. The second phase starts with a PAUSE state and ends when the state is set to END by the method. Aside from the INITIALISE state (set by the displayReset() method), all other state changes are under the control of the effect functions. Delays between frames and the pause between IN and OUT are handled outside of the effect method.</p>
+<h3>More Information</h3>
+<ul>
+<li><a href="https://arduinoplusplus.wordpress.com/2017/02/10/parola-a-to-z-text-animation/">Parola A to Z - Text Animation</a></li>
+<li><a href="https://arduinoplusplus.wordpress.com/2017/03/02/parola-a-to-z-managing-animation/">Parola A to Z - Managing Animation</a></li>
+</ul>
+<hr/>
 <h2>Coding Tips </h2>
 <ul>
 <li>The MD_MAX72XX library sets the origin for the LED matrix at the top right of the display. This makes the leftmost text column a higher column number that the far right column. Sometimes this is not intuitive when coding and is worth remembering. Rows are numbered from top to bottom, 0-7.</li>
@@ -149,7 +172,7 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Main Page</a></li>
-    <li class="footer">Generated on Tue Mar 27 2018 07:01:02 for Parola for Arduino by
+    <li class="footer">Generated on Thu Mar 29 2018 10:16:11 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

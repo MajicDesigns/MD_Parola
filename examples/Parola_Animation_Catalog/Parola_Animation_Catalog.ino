@@ -13,7 +13,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define MAX_DEVICES 4
+#define MAX_DEVICES 11
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -68,7 +68,6 @@ sCatalog  catalog[] =
 void setup(void)
 {
   P.begin();
-  P.setInvert(false);
 
   for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
   {
@@ -79,25 +78,32 @@ void setup(void)
 
 void loop(void)
 {
-  for (uint8_t j=0; j<3; j++)
+  static textPosition_t just = PA_LEFT;
+  static uint8_t i = 0;
+  static uint8_t j = 0;
+
+  if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
-    textPosition_t  just;
-
-    switch (j)
+    // rotate the justification if needed
+    if (i == ARRAY_SIZE(catalog))
     {
-    case 0: just = PA_LEFT;    break;
-    case 1: just = PA_CENTER;  break;
-    case 2: just = PA_RIGHT;   break;
+      j++;
+      if (j == 3) j = 0;
+
+      switch (j)
+      {
+      case 0: just = PA_LEFT;    break;
+      case 1: just = PA_CENTER;  break;
+      case 2: just = PA_RIGHT;   break;
+      }
+
+      i = 0;  // reset loop index
     }
 
-    for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
-    {
-      P.displayText(catalog[i].psz, just, catalog[i].speed, catalog[i].pause, catalog[i].effect, catalog[i].effect);
+    // set up new animation
+    P.displayText(catalog[i].psz, just, catalog[i].speed, catalog[i].pause, catalog[i].effect, catalog[i].effect);
 
-      while (!P.displayAnimate())
-        ; // animates and returns true when an animation is completed
-
-      delay(catalog[i].pause);
-    }
+    delay(catalog[i].pause);  // wait a while to show the text ...
+    i++;                      // ... then set up for next text effect
   }
 }

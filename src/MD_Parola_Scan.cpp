@@ -99,7 +99,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
       }
 
       // check if we have finished
-      if (_nextPos == _endPos) _fsmState = END;
+      if (_nextPos < _endPos) _fsmState = END;
 
       _nextPos += _posOffset;	// for the next time around
       break;
