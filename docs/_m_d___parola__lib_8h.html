@@ -116,9 +116,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" id="node25" href="_m_d___parola___random_8cpp.html" title="Implements random effect. " alt="" coords="2142,80,2329,107"/>
 <area shape="rect" id="node27" href="_m_d___parola___scan_8cpp.html" title="Implements scan effect. " alt="" coords="2355,80,2525,107"/>
 <area shape="rect" id="node29" href="_m_d___parola___slice_8cpp.html" title="Implements slice effect. " alt="" coords="2550,80,2719,107"/>
-<area shape="rect" id="node31" href="_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect. " alt="" coords="2743,80,2925,107"/>
-<area shape="rect" id="node33" href="_m_d___parola___wipe_8cpp.html" title="Implements wipe effect. " alt="" coords="2951,80,3121,107"/>
-<area shape="rect" id="node35" href="_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods. " alt="" coords="3145,80,3279,107"/>
+<area shape="rect" id="node31" href="_m_d___parola___sprite_8cpp.html" title="Implements various sprite effects. " alt="" coords="2743,80,2917,107"/>
+<area shape="rect" id="node33" href="_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect. " alt="" coords="2942,80,3124,107"/>
+<area shape="rect" id="node35" href="_m_d___parola___wipe_8cpp.html" title="Implements wipe effect. " alt="" coords="3149,80,3320,107"/>
+<area shape="rect" id="node37" href="_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods. " alt="" coords="3344,80,3477,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -176,6 +177,18 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola__lib_8h.html#ac74527a8ede30c7ae02f32b7a6ef5e4d">DATA_BAR</a>(d)&#160;&#160;&#160;(_inverted ? ~d : d)</td></tr>
 <tr class="memdesc:ac74527a8ede30c7ae02f32b7a6ef5e4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn display column to specified data. <br /></td></tr>
 <tr class="separator:ac74527a8ede30c7ae02f32b7a6ef5e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7382838d1a104330271f29c82d4ffb44"><td class="memItemLeft" align="right" valign="top"><a id="a7382838d1a104330271f29c82d4ffb44"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola__lib_8h.html#a7382838d1a104330271f29c82d4ffb44">SPR_PACMAN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a7382838d1a104330271f29c82d4ffb44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal sprite identifier for Pacman effect. <br /></td></tr>
+<tr class="separator:a7382838d1a104330271f29c82d4ffb44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e05fe50961d051bfb8bb7fb904de88c"><td class="memItemLeft" align="right" valign="top"><a id="a4e05fe50961d051bfb8bb7fb904de88c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola__lib_8h.html#a4e05fe50961d051bfb8bb7fb904de88c">SPR_PACMAN_GHOST</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a4e05fe50961d051bfb8bb7fb904de88c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal sprite identifier for Pacman + Ghost effect. <br /></td></tr>
+<tr class="separator:a4e05fe50961d051bfb8bb7fb904de88c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb1bd83efa2d274648e6019dcbd34f1a"><td class="memItemLeft" align="right" valign="top"><a id="acb1bd83efa2d274648e6019dcbd34f1a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola__lib_8h.html#acb1bd83efa2d274648e6019dcbd34f1a">SPR_ROCKET</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:acb1bd83efa2d274648e6019dcbd34f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal sprite identifier for rocket effect. <br /></td></tr>
+<tr class="separator:acb1bd83efa2d274648e6019dcbd34f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f93fc96c3a1d0111bbb8d10c826f2b4"><td class="memItemLeft" align="right" valign="top"><a id="a3f93fc96c3a1d0111bbb8d10c826f2b4"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola__lib_8h.html#a3f93fc96c3a1d0111bbb8d10c826f2b4">ZE_SET</a>(b,  mask)&#160;&#160;&#160;((b &amp; ~mask) | mask)</td></tr>
 <tr class="memdesc:a3f93fc96c3a1d0111bbb8d10c826f2b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">clear the bit then put it back in <br /></td></tr>
@@ -209,7 +222,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_m_d___parola__lib_8h.html">MD_Parola_lib.h</a></li>
-    <li class="footer">Generated on Thu Mar 29 2018 10:16:11 for Parola for Arduino by
+    <li class="footer">Generated on Fri Apr 13 2018 17:00:26 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

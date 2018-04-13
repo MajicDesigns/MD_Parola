@@ -516,6 +516,11 @@ bool MD_PZone::zoneAnimate(void)
         case PA_DISSOLVE: effectDissolve(_moveIn);  break;
         case PA_RANDOM:   effectRandom(_moveIn);    break;
 #endif // ENA_MISC
+#if ENA_SPRITE
+        case PA_PACMAN1:  effectSprite(_moveIn, SPR_PACMAN); break;
+        case PA_PACMAN2:  effectSprite(_moveIn, SPR_PACMAN_GHOST); break;
+        case PA_ROCKET:   effectSprite(_moveIn, SPR_ROCKET); break;
+#endif // ENA_SPRITE
 #if ENA_WIPE
         case PA_WIPE:         effectWipe(false, _moveIn); break;
         case PA_WIPE_CURSOR:  effectWipe(true, _moveIn);  break;

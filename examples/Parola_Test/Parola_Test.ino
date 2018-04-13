@@ -24,7 +24,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -119,7 +119,10 @@ void doUI(void)
         {
           PA_PRINT, PA_SCROLL_UP, PA_SCROLL_DOWN, PA_SCROLL_LEFT, PA_SCROLL_RIGHT,
 #if ENA_MISC
-          PA_SLICE, PA_FADE, PA_MESH, PA_BLINDS, PA_DISSOLVE, PA_RANDOM,
+          PA_SLICE, PA_FADE, PA_MESH, PA_BLINDS, PA_DISSOLVE, PA_RANDOM, 
+#endif
+#if ENA_SPRITE
+          PA_PACMAN1, PA_PACMAN2, PA_ROCKET,
 #endif
 #if ENA_WIPE
           PA_WIPE, PA_WIPE_CURSOR,

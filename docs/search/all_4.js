@@ -7,5 +7,6 @@ var searchData=
   ['ena_5fopncls',['ENA_OPNCLS',['../_m_d___parola_8h.html#a08ff33871af40a26c1a131f532b2f8c2',1,'MD_Parola.h']]],
   ['ena_5fscan',['ENA_SCAN',['../_m_d___parola_8h.html#a331cda3fcb98cd028c9324fb0900389f',1,'MD_Parola.h']]],
   ['ena_5fscr_5fdia',['ENA_SCR_DIA',['../_m_d___parola_8h.html#a8524e42d3a55958631b48350a5285fb3',1,'MD_Parola.h']]],
+  ['ena_5fsprite',['ENA_SPRITE',['../_m_d___parola_8h.html#ae702d25425ab4c647a93b0f8df8aaab1',1,'MD_Parola.h']]],
   ['ena_5fwipe',['ENA_WIPE',['../_m_d___parola_8h.html#a1d721485b7473612e95d43c282ffee13',1,'MD_Parola.h']]]
 ];

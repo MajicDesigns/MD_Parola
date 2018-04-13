@@ -125,9 +125,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" id="node25" href="_m_d___parola___random_8cpp.html" title="Implements random effect. " alt="" coords="2142,80,2329,107"/>
 <area shape="rect" id="node27" href="_m_d___parola___scan_8cpp.html" title="Implements scan effect. " alt="" coords="2355,80,2525,107"/>
 <area shape="rect" id="node29" href="_m_d___parola___slice_8cpp.html" title="Implements slice effect. " alt="" coords="2550,80,2719,107"/>
-<area shape="rect" id="node31" href="_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect. " alt="" coords="2743,80,2925,107"/>
-<area shape="rect" id="node33" href="_m_d___parola___wipe_8cpp.html" title="Implements wipe effect. " alt="" coords="2951,80,3121,107"/>
-<area shape="rect" id="node35" href="_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods. " alt="" coords="3145,80,3279,107"/>
+<area shape="rect" id="node31" href="_m_d___parola___sprite_8cpp.html" title="Implements various sprite effects. " alt="" coords="2743,80,2917,107"/>
+<area shape="rect" id="node33" href="_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect. " alt="" coords="2942,80,3124,107"/>
+<area shape="rect" id="node35" href="_m_d___parola___wipe_8cpp.html" title="Implements wipe effect. " alt="" coords="3149,80,3320,107"/>
+<area shape="rect" id="node37" href="_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods. " alt="" coords="3344,80,3477,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -164,6 +165,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola_8h.html#a1fa46a28ec391f265379a65154570e2e">ENA_GROW</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:a1fa46a28ec391f265379a65154570e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable grow effects. <br /></td></tr>
 <tr class="separator:a1fa46a28ec391f265379a65154570e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae702d25425ab4c647a93b0f8df8aaab1"><td class="memItemLeft" align="right" valign="top"><a id="ae702d25425ab4c647a93b0f8df8aaab1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola_8h.html#ae702d25425ab4c647a93b0f8df8aaab1">ENA_SPRITE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ae702d25425ab4c647a93b0f8df8aaab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable sprite effects. <br /></td></tr>
+<tr class="separator:ae702d25425ab4c647a93b0f8df8aaab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30c6640ce269fb349beac0df6b428f37"><td class="memItemLeft" align="right" valign="top"><a id="a30c6640ce269fb349beac0df6b428f37"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_m_d___parola_8h.html#a30c6640ce269fb349beac0df6b428f37">ENA_GRAPHICS</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:a30c6640ce269fb349beac0df6b428f37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable graphics functionality. <br /></td></tr>
@@ -200,31 +205,35 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa80ce296b12960be2f9a0cffb51ef0d7c">PA_SCROLL_LEFT</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaca390db312bfa67fbd90bb65428a6c78">PA_SCROLL_RIGHT</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaabdc72d9ecd26682a3af008b081e03911">PA_PACMAN1</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa3b3cd4b88b9d32764e99ab890132f964">PA_PACMAN2</a>, 
+<br />
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaabcbead159eee4cff9e2113e51fefb999">PA_ROCKET</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa08e32ea749f514046ba58f8da3cdfd72">PA_SLICE</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa709894e18b54d3465d3136f73a708b0d">PA_MESH</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae5e485df24f7a4e3120aa2876806d958">PA_FADE</a>, 
 <br />
-&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae5e485df24f7a4e3120aa2876806d958">PA_FADE</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa2da3a4230287c733a19102a73341e94f">PA_DISSOLVE</a>, 
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa2da3a4230287c733a19102a73341e94f">PA_DISSOLVE</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaab81ef7a0c3fe92b98386bd2decda8534">PA_BLINDS</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa98aec2f1905ed10ec1f3751cb7101dca">PA_RANDOM</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae7744273c94ba436a27b4359e2e6089e">PA_WIPE</a>, 
 <br />
-&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae7744273c94ba436a27b4359e2e6089e">PA_WIPE</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa0fd7f078a92b7c8ba1932d9d4ad2544d">PA_WIPE_CURSOR</a>, 
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa0fd7f078a92b7c8ba1932d9d4ad2544d">PA_WIPE_CURSOR</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaadf43a4fcab04c2a431e8bab32846604e">PA_SCAN_HORIZ</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaabd9180021766e98a2ad60cc300966dae">PA_SCAN_HORIZX</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaf6713d23a47d9f32cd66f66fe83d8a83">PA_SCAN_VERT</a>, 
 <br />
-&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaf6713d23a47d9f32cd66f66fe83d8a83">PA_SCAN_VERT</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaab3547aef11cf5b5fec653b193c4fcfd">PA_SCAN_VERTX</a>, 
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaab3547aef11cf5b5fec653b193c4fcfd">PA_SCAN_VERTX</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa3bba17d858630b5dbd1d3842096d0c92">PA_OPENING</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa781b03148fc439ca816cb0bf4e47ef45">PA_OPENING_CURSOR</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaa310b2fc9164c2c2afc461f9725d168a">PA_CLOSING</a>, 
 <br />
-&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaa310b2fc9164c2c2afc461f9725d168a">PA_CLOSING</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae286d4dae4a95ce030296f6444accf7c">PA_CLOSING_CURSOR</a>, 
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaae286d4dae4a95ce030296f6444accf7c">PA_CLOSING_CURSOR</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa612412629877864ba4842755d73f53f3">PA_SCROLL_UP_LEFT</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaea3a88a7345feeec48a2318e51dfd789">PA_SCROLL_UP_RIGHT</a>, 
+<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa458ea3e72f6db4ecfdff8a31716751fe">PA_SCROLL_DOWN_LEFT</a>, 
 <br />
-&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa458ea3e72f6db4ecfdff8a31716751fe">PA_SCROLL_DOWN_LEFT</a>, 
-<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa9d4b6eaa770ca96372b299acf8a203ab">PA_SCROLL_DOWN_RIGHT</a>, 
+&#160;&#160;<a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa9d4b6eaa770ca96372b299acf8a203ab">PA_SCROLL_DOWN_RIGHT</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa86a5ff70349dd4ffcbc074fdad35305f">PA_GROW_UP</a>, 
 <a class="el" href="_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaac36e08217d8be0c00e050aa308ef9ae7">PA_GROW_DOWN</a>
 <br />
@@ -263,6 +272,12 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa80ce296b12960be2f9a0cffb51ef0d7c"></a>PA_SCROLL_LEFT&#160;</td><td class="fielddoc"><p>Text scrolls right to left on the display. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaaca390db312bfa67fbd90bb65428a6c78"></a>PA_SCROLL_RIGHT&#160;</td><td class="fielddoc"><p>Text scrolls left to right on the display. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaabdc72d9ecd26682a3af008b081e03911"></a>PA_PACMAN1&#160;</td><td class="fielddoc"><p>Text enters and exits through pacman sprite. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa3b3cd4b88b9d32764e99ab890132f964"></a>PA_PACMAN2&#160;</td><td class="fielddoc"><p>Text enters and exits through pacman and ghost sprite. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaabcbead159eee4cff9e2113e51fefb999"></a>PA_ROCKET&#160;</td><td class="fielddoc"><p>Text enters and exits through rocket sprite. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="acf3b849a996dbbe48ca173d2b0b82edaa08e32ea749f514046ba58f8da3cdfd72"></a>PA_SLICE&#160;</td><td class="fielddoc"><p>Text enters and exits a slice (column) at a time from the right. </p>
 </td></tr>
@@ -365,7 +380,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_m_d___parola_8h.html">MD_Parola.h</a></li>
-    <li class="footer">Generated on Thu Mar 29 2018 10:16:11 for Parola for Arduino by
+    <li class="footer">Generated on Fri Apr 13 2018 17:00:25 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

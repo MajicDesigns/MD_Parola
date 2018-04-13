@@ -13,7 +13,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define MAX_DEVICES 11
+#define MAX_DEVICES 4
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -37,6 +37,9 @@ typedef struct
 sCatalog  catalog[] =
 {
   { PA_PRINT, "PRINT", 1, 1 },
+  { PA_PACMAN1,"PMAN1", 5, 1 },
+  { PA_PACMAN2,"PMAN2", 5, 1 },
+  { PA_ROCKET,"ROKET", 5, 1 },
   { PA_SLICE, "SLICE", 1, 1 },
   { PA_MESH, "MESH", 20, 1 },
   { PA_FADE, "FADE", 20, 1 },

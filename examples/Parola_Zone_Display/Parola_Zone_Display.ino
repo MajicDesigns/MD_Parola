@@ -69,6 +69,7 @@ textEffect_t  effect[] =
   PA_SCAN_HORIZ,
   PA_SCROLL_LEFT,
   PA_WIPE,
+  PA_ROCKET,
   PA_SCAN_VERTX,
   PA_SCROLL_UP_LEFT,
   PA_SCROLL_UP,
@@ -79,6 +80,7 @@ textEffect_t  effect[] =
   PA_BLINDS,
   PA_CLOSING,
   PA_GROW_DOWN,
+  PA_PACMAN2,
   PA_SCAN_VERT,
   PA_SCROLL_DOWN_LEFT,
   PA_WIPE_CURSOR,
@@ -91,6 +93,7 @@ textEffect_t  effect[] =
   PA_SCROLL_RIGHT,
   PA_SLICE,
   PA_SCROLL_DOWN,
+  PA_PACMAN1,
 };
 
 uint8_t inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };

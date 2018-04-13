@@ -44,8 +44,9 @@ Parola A-to-Z Blog Articles
 \page pageRevHistory Revision History
 Revision History
 ----------------
-xxx 2018 - version 2.7.2
-- Fixed bug with last text column persisting for SCAN_HORIZ and SCAN_HORIZX effect.
+Apr 2018 - version 2.7.2
+- Fixed bug with last text column persisting for PA_SCAN_HORIZ and PA_SCAN_HORIZX effect.
+- Added sprite based text effects
 
 Mar 2018 - version 2.7.1
 - Adjusted Scrolling_Menu example for changes to MD_Menu library.
@@ -114,7 +115,7 @@ Jan 2016 - version 2.4
 - Added HelloWorld example - simplest working code
 - Added FADE animation
 - Adjusted documentation structure
-- Added #defines ENA_* for granular selection of animations (memory saving)
+- Added preprocessor defines ENA_* for granular selection of animations (memory saving)
 
 Aug 2015 - version 2.3
 - Added set/getScrollSpacing() methods and associated Scrolling_Spacing example
@@ -342,7 +343,9 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #define ENA_SCR_DIA 1   ///< Enable diagonal scrolling animation
 #define ENA_OPNCLS  1   ///< Enable open and close scan effects
 #define ENA_GROW    1   ///< Enable grow effects
-// If function is not used at all , then some memory savings can be made
+#define ENA_SPRITE  1   ///< Enable sprite effects
+
+// If function is not used at all, then some memory savings can be made
 // by excluding associated code.
 #define ENA_GRAPHICS  1 ///< Enable graphics functionality
 
@@ -383,6 +386,11 @@ enum textEffect_t
   PA_SCROLL_DOWN, ///< Text scrolls down through the display
   PA_SCROLL_LEFT, ///< Text scrolls right to left on the display
   PA_SCROLL_RIGHT,///< Text scrolls left to right on the display
+#if ENA_SPRITE
+  PA_PACMAN1,     ///< Text enters and exits through pacman sprite
+  PA_PACMAN2,     ///< Text enters and exits through pacman and ghost sprite
+  PA_ROCKET,      ///< Text enters and exits through rocket sprite
+#endif
 #if ENA_MISC
   PA_SLICE,       ///< Text enters and exits a slice (column) at a time from the right
   PA_MESH,        ///< Text enters and exits in columns moving in alternate direction (U/D)
@@ -927,6 +935,9 @@ private:
   void      reverseBuf(uint8_t *p, uint8_t size); // reverse the elements of the buffer
   void      invertBuf(uint8_t *p, uint8_t size);  // invert the elements of the buffer
 
+  /// Sprite management
+  uint8_t *setupSprite(uint8_t id, uint8_t &dataWidth, uint8_t &numFrames);
+
   // Debugging aid
   char *state2string(fsmState_t s);
 
@@ -940,6 +951,8 @@ private:
   void  effectBlinds(bool bIn);
   void  effectDissolve(bool bIn);
   void  effectRandom(bool bIn);
+//#if ENA_SPRITE
+  void  effectSprite(bool bIn, uint8_t id);
 //#endif // ENA_MISC
 //#if ENA_WIPE
   void  effectWipe(bool bLightBar, bool bIn);
@@ -1561,6 +1574,7 @@ public:
   * to the set-up time. If several zones need to be animated
   * in synchronised fashion (eg, they are visually stacked vertically),
   * this method will ensure that all the zones start at the same instant.
+  * The method should be invoked before the call to displayAnimate().
   *
   * \return No return value.
   */
