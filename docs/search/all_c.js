@@ -7,6 +7,7 @@ var searchData=
   ['setpause',['setPause',['../class_m_d___p_zone.html#a7a6a0730c1a8c461c91781df1db4f177',1,'MD_PZone::setPause()'],['../class_m_d___parola.html#a535d4ba642406b02c26b6218e020c313',1,'MD_Parola::setPause(uint16_t pause)'],['../class_m_d___parola.html#a91a25b1e37741b75af08b90070682ee5',1,'MD_Parola::setPause(uint8_t z, uint16_t pause)']]],
   ['setscrollspacing',['setScrollSpacing',['../class_m_d___p_zone.html#a9e4cd73f358da88e9a6f1417039a7ac1',1,'MD_PZone::setScrollSpacing()'],['../class_m_d___parola.html#a9da2ed061c82a2278e19a72cd415f915',1,'MD_Parola::setScrollSpacing()']]],
   ['setspeed',['setSpeed',['../class_m_d___p_zone.html#a92197f2df4e6eaa892fcc2554e15d085',1,'MD_PZone::setSpeed()'],['../class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126',1,'MD_Parola::setSpeed(uint16_t speed)'],['../class_m_d___parola.html#aa92a0538ff725b970949231342ec6910',1,'MD_Parola::setSpeed(uint8_t z, uint16_t speed)']]],
+  ['setspritedata',['setSpriteData',['../class_m_d___p_zone.html#a64ba6c70922a8e17f5ba5788a61c6700',1,'MD_PZone::setSpriteData()'],['../class_m_d___parola.html#a7407455c739aa60760b83d4f82142489',1,'MD_Parola::setSpriteData(uint8_t z, uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t *outData, uint8_t outWidth, uint8_t outFrames)'],['../class_m_d___parola.html#a5a6fb6a69caf96bc9cc242082533e3ab',1,'MD_Parola::setSpriteData(uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t *outData, uint8_t outWidth, uint8_t outFrames)']]],
   ['setsynchtime',['setSynchTime',['../class_m_d___p_zone.html#afa0dcc32728e60ec42514f3c365a8490',1,'MD_PZone']]],
   ['settextalignment',['setTextAlignment',['../class_m_d___p_zone.html#ac48591627c0b75af049cfdfdb1122c69',1,'MD_PZone::setTextAlignment()'],['../class_m_d___parola.html#a6eb132905e5df99067e9716fd922d9ed',1,'MD_Parola::setTextAlignment(textPosition_t ta)'],['../class_m_d___parola.html#a712ba7658c982c67e4a23ca0c4ef3ea8',1,'MD_Parola::setTextAlignment(uint8_t z, textPosition_t ta)']]],
   ['settextbuffer',['setTextBuffer',['../class_m_d___p_zone.html#ae9540ced8596d82983bfcf6c65696110',1,'MD_PZone::setTextBuffer()'],['../class_m_d___parola.html#a1b54fb1c05c976007031433439324739',1,'MD_Parola::setTextBuffer(char *pb)'],['../class_m_d___parola.html#ac13c9daea7b0f2ee1a837a4d23f7a776',1,'MD_Parola::setTextBuffer(uint8_t z, char *pb)']]],
@@ -15,9 +16,6 @@ var searchData=
   ['setzoneeffect',['setZoneEffect',['../class_m_d___p_zone.html#a640b04efaa2d96a529ed41bf0d8f2aa5',1,'MD_PZone::setZoneEffect()'],['../class_m_d___parola.html#aa978891dd1382e933cb40c61c78c5956',1,'MD_Parola::setZoneEffect()']]],
   ['setzonefont',['setZoneFont',['../class_m_d___p_zone.html#a05718245a06f05c150d6d23d96bfbb7a',1,'MD_PZone']]],
   ['sfx',['SFX',['../_m_d___parola__lib_8h.html#ad54e2a00e5f8efd51a0acb7f1d239dd7',1,'MD_Parola_lib.h']]],
-  ['spr_5fpacman',['SPR_PACMAN',['../_m_d___parola__lib_8h.html#a7382838d1a104330271f29c82d4ffb44',1,'MD_Parola_lib.h']]],
-  ['spr_5fpacman_5fghost',['SPR_PACMAN_GHOST',['../_m_d___parola__lib_8h.html#a4e05fe50961d051bfb8bb7fb904de88c',1,'MD_Parola_lib.h']]],
-  ['spr_5frocket',['SPR_ROCKET',['../_m_d___parola__lib_8h.html#acb1bd83efa2d274648e6019dcbd34f1a',1,'MD_Parola_lib.h']]],
   ['start_5fposition',['START_POSITION',['../_m_d___parola___h_scroll_8cpp.html#a3a8e077835d0dfe86f6c1197738357c9',1,'MD_Parola_HScroll.cpp']]],
   ['synchzonestart',['synchZoneStart',['../class_m_d___parola.html#ab3f9f4f3174555085d75faf987a3d398',1,'MD_Parola']]]
 ];

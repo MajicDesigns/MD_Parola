@@ -29,6 +29,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 MD_PZone::MD_PZone(void) : _fsmState(END), _scrollDistance(0), _zoneEffect(0), _charSpacing(1),
 _fontDef(nullptr), _userChars(nullptr), _cBufSize(0), _cBuf(nullptr)
+#if ENA_SPRITE
+, _spriteInData(nullptr), _spriteOutData(nullptr)
+#endif
 {
 };
 
@@ -88,6 +91,18 @@ boolean MD_PZone::getZoneEffect(zoneEffect_t ze)
 
   return(false);
 }
+
+#if ENA_SPRITE
+void MD_PZone::setSpriteData(uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t* outData, uint8_t outWidth, uint8_t outFrames)
+{
+  _spriteInData = inData;
+  _spriteInWidth = inWidth;
+  _spriteInFrames = inFrames;
+  _spriteOutData = outData;
+  _spriteOutWidth = outWidth;
+  _spriteOutFrames = outFrames;
+}
+#endif
 
 void MD_PZone::setInitialConditions(void)
 // set the global variables initial conditions for all display effects
@@ -517,9 +532,10 @@ bool MD_PZone::zoneAnimate(void)
         case PA_RANDOM:   effectRandom(_moveIn);    break;
 #endif // ENA_MISC
 #if ENA_SPRITE
-        case PA_PACMAN1:  effectSprite(_moveIn, SPR_PACMAN); break;
-        case PA_PACMAN2:  effectSprite(_moveIn, SPR_PACMAN_GHOST); break;
-        case PA_ROCKET:   effectSprite(_moveIn, SPR_ROCKET); break;
+        case PA_ROCKET:
+        case PA_FIREBALL:
+        case PA_SPRITE:
+          effectSprite(_moveIn, _moveIn ? _effectIn : _effectOut);  break;
 #endif // ENA_SPRITE
 #if ENA_WIPE
         case PA_WIPE:         effectWipe(false, _moveIn); break;

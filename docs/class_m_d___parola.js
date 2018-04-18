@@ -51,6 +51,8 @@ var class_m_d___parola =
     [ "setScrollSpacing", "class_m_d___parola.html#a9da2ed061c82a2278e19a72cd415f915", null ],
     [ "setSpeed", "class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126", null ],
     [ "setSpeed", "class_m_d___parola.html#aa92a0538ff725b970949231342ec6910", null ],
+    [ "setSpriteData", "class_m_d___parola.html#a7407455c739aa60760b83d4f82142489", null ],
+    [ "setSpriteData", "class_m_d___parola.html#a5a6fb6a69caf96bc9cc242082533e3ab", null ],
     [ "setTextAlignment", "class_m_d___parola.html#a6eb132905e5df99067e9716fd922d9ed", null ],
     [ "setTextAlignment", "class_m_d___parola.html#a712ba7658c982c67e4a23ca0c4ef3ea8", null ],
     [ "setTextBuffer", "class_m_d___parola.html#a1b54fb1c05c976007031433439324739", null ],

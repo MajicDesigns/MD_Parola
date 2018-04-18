@@ -27,47 +27,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements various sprite effects
  */
 
+#if ENA_SPRITE
 
-uint8_t *MD_PZone::setupSprite(uint8_t id, uint8_t &dataWidth, uint8_t &numFrames)
+void MD_PZone::setupSprite(bool bIn, uint8_t id)
 {
-  const uint8_t F_PMAN1 = 4;
-  const uint8_t W_PMAN1 = 8;
-  static const uint8_t PROGMEM pacman1[F_PMAN1 * W_PMAN1] =  // gobbling pacman animation
-  {
-    0x00, 0x81, 0xc3, 0xe7, 0xff, 0x7e, 0x7e, 0x3c,
-    0x00, 0x42, 0xe7, 0xe7, 0xff, 0xff, 0x7e, 0x3c,
-    0x24, 0x66, 0xe7, 0xff, 0xff, 0xff, 0x7e, 0x3c,
-    0x3c, 0x7e, 0xff, 0xff, 0xff, 0xff, 0x7e, 0x3c,
-  };
-
-  const uint8_t F_PMAN2 = 4;
-  const uint8_t W_PMAN2 = 18;
-  static const uint8_t PROGMEM pacman2[F_PMAN2 * W_PMAN2] =  // ghost pursued by a pacman
-  {
-    0x00, 0x81, 0xc3, 0xe7, 0xff, 0x7e, 0x7e, 0x3c, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe,
-    0x00, 0x42, 0xe7, 0xe7, 0xff, 0xff, 0x7e, 0x3c, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe,
-    0x24, 0x66, 0xe7, 0xff, 0xff, 0xff, 0x7e, 0x3c, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe,
-    0x3c, 0x7e, 0xff, 0xff, 0xff, 0xff, 0x7e, 0x3c, 0x00, 0x00, 0x00, 0xfe, 0x7b, 0xf3, 0x7f, 0xfb, 0x73, 0xfe,
-  };
-
   const uint8_t F_ROCKET = 2;
   const uint8_t W_ROCKET = 11;
-  static const uint8_t PROGMEM rocket[F_ROCKET * W_ROCKET] =  // Rocket
+  static const uint8_t PROGMEM rocket[F_ROCKET * W_ROCKET] =  // ROCKET
   {
     0x18, 0x24, 0x42, 0x81, 0x99, 0x18, 0x99, 0x18, 0xa5, 0x5a, 0x81,
     0x18, 0x24, 0x42, 0x81, 0x18, 0x99, 0x18, 0x99, 0x24, 0x42, 0x99,
   };
 
-  uint8_t *p = nullptr;
+  const uint8_t F_FBALL = 2;
+  const uint8_t W_FBALL = 11;
+  static const uint8_t PROGMEM fireball[F_FBALL * W_FBALL] =  // FIREBALL
+  {
+    0x7e, 0xab, 0x54, 0x28, 0x52, 0x24, 0x40, 0x18, 0x04, 0x10, 0x08,
+    0x7e, 0xd5, 0x2a, 0x14, 0x24, 0x0a, 0x30, 0x04, 0x28, 0x08, 0x10,
+  };
 
   switch (id)
   {
-  case SPR_PACMAN:        p = pacman1; dataWidth = W_PMAN1; numFrames = F_PMAN1; break;
-  case SPR_PACMAN_GHOST:  p = pacman2; dataWidth = W_PMAN2; numFrames = F_PMAN2; break;
-  case SPR_ROCKET:        p = rocket;  dataWidth = W_ROCKET; numFrames = F_ROCKET; break;
-  }
+  case PA_ROCKET:    
+    if (bIn) { _spriteInData = rocket;  _spriteInWidth = W_ROCKET;  _spriteInFrames = F_ROCKET;  }
+    else     { _spriteOutData = rocket; _spriteOutWidth = W_ROCKET; _spriteOutFrames = F_ROCKET; }
+    break;
 
-  return(p);
+  case PA_FIREBALL:  
+    if (bIn) { _spriteInData = fireball;  _spriteInWidth = W_FBALL; _spriteInFrames = F_FBALL;   }
+    else     { _spriteOutData = fireball; _spriteOutWidth = W_FBALL; _spriteOutFrames = F_FBALL; }
+    break;
+
+  case PA_SPRITE:
+    // nothing to do - assume the user has already set this up using setSpriteData()
+    break;
+  }
 }
 
 void MD_PZone::effectSprite(bool bIn, uint8_t id)
@@ -75,11 +70,6 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
-  static uint8_t frame;      // current animation frame for the sprite
-  static uint8_t numFrames;  // the number of frames for this sprite
-  static uint8_t dataWidth;  // the data width of the current sprite
-  static uint8_t *sprite;    // pointer to the sprite data table
-
   if (bIn)  // incoming - sprite moves left to right in the zone
   {
     switch (_fsmState)
@@ -93,13 +83,13 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
         _startPos = _endPos;
         _endPos = t;
       }
-      if ((sprite = setupSprite(id, dataWidth, numFrames)) == nullptr)
+      setupSprite(bIn, id);
+      if (_spriteInData == nullptr)
       {
         _fsmState = END;
         break;
       }
-      frame = 0;
-      _posOffset = 1;
+      _posOffset = 0;   // current animation frame for the sprite
       _nextPos = ZONE_END_COL(_zoneEnd) + 1;
       _fsmState = PUT_CHAR;
       // fall through to next state
@@ -114,10 +104,10 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
 
       // move reference column and draw new graphic
       _nextPos--;
-      for (uint8_t i = 0; i < dataWidth; i++)
+      for (uint8_t i = 0; i < _spriteInWidth; i++)
       {
         if ((_nextPos + i) <= ZONE_END_COL(_zoneEnd) && (_nextPos + i) >= ZONE_START_COL(_zoneStart))
-          _MX->setColumn(_nextPos + i, DATA_BAR(pgm_read_byte(sprite + (frame * dataWidth) + i)));
+          _MX->setColumn(_nextPos + i, DATA_BAR(pgm_read_byte(_spriteInData + (_posOffset * _spriteInWidth) + i)));
       }
 
       // blank out the part of the display we don't need
@@ -126,12 +116,12 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
         _MX->setColumn(i, EMPTY_BAR);
 
       // advance the animation frame
-      frame += _posOffset;
-      if (frame == 0 || frame >= numFrames - 1)
-        _posOffset = -_posOffset;
+      _posOffset++;
+      if (_posOffset >= _spriteInFrames)
+        _posOffset = 0;
 
       // check if we have finished
-      if (_nextPos == ZONE_START_COL(_zoneStart) - dataWidth - 1)
+      if (_nextPos == ZONE_START_COL(_zoneStart) - _spriteInWidth - 1)
         _fsmState = PAUSE;
       break;
 
@@ -154,14 +144,14 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
         _startPos = _endPos;
         _endPos = t;
       }
-      if ((sprite = setupSprite(id, dataWidth, numFrames)) == nullptr)
+      setupSprite(bIn, id);
+      if (_spriteOutData == nullptr)
       {
         _fsmState = END;
         break;
       }
       _nextPos = ZONE_START_COL(_zoneStart) - 1;
-      frame = 0;
-      _posOffset = 1;
+      _posOffset = 0;
       _fsmState = PUT_CHAR;
       // fall through to next state
 
@@ -173,24 +163,24 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
 
       // move reference column and draw new graphic
       _nextPos++;
-      for (uint8_t i = 0; i < dataWidth; i++)
+      for (uint8_t i = 0; i < _spriteOutWidth; i++)
       {
         if ((_nextPos - i) <= ZONE_END_COL(_zoneEnd) && (_nextPos - i) >= ZONE_START_COL(_zoneStart))
-          _MX->setColumn(_nextPos - i, DATA_BAR(pgm_read_byte(sprite + (frame * dataWidth) + i)));
+          _MX->setColumn(_nextPos - i, DATA_BAR(pgm_read_byte(_spriteOutData + (_posOffset * _spriteOutWidth) + i)));
       }
 
       // blank out the part of the display we don't need
       // this is the part to the right of the sprite
-      for (int16_t i = _nextPos - dataWidth; i >= _endPos; i--)
+      for (int16_t i = _nextPos - _spriteOutWidth; i >= _endPos; i--)
         _MX->setColumn(i, EMPTY_BAR);
 
       // advance the animation frame
-      frame += _posOffset;
-      if (frame == 0 || frame >= numFrames - 1)
-        _posOffset = -_posOffset;
+      _posOffset++;
+      if (_posOffset >= _spriteOutFrames)
+        _posOffset = 0;
 
       // check if we have finished
-      if (_nextPos == ZONE_END_COL(_zoneEnd) + dataWidth + 1)
+      if (_nextPos == ZONE_END_COL(_zoneEnd) + _spriteOutWidth + 1)
         _fsmState = END;
       break;
 
@@ -201,3 +191,5 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
     }
   }
 }
+
+#endif

@@ -122,7 +122,7 @@ void doUI(void)
           PA_SLICE, PA_FADE, PA_MESH, PA_BLINDS, PA_DISSOLVE, PA_RANDOM, 
 #endif
 #if ENA_SPRITE
-          PA_PACMAN1, PA_PACMAN2, PA_ROCKET,
+          PA_ROCKET, PA_FIREBALL,
 #endif
 #if ENA_WIPE
           PA_WIPE, PA_WIPE_CURSOR,
