@@ -44,6 +44,10 @@ Parola A-to-Z Blog Articles
 \page pageRevHistory Revision History
 Revision History
 ----------------
+Apr 2018 - version 2.7.3
+- Reworked sprite effects to enable user sprites as more sustainable in long run.
+- Added Sprites example.
+
 Apr 2018 - version 2.7.2
 - Fixed bug with last text column persisting for PA_SCAN_HORIZ and PA_SCAN_HORIZX effect.
 - Added sprite based text effects
@@ -387,9 +391,9 @@ enum textEffect_t
   PA_SCROLL_LEFT, ///< Text scrolls right to left on the display
   PA_SCROLL_RIGHT,///< Text scrolls left to right on the display
 #if ENA_SPRITE
-  PA_PACMAN1,     ///< Text enters and exits through pacman sprite
-  PA_PACMAN2,     ///< Text enters and exits through pacman and ghost sprite
   PA_ROCKET,      ///< Text enters and exits through rocket sprite
+  PA_FIREBALL,    ///< Text enters and exits through fireball/comet
+  PA_SPRITE,      ///< Text enters and exits using user defined sprite
 #endif
 #if ENA_MISC
   PA_SLICE,       ///< Text enters and exits a slice (column) at a time from the right
@@ -709,6 +713,25 @@ public:
    */
   inline void setSpeed(uint16_t speed) { _tickTime = speed; }
 
+#if ENA_SPRITE
+  /**
+  * Set data for user sprite effects.
+  *
+  * Set up the data parameters for user sprite text entry/exit effects.
+  * See the comments for the namesake method in MD_Parola.
+  *
+  * \param inData pointer to the data table defining the entry sprite.
+  * \param inWidth the width (in bytes) of each frame of the sprite.
+  * \param inFrames the number of frames for the sprite.
+  * \param outData pointer to the data table that is inWidth*InFrames in size.
+  * \param outWidth the width (in bytes) of each frame of the sprite.
+  * \param outFrames the number of frames for the sprite.
+  * \return No return value.
+  */
+  void setSpriteData(uint8_t *inData,  uint8_t inWidth,  uint8_t inFrames, 
+                     uint8_t *outData, uint8_t outWidth, uint8_t outFrames);
+#endif
+
   /**
   * Set the zone animation start time.
   *
@@ -770,6 +793,7 @@ public:
   void setZoneEffect(boolean b, zoneEffect_t ze);
 
   /** @} */
+
   //--------------------------------------------------------------
   /** \name Support methods for fonts and characters.
    * @{
@@ -936,7 +960,13 @@ private:
   void      invertBuf(uint8_t *p, uint8_t size);  // invert the elements of the buffer
 
   /// Sprite management
-  uint8_t *setupSprite(uint8_t id, uint8_t &dataWidth, uint8_t &numFrames);
+#if ENA_SPRITE
+  char *_spriteInData, *_spriteOutData;
+  uint8_t _spriteInWidth, _spriteOutWidth;
+  uint8_t _spriteInFrames, _spriteOutFrames;
+
+  void setupSprite(bool bIn, uint8_t id);
+#endif
 
   // Debugging aid
   char *state2string(fsmState_t s);
@@ -1476,6 +1506,54 @@ public:
    * \return No return value.
    */
   inline void setSpeed(uint8_t z, uint16_t speed) { if (z < _numZones) _Z[z].setSpeed(speed); }
+
+#if ENA_SPRITE
+  /**
+  * Set data for user sprite effects (single zone).
+  *
+  * This method is used to set up user data needed so that the library can
+  * display the sprite ahead of the entry/exit of text when the PA_SPRITE
+  * animation type is selected.
+  *
+  * A sprite is made up of a number of frames that run sequqntially to make
+  * make the animation on the display. Once the animation reaches the last frame
+  * it restarts from the first frame.
+  *
+  * A sprite is defined similary to a character in the font table. Each byte
+  * is a bit pattern defining a column in the sprite. A frame is xWidth bytes
+  * in size and there are xFrames in the animation.
+  *
+  * \param z zone number.
+  * \param inData pointer to the data table defining the entry sprite.
+  * \param inWidth the width (in bytes) of each frame of the sprite.
+  * \param inFrames the number of frames for the sprite.
+  * \param outData pointer to the data table that is inWidth*InFrames in size.
+  * \param outWidth the width (in bytes) of each frame of the sprite.
+  * \param outFrames the number of frames for the sprite.
+  * \return No return value.
+  */
+  void setSpriteData(uint8_t z, uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
+                                uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
+  { if (z < _numZones) _Z[z].setSpriteData(inData, inWidth, inFrames, outData, outWidth, outFrames); }
+
+  /**
+  * Set data for user sprite effect (whole display).
+  *
+  * See the comments for single zone variant of this method.
+  *
+  * \param inData pointer to the data table defining the entry sprite.
+  * \param inWidth the width (in bytes) of each frame of the sprite.
+  * \param inFrames the number of frames for the sprite.
+  * \param outData pointer to the data table that is inWidth*InFrames in size.
+  * \param outWidth the width (in bytes) of each frame of the sprite.
+  * \param outFrames the number of frames for the sprite.
+  * \return No return value.
+  */
+  void setSpriteData(uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
+                     uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
+  { for (uint8_t i = 0; i<_numZones; i++) _Z[i].setSpriteData(inData, inWidth, inFrames, outData, outWidth, outFrames); }
+
+#endif
 
   /**
    * Set the text alignment for all zones.

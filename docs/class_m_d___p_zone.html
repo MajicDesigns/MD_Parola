@@ -155,6 +155,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9e4cd73f358da88e9a6f1417039a7ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92197f2df4e6eaa892fcc2554e15d085"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#a92197f2df4e6eaa892fcc2554e15d085">setSpeed</a> (uint16_t speed)</td></tr>
 <tr class="separator:a92197f2df4e6eaa892fcc2554e15d085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ba6c70922a8e17f5ba5788a61c6700"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#a64ba6c70922a8e17f5ba5788a61c6700">setSpriteData</a> (uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t *outData, uint8_t outWidth, uint8_t outFrames)</td></tr>
+<tr class="separator:a64ba6c70922a8e17f5ba5788a61c6700"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa0dcc32728e60ec42514f3c365a8490"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#afa0dcc32728e60ec42514f3c365a8490">setSynchTime</a> (uint32_t zt)</td></tr>
 <tr class="separator:afa0dcc32728e60ec42514f3c365a8490"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac48591627c0b75af049cfdfdb1122c69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#ac48591627c0b75af049cfdfdb1122c69">setTextAlignment</a> (<a class="el" href="_m_d___parola_8h.html#abab52de9e46b83d0aa94f0e3439e224d">textPosition_t</a> ta)</td></tr>
@@ -786,6 +788,72 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a64ba6c70922a8e17f5ba5788a61c6700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ba6c70922a8e17f5ba5788a61c6700">&#9670;&nbsp;</a></span>setSpriteData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MD_PZone::setSpriteData </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>inData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>inWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>inFrames</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>outData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>outWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>outFrames</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set data for user sprite effects.</p>
+<p>Set up the data parameters for user sprite text entry/exit effects. See the comments for the namesake method in <a class="el" href="class_m_d___parola.html">MD_Parola</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inData</td><td>pointer to the data table defining the entry sprite. </td></tr>
+    <tr><td class="paramname">inWidth</td><td>the width (in bytes) of each frame of the sprite. </td></tr>
+    <tr><td class="paramname">inFrames</td><td>the number of frames for the sprite. </td></tr>
+    <tr><td class="paramname">outData</td><td>pointer to the data table that is inWidth*InFrames in size. </td></tr>
+    <tr><td class="paramname">outWidth</td><td>the width (in bytes) of each frame of the sprite. </td></tr>
+    <tr><td class="paramname">outFrames</td><td>the number of frames for the sprite. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
+
+</div>
+</div>
 <a id="afa0dcc32728e60ec42514f3c365a8490"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afa0dcc32728e60ec42514f3c365a8490">&#9670;&nbsp;</a></span>setSynchTime()</h2>
 
@@ -1150,7 +1218,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___p_zone.html">MD_PZone</a></li>
-    <li class="footer">Generated on Fri Apr 13 2018 17:00:26 for Parola for Arduino by
+    <li class="footer">Generated on Wed Apr 18 2018 15:24:03 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

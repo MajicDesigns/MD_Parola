@@ -195,6 +195,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a148064778dfb85eb1fd73fe415fc1126"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa92a0538ff725b970949231342ec6910"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#aa92a0538ff725b970949231342ec6910">setSpeed</a> (uint8_t z, uint16_t speed)</td></tr>
 <tr class="separator:aa92a0538ff725b970949231342ec6910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7407455c739aa60760b83d4f82142489"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a7407455c739aa60760b83d4f82142489">setSpriteData</a> (uint8_t z, uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t *outData, uint8_t outWidth, uint8_t outFrames)</td></tr>
+<tr class="separator:a7407455c739aa60760b83d4f82142489"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a6fb6a69caf96bc9cc242082533e3ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a5a6fb6a69caf96bc9cc242082533e3ab">setSpriteData</a> (uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t *outData, uint8_t outWidth, uint8_t outFrames)</td></tr>
+<tr class="separator:a5a6fb6a69caf96bc9cc242082533e3ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eb132905e5df99067e9716fd922d9ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a6eb132905e5df99067e9716fd922d9ed">setTextAlignment</a> (<a class="el" href="_m_d___parola_8h.html#abab52de9e46b83d0aa94f0e3439e224d">textPosition_t</a> ta)</td></tr>
 <tr class="separator:a6eb132905e5df99067e9716fd922d9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a712ba7658c982c67e4a23ca0c4ef3ea8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a712ba7658c982c67e4a23ca0c4ef3ea8">setTextAlignment</a> (uint8_t z, <a class="el" href="_m_d___parola_8h.html#abab52de9e46b83d0aa94f0e3439e224d">textPosition_t</a> ta)</td></tr>
@@ -1866,6 +1870,147 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a7407455c739aa60760b83d4f82142489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7407455c739aa60760b83d4f82142489">&#9670;&nbsp;</a></span>setSpriteData() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MD_Parola::setSpriteData </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>inData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>inWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>inFrames</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>outData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>outWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>outFrames</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set data for user sprite effects (single zone).</p>
+<p>This method is used to set up user data needed so that the library can display the sprite ahead of the entry/exit of text when the PA_SPRITE animation type is selected.</p>
+<p>A sprite is made up of a number of frames that run sequqntially to make make the animation on the display. Once the animation reaches the last frame it restarts from the first frame.</p>
+<p>A sprite is defined similary to a character in the font table. Each byte is a bit pattern defining a column in the sprite. A frame is xWidth bytes in size and there are xFrames in the animation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">z</td><td>zone number. </td></tr>
+    <tr><td class="paramname">inData</td><td>pointer to the data table defining the entry sprite. </td></tr>
+    <tr><td class="paramname">inWidth</td><td>the width (in bytes) of each frame of the sprite. </td></tr>
+    <tr><td class="paramname">inFrames</td><td>the number of frames for the sprite. </td></tr>
+    <tr><td class="paramname">outData</td><td>pointer to the data table that is inWidth*InFrames in size. </td></tr>
+    <tr><td class="paramname">outWidth</td><td>the width (in bytes) of each frame of the sprite. </td></tr>
+    <tr><td class="paramname">outFrames</td><td>the number of frames for the sprite. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
+
+</div>
+</div>
+<a id="a5a6fb6a69caf96bc9cc242082533e3ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a6fb6a69caf96bc9cc242082533e3ab">&#9670;&nbsp;</a></span>setSpriteData() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MD_Parola::setSpriteData </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>inData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>inWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>inFrames</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>outData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>outWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>outFrames</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set data for user sprite effect (whole display).</p>
+<p>See the comments for single zone variant of this method.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inData</td><td>pointer to the data table defining the entry sprite. </td></tr>
+    <tr><td class="paramname">inWidth</td><td>the width (in bytes) of each frame of the sprite. </td></tr>
+    <tr><td class="paramname">inFrames</td><td>the number of frames for the sprite. </td></tr>
+    <tr><td class="paramname">outData</td><td>pointer to the data table that is inWidth*InFrames in size. </td></tr>
+    <tr><td class="paramname">outWidth</td><td>the width (in bytes) of each frame of the sprite. </td></tr>
+    <tr><td class="paramname">outFrames</td><td>the number of frames for the sprite. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
+
+</div>
+</div>
 <a id="a6eb132905e5df99067e9716fd922d9ed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6eb132905e5df99067e9716fd922d9ed">&#9670;&nbsp;</a></span>setTextAlignment() <span class="overload">[1/2]</span></h2>
 
@@ -2318,7 +2463,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Fri Apr 13 2018 17:00:26 for Parola for Arduino by
+    <li class="footer">Generated on Wed Apr 18 2018 15:24:03 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>
