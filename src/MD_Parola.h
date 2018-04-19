@@ -40,10 +40,14 @@ Parola A-to-Z Blog Articles
 - [Multi Zone Displays] (https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/)
 - [Vertical Displays] (https://arduinoplusplus.wordpress.com/2017/07/22/parola-a-to-z-vertical-displays/)
 - [Mixing Text and Graphics] (https://arduinoplusplus.wordpress.com/2018/03/29/parola-a-to-z-mixing-text-and-graphics/)
+- [Sprite Text Effects] (https://arduinoplusplus.wordpress.com//2018/04/19/parola-a-to-z-sprite-text-effects/)
 
 \page pageRevHistory Revision History
 Revision History
 ----------------
+Apr 2018 - version 2.7.4
+- Fixed bug with ESP8266 compilation.
+
 Apr 2018 - version 2.7.3
 - Reworked sprite effects to enable user sprites as more sustainable in long run.
 - Removed all built in sprites from previous version.
@@ -960,7 +964,7 @@ private:
 
   /// Sprite management
 #if ENA_SPRITE
-  char *_spriteInData, *_spriteOutData;
+  uint8_t *_spriteInData, *_spriteOutData;
   uint8_t _spriteInWidth, _spriteOutWidth;
   uint8_t _spriteInFrames, _spriteOutFrames;
 #endif
