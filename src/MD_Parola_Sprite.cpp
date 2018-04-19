@@ -29,42 +29,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 #if ENA_SPRITE
 
-void MD_PZone::setupSprite(bool bIn, uint8_t id)
-{
-  const uint8_t F_ROCKET = 2;
-  const uint8_t W_ROCKET = 11;
-  static const uint8_t PROGMEM rocket[F_ROCKET * W_ROCKET] =  // ROCKET
-  {
-    0x18, 0x24, 0x42, 0x81, 0x99, 0x18, 0x99, 0x18, 0xa5, 0x5a, 0x81,
-    0x18, 0x24, 0x42, 0x81, 0x18, 0x99, 0x18, 0x99, 0x24, 0x42, 0x99,
-  };
-
-  const uint8_t F_FBALL = 2;
-  const uint8_t W_FBALL = 11;
-  static const uint8_t PROGMEM fireball[F_FBALL * W_FBALL] =  // FIREBALL
-  {
-    0x7e, 0xab, 0x54, 0x28, 0x52, 0x24, 0x40, 0x18, 0x04, 0x10, 0x08,
-    0x7e, 0xd5, 0x2a, 0x14, 0x24, 0x0a, 0x30, 0x04, 0x28, 0x08, 0x10,
-  };
-
-  switch (id)
-  {
-  case PA_ROCKET:    
-    if (bIn) { _spriteInData = rocket;  _spriteInWidth = W_ROCKET;  _spriteInFrames = F_ROCKET;  }
-    else     { _spriteOutData = rocket; _spriteOutWidth = W_ROCKET; _spriteOutFrames = F_ROCKET; }
-    break;
-
-  case PA_FIREBALL:  
-    if (bIn) { _spriteInData = fireball;  _spriteInWidth = W_FBALL; _spriteInFrames = F_FBALL;   }
-    else     { _spriteOutData = fireball; _spriteOutWidth = W_FBALL; _spriteOutFrames = F_FBALL; }
-    break;
-
-  case PA_SPRITE:
-    // nothing to do - assume the user has already set this up using setSpriteData()
-    break;
-  }
-}
-
 void MD_PZone::effectSprite(bool bIn, uint8_t id)
 // Animated Pacman sprite leads or eats up the message.
 // Print up the whole message and then remove the parts we
@@ -83,7 +47,6 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
         _startPos = _endPos;
         _endPos = t;
       }
-      setupSprite(bIn, id);
       if (_spriteInData == nullptr)
       {
         _fsmState = END;
@@ -144,7 +107,6 @@ void MD_PZone::effectSprite(bool bIn, uint8_t id)
         _startPos = _endPos;
         _endPos = t;
       }
-      setupSprite(bIn, id);
       if (_spriteOutData == nullptr)
       {
         _fsmState = END;

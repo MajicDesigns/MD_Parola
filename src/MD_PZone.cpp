@@ -532,8 +532,6 @@ bool MD_PZone::zoneAnimate(void)
         case PA_RANDOM:   effectRandom(_moveIn);    break;
 #endif // ENA_MISC
 #if ENA_SPRITE
-        case PA_ROCKET:
-        case PA_FIREBALL:
         case PA_SPRITE:
           effectSprite(_moveIn, _moveIn ? _effectIn : _effectOut);  break;
 #endif // ENA_SPRITE

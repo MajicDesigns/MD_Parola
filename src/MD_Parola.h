@@ -46,6 +46,7 @@ Revision History
 ----------------
 Apr 2018 - version 2.7.3
 - Reworked sprite effects to enable user sprites as more sustainable in long run.
+- Removed all built in sprites from previous version.
 - Added Sprites example.
 
 Apr 2018 - version 2.7.2
@@ -391,8 +392,6 @@ enum textEffect_t
   PA_SCROLL_LEFT, ///< Text scrolls right to left on the display
   PA_SCROLL_RIGHT,///< Text scrolls left to right on the display
 #if ENA_SPRITE
-  PA_ROCKET,      ///< Text enters and exits through rocket sprite
-  PA_FIREBALL,    ///< Text enters and exits through fireball/comet
   PA_SPRITE,      ///< Text enters and exits using user defined sprite
 #endif
 #if ENA_MISC
@@ -964,8 +963,6 @@ private:
   char *_spriteInData, *_spriteOutData;
   uint8_t _spriteInWidth, _spriteOutWidth;
   uint8_t _spriteInFrames, _spriteOutFrames;
-
-  void setupSprite(bool bIn, uint8_t id);
 #endif
 
   // Debugging aid

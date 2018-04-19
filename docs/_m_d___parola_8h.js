@@ -21,8 +21,6 @@ var _m_d___parola_8h =
       [ "PA_SCROLL_DOWN", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa99d43e17954efdfab65adbb9ec4478a8", null ],
       [ "PA_SCROLL_LEFT", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa80ce296b12960be2f9a0cffb51ef0d7c", null ],
       [ "PA_SCROLL_RIGHT", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaaca390db312bfa67fbd90bb65428a6c78", null ],
-      [ "PA_ROCKET", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaabcbead159eee4cff9e2113e51fefb999", null ],
-      [ "PA_FIREBALL", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa5b586eb2c6448c629302b47ae2af2b2d", null ],
       [ "PA_SPRITE", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa4f395cf278c4d934ac8d2b662675f669", null ],
       [ "PA_SLICE", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa08e32ea749f514046ba58f8da3cdfd72", null ],
       [ "PA_MESH", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82edaa709894e18b54d3465d3136f73a708b0d", null ],
