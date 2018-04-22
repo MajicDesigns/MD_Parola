@@ -45,6 +45,10 @@ Parola A-to-Z Blog Articles
 \page pageRevHistory Revision History
 Revision History
 ----------------
+xxx 2018 - version 2.7.5
+- Minor corrections to previous version examples and keyword.txt.
+- Added help text on sprite animations.
+
 Apr 2018 - version 2.7.4
 - Fixed bug with ESP8266 compilation.
 
@@ -257,6 +261,31 @@ next time the character is used.
 
 ### More Information
 - [Parola A to Z - Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+
+___
+
+Sprite Text Effect
+------------------
+The PA_SPRITE text effect requires additional information, as it extends the functionality 
+of the library to include fully customizable, user defined, animated bitmaps to wipe text 
+on and off the LED matrix display.
+
+Each frame is defined by a sequence of numbers that encode the columns of the bitmap. The 
+least significant bit is at the top of the bitmap. If the sprite has a front and rear, the 
+bitmap should be defined for the sprite moving to the right. The library will mirror reverse 
+the image when it moves left. The sprites are essentially defined in the same way as the 
+character font and the same tools can be used to define the data for the sprite bitmap.
+
+A sprite has at least one frame. If more than one frame is required, a similar definition is 
+created for each frame of the animation, and a data table constructed defining the animated 
+sprite. To ensure smooth animations, remember that once the last frame is reached, it will loop 
+back to the first, so avoid discontinuities between the two ends of the data table.
+
+The library is given the sprite definition setSpriteData() method and the text effect is 
+specified using the effect id PA_SPRITE.
+
+### More Information
+- [Parola A to Z - Sprite Text Effects] (https://arduinoplusplus.wordpress.com/2018/04/19/parola-a-to-z-sprite-text-effects/)
 
 ___
 

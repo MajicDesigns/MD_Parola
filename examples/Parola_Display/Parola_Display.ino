@@ -54,7 +54,7 @@ MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char	*pc[] =
+char  *pc[] =
 {
   "Parola for",
   "Arduino",

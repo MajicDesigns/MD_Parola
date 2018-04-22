@@ -134,6 +134,16 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 <li><a href="https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/">Parola A to Z - Managing Fonts</a></li>
 </ul>
 <hr/>
+<h2>Sprite Text Effect </h2>
+<p>The PA_SPRITE text effect requires additional information, as it extends the functionality of the library to include fully customizable, user defined, animated bitmaps to wipe text on and off the LED matrix display.</p>
+<p>Each frame is defined by a sequence of numbers that encode the columns of the bitmap. The least significant bit is at the top of the bitmap. If the sprite has a front and rear, the bitmap should be defined for the sprite moving to the right. The library will mirror reverse the image when it moves left. The sprites are essentially defined in the same way as the character font and the same tools can be used to define the data for the sprite bitmap.</p>
+<p>A sprite has at least one frame. If more than one frame is required, a similar definition is created for each frame of the animation, and a data table constructed defining the animated sprite. To ensure smooth animations, remember that once the last frame is reached, it will loop back to the first, so avoid discontinuities between the two ends of the data table.</p>
+<p>The library is given the sprite definition setSpriteData() method and the text effect is specified using the effect id PA_SPRITE.</p>
+<h3>More Information</h3>
+<ul>
+<li><a href="https://arduinoplusplus.wordpress.com/2018/04/19/parola-a-to-z-sprite-text-effects/">Parola A to Z - Sprite Text Effects</a></li>
+</ul>
+<hr/>
 <h2>Conditional Compilation Switches </h2>
 <p>The library allows the run time code to be tailored through the use of compilation switches. The compile options start with ENA_ and are documented in the section related to the main header file <a class="el" href="_m_d___parola_8h.html" title="Main header file for the MD_Parola library. ">MD_Parola.h</a>.</p>
 <p><em>NOTE</em>: Compile switches must be edited in the library header file. Arduino header file 'mashing' during compilation makes the setting of these switches from user code completely unreliable.</p>
@@ -172,7 +182,7 @@ $(document).ready(function(){initNavTree('page_software.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Main Page</a></li>
-    <li class="footer">Generated on Fri Apr 20 2018 05:49:47 for Parola for Arduino by
+    <li class="footer">Generated on Sat Apr 21 2018 14:45:54 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>
