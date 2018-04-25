@@ -37,6 +37,7 @@ Parola A-to-Z Blog Articles
 - [Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
 - [Text Animation] (https://arduinoplusplus.wordpress.com/2017/02/10/parola-a-to-z-text-animation/)
 - [Managing Animation] (https://arduinoplusplus.wordpress.com/2017/03/02/parola-a-to-z-managing-animation/)
+- [Double Height Displays] (https://arduinoplusplus.wordpress.com/2017/03/15/parola-a-to-z-double-height-displays/)
 - [Multi Zone Displays] (https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/)
 - [Vertical Displays] (https://arduinoplusplus.wordpress.com/2017/07/22/parola-a-to-z-vertical-displays/)
 - [Mixing Text and Graphics] (https://arduinoplusplus.wordpress.com/2018/03/29/parola-a-to-z-mixing-text-and-graphics/)
@@ -47,7 +48,8 @@ Revision History
 ----------------
 xxx 2018 - version 2.7.5
 - Minor corrections to previous version examples and keyword.txt.
-- Added help text on sprite animations.
+- Added help text on sprite animations and minor doc updates.
+- Added Sprites_Simple example.
 
 Apr 2018 - version 2.7.4
 - Fixed bug with ESP8266 compilation.
@@ -224,6 +226,7 @@ as set*()) usually have their effect applied to all zones.
 
 ### More Information
 - [Parola A to Z - Multi Zone Displays] (https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/)
+- [Parola A to Z - Double Height Displays] (https://arduinoplusplus.wordpress.com/2017/03/15/parola-a-to-z-double-height-displays/)
 
 ___
 
@@ -260,6 +263,7 @@ Also, any changes to the data storage in the calling program will be reflected b
 next time the character is used.
 
 ### More Information
+- [Parola A to Z - Defining Fonts] (https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/)
 - [Parola A to Z - Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
 
 ___

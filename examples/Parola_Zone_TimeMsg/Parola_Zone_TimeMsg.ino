@@ -72,33 +72,40 @@ uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 }; // Deg C
 uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 }; // Deg F
 
 char *mon2str(uint8_t mon, char *psz, uint8_t len)
-
 // Get a label from PROGMEM into a char array
 {
-  static const __FlashStringHelper* str[] =
+  static const char str[][4] PROGMEM =
   {
-    F("Jan"), F("Feb"), F("Mar"), F("Apr"),
-    F("May"), F("Jun"), F("Jul"), F("Aug"),
-    F("Sep"), F("Oct"), F("Nov"), F("Dec")
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   };
 
-  strncpy_P(psz, (const char PROGMEM *)str[mon-1], len);
-  psz[len] = '\0';
+  *psz = '\0';
+  mon--;
+  if (mon < 12)
+  {
+    strncpy_P(psz, str[mon], len);
+    psz[len] = '\0';
+  }
 
   return(psz);
 }
 
 char *dow2str(uint8_t code, char *psz, uint8_t len)
 {
-  static const __FlashStringHelper*	str[] =
+  static const char str[][10] PROGMEM =
   {
-    F("Sunday"), F("Monday"), F("Tuesday"),
-    F("Wednesday"), F("Thursday"), F("Friday"),
-    F("Saturday")
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday"
   };
 
-  strncpy_P(psz, (const char PROGMEM *)str[code-1], len);
-  psz[len] = '\0';
+  *psz = '\0';
+  code--;
+  if (code < 7)
+  {
+    strncpy_P(psz, str[code], len);
+    psz[len] = '\0';
+  }
 
   return(psz);
 }
@@ -125,7 +132,7 @@ void getDate(char *psz)
 // Code for reading clock date
 {
 #if	USE_DS1307
-  char	szBuf[10];
+  char  szBuf[10];
 
   RTC.readTime();
   sprintf(psz, "%d %s %04d", RTC.dd, mon2str(RTC.mm, szBuf, sizeof(szBuf)-1), RTC.yyyy);
