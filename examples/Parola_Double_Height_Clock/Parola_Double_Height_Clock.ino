@@ -4,6 +4,7 @@
 // - Time is shown in a user defined seven segment font
 // - Optional use of DS1307 module for time
 // - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
+// - MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 // Each font file has the lower part of a character as ASCII codes 0-127 and the
 // upper part of the character in ASCII code 128-255. Adding 128 to each lower
@@ -22,11 +23,6 @@
 // Sending the original string to the lower zone and the modified (+128) string to the
 // upper zone creates the complete message on the display.
 //
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
-//
 
 // Use the DS1307 clock module
 #define	USE_DS1307	0
@@ -44,6 +40,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_ZONES 2
 #define ZONE_SIZE 7
 #define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
@@ -61,9 +58,9 @@
 #endif
 
 // Hardware SPI connection
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
-// MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+// MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define SPEED_TIME  75
 #define PAUSE_TIME  0

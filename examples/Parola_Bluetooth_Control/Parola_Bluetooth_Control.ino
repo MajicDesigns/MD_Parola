@@ -19,11 +19,9 @@
 // Note: This library is used as an alternative to SoftwareSerial based on the
 // defined value USE_ALTSOFTSERIAL below
 //
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// * MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
+
 #include <MD_Parola.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
@@ -42,6 +40,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 8
 #define CLK_PIN   13
 #define DATA_PIN  11
@@ -197,9 +196,9 @@ const textEffect_t textEffect[] =
 // Global Variables ------------------
 
 // Parola with HARDWARE SPI
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
-//MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #if USE_ALTSOFTSERIAL
 AltSoftSerial BTChan = AltSoftSerial();

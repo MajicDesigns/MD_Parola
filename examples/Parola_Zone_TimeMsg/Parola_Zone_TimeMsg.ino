@@ -8,11 +8,7 @@
 // - Optional use of DS1307 module for time and DHT11 sensor for temp and humidity
 // - DS1307 library (MD_DS1307) found at https://github.com/MajicDesigns/DS1307
 // - DHT11 library (DHT11_lib) found at http://arduino.cc/playground/Main/DHT11Lib
-//
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// - MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 
 // Use the DHT11 temp and humidity sensor
@@ -31,6 +27,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 10
 
 #define CLK_PIN   13
@@ -52,9 +49,9 @@ dht11 DHT11;
 #endif
 
 // Hardware SPI connection
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
-// MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+// MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define SPEED_TIME  75
 #define PAUSE_TIME  0

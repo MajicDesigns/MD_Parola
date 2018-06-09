@@ -24,4 +24,4 @@ The Parola software has a dependency on the [MD_MAX72xx Arduino library](https:/
 
 Parola discussion on the [Arduino forum](http://forum.arduino.cc/index.php?topic=171056.0) and kits available from [ElectroDragon](http://www.electrodragon.com/product/dot-matrix-chain-display-kit-max7219-v2).
 
-Additional information also at [my blog](http://arduinoplusplus.wordpress.com).
+Additional information also at [my blog](http://arduinoplusplus.wordpress.com), search "Parola A to Z".

@@ -2,7 +2,7 @@ var searchData=
 [
   ['main_20page',['Main Page',['../index.html',1,'']]],
   ['max_5fzones',['MAX_ZONES',['../_m_d___parola_8h.html#a3c8ce1beff274980c5636aa8a3811cdc',1,'MD_Parola.h']]],
-  ['md_5fparola',['MD_Parola',['../class_m_d___parola.html',1,'MD_Parola'],['../class_m_d___parola.html#a0526bfc333412a638c3f4d10a110bc5e',1,'MD_Parola::MD_Parola(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)'],['../class_m_d___parola.html#a44e6232c8b2f568538e8fc0102804885',1,'MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices=1)']]],
+  ['md_5fparola',['MD_Parola',['../class_m_d___parola.html',1,'MD_Parola'],['../class_m_d___parola.html#a86d37f229d5294dee9bb2ec5ade42c5a',1,'MD_Parola::MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)'],['../class_m_d___parola.html#af13e292a19a8b72332268d923da4f588',1,'MD_Parola::MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t csPin, uint8_t numDevices=1)']]],
   ['md_5fparola_2ecpp',['MD_Parola.cpp',['../_m_d___parola_8cpp.html',1,'']]],
   ['md_5fparola_2eh',['MD_Parola.h',['../_m_d___parola_8h.html',1,'']]],
   ['md_5fparola_5fblinds_2ecpp',['MD_Parola_Blinds.cpp',['../_m_d___parola___blinds_8cpp.html',1,'']]],

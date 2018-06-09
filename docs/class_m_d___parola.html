@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Parola for Arduino
-   &#160;<span id="projectnumber">2.7</span>
+   &#160;<span id="projectnumber">3.0</span>
    </div>
    <div id="projectbrief">Text effects for LED Matrix modular hardware</div>
   </td>
@@ -110,10 +110,10 @@ Collaboration diagram for MD_Parola:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0526bfc333412a638c3f4d10a110bc5e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a0526bfc333412a638c3f4d10a110bc5e">MD_Parola</a> (uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)</td></tr>
-<tr class="separator:a0526bfc333412a638c3f4d10a110bc5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44e6232c8b2f568538e8fc0102804885"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a44e6232c8b2f568538e8fc0102804885">MD_Parola</a> (uint8_t csPin, uint8_t numDevices=1)</td></tr>
-<tr class="separator:a44e6232c8b2f568538e8fc0102804885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86d37f229d5294dee9bb2ec5ade42c5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a86d37f229d5294dee9bb2ec5ade42c5a">MD_Parola</a> (MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices=1)</td></tr>
+<tr class="separator:a86d37f229d5294dee9bb2ec5ade42c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af13e292a19a8b72332268d923da4f588"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#af13e292a19a8b72332268d923da4f588">MD_Parola</a> (MD_MAX72XX::moduleType_t mod, uint8_t csPin, uint8_t numDevices=1)</td></tr>
+<tr class="separator:af13e292a19a8b72332268d923da4f588"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed2a8279a3bfe6f41add877fcf21456f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#aed2a8279a3bfe6f41add877fcf21456f">begin</a> (void)</td></tr>
 <tr class="separator:aed2a8279a3bfe6f41add877fcf21456f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7539abd83f51423c76595b10fdaf911a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a7539abd83f51423c76595b10fdaf911a">begin</a> (uint8_t numZones)</td></tr>
@@ -250,8 +250,8 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Core object for the Parola library. This class contains one or more zones for display. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0526bfc333412a638c3f4d10a110bc5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0526bfc333412a638c3f4d10a110bc5e">&#9670;&nbsp;</a></span>MD_Parola() <span class="overload">[1/2]</span></h2>
+<a id="a86d37f229d5294dee9bb2ec5ade42c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86d37f229d5294dee9bb2ec5ade42c5a">&#9670;&nbsp;</a></span>MD_Parola() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,6 +259,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">MD_Parola::MD_Parola </td>
           <td>(</td>
+          <td class="paramtype">MD_MAX72XX::moduleType_t&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>dataPin</em>, </td>
         </tr>
@@ -292,6 +298,7 @@ Public Member Functions</h2></td></tr>
 <p>See documentation for the MD_MAX72XX library for detailed explanation of parameters.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mod</td><td>the hardware module type used in the application. One of the MD_MAX72XX::moduleType_t values. </td></tr>
     <tr><td class="paramname">dataPin</td><td>output on the Arduino where data gets shifted out. </td></tr>
     <tr><td class="paramname">clkPin</td><td>output for the clock signal. </td></tr>
     <tr><td class="paramname">csPin</td><td>output for selecting the device. </td></tr>
@@ -302,8 +309,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a44e6232c8b2f568538e8fc0102804885"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44e6232c8b2f568538e8fc0102804885">&#9670;&nbsp;</a></span>MD_Parola() <span class="overload">[2/2]</span></h2>
+<a id="af13e292a19a8b72332268d923da4f588"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af13e292a19a8b72332268d923da4f588">&#9670;&nbsp;</a></span>MD_Parola() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,6 +318,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">MD_Parola::MD_Parola </td>
           <td>(</td>
+          <td class="paramtype">MD_MAX72XX::moduleType_t&#160;</td>
+          <td class="paramname"><em>mod</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>csPin</em>, </td>
         </tr>
@@ -332,6 +345,7 @@ Public Member Functions</h2></td></tr>
 <p>See documentation for the MD_MAX72XX library for detailed explanation of parameters.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mod</td><td>the hardware module type used in the application. One of the MD_MAX72XX::moduleType_t values. </td></tr>
     <tr><td class="paramname">csPin</td><td>output for selecting the device. </td></tr>
     <tr><td class="paramname">numDevices</td><td>number of devices connected. Default is 1 if not supplied. </td></tr>
   </table>
@@ -461,7 +475,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Initialize the object.</p>
-<p>Initialise the object data. This needs to be called during setup() to initialise new data for the class that cannot be done during the object creation. This form of the method is for backward compatibility and creates one zone for the entire display. </p>
+<p>Initialize the object data. This needs to be called during setup() to initialize new data for the class that cannot be done during the object creation. This form of the method is for backward compatibility and creates one zone for the entire display. </p>
 
 </div>
 </div>
@@ -481,7 +495,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Initialize the object.</p>
-<p>Initialise the object data. This needs to be called during setup() to initialise new data for the class that cannot be done during the object creation. This form of the method allows specifying the number of zones used. The maximum number of zones is set by the MAX_ZONES constant which can be chanhed to allow more or fewer zones. The module limits for the zones need to be initialized separately using <a class="el" href="class_m_d___parola.html#a218bd5860a6023b58e5d00de2b1d976a">setZone()</a>.</p>
+<p>Initialize the object data. This needs to be called during setup() to initialize new data for the class that cannot be done during the object creation. This form of the method allows specifying the number of zones used. The maximum number of zones is set by the MAX_ZONES constant which can be changed to allow more or fewer zones. The module limits for the zones need to be initialized separately using <a class="el" href="class_m_d___parola.html#a218bd5860a6023b58e5d00de2b1d976a">setZone()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">numZones</td><td>maximum number of zones [1..MAX_ZONES] </td></tr>
@@ -574,7 +588,7 @@ Public Member Functions</h2></td></tr>
 <p>Animate the display.</p>
 <p>Animate all the zones in the display using the currently specified text and animation parameters. This method needs to be invoked as often as possible to ensure smooth animation. The animation is governed by a time tick that is set by the <a class="el" href="class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126">setSpeed()</a> method and it will pause between entry and exit using the time set by the <a class="el" href="class_m_d___parola.html#a535d4ba642406b02c26b6218e020c313">setPause()</a> method.</p>
 <p>The calling program should monitor the return value for 'true' in order to either reset the zone animation or supply another string for display. A 'true' return value means that one or more zones have completed their animation.</p>
-<p>Not all calls to this method result in an animation, as this is goverened by the timing parameters set for the animation. To determine when an animation has advanced durng the call, the user code can call the <a class="el" href="class_m_d___parola.html#ae94526b7b2fa5a40086dde50097e04d7">isAnimationAdvanced()</a> method.</p>
+<p>Not all calls to this method result in an animation, as this is governed by the timing parameters set for the animation. To determine when an animation has advanced during the call, the user code can call the <a class="el" href="class_m_d___parola.html#ae94526b7b2fa5a40086dde50097e04d7">isAnimationAdvanced()</a> method.</p>
 <dl class="section return"><dt>Returns</dt><dd>bool true if at least one zone animation has completed, false otherwise. </dd></dl>
 
 </div>
@@ -743,7 +757,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Shutdown or restart display hardware.</p>
-<p>Shutdown the display hardware to a low power state. The display will be blank during the shutdown. Calling animate() will continue to animate the display in the memory buffers but this will not be visible on the display (ie, the librarie still function but the display does not). To reset the animation back to the beginning, use the <a class="el" href="class_m_d___parola.html#ac2215961f392389a6ab9b17a5f098e4f">displayReset()</a> method.</p>
+<p>Shutdown the display hardware to a low power state. The display will be blank during the shutdown. Calling animate() will continue to animate the display in the memory buffers but this will not be visible on the display (ie, the libraries still function but the display does not). To reset the animation back to the beginning, use the <a class="el" href="class_m_d___parola.html#ac2215961f392389a6ab9b17a5f098e4f">displayReset()</a> method.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">b</td><td>boolean value to shutdown (true) or resume (false). </td></tr>
@@ -1066,7 +1080,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Get a pointer to the instantiated graphics object.</p>
 <p>Provides a pointer to the MD_MAX72XX object to allow access to the display graphics functions.</p>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the MD_MAX72xx object used bythe library. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the MD_MAX72xx object used by the library. </dd></dl>
 
 </div>
 </div>
@@ -1927,8 +1941,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Set data for user sprite effects (single zone).</p>
 <p>This method is used to set up user data needed so that the library can display the sprite ahead of the entry/exit of text when the PA_SPRITE animation type is selected.</p>
-<p>A sprite is made up of a number of frames that run sequqntially to make make the animation on the display. Once the animation reaches the last frame it restarts from the first frame.</p>
-<p>A sprite is defined similary to a character in the font table. Each byte is a bit pattern defining a column in the sprite. A frame is xWidth bytes in size and there are xFrames in the animation.</p>
+<p>A sprite is made up of a number of frames that run sequentially to make make the animation on the display. Once the animation reaches the last frame it restarts from the first frame.</p>
+<p>A sprite is defined similarly to a character in the font table. Each byte is a bit pattern defining a column in the sprite. A frame is xWidth bytes in size and there are xFrames in the animation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">z</td><td>zone number. </td></tr>
@@ -2331,8 +2345,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Synchronise the start of zone animations.</p>
-<p>When zones are set up, the animation start time will default to the set-up time. If several zones need to be animated in synchronised fashion (eg, they are visually stacked vertically), this method will ensure that all the zones start at the same instant. The method should be invoked before the call to <a class="el" href="class_m_d___parola.html#add650d11e765d50f9d030dd98ae96e7f">displayAnimate()</a>.</p>
+<p>Synchronize the start of zone animations.</p>
+<p>When zones are set up, the animation start time will default to the set-up time. If several zones need to be animated in synchronized fashion (eg, they are visually stacked vertically), this method will ensure that all the zones start at the same instant. The method should be invoked before the call to <a class="el" href="class_m_d___parola.html#add650d11e765d50f9d030dd98ae96e7f">displayAnimate()</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
 
 </div>
@@ -2463,7 +2477,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Thu Apr 26 2018 08:03:23 for Parola for Arduino by
+    <li class="footer">Generated on Sat Jun 9 2018 16:49:10 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

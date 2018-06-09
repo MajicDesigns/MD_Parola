@@ -308,7 +308,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 
   // get it from the standard font
   PRINTS(" no user char");
-  _MX->setFont(_fontDef);		// change to the font for this zone
+  _MX->setFont(_fontDef);   // change to the font for this zone
   len = _MX->getChar(code, size, cBuf);
 
   return(len);

@@ -1,6 +1,8 @@
 // Program to exercise the MD_Parola library
 //
 // Demonstrates most of the functions of the Parola library Text and Graphics combined.
+// Not all animations look good, so this can also be used to determine which animations 
+// will work for the required application.
 //
 // Speed for the display is controlled by a pot on SPEED_IN analog input.
 // Digital switches used for control of Justification, Effect progression,
@@ -8,14 +10,12 @@
 // UI switches are normally HIGH.
 //
 // UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
-//
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
+// MD_MAXPanel library can be found at https://github.com/MajicDesigns/MD_MAXPanel
 //
 
 #include <MD_Parola.h>
+#include <MD_MAXPanel.h>
 #include <MD_MAX72xx.h>
 #include <SPI.h>
 #include <MD_UISwitch.h>
@@ -23,18 +23,22 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define MAX_DEVICES 8
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
+#define MAX_DEVICES 11
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
 
 // HARDWARE SPI
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
-//MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+
+// Create the graphics library object, passing through the Parola MD_MAX72XX graphic object
+MD_MAXPanel MP = MD_MAXPanel(P.getGraphicObject(), MAX_DEVICES, 1);
 
 // Turn on debug statements to the serial output
-#define  DEBUG_ENABLE  1
+#define  DEBUG_ENABLE  0
 
 #if  DEBUG_ENABLE
 #define DEBUG(s, x) { Serial.print(F(s)); Serial.print(x); }
@@ -195,29 +199,18 @@ void setup(void)
 {
 #if DEBUG_ENABLE
   Serial.begin(57600);
-  DEBUGS("[Parola T+G Test]");
+  DEBUGS("[Parola Text & Graphics Test]");
 #endif
 
   // user interface switches
   uiSwitches.begin();
 
-  // Parola object
+  // Parola and MAXPanel objects
   P.begin();
   P.displayText(msg[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
   curString = NEXT_STRING;
-}
 
-void rectangle(MD_MAX72XX *M, uint8_t r1, uint16_t c1, uint8_t r2, uint16_t c2)
-// Draw a rectangle with a cross through it
-{
-  M->update(MD_MAX72XX::OFF);
-  M->drawLine(r1, c1, r2, c1, true);
-  M->drawLine(r2, c1, r2, c2, true);
-  M->drawLine(r2, c2, r1, c2, true);
-  M->drawLine(r1, c2, r1, c1, true);
-  M->drawLine(r1, c1, r2, c2, true);
-  M->drawLine(r1, c2, r2, c1, true);
-  M->update(MD_MAX72XX::ON);
+  MP.begin();
 }
 
 void loop(void)
@@ -232,7 +225,6 @@ void loop(void)
   }
   if (P.isAnimationAdvanced())
   {
-    MD_MAX72XX *M;
     uint16_t startDisp, endDisp;
     uint16_t startText, endText;
 
@@ -246,10 +238,12 @@ void loop(void)
     DEBUG("' from ", startText);
     DEBUG(" to ", endText);
 
-    M = P.getGraphicObject();
-
-    rectangle(M, 0, startDisp, ROW_SIZE-1, endText-2);
-    rectangle(M, 0, endDisp, ROW_SIZE-1, startText+2);
+    // draw the rectangle, taking into account the change in coordinates system
+    // between Parola and MAXPanel
+    MP.update(false);
+    MP.drawRectangle(0, 0, MP.getXMax()-(startText+1), ROW_SIZE-1, !P.getInvert());
+    MP.drawRectangle(MP.getXMax()-(endText-1), 0, MP.getXMax(), ROW_SIZE-1, !P.getInvert());
+    MP.update(true);
   }
 }
 

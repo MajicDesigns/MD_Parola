@@ -11,11 +11,7 @@
 // Invert ON/OFF is set by a switch on INVERT_SET digital in.
 //
 // UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
-//
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 
 #include <MD_Parola.h>
@@ -43,6 +39,7 @@
 #endif
 
 // Define the number of devices we have in the chain and the hardware interface
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 4
 #define BUF_SIZE  75
 
@@ -58,8 +55,8 @@ struct LineDefinition
 // need to be adapted
 struct LineDefinition  Line[] =
 {
-  { MD_Parola(11, 13, 10, MAX_DEVICES), "abc", false },
-  { MD_Parola(11, 13,  9, MAX_DEVICES), "def", false }
+  { MD_Parola(HARDWARE_TYPE, 11, 13, 10, MAX_DEVICES), "abc", false },
+  { MD_Parola(HARDWARE_TYPE, 11, 13,  9, MAX_DEVICES), "def", false }
 };
 
 #define MAX_LINES   (sizeof(Line)/sizeof(LineDefinition))

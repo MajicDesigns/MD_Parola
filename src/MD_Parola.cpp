@@ -28,13 +28,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements core MD_Parola class methods
  */
 
-MD_Parola::MD_Parola(uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
-_D(dataPin, clkPin, csPin, numDevices), _numModules(numDevices)
+MD_Parola::MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
+_D(mod, dataPin, clkPin, csPin, numDevices), _numModules(numDevices)
 {
 }
 
-MD_Parola::MD_Parola(uint8_t csPin, uint8_t numDevices):
-_D(csPin, numDevices), _numModules(numDevices)
+MD_Parola::MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t csPin, uint8_t numDevices):
+_D(mod, csPin, numDevices), _numModules(numDevices)
 {
 }
 

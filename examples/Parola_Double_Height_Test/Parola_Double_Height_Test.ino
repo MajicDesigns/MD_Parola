@@ -1,5 +1,5 @@
 // Demonstrates one double height display using Parola using a single font file
-// defintion created with the MD_MAX72xx font builder.
+// definition created with the MD_MAX72xx font builder.
 //
 // Each font file has the lower part of a character as ASCII codes 0-127 and the
 // upper part of the character in ASCII code 128-255. Adding 128 to each lower
@@ -18,10 +18,7 @@
 // Sending the original string to the lower zone and the modified (+128) string to the
 // upper zone creates the complete message on the display.
 //
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 
 #include <MD_Parola.h>
@@ -53,6 +50,7 @@
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers may not work with your hardware and may need changing
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_ZONES 2
 #define ZONE_SIZE 6
 #define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
@@ -65,9 +63,9 @@
 #define CS_PIN    10
 
 // HARDWARE SPI
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
-//MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 

@@ -3,10 +3,7 @@
 // Zones are changed by 2 modules for each iteration and a simple string
 // is displayed in the zone.
 //
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 
 #include <MD_Parola.h>
@@ -29,6 +26,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 8
 #define MAX_ZONES   2
 #define STEP_SIZE   2
@@ -38,9 +36,9 @@
 #define CS_PIN    10
 
 // Hardware SPI connection
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
-// MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+// MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 #define SPEED_TIME  25
 #define PAUSE_TIME  1000

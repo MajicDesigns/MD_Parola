@@ -9,11 +9,7 @@
 // UI switches are normally HIGH.
 //
 // UISwitch library can be found at https://github.com/MajicDesigns/MD_UISwitch
-//
-// NOTE: MD_MAX72xx library must be installed and configured for the LED
-// matrix type being used. Refer documentation included in the MD_MAX72xx
-// library or see this link:
-// https://majicdesigns.github.io/MD_MAX72XX/page_hardware.html
+// MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 
 #include <MD_Parola.h>
@@ -24,15 +20,16 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 11
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
 
 // HARDWARE SPI
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
-//MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Turn on debug statements to the serial output
 #define  DEBUG_ENABLE  1
@@ -60,6 +57,15 @@ uint8_t uiPins[] = { PAUSE_SET, FLIP_SET, JUSTIFY_SET, INTENSITY_SET, EFFECT_SET
 
 const uint16_t PAUSE_TIME = 1000; // in milliseconds
 const uint8_t SPEED_DEADBAND = 5; // in analog units
+
+// Sprite Definition
+const uint8_t F_ROCKET = 2;
+const uint8_t W_ROCKET = 11;
+static const uint8_t PROGMEM rocket[F_ROCKET * W_ROCKET] =  // rocket
+{
+  0x18, 0x24, 0x42, 0x81, 0x99, 0x18, 0x99, 0x18, 0xa5, 0x5a, 0x81,
+  0x18, 0x24, 0x42, 0x81, 0x18, 0x99, 0x18, 0x99, 0x24, 0x42, 0x99,
+};
 
 // Global variables
 uint8_t	curString = 0;
@@ -122,7 +128,7 @@ void doUI(void)
           PA_SLICE, PA_FADE, PA_MESH, PA_BLINDS, PA_DISSOLVE, PA_RANDOM, 
 #endif
 #if ENA_SPRITE
-          PA_ROCKET, PA_FIREBALL,
+          PA_SPRITE,
 #endif
 #if ENA_WIPE
           PA_WIPE, PA_WIPE_CURSOR,
@@ -207,6 +213,7 @@ void setup(void)
 
   // Parola object
   P.begin();
+  P.setSpriteData(rocket, W_ROCKET, F_ROCKET, rocket, W_ROCKET, F_ROCKET);
   P.displayText(msg[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
   curString = NEXT_STRING;
 }
