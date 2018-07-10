@@ -876,6 +876,17 @@ public:
    */
   void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; _MX->setFont(_fontDef); allocateFontBuffer(); }
   /** @} */
+  
+  /**
+   * Get the display font.
+   *
+   * See comments for the namesake Parola method.
+   *
+   * \return Pointer to the font definition used.
+   */
+  inline MD_MAX72XX::fontType_t* getZoneFont(void) { return _fontDef; };
+
+  /** @} */
 
 #if ENA_GRAPHICS
   //--------------------------------------------------------------
@@ -1777,6 +1788,28 @@ public:
    * \return No return value.
    */
   inline void setFont(uint8_t z, MD_MAX72XX::fontType_t *fontDef) { if (z < _numZones) _Z[z].setZoneFont(fontDef); }
+
+  /** @} */
+  
+  /**
+   * Get the display font.
+   *
+   * See comments for the namesake Parola method.
+   *
+   * \param z		specified zone
+   * \return Pointer to the font definition used.
+   */
+  inline MD_MAX72XX::fontType_t* getFont(uint8_t z) { if (z < _numZones) {return _Z[z].getZoneFont();} else return NULL; };
+
+  /** @} */
+  /**
+   * Get the display font.
+   *
+   * See comments for the namesake Parola method.
+   *
+   * \return Pointer to the font definition used.
+   */
+  inline MD_MAX72XX::fontType_t* getFont(void) { return _Z[0].getZoneFont(); };
 
   /** @} */
 
