@@ -48,6 +48,10 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Jul 2018 - version 3.0.1
+- Added getFont() method.
+- Cleaned up double height examples relying on old USE_*_HW defines.
+
 Jun 2018 - version 3.0.0
 - Minor corrections to previous version examples and keyword.txt.
 - Added help text on sprite animations and minor doc updates.
@@ -867,6 +871,15 @@ public:
   bool delChar(uint8_t code);
 
   /**
+   * Get the display font.
+   *
+   * Return the current font table pointer for this zone.
+   *
+   * \return Pointer to the font definition used.
+   */
+  inline MD_MAX72XX::fontType_t* getZoneFont(void) { return _fontDef; };
+
+  /**
    * Set the display font.
    *
    * See comments for the namesake Parola method.
@@ -875,16 +888,6 @@ public:
    * \return No return value.
    */
   void setZoneFont(MD_MAX72XX::fontType_t *fontDef) { _fontDef = fontDef; _MX->setFont(_fontDef); allocateFontBuffer(); }
-  /** @} */
-  
-  /**
-   * Get the display font.
-   *
-   * See comments for the namesake Parola method.
-   *
-   * \return Pointer to the font definition used.
-   */
-  inline MD_MAX72XX::fontType_t* getZoneFont(void) { return _fontDef; };
 
   /** @} */
 
@@ -1765,6 +1768,25 @@ public:
   inline bool delChar(uint8_t z, uint8_t code) { return(z < _numZones ? _Z[z].delChar(code) : false); }
 
   /**
+   * Get the display font for specified zone.
+   *
+   * Get the current font table pointer for the specified zone.
+   *
+   * \param z specified zone.
+   * \return Pointer to the font definition used.
+   */
+  inline MD_MAX72XX::fontType_t* getFont(uint8_t z) { if (z < _numZones) return (_Z[z].getZoneFont()); else return(nullptr); };
+
+  /**
+   * Get the display font for single zone display.
+   *
+   * Return the current font table pointer for single zone displays.
+   *
+   * \return Pointer to the font definition used.
+   */
+  inline MD_MAX72XX::fontType_t* getFont(void) { return(getFont(0)); };
+
+  /**
    * Set the display font for all zones.
    *
    * Set the display font to a user defined font table. This can be created using the
@@ -1788,28 +1810,6 @@ public:
    * \return No return value.
    */
   inline void setFont(uint8_t z, MD_MAX72XX::fontType_t *fontDef) { if (z < _numZones) _Z[z].setZoneFont(fontDef); }
-
-  /** @} */
-  
-  /**
-   * Get the display font.
-   *
-   * See comments for the namesake Parola method.
-   *
-   * \param z		specified zone
-   * \return Pointer to the font definition used.
-   */
-  inline MD_MAX72XX::fontType_t* getFont(uint8_t z) { if (z < _numZones) {return _Z[z].getZoneFont();} else return NULL; };
-
-  /** @} */
-  /**
-   * Get the display font.
-   *
-   * See comments for the namesake Parola method.
-   *
-   * \return Pointer to the font definition used.
-   */
-  inline MD_MAX72XX::fontType_t* getFont(void) { return _Z[0].getZoneFont(); };
 
   /** @} */
 

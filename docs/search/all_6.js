@@ -2,6 +2,7 @@ var searchData=
 [
   ['getcharspacing',['getCharSpacing',['../class_m_d___p_zone.html#aa1e61526f637c07cb3f7e00ad8fdeea1',1,'MD_PZone::getCharSpacing()'],['../class_m_d___parola.html#a8f68dc6cf4109c00f40cd2eb6df3bfde',1,'MD_Parola::getCharSpacing(void)'],['../class_m_d___parola.html#acae7ac5d8d24280a3aeb00572c7ae789',1,'MD_Parola::getCharSpacing(uint8_t z)']]],
   ['getdisplayextent',['getDisplayExtent',['../class_m_d___parola.html#acb2ce8559e6d6382eb1d98d7ceb3126b',1,'MD_Parola::getDisplayExtent(uint16_t &amp;startColumn, uint16_t &amp;endColumn)'],['../class_m_d___parola.html#ae3008521a115ee792a7bc299563fba69',1,'MD_Parola::getDisplayExtent(uint8_t z, uint16_t &amp;startColumn, uint16_t &amp;endColumn)']]],
+  ['getfont',['getFont',['../class_m_d___parola.html#a8581c064f75185012b3b0b1a98561aab',1,'MD_Parola::getFont(uint8_t z)'],['../class_m_d___parola.html#af7c3f22e64a1b2b1a3c47ef410f481c8',1,'MD_Parola::getFont(void)']]],
   ['getgraphicobject',['getGraphicObject',['../class_m_d___parola.html#af6c70c27c6c631e1d71d60adf2ec1662',1,'MD_Parola']]],
   ['getintensity',['getIntensity',['../class_m_d___p_zone.html#aabea2e8ebe0fc6fcaca7afc26ee17c9c',1,'MD_PZone']]],
   ['getinvert',['getInvert',['../class_m_d___p_zone.html#a220efc8620dc7ae6292cef5421505e09',1,'MD_PZone::getInvert()'],['../class_m_d___parola.html#a3029915ed2e456a47318e3f06a05d66b',1,'MD_Parola::getInvert(void)'],['../class_m_d___parola.html#a862ad99377530902c2550a082a8629af',1,'MD_Parola::getInvert(uint8_t z)']]],
@@ -14,5 +15,6 @@ var searchData=
   ['gettextextent',['getTextExtent',['../class_m_d___p_zone.html#ac9512f29973cb1008f758d1067365220',1,'MD_PZone::getTextExtent()'],['../class_m_d___parola.html#ae0711639574f70ce7bd8d88d7c117df0',1,'MD_Parola::getTextExtent(uint16_t &amp;startColumn, uint16_t &amp;endColumn)'],['../class_m_d___parola.html#a254824704bd14dcfb897a407495699e4',1,'MD_Parola::getTextExtent(uint8_t z, uint16_t &amp;startColumn, uint16_t &amp;endColumn)']]],
   ['getzoneeffect',['getZoneEffect',['../class_m_d___p_zone.html#acc15c7e3f60ad76aff46f5d6244cd9d4',1,'MD_PZone::getZoneEffect()'],['../class_m_d___parola.html#a4285e8fdba021fde5973ab63348dafd9',1,'MD_Parola::getZoneEffect()']]],
   ['getzoneextent',['getZoneExtent',['../class_m_d___p_zone.html#a3515e91c23fd949da074fc837692f050',1,'MD_PZone']]],
+  ['getzonefont',['getZoneFont',['../class_m_d___p_zone.html#a2a875122812ae461de34e9cafec4a486',1,'MD_PZone']]],
   ['getzonestatus',['getZoneStatus',['../class_m_d___parola.html#a58696a833fb399fc68ed6152931baa94',1,'MD_Parola']]]
 ];

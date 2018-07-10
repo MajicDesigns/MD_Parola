@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['support_20the_20library',['Support the Library',['../page_donation.html',1,'index']]],
   ['setcharspacing',['setCharSpacing',['../class_m_d___p_zone.html#ae5e7cd3ba9625f366fda350ec55e7dd0',1,'MD_PZone::setCharSpacing()'],['../class_m_d___parola.html#ad7ff7418d5b57162353f5fc5334a1112',1,'MD_Parola::setCharSpacing(uint8_t cs)'],['../class_m_d___parola.html#acd33962d2013b7f0acc2297897bbb58b',1,'MD_Parola::setCharSpacing(uint8_t z, uint8_t cs)']]],
   ['setfont',['setFont',['../class_m_d___parola.html#a619357fd65bc4b6a30a5d2e74b5d2140',1,'MD_Parola::setFont(MD_MAX72XX::fontType_t *fontDef)'],['../class_m_d___parola.html#a97bf4988df87bb0d4a03dea69a32293c',1,'MD_Parola::setFont(uint8_t z, MD_MAX72XX::fontType_t *fontDef)']]],
   ['setintensity',['setIntensity',['../class_m_d___p_zone.html#ae814b578a112c87753df53d4d0ce92da',1,'MD_PZone::setIntensity()'],['../class_m_d___parola.html#aa869921483a67899f9d06d84f5e537b4',1,'MD_Parola::setIntensity(uint8_t intensity)'],['../class_m_d___parola.html#a45d97a582ca1adabfe5cb40d66c4bbd2',1,'MD_Parola::setIntensity(uint8_t z, uint8_t intensity)']]],

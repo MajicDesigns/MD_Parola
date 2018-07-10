@@ -224,6 +224,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a019ecf4d513920215f92ec435e8903df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4dc8e2d19fd6b344e1ca90c25de77a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#af4dc8e2d19fd6b344e1ca90c25de77a8">delChar</a> (uint8_t z, uint8_t code)</td></tr>
 <tr class="separator:af4dc8e2d19fd6b344e1ca90c25de77a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8581c064f75185012b3b0b1a98561aab"><td class="memItemLeft" align="right" valign="top">MD_MAX72XX::fontType_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a8581c064f75185012b3b0b1a98561aab">getFont</a> (uint8_t z)</td></tr>
+<tr class="separator:a8581c064f75185012b3b0b1a98561aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7c3f22e64a1b2b1a3c47ef410f481c8"><td class="memItemLeft" align="right" valign="top">MD_MAX72XX::fontType_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#af7c3f22e64a1b2b1a3c47ef410f481c8">getFont</a> (void)</td></tr>
+<tr class="separator:af7c3f22e64a1b2b1a3c47ef410f481c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a619357fd65bc4b6a30a5d2e74b5d2140"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a619357fd65bc4b6a30a5d2e74b5d2140">setFont</a> (MD_MAX72XX::fontType_t *fontDef)</td></tr>
 <tr class="separator:a619357fd65bc4b6a30a5d2e74b5d2140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97bf4988df87bb0d4a03dea69a32293c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a97bf4988df87bb0d4a03dea69a32293c">setFont</a> (uint8_t z, MD_MAX72XX::fontType_t *fontDef)</td></tr>
@@ -1060,6 +1064,54 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The start and end columns in the by-reference parameters. </dd></dl>
+
+</div>
+</div>
+<a id="a8581c064f75185012b3b0b1a98561aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8581c064f75185012b3b0b1a98561aab">&#9670;&nbsp;</a></span>getFont() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MD_MAX72XX::fontType_t* MD_Parola::getFont </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>z</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the display font for specified zone.</p>
+<p>Get the current font table pointer for the specified zone.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">z</td><td>specified zone. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the font definition used. </dd></dl>
+
+</div>
+</div>
+<a id="af7c3f22e64a1b2b1a3c47ef410f481c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7c3f22e64a1b2b1a3c47ef410f481c8">&#9670;&nbsp;</a></span>getFont() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MD_MAX72XX::fontType_t* MD_Parola::getFont </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the display font for single zone display.</p>
+<p>Return the current font table pointer for single zone displays.</p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the font definition used. </dd></dl>
 
 </div>
 </div>
@@ -2477,7 +2529,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Sat Jun 9 2018 16:49:10 for Parola for Arduino by
+    <li class="footer">Generated on Tue Jul 10 2018 20:02:31 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

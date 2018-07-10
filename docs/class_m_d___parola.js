@@ -23,6 +23,8 @@ var class_m_d___parola =
     [ "getCharSpacing", "class_m_d___parola.html#acae7ac5d8d24280a3aeb00572c7ae789", null ],
     [ "getDisplayExtent", "class_m_d___parola.html#acb2ce8559e6d6382eb1d98d7ceb3126b", null ],
     [ "getDisplayExtent", "class_m_d___parola.html#ae3008521a115ee792a7bc299563fba69", null ],
+    [ "getFont", "class_m_d___parola.html#a8581c064f75185012b3b0b1a98561aab", null ],
+    [ "getFont", "class_m_d___parola.html#af7c3f22e64a1b2b1a3c47ef410f481c8", null ],
     [ "getGraphicObject", "class_m_d___parola.html#af6c70c27c6c631e1d71d60adf2ec1662", null ],
     [ "getInvert", "class_m_d___parola.html#a3029915ed2e456a47318e3f06a05d66b", null ],
     [ "getInvert", "class_m_d___parola.html#a862ad99377530902c2550a082a8629af", null ],

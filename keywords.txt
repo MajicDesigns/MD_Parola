@@ -25,6 +25,7 @@ displaySuspend	KEYWORD2
 displayShutdown	KEYWORD2
 getCharSpacing	KEYWORD2
 getDisplayExtent	KEYWORD2
+getFont	KEYWORD2
 getGraphicObject	KEYWORD2
 getIntensity	KEYWORD2
 getInvert	KEYWORD2
