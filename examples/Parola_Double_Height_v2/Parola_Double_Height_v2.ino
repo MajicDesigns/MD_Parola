@@ -26,10 +26,6 @@
 #include <SPI.h>
 #include "Font_Data.h"
 
-#if USE_GENERIC_HW || USE_PAROLA_HW
-#define INVERT_UPPER_ZONE 1
-#endif
-
 // Turn debugging on and off
 #define DEBUG 0
 
@@ -45,32 +41,13 @@
 // if 1, scroll left; if 0, scroll right
 #define SCROLL_LEFT 1
 
-#if INVERT_UPPER_ZONE
-
-#if SCROLL_LEFT // invert and scroll left
-#define SCROLL_UPPER  PA_SCROLL_RIGHT
-#define SCROLL_LOWER  PA_SCROLL_LEFT
-#else           // invert and scroll right
-#define SCROLL_UPPER  PA_SCROLL_LEFT
-#define SCROLL_LOWER  PA_SCROLL_RIGHT
-#endif
-
-#else // not invert
-
-#if SCROLL_LEFT // not invert and scroll left
-#define SCROLL_UPPER  PA_SCROLL_LEFT
-#define SCROLL_LOWER  PA_SCROLL_LEFT
-#else           // not invert and scroll right
-#define SCROLL_UPPER  PA_SCROLL_RIGHT
-#define SCROLL_LOWER  PA_SCROLL_RIGHT
-#endif
-
-#endif
-
+// Hardware adaptation parameters for scrolling
+bool invertUpperZone = false;
+textEffect_t scrollUpper, scrollLower;
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers may not work with your hardware and may need changing
-#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
+#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
 #define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
@@ -110,6 +87,29 @@ void setup(void)
   PRINTS("\n[Double_Height_v2]");
 #endif
 
+  // set up global parameters
+  invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW || HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW);
+  if (invertUpperZone)
+  {
+#if SCROLL_LEFT // invert and scroll left
+    scrollUpper = PA_SCROLL_RIGHT;
+    scrollLower = PA_SCROLL_LEFT;
+#else           // invert and scroll right
+    scrollUpper = PA_SCROLL_LEFT;
+    scrollLower = PA_SCROLL_RIGHT;
+#endif
+  }
+  else // not invert
+  {
+#if SCROLL_LEFT // not invert and scroll left
+    scrollUpper = PA_SCROLL_LEFT;
+    scrollLower = PA_SCROLL_LEFT;
+#else           // not invert and scroll right
+    scrollUpper = PA_SCROLL_RIGHT;
+    scrollLower = PA_SCROLL_RIGHT;
+#endif
+  }
+
   // work out the size of buffer required
   for (uint8_t i = 0; i<ARRAY_SIZE(msgL); i++)
     if (strlen(msgL[i]) > max) max = strlen(msgL[i]);
@@ -124,10 +124,11 @@ void setup(void)
   P.setZone(ZONE_UPPER, ZONE_SIZE, MAX_DEVICES-1);
   P.setFont(BigFont);
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
-#if INVERT_UPPER_ZONE
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
-#endif
+  if (invertUpperZone)
+  {
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
+  }
   PRINT("\nFLIP_UD=", P.getZoneEffect(ZONE_UPPER, PA_FLIP_UD));
   PRINT("\nFLIP_LR=", P.getZoneEffect(ZONE_UPPER, PA_FLIP_LR));
   PRINT("\nSCROLL_LEFT=", SCROLL_LEFT);
@@ -156,18 +157,21 @@ void loop(void)
     createHString(msgH, msgL[cycle]);
 
     P.displayClear();
-#if INVERT_UPPER_ZONE
-    P.displayZoneText(ZONE_UPPER, msgH, PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
-    P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
-#else
-    P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_LOWER, SCROLL_LOWER);
-    P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, SCROLL_UPPER, SCROLL_UPPER);
-#endif
+    if (invertUpperZone)
+    {
+      P.displayZoneText(ZONE_UPPER, msgH, PA_CENTER, SCROLL_SPEED, PAUSE_TIME, scrollUpper, scrollLower);
+      P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_CENTER, SCROLL_SPEED, PAUSE_TIME, scrollUpper, scrollLower);
+    }
+    else
+    {
+      P.displayZoneText(ZONE_LOWER, msgL[cycle], PA_LEFT, SCROLL_SPEED, PAUSE_TIME, scrollLower, scrollLower);
+      P.displayZoneText(ZONE_UPPER, msgH, PA_LEFT, SCROLL_SPEED, PAUSE_TIME, scrollUpper, scrollUpper);
+    }
 
     // prepare for next pass
     cycle = (cycle + 1) % ARRAY_SIZE(msgL);
 
-    // synchronise the start and run the display
+    // synchronize the start and run the display
     P.synchZoneStart();
   }
 }

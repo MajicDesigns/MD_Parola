@@ -26,10 +26,6 @@
 #include <SPI.h>
 #include "Font_Data.h"
 
-#if USE_GENERIC_HW || USE_PAROLA_HW
-#define INVERT_UPPER_ZONE
-#endif
-
 #define DEBUG 0
 
 // Define the number of devices we have in the chain and the hardware interface
@@ -53,6 +49,9 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
+// Hardware adaptation parameters for scrolling
+bool invertUpperZone = false;
+
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 char *msg[] =
 {
@@ -70,6 +69,8 @@ char *msg[] =
 
 void setup(void)
 {
+  invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW || HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW);
+
   // initialise the LED display
   P.begin(MAX_ZONES);
 
@@ -82,10 +83,11 @@ void setup(void)
   P.setZone(ZONE_UPPER, ZONE_SIZE, MAX_DEVICES-1);
   P.setFont(ZONE_UPPER, BigFontUpper);
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
-#ifdef INVERT_UPPER_ZONE
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
-#endif
+  if (invertUpperZone)
+  {
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
+  }
 
 #if DEBUG
   Serial.begin(57600);
@@ -113,13 +115,16 @@ void loop(void)
     default:
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, BigFontUpper);
-#ifdef INVERT_UPPER_ZONE
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
-#else
-      P.displayZoneText(ZONE_LOWER, msg[cycle], PA_RIGHT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-      P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-#endif
+      if (invertUpperZone)
+      {
+        P.displayZoneText(ZONE_LOWER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+        P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+      }
+      else
+      {
+        P.displayZoneText(ZONE_LOWER, msg[cycle], PA_RIGHT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+        P.displayZoneText(ZONE_UPPER, msg[cycle], PA_LEFT, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      }
       break;
 
     case 1:
@@ -133,11 +138,10 @@ void loop(void)
       P.setFont(ZONE_LOWER, BigFontLower);
       P.setFont(ZONE_UPPER, NULL);
       P.displayZoneText(ZONE_LOWER, msg[3], PA_CENTER, SCROLL_SPEED, 0, PA_PRINT, PA_NO_EFFECT);
-#ifdef INVERT_UPPER_ZONE
-      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
-#else
-      P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-#endif
+      if (invertUpperZone)
+        P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_RIGHT, PA_SCROLL_RIGHT);
+      else
+        P.displayZoneText(ZONE_UPPER, msg[2], PA_CENTER, SCROLL_SPEED, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
       break;
 
     case 3:

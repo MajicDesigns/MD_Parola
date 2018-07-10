@@ -26,12 +26,6 @@
 #include <SPI.h>
 #include "Font_Data.h"
 
-#if USE_GENERIC_HW || USE_PAROLA_HW
-#define INVERT_UPPER_ZONE
-#else
-#undef INVERT_UPPER_ZONE
-#endif
-
 // Turn debugging on and off
 #define DEBUG 0
 
@@ -54,6 +48,8 @@
 #define MAX_ZONES 2
 #define ZONE_SIZE 6
 #define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
+
+bool invertUpperZone = false;
 
 #define PAUSE_TIME      1000
 #define SPEED_DEADBAND  5 // in analog units
@@ -98,10 +94,10 @@ typedef struct catalogItem_t
   uint8_t zFX[MAX_ZONES];
 };
 
-const PROGMEM catalogItem_t catalog[] =
-{
-#ifdef INVERT_UPPER_ZONE
+catalogItem_t *catalog;
 
+const PROGMEM catalogItem_t catalogInvert[] =
+{
   { true, { PA_PRINT, PA_PRINT } },
   { false, { PA_SCROLL_LEFT, PA_SCROLL_RIGHT } },
   { false, { PA_SCROLL_RIGHT, PA_SCROLL_LEFT } },
@@ -137,11 +133,11 @@ const PROGMEM catalogItem_t catalog[] =
 #if ENA_GROW
   { true, { PA_GROW_UP, PA_GROW_UP } },
   { true, { PA_GROW_DOWN, PA_GROW_DOWN } },
-
 #endif
+};
 
-#else  // !INVERT_UPPER_ZONE
-
+const PROGMEM catalogItem_t catalogNoInvert[] =
+{
   { true, { PA_PRINT, PA_PRINT } },
   { false, { PA_SCROLL_LEFT, PA_SCROLL_LEFT } },
   { false, { PA_SCROLL_RIGHT, PA_SCROLL_RIGHT } },
@@ -178,9 +174,6 @@ const PROGMEM catalogItem_t catalog[] =
   { true, { PA_GROW_UP, PA_GROW_DOWN } },
   { true, { PA_GROW_DOWN, PA_GROW_UP } },
 #endif
-
-#endif
-
 };
 
 void doUI(void)
@@ -196,9 +189,12 @@ void doUI(void)
   }
 }
 
-  void setup(void)
+void setup(void)
 {
   uint8_t max = 0;
+
+  invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW || HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW);
+  catalog = (invertUpperZone ? catalogInvert : catalogNoInvert);
 
 #if DEBUG
   Serial.begin(57600);
@@ -225,10 +221,11 @@ void doUI(void)
   P.setZone(ZONE_UPPER, ZONE_SIZE, MAX_DEVICES-1);
   P.setFont(BigFont);
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
-#ifdef INVERT_UPPER_ZONE
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
-#endif
+  if (invertUpperZone)
+  {
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
+  }
 }
 
 void createHString(char *pH, char *pL)

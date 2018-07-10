@@ -33,10 +33,6 @@
 #include <SPI.h>
 #include "Font_Data.h"
 
-#if USE_GENERIC_HW || USE_PAROLA_HW
-#define INVERT_UPPER_ZONE
-#endif
-
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
@@ -66,6 +62,9 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define PAUSE_TIME  0
 
 #define MAX_MESG  6
+
+// Hardware adaptation parameters for scrolling
+bool invertUpperZone = false;
 
 // Turn on debug statements to the serial output
 #define  DEBUG  0
@@ -101,6 +100,8 @@ void createHString(char *pH, char *pL)
 
 void setup(void)
 {
+  invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW || HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW);
+
   // initialise the LED display
   P.begin(MAX_ZONES);
 
@@ -111,16 +112,19 @@ void setup(void)
 
   P.setCharSpacing(P.getCharSpacing() * 2); // double height --> double spacing
 
-#ifdef INVERT_UPPER_ZONE
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
-  P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
+  if (invertUpperZone)
+  {
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
+    P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
 
-  P.displayZoneText(ZONE_LOWER, szTimeL, PA_RIGHT, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
-  P.displayZoneText(ZONE_UPPER, szTimeH, PA_LEFT, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
-#else
-  P.displayZoneText(ZONE_LOWER, szTimeL, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
-  P.displayZoneText(ZONE_UPPER, szTimeH, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
-#endif
+    P.displayZoneText(ZONE_LOWER, szTimeL, PA_RIGHT, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+    P.displayZoneText(ZONE_UPPER, szTimeH, PA_LEFT, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+  }
+  else
+  {
+    P.displayZoneText(ZONE_LOWER, szTimeL, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+    P.displayZoneText(ZONE_UPPER, szTimeH, PA_CENTER, SPEED_TIME, PAUSE_TIME, PA_PRINT, PA_NO_EFFECT);
+  }
 
 #if USE_DS1307
   RTC.control(DS1307_CLOCK_HALT, DS1307_OFF);

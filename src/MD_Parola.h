@@ -28,6 +28,7 @@ System Components
 - \subpage pageSoftware
 - \subpage pageRevHistory
 - \subpage pageCopyright
+- \subpage pageDonation
 
 Parola A-to-Z Blog Articles
 ---------------------------
@@ -43,9 +44,10 @@ Parola A-to-Z Blog Articles
 - [Mixing Text and Graphics] (https://arduinoplusplus.wordpress.com/2018/03/29/parola-a-to-z-mixing-text-and-graphics/)
 - [Sprite Text Effects] (https://arduinoplusplus.wordpress.com//2018/04/19/parola-a-to-z-sprite-text-effects/)
 
+\page pageDonation Support the Library
+If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
+
 \page pageRevHistory Revision History
-Revision History
-----------------
 Jun 2018 - version 3.0.0
 - Minor corrections to previous version examples and keyword.txt.
 - Added help text on sprite animations and minor doc updates.
@@ -170,8 +172,6 @@ June 2013 - version 1.0
 - New library
 
 \page pageCopyright Copyright
-Copyright
----------
 Copyright (C) 2013-2018 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -189,8 +189,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 \page pageSoftware Parola Library
-The Parola Library
-------------------
+The Library
+-----------
 The Parola library is implemented using the MD_MAX72xx library for hardware
 control. The library implements functions to simplify the implementation
 of text special effects on the LED matrix.
