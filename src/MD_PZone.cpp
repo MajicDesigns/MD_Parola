@@ -93,12 +93,12 @@ boolean MD_PZone::getZoneEffect(zoneEffect_t ze)
 }
 
 #if ENA_SPRITE
-void MD_PZone::setSpriteData(uint8_t *inData, uint8_t inWidth, uint8_t inFrames, uint8_t* outData, uint8_t outWidth, uint8_t outFrames)
+void MD_PZone::setSpriteData(const uint8_t *inData, uint8_t inWidth, uint8_t inFrames, const uint8_t* outData, uint8_t outWidth, uint8_t outFrames)
 {
-  _spriteInData = inData;
+  _spriteInData = (uint8_t *)inData;
   _spriteInWidth = inWidth;
   _spriteInFrames = inFrames;
-  _spriteOutData = outData;
+  _spriteOutData = (uint8_t *)outData;
   _spriteOutWidth = outWidth;
   _spriteOutFrames = outFrames;
 }

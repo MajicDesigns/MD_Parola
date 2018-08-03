@@ -48,6 +48,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+xxx 2018 - version 3.0.2
+- Fixed another compile error with ESP8266.
+
 Jul 2018 - version 3.0.1
 - Added getFont() method.
 - Cleaned up double height examples relying on old USE_*_HW defines.
@@ -114,7 +117,7 @@ Jan 2017 - version 2.6.1
 - Corrected bug when double height PA_SCROLL_RIGHT
 
 Dec 2016 - version 2.6
-- Prefaced all Parola enumerated types with PA_ as some clash with othe libraries
+- Prefaced all Parola enumerated types with PA_ as some clash with other libraries
 - Edited main library core routines to allow scrolling in double height mode
 - Eliminated trailing char separator from displayed string
 - Adjusted some animations to allow for changes to core utility functions
@@ -496,7 +499,7 @@ class MD_PZone
 {
 public:
   /**
-   * Class Constructor.
+   * Class constructor.
    *
    * Instantiate a new instance of the class.
    */
@@ -769,8 +772,8 @@ public:
   * \param outFrames the number of frames for the sprite.
   * \return No return value.
   */
-  void setSpriteData(uint8_t *inData,  uint8_t inWidth,  uint8_t inFrames, 
-                     uint8_t *outData, uint8_t outWidth, uint8_t outFrames);
+  void setSpriteData(const uint8_t *inData,  uint8_t inWidth,  uint8_t inFrames, 
+                     const uint8_t *outData, uint8_t outWidth, uint8_t outFrames);
 #endif
 
   /**
@@ -1065,7 +1068,7 @@ class MD_Parola : public Print
 {
 public:
   /**
-   * Class Constructor - arbitrary output pins.
+   * Class constructor - arbitrary output pins.
    *
    * Instantiate a new instance of the class. The parameters passed are used to
    * connect the software to the hardware using the MD_MAX72XX class.
@@ -1081,7 +1084,7 @@ public:
   MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices = 1);
 
   /**
-   * Class Constructor - SPI hardware interface.
+   * Class constructor - SPI hardware interface.
    *
    * Instantiate a new instance of the class. The parameters passed are used to
    * connect the software to the hardware using the MD_MAX72XX class.
@@ -1583,8 +1586,8 @@ public:
   * \param outFrames the number of frames for the sprite.
   * \return No return value.
   */
-  void setSpriteData(uint8_t z, uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
-                                uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
+  void setSpriteData(uint8_t z, const uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
+                                const uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
   { if (z < _numZones) _Z[z].setSpriteData(inData, inWidth, inFrames, outData, outWidth, outFrames); }
 
   /**
@@ -1600,8 +1603,8 @@ public:
   * \param outFrames the number of frames for the sprite.
   * \return No return value.
   */
-  void setSpriteData(uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
-                     uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
+  void setSpriteData(const uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
+                     const uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
   { for (uint8_t i = 0; i<_numZones; i++) _Z[i].setSpriteData(inData, inWidth, inFrames, outData, outWidth, outFrames); }
 
 #endif
