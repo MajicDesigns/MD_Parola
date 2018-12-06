@@ -484,6 +484,8 @@ enum textEffect_t
  * modules (like Parola or Generic types) to be placed in an inverted position to allow all matrices
  * to be tightly packed into a 2 line display. One of the lines must be flipped horizontally and 
  * vertically to remain legible in this configuration.
+ *
+ * To rotate the display 180° setZoneEffect() must be called twice with both FLIP_UD and FLIP_LR.
  */
 enum zoneEffect_t
 {
