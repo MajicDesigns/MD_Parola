@@ -74,7 +74,7 @@ void MD_Parola::begin(uint8_t numZones)
 
 MD_Parola::~MD_Parola(void)
 {
-  // release the zone array (dynamically alocated)
+  // release the zone array (dynamically allocated)
   //delete [] _Z;
 }
 

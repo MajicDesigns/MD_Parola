@@ -65,7 +65,6 @@ void MD_PZone::allocateFontBuffer(void)
   {
     delete[] _cBuf;
     _cBufSize = size;
-    PRINT(" new size ", _cBufSize);
     _cBuf = new uint8_t[_cBufSize];
   }
 }
@@ -319,7 +318,6 @@ uint8_t MD_PZone::makeChar(char c, bool addBlank)
 {
   uint8_t len;
 
-
   // look for the character
   len = findChar((uint8_t)c, _cBufSize, _cBuf);
 
@@ -327,7 +325,7 @@ uint8_t MD_PZone::makeChar(char c, bool addBlank)
   PRINT(", len=", len);
 
   // Add in the inter char spacing
-  if (addBlank)
+  if (addBlank && len != 0)
   {
     for (uint8_t i = 0; i < _charSpacing; i++)
     {

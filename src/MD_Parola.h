@@ -42,14 +42,17 @@ Parola A-to-Z Blog Articles
 - [Multi Zone Displays] (https://arduinoplusplus.wordpress.com/2017/04/18/parola-a-to-z-multi-zone-displays/)
 - [Vertical Displays] (https://arduinoplusplus.wordpress.com/2017/07/22/parola-a-to-z-vertical-displays/)
 - [Mixing Text and Graphics] (https://arduinoplusplus.wordpress.com/2018/03/29/parola-a-to-z-mixing-text-and-graphics/)
-- [Sprite Text Effects] (https://arduinoplusplus.wordpress.com//2018/04/19/parola-a-to-z-sprite-text-effects/)
+- [Sprite Text Effects] (https://arduinoplusplus.wordpress.com/2018/04/19/parola-a-to-z-sprite-text-effects/)
+- [Optimizing Flash Memory] (https://arduinoplusplus.wordpress.com/2018/09/23/parola-a-to-z-optimizing-flash-memory/)
 
 \page pageDonation Support the Library
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
-xxx 2018 - version 3.0.2
+Dec 2018 - version 3.0.2
 - Fixed another compile error with ESP8266.
+- Added Double_Scoreboard example.
+- Stopped inter char spacing with zero length character
 
 Jul 2018 - version 3.0.1
 - Added getFont() method.
@@ -250,6 +253,7 @@ specifying a nullptr font table pointer.
 ### More Information
 - [Parola A to Z - Defining Fonts] (https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/)
 - [Parola A to Z - Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+- [Parola A to Z - Optimizing Flash Memory] (https://arduinoplusplus.wordpress.com/2018/09/23/parola-a-to-z-optimizing-flash-memory/)
 
 ___
 
@@ -310,6 +314,9 @@ related to the main header file MD_Parola.h.
 _NOTE_: Compile switches must be edited in the library header file. Arduino header file
 'mashing' during compilation makes the setting of these switches from user code
 completely unreliable.
+
+### More Information
+- [Parola A to Z - Optimizing Flash Memory] (https://arduinoplusplus.wordpress.com/2018/09/23/parola-a-to-z-optimizing-flash-memory/)
 
 ___
 

@@ -31,7 +31,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
+#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
 #define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
@@ -71,6 +71,11 @@ void setup(void)
 {
   invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW || HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW);
 
+#if DEBUG
+  Serial.begin(57600);
+  Serial.println("[Double Height demo start]");
+#endif
+
   // initialise the LED display
   P.begin(MAX_ZONES);
 
@@ -88,11 +93,6 @@ void setup(void)
     P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_UD);
     P.setZoneEffect(ZONE_UPPER, true, PA_FLIP_LR);
   }
-
-#if DEBUG
-  Serial.begin(57600);
-  Serial.println("[Double Height demo start]");
-#endif
 }
 
 void loop(void)
