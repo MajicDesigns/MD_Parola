@@ -39,7 +39,7 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
     case GET_FIRST_CHAR: // Load the first character from the font table
       PRINT_STATE("I HSCROLL");
 
-      if ((_charCols = getFirstChar()) == 0)
+      if (!getFirstChar(_charCols))
       {
         _fsmState = END;
         break;
@@ -52,25 +52,28 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
       PRINT_STATE("I HSCROLL");
 
       // Have we reached the end of the characters string?
-      _charCols = getNextChar();
-      FSMPRINT("\ncharCols ", _charCols);
-      if (_charCols == 0)
+      do
       {
-        _fsmState = PAUSE;
-        break;
-      }
+        if (!getNextChar(_charCols))
+          _fsmState = PAUSE;
+      } while (_charCols == 0 && _fsmState != PAUSE);
+
+      if (_fsmState == PAUSE) break;
 
       _countCols = 0;
       _fsmState = PUT_CHAR;
-      FSMPRINTS(", fall thru");
+      FSMPRINTS(", fall through");
       // !! fall through to next state to start displaying
 
     case PUT_CHAR:  // display the next part of the character
       PRINT_STATE("I HSCROLL");
 
-      _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
-      _MX->setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
-      FSMPRINTS(", scroll");
+      if (_charCols != 0)
+      {
+        _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+        _MX->setColumn(START_POSITION, DATA_BAR(_cBuf[_countCols++]));
+        FSMPRINTS(", scroll");
+      }
 
       // end of this buffer - we may need to get another one
       if (_countCols == _charCols)

@@ -34,19 +34,22 @@ void MD_PZone::commonPrint(void)
   PRINTS("\ncommonPrint");
   zoneClear();
   nextPos = _limitLeft;
-  _charCols = getFirstChar();
+  getFirstChar(_charCols);
   _countCols = 0;
 
   while (nextPos >= _limitRight)
   {
-    if (_countCols == _charCols)
+    PRINT("\nCountCol=", _countCols);
+    PRINT(" CharCol=", _charCols);
+    if (_countCols == _charCols || _charCols == 0)
     {
-      _charCols = getNextChar();
+      getNextChar(_charCols);
       _countCols = 0;
     }
 
     // now put something on the display
-    _MX->setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
+    if (_charCols != 0)
+      _MX->setColumn(nextPos--, DATA_BAR(_cBuf[_countCols++]));
   }
 }
 
