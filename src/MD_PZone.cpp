@@ -130,13 +130,15 @@ uint16_t MD_PZone::getTextWidth(char *p)
 // This is the sum of all the characters and the space between them.
 {
   uint16_t  sum = 0;
+  uint16_t  width;
 
   PRINT("\ngetTextWidth: ", p);
 
   while (*p != '\0')
   {
-    sum += findChar(*p++, _cBufSize, _cBuf);
-    if (*p) sum += _charSpacing;  // next character is not nul, so add inter-character spacing
+    width = findChar(*p++, _cBufSize, _cBuf);
+    sum += width;
+    if (width != 0 && *p) sum += _charSpacing;  // this char had width, so add inter-character spacing
   }
 
   PRINT("\ngetTextWidth: W=", sum);
@@ -393,11 +395,11 @@ void MD_PZone::moveTextPointer(void)
   PRINT(": endOfText ", _endOfText);
 }
 
-uint8_t MD_PZone::getFirstChar(void)
-// load the first char into the char buffer
-// return 0 if there are no characters
+bool MD_PZone::getFirstChar(uint8_t &len)
+// load the first char into the char buffer, set len to the number of columns
+// return false if there are no characters
 {
-  uint8_t len = 0;
+  len = 0;
 
   PRINT("\ngetFirst SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
   PRINT(" ZETEST(UD):", ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK));
@@ -408,7 +410,7 @@ uint8_t MD_PZone::getFirstChar(void)
   if ((_pCurChar == nullptr) || (*_pCurChar == '\0'))
   {
     _endOfText = true;
-    return(0);
+    return(false);
   }
   _endOfText = false;
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
@@ -436,21 +438,21 @@ uint8_t MD_PZone::getFirstChar(void)
 
   moveTextPointer();
 
-  return(len);
+  return(true);
 }
 
-uint8_t MD_PZone::getNextChar(void)
-// load the next char into the char buffer
-// return 0 if there are no characters
+bool MD_PZone::getNextChar(uint8_t &len)
+// load the next char into the char buffer, set len to the number of columns
+// return false if there are no characters
 {
-  uint8_t len = 0;
+  len = 0;
 
   PRINT("\ngetNexChar SFX(RIGHT):", SFX(PA_SCROLL_RIGHT));
   PRINT(" ZETEST(UD):", ZE_TEST(_zoneEffect, ZE_FLIP_UD_MASK));
   PRINT(" ZETEST(LR):", ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK));
 
   if (_endOfText)
-    return(0);
+    return(false);
 
   len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
@@ -469,7 +471,7 @@ uint8_t MD_PZone::getNextChar(void)
 
   moveTextPointer();
 
-  return(len);
+  return(true);
 }
 
 bool MD_PZone::zoneAnimate(void)

@@ -4,7 +4,7 @@
 
 [Version 2.0 Video](http://www.youtube.com/watch?v=u1iELyROjW8)
 
-[Sprites Animation Video] (http://www.youtube.com/watch?v=tfwAHx0MTxU)
+[Sprites Animation Video](http://www.youtube.com/watch?v=tfwAHx0MTxU)
 
 [Library Documentation](https://majicdesigns.github.io/MD_Parola/)
 

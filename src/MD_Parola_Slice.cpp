@@ -37,7 +37,7 @@ void MD_PZone::effectSlice(bool bIn)
     case GET_FIRST_CHAR:
       PRINT_STATE("I SLICE");
 
-      if ((_charCols = getFirstChar()) == 0)
+      if (!getFirstChar(_charCols))
       {
         _fsmState = END;
         break;
@@ -55,12 +55,15 @@ void MD_PZone::effectSlice(bool bIn)
 
     case GET_NEXT_CHAR: // Load the next character from the font table
       PRINT_STATE("I SLICE");
-      // have we reached the end of the characters string?
-      if ((_charCols = getNextChar()) == 0)
+      // Have we reached the end of the characters string?
+      do
       {
-        _fsmState = PAUSE;
-        break;
-      }
+        if (!getNextChar(_charCols))
+          _fsmState = PAUSE;
+      } while (_charCols == 0 && _fsmState != PAUSE);
+
+      if (_fsmState == PAUSE) break;
+
       _countCols = 0;
       _fsmState = PUT_CHAR;
       // !! fall through to next state to start displaying

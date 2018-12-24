@@ -49,6 +49,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Dec 2018 - version 3.1.0
+- Fixed issues caused by inter char spacing fix in v3.0.2
+
 Dec 2018 - version 3.0.2
 - Fixed another compile error with ESP8266.
 - Added Double_Scoreboard example.
@@ -1002,8 +1005,8 @@ private:
   bool    _endOfText;             // true when the end of the text string has been reached.
   void    moveTextPointer(void);  // move the text pointer depending on direction of buffer scan
 
-  uint8_t getFirstChar(void);     // put the first Text char into the char buffer
-  uint8_t getNextChar(void);      // put the next Text char into the char buffer
+  bool getFirstChar(uint8_t &len);// put the first Text char into the char buffer
+  bool getNextChar(uint8_t &len); // put the next Text char into the char buffer
 
   // Font character handling data and methods
   charDef_t *_userChars;  // the root of the list of user defined characters
