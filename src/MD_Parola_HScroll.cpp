@@ -83,7 +83,7 @@ void MD_PZone::effectHScroll(bool bLeft, bool bIn)
         else
         {
           // work out the number of filler columns
-          _countCols = (bLeft ? _limitLeft-_textLen-ZONE_START_COL(_zoneStart) + 1 : ZONE_END_COL(_zoneEnd)-_limitLeft);
+          _countCols = (bLeft ? _limitLeft - _textLen - ZONE_START_COL(_zoneStart) + 1 : ZONE_END_COL(_zoneEnd) - _limitLeft);
           FSMPRINT(", filler count ", _countCols);
           _fsmState = (_countCols <= 0) ? PAUSE : PUT_FILLER;
         }

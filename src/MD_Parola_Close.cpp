@@ -54,7 +54,7 @@ void MD_PZone::effectClose(bool bLightBar, bool bIn)
       zoneClear();
       commonPrint();
       {
-        const int16_t halfWidth = (_limitLeft - _limitRight)/2;
+        const int16_t halfWidth = (_limitLeft - _limitRight) / 2;
 
         if (_nextPos > halfWidth)
         {
@@ -91,7 +91,7 @@ void MD_PZone::effectClose(bool bLightBar, bool bIn)
       PRINT_STATE("O CLOSE");
       FSMPRINT(" - limits R:", _limitRight);
       FSMPRINT(" L:", _limitLeft);
-      _nextPos = (_limitLeft-_limitRight)/2;
+      _nextPos = (_limitLeft - _limitRight) / 2;
       FSMPRINT(" O:", _nextPos);
       zoneClear();
       commonPrint();

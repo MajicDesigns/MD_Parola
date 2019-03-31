@@ -410,12 +410,12 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #define ENA_GRAPHICS  1 ///< Enable graphics functionality
 
 // Miscellaneous defines
-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
 #define MAX_ZONES 4     ///< Maximum number of zones allowed. Change to allow more or less zones but uses RAM even if not used.
 
 // Zone column calculations
-#define ZONE_START_COL(m) (m*COL_SIZE)    ///< The first column of the first zone module
-#define ZONE_END_COL(m)   (((m+1)*COL_SIZE)-1)///< The last column of the last zone module
+#define ZONE_START_COL(m) (m * COL_SIZE)    ///< The first column of the first zone module
+#define ZONE_END_COL(m)   (((m + 1) * COL_SIZE) - 1)///< The last column of the last zone module
 
 class MD_Parola;
 
@@ -1458,7 +1458,7 @@ public:
    * \param cs  space between characters in columns.
    * \return No return value.
    */
-  void setCharSpacing(uint8_t cs) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setCharSpacing(cs); }
+  void setCharSpacing(uint8_t cs) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setCharSpacing(cs); }
 
   /**
    * Set the inter-character spacing in columns for the specified zone.
@@ -1479,7 +1479,7 @@ public:
    * \param intensity the intensity to set the display (0-15).
    * \return No return value.
    */
-  inline void setIntensity(uint8_t intensity) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setIntensity(intensity); }
+  inline void setIntensity(uint8_t intensity) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setIntensity(intensity); }
 
   /**
    * Set the display brightness for the specified zone.
@@ -1500,7 +1500,7 @@ public:
    * \param invert  true for inverted display, false for normal display
    * \return No return value.
    */
-  inline void setInvert(uint8_t invert) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setInvert(invert); }
+  inline void setInvert(uint8_t invert) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setInvert(invert); }
 
   /**
    * Invert the display in the specified zone.
@@ -1523,7 +1523,7 @@ public:
    * \param pause the time, in milliseconds, between animations.
    * \return No return value.
    */
-  inline void setPause(uint16_t pause) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setPause(pause); }
+  inline void setPause(uint16_t pause) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setPause(pause); }
 
   /**
    * Set the pause between ENTER and EXIT animations for the specified zone.
@@ -1547,7 +1547,7 @@ public:
    * \param space the spacing, in columns, between messages; zero for default behaviour..
    * \return No return value.
    */
-  inline void setScrollSpacing(uint16_t space) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setScrollSpacing(space); }
+  inline void setScrollSpacing(uint16_t space) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setScrollSpacing(space); }
 
   /**
    * Set the animation frame speed for all zones.
@@ -1558,7 +1558,7 @@ public:
    * \param speed the time, in milliseconds, between animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speed) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setSpeed(speed); }
+  inline void setSpeed(uint16_t speed) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeed(speed); }
 
   /**
    * Set the animation frame speed for the specified zone.
@@ -1615,7 +1615,7 @@ public:
   */
   void setSpriteData(const uint8_t *inData, uint8_t inWidth, uint8_t inFrames,
                      const uint8_t *outData, uint8_t outWidth, uint8_t outFrames)
-  { for (uint8_t i = 0; i<_numZones; i++) _Z[i].setSpriteData(inData, inWidth, inFrames, outData, outWidth, outFrames); }
+  { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpriteData(inData, inWidth, inFrames, outData, outWidth, outFrames); }
 
 #endif
 
@@ -1627,7 +1627,7 @@ public:
    * \param ta  the required text alignment.
    * \return No return value.
    */
-  inline void setTextAlignment(textPosition_t ta) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setTextAlignment(ta); }
+  inline void setTextAlignment(textPosition_t ta) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setTextAlignment(ta); }
 
   /**
    * Set the text alignment for the specified zone.
@@ -1656,7 +1656,7 @@ public:
    * \param pb  pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(char *pb) { /*for (uint8_t i = 0; i<_numZones; i++) */_Z[0].setTextBuffer(pb); }
+  inline void setTextBuffer(char *pb) { /*for (uint8_t i = 0; i < _numZones; i++) */_Z[0].setTextBuffer(pb); }
 
   /**
    * Set the pointer to the text buffer for the specified zone.
@@ -1745,7 +1745,7 @@ public:
    * \param data  pointer to the character data.
    * \return No return value.
    */
-  inline void addChar(uint8_t code, uint8_t *data) { for (uint8_t i=0; i<_numZones; i++) _Z[i].addChar(code, data); }
+  inline void addChar(uint8_t code, uint8_t *data) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].addChar(code, data); }
 
   /**
    * Add a user defined character to the replacement specified zone.
@@ -1767,7 +1767,7 @@ public:
    * \param code  ASCII code for the character data.
    * \return No return value.
    */
-  inline void delChar(uint8_t code) { for (uint8_t i=0; i<_numZones; i++) _Z[i].delChar(code); }
+  inline void delChar(uint8_t code) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].delChar(code); }
 
   /**
    * Delete a user defined character to the replacement list for the specified zone.
@@ -1809,7 +1809,7 @@ public:
    * \param fontDef Pointer to the font definition to be used.
    * \return No return value.
    */
-  inline void setFont(MD_MAX72XX::fontType_t *fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); }
+  inline void setFont(MD_MAX72XX::fontType_t *fontDef) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setZoneFont(fontDef); }
 
   /**
    * Set the display font for a specific zone.

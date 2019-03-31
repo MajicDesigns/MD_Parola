@@ -127,18 +127,18 @@ void MD_PZone::effectSlice(bool bIn)
       while(_MX->getColumn(_nextPos) == EMPTY_BAR && _endPos >= _limitRight)
         _nextPos = _endPos--; // pretend we just animated it!
 
-      if (_endPos+1 < _limitRight)
+      if (_endPos + 1 < _limitRight)
         _fsmState = END;  //reached the end
       else
       {
         // Move the column over to the left and blank out previous position
         if (_nextPos < ZONE_END_COL(_zoneEnd))
-          _MX->setColumn(_nextPos+1, _MX->getColumn(_nextPos));
+          _MX->setColumn(_nextPos + 1, _MX->getColumn(_nextPos));
         _MX->setColumn(_nextPos, EMPTY_BAR);
         _nextPos++;
 
         // set up for the next time
-        if (_nextPos == ZONE_END_COL(_zoneEnd)+1)
+        if (_nextPos == ZONE_END_COL(_zoneEnd) + 1)
           _nextPos = _endPos--;
       }
       break;

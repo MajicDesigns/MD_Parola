@@ -59,7 +59,7 @@ void MD_PZone::effectMesh(bool bIn)
         // need to scroll it UP, and vice versa.
         uint8_t col = _MX->getColumn(c);
 
-        col = (bUp ? col >> (COL_SIZE-1-_nextPos) : col << (COL_SIZE-1-_nextPos));
+        col = (bUp ? col >> (COL_SIZE - 1 - _nextPos) : col << (COL_SIZE - 1 - _nextPos));
         _MX->setColumn(c, col);
         bUp = !bUp;
       }

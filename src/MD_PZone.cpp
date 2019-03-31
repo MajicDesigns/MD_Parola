@@ -40,7 +40,7 @@ MD_PZone::~MD_PZone(void)
   // release the memory for user defined characters
   charDef_t *p = _userChars;
 
-  while (p!= nullptr)
+  while (p != nullptr)
   {
     charDef_t *pt = p;
     p = pt->next;
@@ -192,11 +192,11 @@ bool MD_PZone::calcTextLimits(char *p)
     {
       _limitLeft = ZONE_END_COL(_zoneEnd);
       _limitRight = ZONE_START_COL(_zoneStart);
-      b= false;
+      b = false;
     }
     else
     {
-      _limitRight = ZONE_START_COL(_zoneStart) + ((displayWidth - _textLen)/2);
+      _limitRight = ZONE_START_COL(_zoneStart) + ((displayWidth - _textLen) / 2);
       _limitLeft = _limitRight + _textLen - 1;
     }
     break;
@@ -343,13 +343,13 @@ void MD_PZone::reverseBuf(uint8_t *p, uint8_t size)
 // reverse the elements of the specified buffer
 // useful when we are scrolling right and want to insert the columns in reverse order
 {
-  for (uint8_t i=0; i<size/2; i++)
+  for (uint8_t i = 0; i < size / 2; i++)
   {
     uint8_t t;
 
     t = p[i];
-    p[i] = p[size-1-i];
-    p[size-1-i] = t;
+    p[i] = p[size - 1 - i];
+    p[size - 1 - i] = t;
   }
 }
 
@@ -357,7 +357,7 @@ void MD_PZone::invertBuf(uint8_t *p, uint8_t size)
 // invert the elements of the specified buffer
 // used when the character needs to be inverted when ZE_FLIP_UD
 {
-  for (uint8_t i=0; i<size; i++)
+  for (uint8_t i = 0; i < size; i++)
   {
     uint8_t v = p[i];
 
@@ -421,7 +421,7 @@ bool MD_PZone::getFirstChar(uint8_t &len)
   }
 
   // good string, get the first char into the current buffer
-  len = makeChar(*_pCurChar, *(_pCurChar+1) != '\0');
+  len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
     (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
@@ -573,11 +573,11 @@ bool MD_PZone::zoneAnimate(void)
 
 #if  TIME_PROFILING
   Serial.print("\nAnim time: ");
-  Serial.print(millis()-_lastRunTime);
+  Serial.print(millis() - _lastRunTime);
   if (_fsmState == END)
   {
     Serial.print("\nCycle time: ");
-    Serial.print(millis()-cycleStartTime);
+    Serial.print(millis() - cycleStartTime);
   }
 #endif
 
