@@ -1069,7 +1069,6 @@ private:
 //#endif // ENA_GROW
 };
 
-
 /**
  * Core object for the Parola library.
  * This class contains one or more zones for display.
@@ -1895,7 +1894,6 @@ public:
   /** @} */
 #endif
 
-
   //--------------------------------------------------------------
   /** \name Support methods for Print class extension.
   * @{
@@ -1953,6 +1951,5 @@ public:
   uint8_t     _numModules;///< Number of display modules [0..numModules-1]
   uint8_t     _numZones;  ///< Max number of zones in the display [0..numZones-1]
 };
-
 
 #endif
