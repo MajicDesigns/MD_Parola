@@ -54,7 +54,7 @@ void MD_PZone::effectClose(bool bLightBar, bool bIn)
       zoneClear();
       commonPrint();
       {
-        const int16_t	halfWidth = (_limitLeft - _limitRight)/2;
+        const int16_t halfWidth = (_limitLeft - _limitRight)/2;
 
         if (_nextPos > halfWidth)
         {

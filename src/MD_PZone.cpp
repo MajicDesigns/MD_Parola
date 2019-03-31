@@ -42,7 +42,7 @@ MD_PZone::~MD_PZone(void)
 
   while (p!= nullptr)
   {
-    charDef_t	*pt = p;
+    charDef_t *pt = p;
     p = pt->next;
     delete pt;
   };
@@ -152,7 +152,7 @@ bool MD_PZone::calcTextLimits(char *p)
 // in the current display the return false, otherwise true.
 {
   bool b = true;
-  uint16_t	displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart) + 1;
+  uint16_t displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart) + 1;
 
   _textLen = getTextWidth(p);
 
@@ -266,7 +266,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 bool MD_PZone::delChar(uint8_t code)
 // Delete a user defined character from the replacement list
 {
-  charDef_t	*pcd = _userChars;
+  charDef_t *pcd = _userChars;
 
   if (code == 0)
     return(false);
@@ -290,7 +290,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 // Find a character either in user defined list or from font table
 {
   charDef_t *pcd = _userChars;
-  uint8_t	len;
+  uint8_t len;
 
   PRINTX("\nfindUserChar 0x", code);
   // check local list first
@@ -345,7 +345,7 @@ void MD_PZone::reverseBuf(uint8_t *p, uint8_t size)
 {
   for (uint8_t i=0; i<size/2; i++)
   {
-    uint8_t	t;
+    uint8_t t;
 
     t = p[i];
     p[i] = p[size-1-i];
@@ -359,7 +359,7 @@ void MD_PZone::invertBuf(uint8_t *p, uint8_t size)
 {
   for (uint8_t i=0; i<size; i++)
   {
-    uint8_t	v = p[i];
+    uint8_t v = p[i];
 
     v = ((v >> 1) & 0x55) | ((v & 0x55) << 1);  // swap odd and even bits
     v = ((v >> 2) & 0x33) | ((v & 0x33) << 2);  // swap consecutive pairs
@@ -483,7 +483,7 @@ bool MD_PZone::zoneAnimate(void)
   _animationAdvanced = false;   // assume this will not happen this time around
 
   if (_fsmState == END)
-	  return(true);
+    return(true);
 
   // work through things that stop us running this at all
   if (((_fsmState == PAUSE) && (millis() - _lastRunTime < _pauseTime)) ||

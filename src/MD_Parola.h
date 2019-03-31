@@ -521,7 +521,7 @@ public:
    * Initialize the object data. This will be called to initialize
    * new data for the class that cannot be done during the object creation.
    *
-   * \param p	pointer to the parent object for this zone.
+   * \param p pointer to the parent object for this zone.
    */
   void begin(MD_MAX72XX *p);
 
@@ -961,7 +961,7 @@ private:
     charDef_t *next;  ///< next in the list
   };
 
-  MD_MAX72XX	*_MX;   ///< Pointer to the parent passed in at begin()
+  MD_MAX72XX *_MX;   ///< Pointer to the parent passed in at begin()
 
   // Time and speed controlling data and methods
   bool      _suspend;     // don't do anything
@@ -997,7 +997,7 @@ private:
   int16_t   _startPos;    // Start position for the text LED
   int16_t   _endPos;      // End limit for the text LED.
 
-  void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM
+  void setInitialEffectConditions(void); // set the initial conditions for loops in the FSM
 
   // Character buffer handling data and methods
   char    *_pText;                // pointer to text buffer from user call
@@ -1018,7 +1018,7 @@ private:
   MD_MAX72XX::fontType_t  *_fontDef;  // font for this zone
 
   void      allocateFontBuffer(void); // allocate _cBuf based on the size of the largest font characters
-  uint8_t   findChar(uint8_t code, uint8_t size, uint8_t *cBuf);	// look for user defined character
+  uint8_t   findChar(uint8_t code, uint8_t size, uint8_t *cBuf); // look for user defined character
   uint8_t   makeChar(char c, bool addBlank);      // load a character bitmap and add in trailing _charSpacing blanks if req'd
   void      reverseBuf(uint8_t *p, uint8_t size); // reverse the elements of the buffer
   void      invertBuf(uint8_t *p, uint8_t size);  // invert the elements of the buffer
@@ -1806,7 +1806,7 @@ public:
    * MD_MAX72xx font builder (refer to documentation for the tool and the MD_MAX72xx library).
    * Passing nullptr resets to the library default font.
    *
-   * \param fontDef	Pointer to the font definition to be used.
+   * \param fontDef Pointer to the font definition to be used.
    * \return No return value.
    */
   inline void setFont(MD_MAX72XX::fontType_t *fontDef) { for (uint8_t i=0; i<_numZones; i++) _Z[i].setZoneFont(fontDef); }

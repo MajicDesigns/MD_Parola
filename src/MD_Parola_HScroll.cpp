@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements horizontal scrolling effect
  */
 
-#define	START_POSITION (bLeft) ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd) ///< Start position depends on the scrolling direction
+#define START_POSITION (bLeft) ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd) ///< Start position depends on the scrolling direction
 
 void MD_PZone::effectHScroll(bool bLeft, bool bIn)
 {
