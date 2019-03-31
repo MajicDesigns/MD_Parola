@@ -125,7 +125,7 @@ void MD_PZone::setInitialEffectConditions(void)
   _posOffset = (_textAlignment == PA_RIGHT ? 1 : -1);
 }
 
-uint16_t MD_PZone::getTextWidth(char *p)
+uint16_t MD_PZone::getTextWidth(const char *p)
 // Get the width in columns for the text string passed to the function
 // This is the sum of all the characters and the space between them.
 {
@@ -146,7 +146,7 @@ uint16_t MD_PZone::getTextWidth(char *p)
   return(sum);
 }
 
-bool MD_PZone::calcTextLimits(char *p)
+bool MD_PZone::calcTextLimits(const char *p)
 // Work out left and right sides for the text to be displayed,
 // depending on the text alignment. If the message will not fit
 // in the current display the return false, otherwise true.

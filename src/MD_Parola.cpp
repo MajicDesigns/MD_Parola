@@ -89,7 +89,7 @@ bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)
   return(false);
 }
 
-void MD_Parola::displayZoneText(uint8_t z, char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut)
+void MD_Parola::displayZoneText(uint8_t z, const char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut)
 {
   setTextBuffer(z, pText);
   setTextAlignment(z, align);

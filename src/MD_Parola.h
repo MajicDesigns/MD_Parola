@@ -820,7 +820,7 @@ public:
    * \param pb  pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(char *pb) { _pText = pb; }
+  inline void setTextBuffer(const char *pb) { _pText = pb; }
 
   /**
    * Set the entry and exit text effects for the zone.
@@ -985,9 +985,9 @@ private:
   uint8_t         _intensity;   // display intensity
   bool            _animationAdvanced;  // true is animation advanced inthe last animation call
 
-  void      setInitialConditions(void); // set up initial conditions for an effect
-  uint16_t  getTextWidth(char *p);      // width of text in columns
-  bool      calcTextLimits(char *p);    // calculate the right and left limits for the text
+  void      setInitialConditions(void);    // set up initial conditions for an effect
+  uint16_t  getTextWidth(const char *p);   // width of text in columns
+  bool      calcTextLimits(const char *p); // calculate the right and left limits for the text
 
   // Variables used in the effects routines. These can be used by the functions as needed.
   uint8_t   _zoneStart;   // First zone module number
@@ -1000,10 +1000,10 @@ private:
   void		setInitialEffectConditions(void);	// set the initial conditions for loops in the FSM
 
   // Character buffer handling data and methods
-  char    *_pText;                // pointer to text buffer from user call
-  char    *_pCurChar;             // the current character being processed in the text
-  bool    _endOfText;             // true when the end of the text string has been reached.
-  void    moveTextPointer(void);  // move the text pointer depending on direction of buffer scan
+  const char *_pText;                // pointer to text buffer from user call
+  const char *_pCurChar;             // the current character being processed in the text
+  bool       _endOfText;             // true when the end of the text string has been reached.
+  void       moveTextPointer(void);  // move the text pointer depending on direction of buffer scan
 
   bool getFirstChar(uint8_t &len);// put the first Text char into the char buffer
   bool getNextChar(uint8_t &len); // put the next Text char into the char buffer
@@ -1295,7 +1295,7 @@ public:
    * \param speed   parameter suitable for the setSpeed() method.
    * \return No return value.
    */
-  inline void displayScroll(char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)
+  inline void displayScroll(const char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)
     { displayZoneText(0, pText, align, speed, 0, effect, effect); }
 
  /**
@@ -1313,7 +1313,7 @@ public:
    * \param effectOut parameter suitable for the setTextEffect() method.
    * \return No return value.
    */
-  inline void displayText(char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = PA_NO_EFFECT)
+  inline void displayText(const char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = PA_NO_EFFECT)
     { displayZoneText(0, pText, align, speed, pause, effectIn, effectOut); }
 
  /**
@@ -1332,7 +1332,7 @@ public:
    * \param effectOut parameter suitable for the setTextEffect() method.
    * \return No return value.
    */
-  void displayZoneText(uint8_t z, char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = PA_NO_EFFECT);
+  void displayZoneText(uint8_t z, const char *pText, textPosition_t align, uint16_t speed, uint16_t pause, textEffect_t effectIn, textEffect_t effectOut = PA_NO_EFFECT);
 
   /** @} */
   //--------------------------------------------------------------
@@ -1656,7 +1656,7 @@ public:
    * \param pb  pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(char *pb) { /*for (uint8_t i = 0; i<_numZones; i++) */_Z[0].setTextBuffer(pb); }
+  inline void setTextBuffer(const char *pb) { /*for (uint8_t i = 0; i<_numZones; i++) */_Z[0].setTextBuffer(pb); }
 
   /**
    * Set the pointer to the text buffer for the specified zone.
@@ -1667,7 +1667,7 @@ public:
    * \param pb  pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(uint8_t z, char *pb) { if (z < _numZones) _Z[z].setTextBuffer(pb); }
+  inline void setTextBuffer(uint8_t z, const char *pb) { if (z < _numZones) _Z[z].setTextBuffer(pb); }
 
   /**
    * Set the entry and exit text effects for all zones.
