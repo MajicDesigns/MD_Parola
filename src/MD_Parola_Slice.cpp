@@ -145,6 +145,6 @@ void MD_PZone::effectSlice(bool bIn)
 
     default:
       _fsmState = END;
-    } 
+    }
   }
 }

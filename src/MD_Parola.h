@@ -88,7 +88,7 @@ Dec 2017 - version 2.6.6
 - Created MAX_ZONES constant to allow static zones array. Interim measure until resolution
   of the errors (?) caused when dynamically allocating the _Z array.
 - Cleaned up most compiler warnings.
-- Reworked Parola_Test example 
+- Reworked Parola_Test example
 
 Nov 2017 - version 2.6.5
 - Fixed RANDOM effect locking issue
@@ -285,22 +285,22 @@ ___
 
 Sprite Text Effect
 ------------------
-The PA_SPRITE text effect requires additional information, as it extends the functionality 
-of the library to include fully customizable, user defined, animated bitmaps to wipe text 
+The PA_SPRITE text effect requires additional information, as it extends the functionality
+of the library to include fully customizable, user defined, animated bitmaps to wipe text
 on and off the LED matrix display.
 
-Each frame is defined by a sequence of numbers that encode the columns of the bitmap. The 
-least significant bit is at the top of the bitmap. If the sprite has a front and rear, the 
-bitmap should be defined for the sprite moving to the right. The library will mirror reverse 
-the image when it moves left. The sprites are essentially defined in the same way as the 
+Each frame is defined by a sequence of numbers that encode the columns of the bitmap. The
+least significant bit is at the top of the bitmap. If the sprite has a front and rear, the
+bitmap should be defined for the sprite moving to the right. The library will mirror reverse
+the image when it moves left. The sprites are essentially defined in the same way as the
 character font and the same tools can be used to define the data for the sprite bitmap.
 
-A sprite has at least one frame. If more than one frame is required, a similar definition is 
-created for each frame of the animation, and a data table constructed defining the animated 
-sprite. To ensure smooth animations, remember that once the last frame is reached, it will loop 
+A sprite has at least one frame. If more than one frame is required, a similar definition is
+created for each frame of the animation, and a data table constructed defining the animated
+sprite. To ensure smooth animations, remember that once the last frame is reached, it will loop
 back to the first, so avoid discontinuities between the two ends of the data table.
 
-The library is given the sprite definition setSpriteData() method and the text effect is 
+The library is given the sprite definition setSpriteData() method and the text effect is
 specified using the effect id PA_SPRITE.
 
 ### More Information
@@ -492,7 +492,7 @@ enum textEffect_t
  *
  * The FLIP_UD and FLIP_LR effects are specifically designed to allow rectangular shaped display
  * modules (like Parola or Generic types) to be placed in an inverted position to allow all matrices
- * to be tightly packed into a 2 line display. One of the lines must be flipped horizontally and 
+ * to be tightly packed into a 2 line display. One of the lines must be flipped horizontally and
  * vertically to remain legible in this configuration.
  */
 enum zoneEffect_t
@@ -782,7 +782,7 @@ public:
   * \param outFrames the number of frames for the sprite.
   * \return No return value.
   */
-  void setSpriteData(const uint8_t *inData,  uint8_t inWidth,  uint8_t inFrames, 
+  void setSpriteData(const uint8_t *inData,  uint8_t inWidth,  uint8_t inFrames,
                      const uint8_t *outData, uint8_t outWidth, uint8_t outFrames);
 #endif
 
@@ -1922,7 +1922,7 @@ public:
   * Invokes an animation using PA_PRINT with all other settings (alignment,
   * speed, etc) taken from current defaults.
   * This method also invokes the animation for the print and returns when that has
-  * finished, so it blocks while the printing is happening, which should be at least 
+  * finished, so it blocks while the printing is happening, which should be at least
   * one iteration of the wait loop.
   *
   * \param str  Pointer to the nul terminated char array.
