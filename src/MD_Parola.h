@@ -954,7 +954,7 @@ private:
   /***
     *  Structure for list of user defined characters substitutions.
   */
-  typedef struct charDef_t
+  struct charDef_t
   {
     uint8_t   code;   ///< the ASCII code for the user defined character
     uint8_t   *data;  ///< user supplied data
