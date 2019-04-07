@@ -36,9 +36,9 @@ void MD_PZone::effectDissolve(bool bIn)
   case PAUSE:   // bIn = false
   case GET_FIRST_CHAR:  // first stage dissolve
     PRINT_STATE("IO DISS");
-    for (int16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    for (int16_t i = ZONE_START_COL(_zoneStart); i <= ZONE_END_COL(_zoneEnd); i++)
     {
-      uint8_t	col = DATA_BAR(_MX->getColumn(i));
+      uint8_t col = DATA_BAR(_MX->getColumn(i));
 
       col |= (i&1 ? 0x55 : 0xaa); // checkerboard pattern
       _MX->setColumn(i, DATA_BAR(col));
@@ -50,9 +50,9 @@ void MD_PZone::effectDissolve(bool bIn)
     PRINT_STATE("IO DISS");
     zoneClear();
     if (bIn) commonPrint();
-    for (int16_t i=ZONE_START_COL(_zoneStart); i<=ZONE_END_COL(_zoneEnd); i++)
+    for (int16_t i = ZONE_START_COL(_zoneStart); i <= ZONE_END_COL(_zoneEnd); i++)
     {
-      uint8_t	col = DATA_BAR(_MX->getColumn(i));
+      uint8_t col = DATA_BAR(_MX->getColumn(i));
 
       col |= (i&1 ? 0xaa : 0x55); // alternate checkerboard pattern
       _MX->setColumn(i, DATA_BAR(col));

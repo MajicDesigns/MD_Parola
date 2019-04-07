@@ -59,14 +59,14 @@ void MD_Parola::begin(uint8_t numZones)
 
   // initialise zone-independent options
   setSpeed(10);
-  setPause(10*getSpeed());
+  setPause(10 * getSpeed());
   setCharSpacing(1);
   setScrollSpacing(0);
   setTextAlignment(PA_LEFT);
   setTextEffect(PA_PRINT, PA_NO_EFFECT);
   setTextBuffer(nullptr);
   setInvert(false);
-  setIntensity(MAX_INTENSITY/2);
+  setIntensity(MAX_INTENSITY / 2);
 
   // Now set the default viewing parameters for this library
   _D.setFont(nullptr);

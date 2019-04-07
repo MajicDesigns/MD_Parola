@@ -27,8 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements MD_PZone class methods
  */
 
-MD_PZone::MD_PZone(void) : _fsmState(END), _scrollDistance(0), _zoneEffect(0), _charSpacing(1),
-_fontDef(nullptr), _userChars(nullptr), _cBufSize(0), _cBuf(nullptr)
+MD_PZone::MD_PZone(void) : _fsmState(END), _scrollDistance(0), _zoneEffect(0), _userChars(nullptr),
+_cBufSize(0), _cBuf(nullptr), _charSpacing(1), _fontDef(nullptr)
 #if ENA_SPRITE
 , _spriteInData(nullptr), _spriteOutData(nullptr)
 #endif
@@ -40,9 +40,9 @@ MD_PZone::~MD_PZone(void)
   // release the memory for user defined characters
   charDef_t *p = _userChars;
 
-  while (p!= nullptr)
+  while (p != nullptr)
   {
-    charDef_t	*pt = p;
+    charDef_t *pt = p;
     p = pt->next;
     delete pt;
   };
@@ -152,7 +152,7 @@ bool MD_PZone::calcTextLimits(const char *p)
 // in the current display the return false, otherwise true.
 {
   bool b = true;
-  uint16_t	displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart) + 1;
+  uint16_t displayWidth = ZONE_END_COL(_zoneEnd) - ZONE_START_COL(_zoneStart) + 1;
 
   _textLen = getTextWidth(p);
 
@@ -192,11 +192,11 @@ bool MD_PZone::calcTextLimits(const char *p)
     {
       _limitLeft = ZONE_END_COL(_zoneEnd);
       _limitRight = ZONE_START_COL(_zoneStart);
-      b= false;
+      b = false;
     }
     else
     {
-      _limitRight = ZONE_START_COL(_zoneStart) + ((displayWidth - _textLen)/2);
+      _limitRight = ZONE_START_COL(_zoneStart) + ((displayWidth - _textLen) / 2);
       _limitLeft = _limitRight + _textLen - 1;
     }
     break;
@@ -266,7 +266,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
 bool MD_PZone::delChar(uint8_t code)
 // Delete a user defined character from the replacement list
 {
-  charDef_t	*pcd = _userChars;
+  charDef_t *pcd = _userChars;
 
   if (code == 0)
     return(false);
@@ -290,7 +290,7 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
 // Find a character either in user defined list or from font table
 {
   charDef_t *pcd = _userChars;
-  uint8_t	len;
+  uint8_t len;
 
   PRINTX("\nfindUserChar 0x", code);
   // check local list first
@@ -343,13 +343,13 @@ void MD_PZone::reverseBuf(uint8_t *p, uint8_t size)
 // reverse the elements of the specified buffer
 // useful when we are scrolling right and want to insert the columns in reverse order
 {
-  for (uint8_t i=0; i<size/2; i++)
+  for (uint8_t i = 0; i < size / 2; i++)
   {
-    uint8_t	t;
+    uint8_t t;
 
     t = p[i];
-    p[i] = p[size-1-i];
-    p[size-1-i] = t;
+    p[i] = p[size - 1 - i];
+    p[size - 1 - i] = t;
   }
 }
 
@@ -357,9 +357,9 @@ void MD_PZone::invertBuf(uint8_t *p, uint8_t size)
 // invert the elements of the specified buffer
 // used when the character needs to be inverted when ZE_FLIP_UD
 {
-  for (uint8_t i=0; i<size; i++)
+  for (uint8_t i = 0; i < size; i++)
   {
-    uint8_t	v = p[i];
+    uint8_t v = p[i];
 
     v = ((v >> 1) & 0x55) | ((v & 0x55) << 1);  // swap odd and even bits
     v = ((v >> 2) & 0x33) | ((v & 0x33) << 2);  // swap consecutive pairs
@@ -421,7 +421,7 @@ bool MD_PZone::getFirstChar(uint8_t &len)
   }
 
   // good string, get the first char into the current buffer
-  len = makeChar(*_pCurChar, *(_pCurChar+1) != '\0');
+  len = makeChar(*_pCurChar, *(_pCurChar + 1) != '\0');
 
   if ((!ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && (SFX(PA_SCROLL_RIGHT))) ||
     (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
@@ -483,7 +483,7 @@ bool MD_PZone::zoneAnimate(void)
   _animationAdvanced = false;   // assume this will not happen this time around
 
   if (_fsmState == END)
-	  return(true);
+    return(true);
 
   // work through things that stop us running this at all
   if (((_fsmState == PAUSE) && (millis() - _lastRunTime < _pauseTime)) ||
@@ -573,11 +573,11 @@ bool MD_PZone::zoneAnimate(void)
 
 #if  TIME_PROFILING
   Serial.print("\nAnim time: ");
-  Serial.print(millis()-_lastRunTime);
+  Serial.print(millis() - _lastRunTime);
   if (_fsmState == END)
   {
     Serial.print("\nCycle time: ");
-    Serial.print(millis()-cycleStartTime);
+    Serial.print(millis() - cycleStartTime);
   }
 #endif
 
