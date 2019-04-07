@@ -59,7 +59,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
 
       // blank out the part of the display we don't need
       FSMPRINT("Scan col ", _nextPos);
-      for (int16_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i = _startPos; i != _endPos + _posOffset; i += _posOffset)
       {
         if ((!bBlank && (i != _nextPos)) || (bBlank && (i == _nextPos)))
           _MX->setColumn(i, EMPTY_BAR);
@@ -92,7 +92,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
 
       // blank out the part of the display we don't need
       FSMPRINT(" Scan col ", _nextPos);
-      for (int16_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i = _startPos; i != _endPos + _posOffset; i += _posOffset)
       {
         if ((!bBlank && (i != _nextPos)) || (bBlank && (i == _nextPos)))
           _MX->setColumn(i, EMPTY_BAR);
@@ -101,7 +101,7 @@ void MD_PZone::effectHScan(bool bIn, bool bBlank)
       // check if we have finished
       if (_nextPos < _endPos) _fsmState = END;
 
-      _nextPos += _posOffset;	// for the next time around
+      _nextPos += _posOffset; // for the next time around
       break;
 
     default:
@@ -118,7 +118,7 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
 // Print up the whole message and then remove the parts we
 // don't need in order to do the animation.
 {
-  uint8_t	maskCol = 0;
+  uint8_t maskCol = 0;
 
   if (bIn)  // incoming
   {
@@ -127,7 +127,7 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
     case INITIALISE:
       PRINT_STATE("I SCANV");
       setInitialEffectConditions();
-      _nextPos = 0;		// this is the bit number
+      _nextPos = 0; // this is the bit number
       _fsmState = PUT_CHAR;
       // fall through to next state
 
@@ -139,7 +139,7 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
       commonPrint();
 
       // check if we have finished
-      if (_nextPos == 8)		// bits numbered 0 to 7
+      if (_nextPos == 8) // bits numbered 0 to 7
       {
         _fsmState = PAUSE;
         break;
@@ -148,14 +148,14 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
       // blank out the part of the display we don't need
       FSMPRINT("Keep bit ", _nextPos);
       maskCol = (1 << _nextPos);
-      for (int16_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i = _startPos; i != _endPos + _posOffset; i += _posOffset)
       {
-        uint8_t	c = DATA_BAR(_MX->getColumn(i) & (bBlank ? ~maskCol : maskCol));
+        uint8_t c = DATA_BAR(_MX->getColumn(i) & (bBlank ? ~maskCol : maskCol));
 
         _MX->setColumn(i, DATA_BAR(c));
       }
 
-      _nextPos++;	// for the next time around
+      _nextPos++; // for the next time around
       break;
 
     default:
@@ -171,7 +171,7 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
     case INITIALISE:
       PRINT_STATE("O SCANV");
       setInitialEffectConditions();
-      _nextPos = 7;	// the bit number
+      _nextPos = 7; // the bit number
       _fsmState = PUT_CHAR;
       // fall through to next state
 
@@ -186,9 +186,9 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
       FSMPRINT(" Keep bit ", _nextPos);
       if (_nextPos >= 0)
         maskCol = 1 << _nextPos;
-      for (int16_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i = _startPos; i != _endPos + _posOffset; i += _posOffset)
       {
-        uint8_t	c = DATA_BAR(_MX->getColumn(i) & (bBlank ? ~maskCol : maskCol));
+        uint8_t c = DATA_BAR(_MX->getColumn(i) & (bBlank ? ~maskCol : maskCol));
 
         _MX->setColumn(i, DATA_BAR(c));
       }
@@ -197,7 +197,7 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
       if (_nextPos < 0)
         _fsmState = END;
 
-      _nextPos--;	// for the next time around
+      _nextPos--; // for the next time around
       break;
 
     default:

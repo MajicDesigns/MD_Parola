@@ -39,7 +39,7 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
     case INITIALISE:
       PRINT_STATE("I GROW");
       setInitialEffectConditions();
-      _nextPos = (bUp ? 0xff : 1);		// this is the bit mask
+      _nextPos = (bUp ? 0xff : 1); // this is the bit mask
       _fsmState = PUT_CHAR;
       // fall through to next state
 
@@ -59,9 +59,9 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
 
       // blank out the part of the display we don't need
       FSMPRINT("Keep bits ", _nextPos);
-      for (int16_t i = _startPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i = _startPos; i != _endPos + _posOffset; i += _posOffset)
       {
-        uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+        uint8_t c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
         _MX->setColumn(i, DATA_BAR(c));
       }
@@ -98,15 +98,15 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
 
       // blank out the part of the display we don't need
       FSMPRINT(" Keep bits ", _nextPos);
-      for (int16_t i=_startPos; i != _endPos+_posOffset; i += _posOffset)
+      for (int16_t i =_startPos; i != _endPos + _posOffset; i += _posOffset)
       {
-        uint8_t	c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
+        uint8_t c = DATA_BAR(_MX->getColumn(i)) & (bUp ? ~_nextPos : _nextPos);
 
         _MX->setColumn(i, DATA_BAR(c));
       }
 
       // check if we have finished
-      if (_nextPos == (bUp ? 0xff : 0x0))	// all bits covered
+      if (_nextPos == (bUp ? 0xff : 0x0)) // all bits covered
         _fsmState = END;
 
       // for the next time around

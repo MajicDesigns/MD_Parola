@@ -40,7 +40,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
       PRINT_STATE("I OPEN");
       FSMPRINT(" - limits R:", _limitRight);
       FSMPRINT(" L:", _limitLeft);
-      _nextPos = 1 + (_limitLeft - _limitRight)/2;
+      _nextPos = 1 + (_limitLeft - _limitRight) / 2;
       FSMPRINT(" O:", _nextPos);
       if (bLightBar)
       {
@@ -60,7 +60,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
       else
       {
         commonPrint();
-        for (int16_t i=0; i<_nextPos; i++)
+        for (int16_t i = 0; i < _nextPos; i++)
         {
           _MX->setColumn(_limitRight + i, EMPTY_BAR);
           _MX->setColumn(_limitLeft - i, EMPTY_BAR);
@@ -102,7 +102,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
     case PUT_CHAR:
       PRINT_STATE("O OPEN");
       FSMPRINT(" - offset ", _nextPos);
-      if (_nextPos > (_limitLeft - _limitRight)/2)
+      if (_nextPos > (_limitLeft - _limitRight) / 2)
       {
         _fsmState = END;
       }
@@ -111,7 +111,7 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
         _MX->setColumn(_limitLeft - _nextPos, EMPTY_BAR);
         _MX->setColumn(_limitRight + _nextPos, EMPTY_BAR);
         _nextPos++;
-        if (bLightBar && (_nextPos <= (_limitLeft-_limitRight)/2))
+        if (bLightBar && (_nextPos <= (_limitLeft - _limitRight) / 2))
         {
           _MX->setColumn(_limitLeft - _nextPos, LIGHT_BAR);
           _MX->setColumn(_limitRight + _nextPos,LIGHT_BAR);
