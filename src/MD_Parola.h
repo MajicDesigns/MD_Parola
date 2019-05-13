@@ -397,21 +397,40 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 // Granular selection of animations/functions to include in the library
 // If an animation class is not used at all some memory savings can be made
 // by excluding the animation code.
+#ifndef ENA_MISC
 #define ENA_MISC    1   ///< Enable miscellaneous animations
+#endif
+#ifndef ENA_WIPE
 #define ENA_WIPE    1   ///< Enable wipe type animations
+#endif
+#ifndef ENA_SCAN
 #define ENA_SCAN    1   ///< Enable scanning animations
+#endif
+#ifndef ENA_SCR_DIA
 #define ENA_SCR_DIA 1   ///< Enable diagonal scrolling animation
+#endif
+#ifndef ENA_OPNCLS
 #define ENA_OPNCLS  1   ///< Enable open and close scan effects
+#endif
+#ifndef ENA_GROW
 #define ENA_GROW    1   ///< Enable grow effects
+#endif
+#ifndef ENA_SPRITE
 #define ENA_SPRITE  1   ///< Enable sprite effects
+#endif
 
 // If function is not used at all, then some memory savings can be made
 // by excluding associated code.
+#ifndef ENA_GRAPHICS
 #define ENA_GRAPHICS  1 ///< Enable graphics functionality
+#endif
 
 // Miscellaneous defines
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
+
+#ifndef MAX_ZONES
 #define MAX_ZONES 4     ///< Maximum number of zones allowed. Change to allow more or less zones but uses RAM even if not used.
+#endif
 
 // Zone column calculations
 #define ZONE_START_COL(m) (m * COL_SIZE)    ///< The first column of the first zone module
