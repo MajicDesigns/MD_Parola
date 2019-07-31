@@ -1,6 +1,5 @@
 // Data file for UTF-8 example user defined fonts
-#ifndef FONTS_DATA_H
-#define FONTS_DATA_H
+#pragma once
 
 MD_MAX72XX::fontType_t ExtASCII[] PROGMEM =
 {
@@ -261,5 +260,3 @@ MD_MAX72XX::fontType_t ExtASCII[] PROGMEM =
   4, 252, 72, 72, 48,		// 254 - 'small thorn'
   4, 157, 160, 160, 125,		// 255 - 'y diaresis'
 };
-
-#endif

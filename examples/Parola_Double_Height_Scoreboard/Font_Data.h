@@ -1,6 +1,5 @@
-// Data file for numerci scoreboard fonts
-#ifndef FONTDATA_H
-#define FONTDATA_H
+// Data file for numeric scoreboard fonts
+#pragma once
 
 MD_MAX72XX::fontType_t NumFontLower[] PROGMEM = 
 {
@@ -32,4 +31,3 @@ MD_MAX72XX::fontType_t NumFontUpper[] PROGMEM =
   10, 0, 254, 255, 131, 131, 131, 131, 255, 254, 0, // 57 - '9'
 };
 
-#endif

@@ -33,9 +33,9 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_ZONES 2
+#define NUM_ZONES 2
 #define ZONE_SIZE 4
-#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (NUM_ZONES * ZONE_SIZE)
 #define SCROLL_SPEED  30
 
 #define ZONE_UPPER  1
@@ -52,8 +52,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 bool invertUpperZone = false;
 
-#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-char *msg[] =
+const char *msg[] =
 {
   "Create double height displays using 2 custom fonts and 2 zones",
   "Zone 0 for lower half",
@@ -72,7 +71,7 @@ void setup(void)
   invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW || HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW);
 
   // initialise the LED display
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
 
   // Set up zones for 2 halves of the display
   // Each zone gets a different font, making up the top

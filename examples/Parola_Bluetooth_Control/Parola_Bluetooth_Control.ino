@@ -65,7 +65,6 @@ const uint8_t HC05_SETUP_ENABLE = 7;
 #endif
 
 // Miscellaneous
-#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 #define BUF_SIZE  100     // message buffer size
 #define EEPROM_START_ADDR 0  // EEPROM address for setup info
 

@@ -37,9 +37,9 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_ZONES 2
+#define MAX_CLK_ZONES 2
 #define ZONE_SIZE 7
-#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (MAX_CLK_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
@@ -81,7 +81,7 @@ void getTime(char *psz, bool f = true)
   RTC.readTime();
   sprintf(psz, "%02d%c%02d", RTC.h, (f ? ':' : ' '), RTC.m);
 #else
-  uint16_t  h, m, s;
+  uint16_t  h, m;
 
   m = millis()/1000;
   h = (m/60) % 24;
@@ -103,7 +103,7 @@ void setup(void)
   invertUpperZone = (HARDWARE_TYPE == MD_MAX72XX::GENERIC_HW || HARDWARE_TYPE == MD_MAX72XX::PAROLA_HW);
 
   // initialise the LED display
-  P.begin(MAX_ZONES);
+  P.begin(MAX_CLK_ZONES);
 
   // Set up zones for 2 halves of the display
   P.setZone(ZONE_LOWER, 0, ZONE_SIZE - 1);

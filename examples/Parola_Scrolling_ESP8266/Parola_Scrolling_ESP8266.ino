@@ -42,7 +42,8 @@
 // NOTE: These pin numbers are for ESO8266 hardware SPI and will probably not
 // work with your hardware and may need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
+
 #define CLK_PIN   D5 // or SCK
 #define DATA_PIN  D7 // or MOSI
 #define CS_PIN    D8 // or SS
@@ -71,7 +72,7 @@ bool newMessageAvailable = false;
 
 const char WebResponse[] = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n";
 
-char WebPage[] =
+const char WebPage[] =
 "<!DOCTYPE html>" \
 "<html>" \
 "<head>" \
@@ -114,7 +115,7 @@ char WebPage[] =
 "</body>" \
 "</html>";
 
-char *err2Str(wl_status_t code)
+const char *err2Str(wl_status_t code)
 {
   switch (code)
   {
@@ -135,7 +136,7 @@ uint8_t htoi(char c)
   return(0);
 }
 
-void getData(char *szMesg, uint8_t len)
+void getData(char *szMesg, uint16_t len)
 // Message may contain data for:
 // New text (/&MSG=)
 // Scroll direction (/&SD=)

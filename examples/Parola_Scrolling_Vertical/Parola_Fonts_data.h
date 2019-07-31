@@ -1,6 +1,5 @@
 // Data file for user example user defined fonts
-#ifndef FONTS_DATA_H
-#define FONTS_DATA_H
+#pragma once
 
 MD_MAX72XX::fontType_t _fontVertical[] PROGMEM = {
   0,		// 0 - 'Empty Cell'
@@ -261,5 +260,3 @@ MD_MAX72XX::fontType_t _fontVertical[] PROGMEM = {
   8, 255, 255, 255, 255, 255, 255, 255, 255,		// 255 - 'Full Block'
 };
 
-
-#endif

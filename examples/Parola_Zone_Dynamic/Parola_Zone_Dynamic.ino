@@ -27,8 +27,9 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
-#define MAX_ZONES   2
+#define MAX_DEVICES 11
+#define NUM_ZONES   2
+
 #define STEP_SIZE   2
 
 #define CLK_PIN   13
@@ -44,7 +45,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define PAUSE_TIME  1000
 
 // Global variables
-char	*pc[MAX_ZONES] =
+const char	*pc[NUM_ZONES] =
 {
   "Zone0",
   "Zone1",
@@ -86,7 +87,7 @@ void setup(void)
 #endif
   PRINTS("[Parola Dynamic Zone Demo]");
 
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
   P.setInvert(false);
 
   setZones();
@@ -98,7 +99,7 @@ void loop(void)
   {
     boolean bAllDone = true;
 
-    for (uint8_t i=0; i<MAX_ZONES && bAllDone; i++)
+    for (uint8_t i=0; i<NUM_ZONES && bAllDone; i++)
     {
       bAllDone = bAllDone && P.getZoneStatus(i);
     }

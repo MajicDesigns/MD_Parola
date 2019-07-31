@@ -16,7 +16,8 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -52,7 +53,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char  *pc[] =
+const char  *pc[] =
 {
   "Parola for",
   "Arduino",
@@ -129,17 +130,17 @@ void loop(void)
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
     // Set the display for the next string.
-    curText = (++curText) % ARRAY_SIZE(pc);
+    curText = (curText + 1) % ARRAY_SIZE(pc);
     P.setTextBuffer(pc[curText]);
 
     // When we have gone back to the first string, set a new exit effect
     // and when we have done all those set a new entry effect.
     if (curText == 0)
     {
-      outFX = (++outFX) % ARRAY_SIZE(effect);
+      outFX = (outFX + 1) % ARRAY_SIZE(effect);
       if (outFX == 0)
       {
-        inFX = (++inFX) % ARRAY_SIZE(effect);
+        inFX = (inFX + 1) % ARRAY_SIZE(effect);
         if (inFX == 0)
           P.setInvert(!P.getInvert());
       }

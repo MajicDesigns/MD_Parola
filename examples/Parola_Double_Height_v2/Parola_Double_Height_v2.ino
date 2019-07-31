@@ -47,10 +47,10 @@ textEffect_t scrollUpper, scrollLower;
 
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers may not work with your hardware and may need changing
-#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
-#define MAX_ZONES 2
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
+#define NUM_ZONES 2
 #define ZONE_SIZE 4
-#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (NUM_ZONES * ZONE_SIZE)
 
 #define ZONE_UPPER  1
 #define ZONE_LOWER  0
@@ -67,8 +67,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-char *msgL[] =
+const char *msgL[] =
 {
   "Double height with custom font & 2 zones",
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -117,7 +116,7 @@ void setup(void)
   msgH = (char *)malloc(sizeof(char)*(max + 2));
 
   // initialise the LED display
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
 
   // Set up zones for 2 halves of the display
   P.setZone(ZONE_LOWER, 0, ZONE_SIZE - 1);
@@ -134,7 +133,7 @@ void setup(void)
   PRINT("\nSCROLL_LEFT=", SCROLL_LEFT);
 }
 
-void createHString(char *pH, char *pL)
+void createHString(char *pH, const char *pL)
 {
   for (; *pL != '\0'; pL++)
     *pH++ = *pL | 0x80;   // offset character

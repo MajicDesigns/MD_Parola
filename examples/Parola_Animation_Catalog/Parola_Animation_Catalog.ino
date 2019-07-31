@@ -11,7 +11,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 4
+#define MAX_DEVICES 11
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -21,18 +21,16 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
 // MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define ARRAY_SIZE(x)  (sizeof(x)/sizeof(x[0]))
-
 // Global data
 struct sCatalog
 {
   textEffect_t  effect;   // text effect to display
-  char *        psz;      // text string nul terminated
+  const char *  psz;      // text string nul terminated
   uint16_t      speed;    // speed multiplier of library default
   uint16_t      pause;    // pause multiplier for library default
 };
 
-sCatalog  catalog[] =
+sCatalog catalog[] =
 {
   { PA_PRINT, "PRINT", 1, 1 },
   { PA_SCROLL_UP, "SC_U", 5, 1 },
@@ -120,8 +118,8 @@ void setup(void)
 void loop(void)
 {
   static textPosition_t just = PA_LEFT;
-  static uint8_t i = 0;
-  static uint8_t j = 0;
+  static uint8_t i = 0;   // text effect index
+  static uint8_t j = 0;   // text justification index
 
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
@@ -144,7 +142,6 @@ void loop(void)
     // set up new animation
     P.displayText(catalog[i].psz, just, catalog[i].speed, catalog[i].pause, catalog[i].effect, catalog[i].effect);
 
-    delay(catalog[i].pause);  // wait a while to show the text ...
-    i++;                      // ... then set up for next text effect
+    i++;   // then set up for next text effect
   }
 }

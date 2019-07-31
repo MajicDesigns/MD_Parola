@@ -20,7 +20,7 @@
 #include <MD_UISwitch.h>
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define  DEBUG  1
 
 #if  DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
@@ -36,7 +36,8 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10

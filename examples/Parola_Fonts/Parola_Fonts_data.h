@@ -1,9 +1,9 @@
 // Data file for user example user defined fonts
-#ifndef FONTS_DATA_H
-#define FONTS_DATA_H
+#pragma once
 
 MD_MAX72XX::fontType_t fontGreek[] PROGMEM = 
 {
+  'F', 2, 0, 0, 0, 255, 8,
 	0,		// 0
 	0,		// 1
 	0,		// 2
@@ -264,7 +264,8 @@ MD_MAX72XX::fontType_t fontGreek[] PROGMEM =
 
 MD_MAX72XX::fontType_t fontArabic[] PROGMEM = // modern arabic
 {
-	0,		// 0
+  'F', 2, 0, 0, 0, 255, 8,
+  0,		// 0
 	0,		// 1
 	0,		// 2
 	0,		// 3
@@ -524,7 +525,8 @@ MD_MAX72XX::fontType_t fontArabic[] PROGMEM = // modern arabic
 
 MD_MAX72XX::fontType_t fontKatakana[] PROGMEM =
 {
-	0,		// 0
+  'F', 2, 0, 0, 0, 255, 8,
+  0,		// 0
 	0,		// 1
 	0,		// 2
 	0,		// 3
@@ -781,5 +783,3 @@ MD_MAX72XX::fontType_t fontKatakana[] PROGMEM =
 	0,		// 254
 	5, 127, 127, 127, 127, 127,		// 255 - '5x7 block'
 };
-
-#endif

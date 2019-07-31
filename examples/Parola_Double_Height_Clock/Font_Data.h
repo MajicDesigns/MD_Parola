@@ -1,8 +1,8 @@
 // Data file for user example user defined fonts
-#ifndef FONTDATA_H
-#define FONTDATA_H
+#pragma once
 
-MD_MAX72XX::fontType_t numeric7SegDouble[] PROGMEM = {
+MD_MAX72XX::fontType_t numeric7SegDouble[] PROGMEM = 
+{
     0,		// 0
     0,		// 1
     0,		// 2
@@ -260,5 +260,3 @@ MD_MAX72XX::fontType_t numeric7SegDouble[] PROGMEM = {
     0,		// 254
     0,		// 255
   };
-
-#endif

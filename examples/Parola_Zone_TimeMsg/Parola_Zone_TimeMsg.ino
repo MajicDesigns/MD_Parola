@@ -28,7 +28,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 10
+#define MAX_DEVICES 11
 
 #define CLK_PIN   13
 #define DATA_PIN  11

@@ -49,6 +49,10 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Aug 2019 - version 3.2.0
+- Changed to use 16 bit character code
+- Checked all examples for clean compile with current version
+
 Jun 2019 - version 3.1.1
 - Use const char* parameter instead of char* parameter.
 - Some compiler warnings fixed.
@@ -389,8 +393,7 @@ shiftout(), a 6 module chain updates in approximately 14ms on an Uno, while a 12
 takes around 25ms. Most of the time taken is to physically update the display, as animating frames
 takes about 1-2ms to update in the MD_MAX72XX display buffers.
 */
-#ifndef _MD_PAROLA_H
-#define _MD_PAROLA_H
+#pragma once
 
 #include <Arduino.h>
 #include <MD_MAX72xx.h>
@@ -844,7 +847,7 @@ public:
    * \param pb  pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(const char *pb) { _pText = pb; }
+  inline void setTextBuffer(const char *pb) { _pText = (const uint8_t *)pb; }
 
   /**
    * Set the entry and exit text effects for the zone.
@@ -889,11 +892,11 @@ public:
    * a pointer to the data, so any changes to the data storage in the calling program will
    * be reflected in the library.
    *
-   * \param code  ASCII code for the character data.
+   * \param code  code for the character data.
    * \param data  pointer to the character data.
    * \return true of the character was inserted in the substitution list.
    */
-  bool addChar(uint8_t code, uint8_t *data);
+  bool addChar(uint16_t code, uint8_t *data);
 
   /**
    * Delete a user defined character to the replacement list.
@@ -905,7 +908,7 @@ public:
    * \param code  ASCII code for the character data.
    * \return true of the character was found in the substitution list.
    */
-  bool delChar(uint8_t code);
+  bool delChar(uint16_t code);
 
   /**
    * Get the display font.
@@ -980,7 +983,7 @@ private:
   */
   struct charDef_t
   {
-    uint8_t   code;   ///< the ASCII code for the user defined character
+    uint16_t   code;  ///< the ASCII code for the user defined character
     uint8_t   *data;  ///< user supplied data
     charDef_t *next;  ///< next in the list
   };
@@ -1010,8 +1013,8 @@ private:
   bool            _animationAdvanced;  // true is animation advanced inthe last animation call
 
   void      setInitialConditions(void);    // set up initial conditions for an effect
-  uint16_t  getTextWidth(const char *p);   // width of text in columns
-  bool      calcTextLimits(const char *p); // calculate the right and left limits for the text
+  uint16_t  getTextWidth(const uint8_t *p); // width of text in columns
+  bool      calcTextLimits(const uint8_t *p); // calculate the right and left limits for the text
 
   // Variables used in the effects routines. These can be used by the functions as needed.
   uint8_t   _zoneStart;   // First zone module number
@@ -1024,8 +1027,8 @@ private:
   void setInitialEffectConditions(void); // set the initial conditions for loops in the FSM
 
   // Character buffer handling data and methods
-  const char *_pText;                // pointer to text buffer from user call
-  const char *_pCurChar;             // the current character being processed in the text
+  const uint8_t *_pText;             // pointer to text buffer from user call
+  const uint8_t *_pCurChar;          // the current character being processed in the text
   bool       _endOfText;             // true when the end of the text string has been reached.
   void       moveTextPointer(void);  // move the text pointer depending on direction of buffer scan
 
@@ -1042,8 +1045,8 @@ private:
   MD_MAX72XX::fontType_t  *_fontDef;  // font for this zone
 
   void      allocateFontBuffer(void); // allocate _cBuf based on the size of the largest font characters
-  uint8_t   findChar(uint8_t code, uint8_t size, uint8_t *cBuf); // look for user defined character
-  uint8_t   makeChar(char c, bool addBlank);      // load a character bitmap and add in trailing _charSpacing blanks if req'd
+  uint8_t   findChar(uint16_t code, uint8_t size, uint8_t *cBuf); // look for user defined character
+  uint8_t   makeChar(uint16_t c, bool addBlank);  // load a character bitmap and add in trailing _charSpacing blanks if req'd
   void      reverseBuf(uint8_t *p, uint8_t size); // reverse the elements of the buffer
   void      invertBuf(uint8_t *p, uint8_t size);  // invert the elements of the buffer
 
@@ -1055,7 +1058,7 @@ private:
 #endif
 
   // Debugging aid
-  char *state2string(fsmState_t s);
+  const char *state2string(fsmState_t s);
 
   // Effect functions
   void  commonPrint(void);
@@ -1198,7 +1201,7 @@ public:
    * \param z     specified zone
    * \return bool true if the zone animation has completed, false otherwise.
    */
-  bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); }
+  bool getZoneStatus(uint8_t z) { if (z < _numZones) return(_Z[z].getStatus()); else return(true); }
 
   /**
    * Clear the display.
@@ -1319,7 +1322,9 @@ public:
    * \return No return value.
    */
   inline void displayScroll(const char *pText, textPosition_t align, textEffect_t effect, uint16_t speed)
-    { displayZoneText(0, pText, align, speed, 0, effect, effect); }
+  {
+    displayZoneText(0, pText, align, speed, 0, effect, effect);
+  }
 
  /**
    * Easy start for a non-scrolling text display.
@@ -1764,11 +1769,11 @@ public:
    * so any changes to the data storage in the calling program will be reflected into the
    * library. The data must also remain in scope while it is being used.
    *
-   * \param code  ASCII code for the character data.
+   * \param code  code for the character data.
    * \param data  pointer to the character data.
    * \return No return value.
    */
-  inline void addChar(uint8_t code, uint8_t *data) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].addChar(code, data); }
+  inline void addChar(uint16_t code, uint8_t *data) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].addChar(code, data); }
 
   /**
    * Add a user defined character to the replacement specified zone.
@@ -1780,7 +1785,7 @@ public:
    * \param data  pointer to the character data.
    * \return true of the character was inserted in the substitution list.
    */
-  inline bool addChar(uint8_t z, uint8_t code, uint8_t *data) { return(z < _numZones ? _Z[z].addChar(code, data) : false); }
+  inline bool addChar(uint8_t z, uint16_t code, uint8_t *data) { return(z < _numZones ? _Z[z].addChar(code, data) : false); }
 
   /**
    * Delete a user defined character to the replacement list for all zones.
@@ -1790,7 +1795,7 @@ public:
    * \param code  ASCII code for the character data.
    * \return No return value.
    */
-  inline void delChar(uint8_t code) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].delChar(code); }
+  inline void delChar(uint16_t code) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].delChar(code); }
 
   /**
    * Delete a user defined character to the replacement list for the specified zone.
@@ -1801,7 +1806,7 @@ public:
    * \param code  ASCII code for the character data.
    * \return true of the character was found in the substitution list.
    */
-  inline bool delChar(uint8_t z, uint8_t code) { return(z < _numZones ? _Z[z].delChar(code) : false); }
+  inline bool delChar(uint8_t z, uint16_t code) { return(z < _numZones ? _Z[z].delChar(code) : false); }
 
   /**
    * Get the display font for specified zone.
@@ -1976,4 +1981,3 @@ public:
   uint8_t     _numZones;  ///< Max number of zones in the display [0..numZones-1]
 };
 
-#endif

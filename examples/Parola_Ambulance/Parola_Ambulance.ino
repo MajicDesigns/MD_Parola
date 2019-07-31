@@ -25,7 +25,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-char *msg[] =
+const char *msg[] =
 {
   "Ambulance",
   "Emergency",

@@ -13,7 +13,8 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -31,7 +32,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t curText;
-char *pc[] = { "\x00f", "Evacuate" };
+const char *pc[] = { "\x00f", "Evacuate" };
 
 void setup(void)
 {

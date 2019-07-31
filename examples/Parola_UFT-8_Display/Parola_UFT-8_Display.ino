@@ -15,7 +15,8 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -41,7 +42,7 @@ const uint16_t PAUSE_TIME = 2000;
 #endif
 
 // Global variables
-char	*pc[] =
+char	pc[][20] =
 {
   "abcABC",
   "äöüßÄÖÜ",
@@ -98,7 +99,7 @@ void utf8Ascii(char* s)
 // In place conversion UTF-8 string to Extended ASCII
 // The extended ASCII string is always shorter.
 {
-  uint8_t c, k = 0;
+  uint8_t c;
   char *cp = s;
 
   PRINT("\nConverting: ", s);

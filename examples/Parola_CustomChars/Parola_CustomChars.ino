@@ -11,7 +11,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 
 #define CLK_PIN   13
 #define DATA_PIN  11
@@ -47,7 +47,7 @@ uint8_t waveTrng[] = { 10, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4 }; // Triangle wave
 typedef struct
 {
   uint8_t spacing;  // character spacing
-  char  *msg;   // message to display
+  const char *msg;  // message to display
 } msgDef_t;
 
 msgDef_t  M[] =

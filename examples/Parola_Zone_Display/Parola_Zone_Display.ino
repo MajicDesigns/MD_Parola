@@ -17,7 +17,7 @@
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 9
-#define MAX_ZONES 3
+#define NUM_ZONES 3
 
 #define CLK_PIN   13
 #define DATA_PIN  11
@@ -53,7 +53,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char  *pc[MAX_ZONES] =
+const char  *pc[NUM_ZONES] =
 {
   "GHI",
   "DEF",
@@ -117,8 +117,8 @@ static const uint8_t PROGMEM pacman2[F_PMAN2 * W_PMAN2] =  // ghost pursued by a
   0x00, 0x42, 0xe7, 0xe7, 0xff, 0xff, 0x7e, 0x3c, 0x00, 0x00, 0x00, 0xfe, 0x73, 0xfb, 0x7f, 0xf3, 0x7b, 0xfe,
 };
 
-uint8_t inFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };
-uint8_t outFX[MAX_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };
+uint8_t inFX[NUM_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };
+uint8_t outFX[NUM_ZONES] = { 0, ARRAY_SIZE(effect) / 3, 2 * ARRAY_SIZE(effect) / 3 };
 
 #if USE_UI_CONTROL
 void doUI(void)
@@ -148,14 +148,14 @@ void setup(void)
   pinMode(SPEED_IN, INPUT);
   doUI();
 #endif // USE_UI_CONTROL
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
   P.setSpriteData(pacman1, W_PMAN1, F_PMAN1, pacman2, W_PMAN2, F_PMAN2);
 
   P.setZone(0, 0, 2);
   P.setZone(1, 3, 5);
   P.setZone(2, 6, 8);
 
-  for (uint8_t i=0; i<MAX_ZONES; i++)
+  for (uint8_t i=0; i<NUM_ZONES; i++)
     P.displayZoneText(i, pc[i], PA_CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }
 
@@ -167,13 +167,13 @@ void loop(void)
 
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
-    for (uint8_t i=0; i<MAX_ZONES; i++)
+    for (uint8_t i=0; i<NUM_ZONES; i++)
     {
       if (P.getZoneStatus(i))
       {
-        outFX[i] = (++outFX[i]) % ARRAY_SIZE(effect);
+        outFX[i] = (outFX[i] + 1) % ARRAY_SIZE(effect);
         if (outFX[i] == 0)
-        inFX[i] = (++inFX[i]) % ARRAY_SIZE(effect);
+        inFX[i] = (inFX[i] + 1) % ARRAY_SIZE(effect);
 
         P.setTextEffect(i, effect[inFX[i]], effect[outFX[i]]);
 

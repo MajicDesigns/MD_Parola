@@ -45,9 +45,9 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers may not work with your hardware and may need changing
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_ZONES 2
+#define NUM_ZONES 2
 #define ZONE_SIZE 6
-#define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
+#define MAX_DEVICES (NUM_ZONES * ZONE_SIZE)
 
 bool invertUpperZone = false;
 
@@ -62,8 +62,6 @@ bool invertUpperZone = false;
 MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // SOFTWARE SPI
 //MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
-
-#define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
 #define ZONE_LOWER 0
 #define ZONE_UPPER 1
@@ -80,7 +78,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define ALIGN_UPPER ALIGN_LOWER
 #endif
 
-char *msgL[] =
+const char *msgL[] =
 {
   "Abc",
   "123",
@@ -88,13 +86,13 @@ char *msgL[] =
 };
 char* msgH; // allocated memory in setup()
 
-typedef struct catalogItem_t
+struct catalogItem_t
 {
   bool fPause;
-  uint8_t zFX[MAX_ZONES];
+  textEffect_t zFX[NUM_ZONES];
 };
 
-catalogItem_t *catalog;
+const catalogItem_t *catalog;
 
 const PROGMEM catalogItem_t catalogInvert[] =
 {
@@ -214,7 +212,7 @@ void setup(void)
   msgH = (char *)malloc(sizeof(char)*(max + 2));
 
   // initialise the LED display
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
 
   // Set up zones for 2 halves of the display
   P.setZone(ZONE_LOWER, 0, ZONE_SIZE - 1);
@@ -228,7 +226,7 @@ void setup(void)
   }
 }
 
-void createHString(char *pH, char *pL)
+void createHString(char *pH, const char *pL)
 {
   for (; *pL != '\0'; pL++)
     *pH++ = *pL | 0x80;   // offset character

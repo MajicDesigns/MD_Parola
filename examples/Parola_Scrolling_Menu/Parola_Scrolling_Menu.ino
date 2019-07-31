@@ -48,7 +48,8 @@ const uint16_t EEPROM_ADDRESS = 0;   // config data address
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -252,6 +253,10 @@ bool display(MD_Menu::userDisplayAction_t action, char *msg)
 {
   switch (action)
   {
+  case MD_Menu::DISP_INIT:
+    // nothing to do
+    break;
+
   case MD_Menu::DISP_CLEAR:
     P.displayClear();
     break;

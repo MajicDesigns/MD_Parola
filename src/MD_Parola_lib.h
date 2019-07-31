@@ -1,6 +1,6 @@
 
-#ifndef MD_PAROLALIB_H
-#define MD_PAROLALIB_H
+#pragma once
+
 /**
  * \file
  * \brief Contains internal library definitions
@@ -47,4 +47,3 @@
 
 #define SFX(s) ((_moveIn && _effectIn == (s)) || (!_moveIn && _effectOut == (s))) ///< Effect is selected if it is the effect for the current motion
 
-#endif

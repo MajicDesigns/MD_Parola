@@ -15,9 +15,10 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
-#define MAX_ZONES   4
-#define ZONE_SIZE (MAX_DEVICES/MAX_ZONES)   // integer multiple works best
+#define MAX_DEVICES 11
+#define NUM_ZONES   4
+
+#define ZONE_SIZE (MAX_DEVICES/NUM_ZONES)   // integer multiple works best
 
 #define CLK_PIN   13
 #define DATA_PIN  11
@@ -46,7 +47,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 // Global variables
 uint8_t  curText;
-char	*pc[] =
+const char *pc[] =
 {
   "M1",
   "M2",
@@ -54,7 +55,6 @@ char	*pc[] =
   "M4",
   "M5",
 };
-
 
 uint8_t curFX = 0;
 textEffect_t  effect[] =
@@ -93,10 +93,10 @@ void setup(void)
   PRINTS("[Parola Zone Mesg Demo]");
 #endif
 
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
   P.setInvert(false);
 
-  for (uint8_t i=0; i<MAX_ZONES; i++)
+  for (uint8_t i=0; i<NUM_ZONES; i++)
   {
     P.setZone(i, ZONE_SIZE*i, (ZONE_SIZE*(i+1))-1);
     PRINT("\nZ", i);
@@ -108,8 +108,8 @@ void setup(void)
 void loop(void)
 {
   static uint8_t  curZone = 0;
-  uint8_t inFX = ++curFX % ARRAY_SIZE(effect);
-  uint8_t outFX = ++curFX % ARRAY_SIZE(effect);
+  uint8_t inFX = (curFX + 1) % ARRAY_SIZE(effect);
+  uint8_t outFX = (curFX + 1) % ARRAY_SIZE(effect);
 
   PRINT("\nNew Z", curZone);
   PRINT(": ", pc[curText]);
@@ -123,6 +123,6 @@ void loop(void)
     P.displayAnimate();
 
   // increment for next time
-  curText = ++curText % ARRAY_SIZE(pc);
-  curZone = ++curZone % MAX_ZONES;
+  curText = (curText + 1) % ARRAY_SIZE(pc);
+  curZone = (curZone + 1) % NUM_ZONES;
 }

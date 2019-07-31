@@ -1,7 +1,6 @@
 // Data file for user example user defined fonts
 // руские большие и маленькие
-#ifndef FONTDATA_H
-#define FONTDATA_H
+#pragma once
 
 const uint8_t BigFontLower[] PROGMEM = 
 {
@@ -263,7 +262,6 @@ const uint8_t BigFontLower[] PROGMEM =
   0,    // 255
 };
 
-
 const uint8_t BigFontUpper[] PROGMEM = 
 {
   0,    // 0
@@ -524,6 +522,4 @@ const uint8_t BigFontUpper[] PROGMEM =
   0,    // 255
 };
 
-
-#endif
 

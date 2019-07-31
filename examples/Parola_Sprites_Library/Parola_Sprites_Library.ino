@@ -20,7 +20,8 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 4
+#define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -55,10 +56,10 @@ const uint8_t SPEED_DEADBAND = 5; // in analog units
 
 // Global variables
 uint8_t	curString = 0;
-char *msg[] =
+const char *msg[] =
 {
   "Parola Sprites",
-  //"Animation"
+  "Animation"
 };
 
 MD_UISwitch_Digital uiSwitches(uiPins, ARRAY_SIZE(uiPins));
@@ -271,7 +272,6 @@ void doUI(void)
       case JUSTIFY_SET: // TEXT ALIGNMENT - nothing on initialise
       {
         static uint8_t  curMode = 1;
-        textPosition_t  align = P.getTextAlignment();
         textPosition_t  textAlign[] =
         {
           PA_CENTER,

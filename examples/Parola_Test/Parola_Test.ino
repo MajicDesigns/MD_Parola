@@ -102,7 +102,6 @@ void doUI(void)
       case JUSTIFY_SET: // TEXT ALIGNMENT - nothing on initialise
       {
         static uint8_t  curMode = 1;
-        textPosition_t  align = P.getTextAlignment();
         textPosition_t  textAlign[] =
         {
           PA_CENTER,

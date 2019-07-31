@@ -127,14 +127,14 @@ void MD_PZone::setInitialEffectConditions(void)
   _posOffset = (_textAlignment == PA_RIGHT ? 1 : -1);
 }
 
-uint16_t MD_PZone::getTextWidth(const char *p)
+uint16_t MD_PZone::getTextWidth(const uint8_t *p)
 // Get the width in columns for the text string passed to the function
 // This is the sum of all the characters and the space between them.
 {
   uint16_t  sum = 0;
   uint16_t  width;
 
-  PRINT("\ngetTextWidth: ", p);
+  PRINT("\ngetTextWidth: ", (const char *)p);
 
   while (*p != '\0')
   {
@@ -148,7 +148,7 @@ uint16_t MD_PZone::getTextWidth(const char *p)
   return(sum);
 }
 
-bool MD_PZone::calcTextLimits(const char *p)
+bool MD_PZone::calcTextLimits(const uint8_t *p)
 // Work out left and right sides for the text to be displayed,
 // depending on the text alignment. If the message will not fit
 // in the current display the return false, otherwise true.
@@ -211,13 +211,13 @@ bool MD_PZone::calcTextLimits(const char *p)
   return (b);
 }
 
-bool MD_PZone::addChar(uint8_t code, uint8_t *data)
+bool MD_PZone::addChar(uint16_t code, uint8_t *data)
 // Add a user defined character to the replacement list
 {
   charDef_t *pcd;
 
   if (code == 0)
-  return(false);
+    return(false);
 
   PRINTX("\naddChar 0x", code);
 
@@ -265,7 +265,7 @@ bool MD_PZone::addChar(uint8_t code, uint8_t *data)
   return(pcd != nullptr);
 }
 
-bool MD_PZone::delChar(uint8_t code)
+bool MD_PZone::delChar(uint16_t code)
 // Delete a user defined character from the replacement list
 {
   charDef_t *pcd = _userChars;
@@ -288,7 +288,7 @@ bool MD_PZone::delChar(uint8_t code)
   return(pcd != nullptr);
 }
 
-uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
+uint8_t MD_PZone::findChar(uint16_t code, uint8_t size, uint8_t *cBuf)
 // Find a character either in user defined list or from font table
 {
   charDef_t *pcd = _userChars;
@@ -317,13 +317,13 @@ uint8_t MD_PZone::findChar(uint8_t code, uint8_t size, uint8_t *cBuf)
   return(len);
 }
 
-uint8_t MD_PZone::makeChar(char c, bool addBlank)
+uint8_t MD_PZone::makeChar(uint16_t c, bool addBlank)
 // Load a character bitmap and add in trailing char spacing blanks
 {
   uint8_t len;
 
   // look for the character
-  len = findChar((uint8_t)c, _cBufSize, _cBuf);
+  len = findChar(c, _cBufSize, _cBuf);
 
   PRINTX("\nmakeChar 0x", c);
   PRINT(", len=", len);
@@ -419,7 +419,7 @@ bool MD_PZone::getFirstChar(uint8_t &len)
     (ZE_TEST(_zoneEffect, ZE_FLIP_LR_MASK) && !SFX(PA_SCROLL_RIGHT)))
   {
     PRINTS("\nReversed String");
-    _pCurChar += strlen(_pText) - 1;
+    _pCurChar += strlen((const char *)_pText) - 1;
   }
 
   // good string, get the first char into the current buffer

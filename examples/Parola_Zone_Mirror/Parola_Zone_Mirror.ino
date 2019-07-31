@@ -15,8 +15,8 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
-#define MAX_ZONES 2
+#define MAX_DEVICES 11
+#define NUM_ZONES 2
 
 #define CLK_PIN   13
 #define DATA_PIN  11
@@ -43,14 +43,11 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define PRINTX(x)
 #endif
 
-// Global variables
-#define ARRAY_SIZE(x)  (sizeof(x)/sizeof(x[0]))
-
 // Global data
 typedef struct
 {
   textEffect_t effect; // text effect to display
-  char *       psz;    // text string nul terminated
+  const char   *psz;   // text string nul terminated
   uint16_t     speed;  // speed multiplier of library default
   uint16_t     pause;  // pause multiplier for library default
 } sCatalog;
@@ -92,7 +89,7 @@ void setup(void)
   PRINTS("[Parola Zone Mirror]");
 #endif
 
-  P.begin(MAX_ZONES);
+  P.begin(NUM_ZONES);
   P.setInvert(false);
 
   for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
@@ -115,7 +112,7 @@ void loop(void)
   // animates and returns true when an animation is completed. These are synchronised, so assume they are all done.
   if (P.displayAnimate())
   {
-    for (uint8_t z=0; z<MAX_ZONES; z++)
+    for (uint8_t z=0; z<NUM_ZONES; z++)
       P.displayZoneText(z, catalog[nCurIdx].psz, PA_CENTER, catalog[nCurIdx].speed, catalog[nCurIdx].pause, catalog[nCurIdx].effect, catalog[nCurIdx].effect);
 
     nCurIdx = (nCurIdx + 1) % ARRAY_SIZE(catalog);

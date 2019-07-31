@@ -14,6 +14,7 @@
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 11
+
 #define CLK_PIN   13
 #define DATA_PIN  11
 #define CS_PIN    10
@@ -24,7 +25,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
 // Global variables
-char msg[] = "Parola Sprites";
+const char msg[] = "Parola Sprites";
 
 // Sprite Definition
 const uint8_t F_ROCKET = 2;
