@@ -49,6 +49,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Oct 2019 - version 3.3.0
+- Reverted back to dynamic zone allocation removed in v2.6.6. Tested 22 zones seems ok.
+
 Aug 2019 - version 3.2.0
 - Changed to use 16 bit character code
 - Checked all examples for clean compile with current version
@@ -436,9 +439,10 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 // Miscellaneous defines
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
 
-#ifndef MAX_ZONES
-#define MAX_ZONES 4     ///< Maximum number of zones allowed. Change to allow more or less zones but uses RAM even if not used.
-#endif
+// static zones
+//#ifndef MAX_ZONES
+//#define MAX_ZONES 4     ///< Maximum number of zones allowed. Change to allow more or less zones but uses RAM even if not used.
+//#endif
 
 // Zone column calculations
 #define ZONE_START_COL(m) (m * COL_SIZE)    ///< The first column of the first zone module
@@ -1147,11 +1151,10 @@ public:
    *
    * Initialize the object data. This needs to be called during setup() to initialize new
    * data for the class that cannot be done during the object creation. This form of the
-   * method allows specifying the number of zones used. The maximum number of zones is set
-   * by the MAX_ZONES constant which can be changed to allow more or fewer zones. The module
+   * method allows specifying the number of zones used.The module
    * limits for the zones need to be initialized separately using setZone().
    *
-   * \param numZones  maximum number of zones [1..MAX_ZONES]
+   * \param numZones  maximum number of zones
    */
   void begin(uint8_t numZones);
 
@@ -1976,7 +1979,8 @@ public:
   private:
   // The display hardware controlled by this library
   MD_MAX72XX  _D;         ///< Hardware library object
-  MD_PZone    _Z[MAX_ZONES];  ///< Fixed number of zones
+  //MD_PZone    _Z[MAX_ZONES];  ///< Fixed number of zones - static zone allocation
+  MD_PZone    *_Z;        ///< Zones buffers - dynamic zone allocation
   uint8_t     _numModules;///< Number of display modules [0..numModules-1]
   uint8_t     _numZones;  ///< Max number of zones in the display [0..numZones-1]
 };

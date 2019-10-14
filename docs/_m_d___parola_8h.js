@@ -11,7 +11,6 @@ var _m_d___parola_8h =
     [ "ENA_SCR_DIA", "_m_d___parola_8h.html#a8524e42d3a55958631b48350a5285fb3", null ],
     [ "ENA_SPRITE", "_m_d___parola_8h.html#ae702d25425ab4c647a93b0f8df8aaab1", null ],
     [ "ENA_WIPE", "_m_d___parola_8h.html#a1d721485b7473612e95d43c282ffee13", null ],
-    [ "MAX_ZONES", "_m_d___parola_8h.html#a3c8ce1beff274980c5636aa8a3811cdc", null ],
     [ "ZONE_END_COL", "_m_d___parola_8h.html#a1470b74a1b8edbbe0427304c909eb116", null ],
     [ "ZONE_START_COL", "_m_d___parola_8h.html#a96eea7631a186d5b36365c90ed697d16", null ],
     [ "textEffect_t", "_m_d___parola_8h.html#acf3b849a996dbbe48ca173d2b0b82eda", [
