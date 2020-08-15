@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['print',['PRINT',['../_m_d___parola__lib_8h.html#a1696fc35fb931f8c876786fbc1078ac4',1,'MD_Parola_lib.h']]],
-  ['print_5fstate',['PRINT_STATE',['../_m_d___parola__lib_8h.html#a3fda4e1a5122a16a21bd96ae5217402c',1,'MD_Parola_lib.h']]],
-  ['prints',['PRINTS',['../_m_d___parola__lib_8h.html#ad68f35c3cfe67be8d09d1cea8e788e13',1,'MD_Parola_lib.h']]],
-  ['printx',['PRINTX',['../_m_d___parola__lib_8h.html#abf55b44e8497cbc3addccdeb294138cc',1,'MD_Parola_lib.h']]]
+  ['sfx_290',['SFX',['../_m_d___parola__lib_8h.html#ad54e2a00e5f8efd51a0acb7f1d239dd7',1,'MD_Parola_lib.h']]],
+  ['start_5fposition_291',['START_POSITION',['../_m_d___parola___h_scroll_8cpp.html#a3a8e077835d0dfe86f6c1197738357c9',1,'MD_Parola_HScroll.cpp']]],
+  ['static_5fzones_292',['STATIC_ZONES',['../_m_d___parola_8h.html#a965a7b1afe7b3cc96fdeae578bcb1e21',1,'MD_Parola.h']]]
 ];

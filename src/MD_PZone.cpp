@@ -28,9 +28,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 MD_PZone::MD_PZone(void) :
-_suspend(false), _lastRunTime(0),
-_fsmState(END), _scrollDistance(0), _zoneEffect(0), _userChars(nullptr),
-_cBufSize(0), _cBuf(nullptr), _charSpacing(1), _fontDef(nullptr)
+_MX(nullptr), _suspend(false), _lastRunTime(0),
+_fsmState(END), _scrollDistance(0), _zoneEffect(0), _pText(nullptr), 
+_userChars(nullptr), _cBufSize(0), _cBuf(nullptr), _charSpacing(1), 
+_fontDef(nullptr)
 #if ENA_SPRITE
 , _spriteInData(nullptr), _spriteOutData(nullptr)
 #endif
@@ -65,7 +66,7 @@ void MD_PZone::allocateFontBuffer(void)
   PRINTS("\nallocateFontBuffer");
   if (size > _cBufSize)
   {
-    delete[] _cBuf;
+    if (_cBuf != nullptr) delete[] _cBuf;
     _cBufSize = size;
     _cBuf = new uint8_t[_cBufSize];
   }
@@ -481,7 +482,6 @@ bool MD_PZone::zoneAnimate(void)
 #if TIME_PROFILING
   static uint32_t  cycleStartTime;
 #endif
-
   _animationAdvanced = false;   // assume this will not happen this time around
 
   if (_fsmState == END)
@@ -550,21 +550,21 @@ bool MD_PZone::zoneAnimate(void)
 #if ENA_OPNCLS
         case PA_OPENING:        effectOpen(false, _moveIn); break;
         case PA_OPENING_CURSOR: effectOpen(true, _moveIn);  break;
-        case PA_CLOSING:        effectClose(false, _moveIn);break;
+        case PA_CLOSING:        effectClose(false, _moveIn); break;
         case PA_CLOSING_CURSOR: effectClose(true, _moveIn); break;
 #endif // ENA_OPNCLS
 #if ENA_SCR_DIA
         case PA_SCROLL_UP_LEFT:     effectDiag(true, true, _moveIn);  break;
         case PA_SCROLL_UP_RIGHT:    effectDiag(true, false, _moveIn); break;
         case PA_SCROLL_DOWN_LEFT:   effectDiag(false, true, _moveIn); break;
-        case PA_SCROLL_DOWN_RIGHT:  effectDiag(false, false, _moveIn);break;
+        case PA_SCROLL_DOWN_RIGHT:  effectDiag(false, false, _moveIn); break;
 #endif // ENA_SCR_DIA
 #if ENA_GROW
         case PA_GROW_UP:     effectGrow(true, _moveIn);  break;
         case PA_GROW_DOWN:   effectGrow(false, _moveIn); break;
 #endif // ENA_GROW
         default:
-        _fsmState = END;
+          _fsmState = END;
       }
 
       // one way toggle for input to output, reset on initialize

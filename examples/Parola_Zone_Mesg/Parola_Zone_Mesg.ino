@@ -94,8 +94,6 @@ void setup(void)
 #endif
 
   P.begin(NUM_ZONES);
-  P.setInvert(false);
-
   for (uint8_t i=0; i<NUM_ZONES; i++)
   {
     P.setZone(i, ZONE_SIZE*i, (ZONE_SIZE*(i+1))-1);
@@ -103,6 +101,7 @@ void setup(void)
     PRINT(" from ", ZONE_SIZE*i);
     PRINT(" to ", (ZONE_SIZE*(i+1))-1);
   }
+  P.setInvert(false);
 }
 
 void loop(void)

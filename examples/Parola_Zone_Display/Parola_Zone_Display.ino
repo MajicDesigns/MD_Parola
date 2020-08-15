@@ -149,12 +149,13 @@ void setup(void)
   doUI();
 #endif // USE_UI_CONTROL
   P.begin(NUM_ZONES);
-  P.setSpriteData(pacman1, W_PMAN1, F_PMAN1, pacman2, W_PMAN2, F_PMAN2);
 
   P.setZone(0, 0, 2);
   P.setZone(1, 3, 5);
   P.setZone(2, 6, 8);
 
+  P.setSpriteData(pacman1, W_PMAN1, F_PMAN1, pacman2, W_PMAN2, F_PMAN2);
+  
   for (uint8_t i=0; i<NUM_ZONES; i++)
     P.displayZoneText(i, pc[i], PA_CENTER, SPEED_TIME, PAUSE_TIME, effect[inFX[i]], effect[outFX[i]]);
 }

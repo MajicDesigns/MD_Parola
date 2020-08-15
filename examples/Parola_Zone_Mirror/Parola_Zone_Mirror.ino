@@ -90,6 +90,11 @@ void setup(void)
 #endif
 
   P.begin(NUM_ZONES);
+  P.setZone(0, 0, (MAX_DEVICES/2) - 1);
+  P.setZone(1, MAX_DEVICES/2, MAX_DEVICES-1);
+
+  P.setZoneEffect(1, true, PA_FLIP_UD);
+  P.setZoneEffect(1, true, PA_FLIP_LR);
   P.setInvert(false);
 
   for (uint8_t i=0; i<ARRAY_SIZE(catalog); i++)
@@ -97,12 +102,6 @@ void setup(void)
     catalog[i].speed *= P.getSpeed();     // use the library defaults as multiplier
     catalog[i].pause *= 500;
   }
-
-  P.setZone(0, 0, (MAX_DEVICES/2) - 1);
-  P.setZone(1, MAX_DEVICES/2, MAX_DEVICES-1);
-
-  P.setZoneEffect(1, true, PA_FLIP_UD);
-  P.setZoneEffect(1, true, PA_FLIP_LR);
 }
 
 void loop(void)

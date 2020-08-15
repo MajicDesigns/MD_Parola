@@ -29,7 +29,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 const uint16_t PAUSE_TIME = 2000;
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define  DEBUG  1
 
 #if  DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
@@ -44,13 +44,13 @@ const uint16_t PAUSE_TIME = 2000;
 // Global variables
 char	pc[][20] =
 {
-  "abcABC",
-  "äöüßÄÖÜ",
-  "50€/kg³",
-  "Español",
-  "30m/s²",
-  "Français",
-  "20µs/°C",
+  "abc…ABC",
+//  "äöüßÄÖÜ",
+//  "50€/kg³",
+//  "Español",
+//  "30m/s²",
+//  "Français",
+//  "20µs/°C",
 };
 
 uint8_t utf8Ascii(uint8_t ascii)
@@ -73,6 +73,8 @@ uint8_t utf8Ascii(uint8_t ascii)
   static uint8_t cPrev;
   uint8_t c = '\0';
 
+  PRINTX("\nutf8Ascii 0x", ascii);
+
   if (ascii < 0x7f)   // Standard ASCII-set 0..0x7F, no conversion
   {
     cPrev = '\0';
@@ -85,12 +87,19 @@ uint8_t utf8Ascii(uint8_t ascii)
     case 0xC2: c = ascii;  break;
     case 0xC3: c = ascii | 0xC0;  break;
     case 0x82: if (ascii==0xAC) c = 0x80; // Euro symbol special case
+    case 0xE2: 
+      switch (ascii)
+      {
+      case 0x80: c = 133;  break;// ellipsis special case
+      }
+      break;
+
+    default: PRINTS("!Unhandled! ");
     }
     cPrev = ascii;   // save last char
   }
 
-  PRINTX("\nConverted 0x", ascii);
-  PRINTX(" to 0x", c);
+  PRINTX(" -> 0x", c);
 
   return(c);
 }

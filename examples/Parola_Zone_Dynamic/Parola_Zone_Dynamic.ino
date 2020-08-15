@@ -88,9 +88,8 @@ void setup(void)
   PRINTS("[Parola Dynamic Zone Demo]");
 
   P.begin(NUM_ZONES);
-  P.setInvert(false);
-
   setZones();
+  P.setInvert(false);
 }
 
 void loop(void)

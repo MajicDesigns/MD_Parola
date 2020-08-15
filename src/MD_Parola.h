@@ -36,6 +36,7 @@ Parola A-to-Z Blog Articles
 - [Adapting for Different Hardware] (https://arduinoplusplus.wordpress.com/2017/04/14/parola-a-to-z-adapting-for-different-hardware/)
 - [Defining Fonts] (https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/)
 - [Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+- [UTF-8 Characters] (https://arduinoplusplus.wordpress.com/2020/03/21/parola-a-to-z-handling-non-ascii-characters-utf-8/})
 - [Text Animation] (https://arduinoplusplus.wordpress.com/2017/02/10/parola-a-to-z-text-animation/)
 - [Managing Animation] (https://arduinoplusplus.wordpress.com/2017/03/02/parola-a-to-z-managing-animation/)
 - [Double Height Displays] (https://arduinoplusplus.wordpress.com/2017/03/15/parola-a-to-z-double-height-displays/)
@@ -49,6 +50,14 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Aug 2020 - version 3.4.0
+- Updated parts of documentation
+- Exposed getTextColumns() as public
+
+Oct 2019 - version 3.3.0
+- Reverted back to dynamic zone allocation removed in v2.6.6. Tested 22 zones seems ok. 
+  STATIC_ZONES defined value will immediately switch back to static zones.
+
 Aug 2019 - version 3.2.0
 - Changed to use 16 bit character code
 - Checked all examples for clean compile with current version
@@ -289,6 +298,7 @@ next time the character is used.
 ### More Information
 - [Parola A to Z - Defining Fonts] (https://arduinoplusplus.wordpress.com/2016/11/08/parola-fonts-a-to-z-defining-fonts/)
 - [Parola A to Z - Managing Fonts] (https://arduinoplusplus.wordpress.com/2016/11/13/parola-fonts-a-to-z-managing-fonts/)
+- [PArola A to Z - Handling non-ASCII (UTF-8) Characters] (https://arduinoplusplus.wordpress.com/2020/03/21/parola-a-to-z-handling-non-ascii-characters-utf-8/)
 
 ___
 
@@ -434,15 +444,18 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #endif
 
 // Miscellaneous defines
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))  ///< Generic macro for obtaining number of elements of an array
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))  ///< Generic macro for obtaining number of elements of an array
+#define STATIC_ZONES 0    ///< Developer testing flag for quickly flipping between static/dynamic zones
 
+#if STATIC_ZONES
 #ifndef MAX_ZONES
 #define MAX_ZONES 4     ///< Maximum number of zones allowed. Change to allow more or less zones but uses RAM even if not used.
 #endif
+#endif
 
 // Zone column calculations
-#define ZONE_START_COL(m) (m * COL_SIZE)    ///< The first column of the first zone module
-#define ZONE_END_COL(m)   (((m + 1) * COL_SIZE) - 1)///< The last column of the last zone module
+#define ZONE_START_COL(m) ((m) * COL_SIZE)    ///< The first column of the first zone module
+#define ZONE_END_COL(m)   ((((m) + 1) * COL_SIZE) - 1)///< The last column of the last zone module
 
 class MD_Parola;
 
@@ -548,7 +561,7 @@ public:
    * Initialize the object data. This will be called to initialize
    * new data for the class that cannot be done during the object creation.
    *
-   * \param p pointer to the parent object for this zone.
+   * \param p pointer to the parent's MD_MAX72xx object.
    */
   void begin(MD_MAX72XX *p);
 
@@ -718,6 +731,17 @@ public:
   inline textPosition_t getTextAlignment(void) { return _textAlignment; }
 
   /**
+   *  Get the width of text in columns
+   *
+   * Calculate the width of the characters and the space between them
+   * using the current font and text settings.
+   *
+   * \param p   pointer to a text string
+   * \return the width of the string in display columns
+   */
+   uint16_t getTextWidth(const uint8_t* p);
+
+  /**
    * Get the value of specified display effect.
    *
    * The display effect is one of the zoneEffect_t types. The returned value will be
@@ -746,7 +770,7 @@ public:
    * \param intensity the intensity to set the display (0-15).
    * \return No return value.
    */
-  inline void setIntensity(uint8_t intensity) { _intensity = intensity; _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, _intensity); }
+  inline void setIntensity(uint8_t intensity) { _intensity = intensity; /*_MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, _intensity);*/ }
 
   /**
    * Invert the zone display.
@@ -988,7 +1012,7 @@ private:
     charDef_t *next;  ///< next in the list
   };
 
-  MD_MAX72XX *_MX;   ///< Pointer to the parent passed in at begin()
+  MD_MAX72XX  *_MX;   ///< Pointer to parent's MD_MAX72xx object passed in at begin()
 
   // Time and speed controlling data and methods
   bool      _suspend;     // don't do anything
@@ -1013,7 +1037,6 @@ private:
   bool            _animationAdvanced;  // true is animation advanced inthe last animation call
 
   void      setInitialConditions(void);    // set up initial conditions for an effect
-  uint16_t  getTextWidth(const uint8_t *p); // width of text in columns
   bool      calcTextLimits(const uint8_t *p); // calculate the right and left limits for the text
 
   // Variables used in the effects routines. These can be used by the functions as needed.
@@ -1147,11 +1170,13 @@ public:
    *
    * Initialize the object data. This needs to be called during setup() to initialize new
    * data for the class that cannot be done during the object creation. This form of the
-   * method allows specifying the number of zones used. The maximum number of zones is set
-   * by the MAX_ZONES constant which can be changed to allow more or fewer zones. The module
-   * limits for the zones need to be initialized separately using setZone().
+   * method allows specifying the number of zones used. The module limits for the individual
+   * zones are initialized separately using setZone(), which should be done immediately after
+   * the invoking begin().
    *
-   * \param numZones  maximum number of zones [1..MAX_ZONES]
+   * \sa setZone()
+   *
+   * \param numZones  maximum number of zones
    */
   void begin(uint8_t numZones);
 
@@ -1291,10 +1316,14 @@ public:
    * When multiple zones are defined, the library needs to know the contiguous module
    * ranges that make up the different zones. If the library has been started with only
    * one zone then it will automatically initialize the zone to be the entire range for
-   * the display modules, so calling this function is not required.
+   * the display modules, so calling this function is not required. However, when multiple
+   * zones are defined, setZone() for each zone should be should be invoked immediately 
+   * after the call to begin().
    *
    * A module is a unit of 8x8 LEDs, as defined in the MD_MAX72xx library.
    * Zones should not overlap or unexpected results will occur.
+   *
+   * \sa begin()
    *
    * \param z   zone number.
    * \param moduleStart the first module number for the zone [0..numZones-1].
@@ -1465,6 +1494,31 @@ public:
    * \return the current text alignment setting for the specified zone.
    */
   inline textPosition_t getTextAlignment(uint8_t z) { return (z < _numZones ? _Z[z].getTextAlignment() : PA_CENTER); }
+
+ /**
+   * Get the text width in columns
+
+   * Evaluate the width in column for the text string *p as the sum of all 
+   * the characters and the space between them, using the currently assigned font.
+   * Assumes one zone display.
+   *
+   * \param p   nul terminate character string to evaluate.
+   * \return the number of columns used to display the text.
+   */
+  inline uint16_t getTextColumns(const char *p) { return(getTextColumns(0, p)); }
+  
+ /**
+   * Get the text width in columns
+
+   * Evaluate the width in column for the text string *p in the zone specified, as 
+   * the sum of all the characters and the space between them. As each zone can  
+   * display using a different font table, the result can vary between zones.
+   *
+   * \param z   zone number.
+   * \param p   nul terminate character string to evaluate.
+   * \return the number of columns used to display the text.
+   */
+  inline uint16_t getTextColumns(uint8_t z, const char *p) { return(z < _numZones && p != nullptr ? _Z[z].getTextWidth((uint8_t *)p) : 0); }
 
  /**
    * Get the value of specified display effect.
@@ -1684,7 +1738,7 @@ public:
    * \param pb  pointer to the text buffer to be used.
    * \return No return value.
    */
-  inline void setTextBuffer(const char *pb) { /*for (uint8_t i = 0; i<_numZones; i++) */_Z[0].setTextBuffer(pb); }
+  inline void setTextBuffer(const char *pb) { _Z[0].setTextBuffer(pb); }
 
   /**
    * Set the pointer to the text buffer for the specified zone.
@@ -1976,7 +2030,11 @@ public:
   private:
   // The display hardware controlled by this library
   MD_MAX72XX  _D;         ///< Hardware library object
-  MD_PZone    _Z[MAX_ZONES];  ///< Fixed number of zones
+#if STATIC_ZONES
+  MD_PZone    _Z[MAX_ZONES];  ///< Fixed number of zones - static zone allocation
+#else
+  MD_PZone    *_Z;        ///< Zones buffers - dynamic zone allocation
+#endif
   uint8_t     _numModules;///< Number of display modules [0..numModules-1]
   uint8_t     _numZones;  ///< Max number of zones in the display [0..numZones-1]
 };

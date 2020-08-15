@@ -44,11 +44,15 @@ void MD_Parola::begin(uint8_t numZones)
 
   // Check boundaries for the number of zones
   if (numZones == 0) numZones = 1;
-  if (numZones > MAX_ZONES) numZones = MAX_ZONES;
+#if STATIC_ZONES
+  if (numZones > MAX_ZONES) numZones = MAX_ZONES;  // static zones
+#endif
   _numZones = numZones;
 
-  // Create the zone objects array
-  //_Z = new MD_PZone[_numZones];   // for dynamic array
+#if !STATIC_ZONES
+  // Create the zone objects array for dynamic zones
+  _Z = new MD_PZone[_numZones];
+#endif
 
   for (uint8_t i = 0; i < _numZones; i++)
     _Z[i].begin(&_D);
@@ -64,18 +68,15 @@ void MD_Parola::begin(uint8_t numZones)
   setScrollSpacing(0);
   setTextAlignment(PA_LEFT);
   setTextEffect(PA_PRINT, PA_NO_EFFECT);
-  setTextBuffer(nullptr);
   setInvert(false);
-  setIntensity(MAX_INTENSITY / 2);
-
-  // Now set the default viewing parameters for this library
-  _D.setFont(nullptr);
 }
 
 MD_Parola::~MD_Parola(void)
 {
-  // release the zone array (dynamically allocated)
-  //delete [] _Z;
+#if !STATIC_ZONES
+  // release the dynamically allocated zone array
+  delete [] _Z;
+#endif
 }
 
 bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)

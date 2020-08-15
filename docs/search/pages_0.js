@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['copyright',['Copyright',['../page_copyright.html',1,'index']]]
+  ['copyright_301',['Copyright',['../page_copyright.html',1,'index']]]
 ];

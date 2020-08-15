@@ -1,5 +1,7 @@
 # Library for modular scrolling LED matrix text displays
 
+[![arduino-library-badge](https://www.ardu-badge.com/badge/MD_Parola.svg?)](https://www.ardu-badge.com/MD_Parola)
+
 [Version 1.0 Video](http://www.youtube.com/watch?v=JgzVCSFaz3I)
 
 [Version 2.0 Video](http://www.youtube.com/watch?v=u1iELyROjW8)
