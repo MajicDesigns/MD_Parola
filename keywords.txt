@@ -32,8 +32,11 @@ getInvert	KEYWORD2
 getPause	KEYWORD2
 getScrollSpacing	KEYWORD2
 getSpeed	KEYWORD2
+getSpeedIn	KEYWORD2
+getSpeedOut	KEYWORD2
 getStatus	KEYWORD2
 getTextAlignment	KEYWORD2
+getTextColumns	KEYWORD2
 getTextExtent	KEYWORD2
 getZoneEffect	KEYWORD2
 getZoneExtent	KEYWORD2

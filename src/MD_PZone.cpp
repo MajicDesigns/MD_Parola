@@ -489,7 +489,7 @@ bool MD_PZone::zoneAnimate(void)
 
   // work through things that stop us running this at all
   if (((_fsmState == PAUSE) && (millis() - _lastRunTime < _pauseTime)) ||
-    (millis() - _lastRunTime < _tickTime) ||
+    (millis() - _lastRunTime < (_moveIn ? _tickTimeIn : _tickTimeOut) ||
     (_suspend))
       return(false);
 

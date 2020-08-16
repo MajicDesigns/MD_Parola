@@ -50,6 +50,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+xxx 2020 - version 3.5.0
+- setSpeed() now allows setting independent IN and OUT speed
+
 Aug 2020 - version 3.4.0
 - Updated parts of documentation
 - Exposed getTextColumns() as public
@@ -708,12 +711,32 @@ public:
   /**
    * Get the zone animation speed.
    *
-   * See the setSpeed() method
+   * See the setSpeed() method.
+   * This should be replaced with either getSpeedIn() or getSpeedOut()
+   * unless it is known that both directions are running at the same speed.
+   *
+   * \return the IN speed value.
+   */
+  inline uint16_t getSpeed(void) { return _tickTimeIn; }
+
+  /**
+   * Get the zone animation IN speed.
+   *
+   * See the setSpeed() method.
    *
    * \return the speed value.
    */
-  inline uint16_t getSpeed(void) { return _tickTime; }
+  inline uint16_t getSpeedIn(void) { return _tickTimeIn; }
 
+  /**
+   * Get the zone animation OUT speed.
+   *
+   * See the setSpeed() method.
+   *
+   * \return the speed value.
+   */
+  inline uint16_t getSpeedOut(void) { return _tickTimeOut; }
+  
   /**
   * Get the zone animation start time.
   *
@@ -813,10 +836,26 @@ public:
    * The speed of the display is the 'tick' time between animation frames. The lower this time
    * the faster the animation; set it to zero to run as fast as possible.
    *
+   * This method will set both the IN and OUT animations to the same speed.
+   *
    * \param speed the time, in milliseconds, between animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speed) { _tickTime = speed; }
+  inline void setSpeed(uint16_t speed) { setSpeed(speed, speed); }
+
+  /**
+   * Set separate IN and OUT zone animation frame speed.
+   *
+   * The speed of the display is the 'tick' time between animation frames. The lower this time
+   * the faster the animation; set it to zero to run as fast as possible.
+   *
+   * This method will set both the IN and OUT animations separately to the specified speed.
+   *
+   * \param speedIn the time, in milliseconds, between IN animation frames.
+   * \param speedOut the time, in milliseconds, between OUT animation frames.
+   * \return No return value.
+   */
+  inline void setSpeed(uint16_t speedIn, uint16_t speedOut) { _speedIn = speedIn; _sppedOut = speedOut; }
 
 #if ENA_SPRITE
   /**
@@ -1017,7 +1056,8 @@ private:
   // Time and speed controlling data and methods
   bool      _suspend;     // don't do anything
   uint32_t  _lastRunTime; // the millis() value for when the animation was last run
-  uint16_t  _tickTime;    // the time between animations in milliseconds
+  uint16_t  _tickTimeIn;  // the time between IN animations in milliseconds
+  uint16_t  _tickTimeOut; // the time between OUT animations in milliseconds
   uint16_t  _pauseTime;   // time to pause the animation between 'in' and 'out'
 
   // Display control data and methods
@@ -1276,7 +1316,6 @@ public:
   * be blank during the shutdown. Calling animate() will continue to
   * animate the display in the memory buffers but this will not be visible
   * on the display (ie, the libraries still function but the display does not).
-  * To reset the animation back to the beginning, use the displayReset() method.
   *
   * \param b  boolean value to shutdown (true) or resume (false).
   * \return No return value.
@@ -1460,7 +1499,7 @@ public:
   inline uint16_t getScrollSpacing(void) { return _Z[0].getScrollSpacing(); }
 
   /**
-   * Get the current animation speed.
+   * Get the current IN animation speed.
    *
    * See the setSpeed() method. Assumes one zone only
    *
@@ -1469,7 +1508,7 @@ public:
   inline uint16_t getSpeed(void) { return _Z[0].getSpeed(); }
 
   /**
-   * Get the current animation speed for the specified zone.
+   * Get the current IN animation speed for the specified zone.
    *
    * See the setSpeed() method.
    *
@@ -1477,6 +1516,26 @@ public:
    * \return the speed value for the specified zone.
    */
   inline uint16_t getSpeed(uint8_t z) { return (z < _numZones ? _Z[z].getSpeed() : 0); }
+
+  /**
+   * Get the current IN animation speed for the specified zone.
+   *
+   * See the setSpeed() method.
+   *
+   * \param z   zone number.
+   * \return the IN speed value for the specified zone.
+   */
+  inline uint16_t getSpeedIn(uint8_t z) { return (z < _numZones ? _Z[z].getSpeedIn() : 0); }
+
+  /**
+   * Get the current OUT animation speed for the specified zone.
+   *
+   * See the setSpeed() method.
+   *
+   * \param z   zone number.
+   * \return the OUT speed value for the specified zone.
+   */
+  inline uint16_t getSpeedOut(uint8_t z) { return (z < _numZones ? _Z[z].getSpeedOut() : 0); }
 
  /**
    * Get the current text alignment specification.
@@ -1632,10 +1691,12 @@ public:
   inline void setScrollSpacing(uint16_t space) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setScrollSpacing(space); }
 
   /**
-   * Set the animation frame speed for all zones.
+   * Set identical IN and OUT animation frame speed for all zones.
    *
    * The speed of the display is the 'tick' time between animation frames. The lower this time
    * the faster the animation; set it to zero to run as fast as possible.
+   * 
+   * This method sets the IN and OUT animation speeds to be the same.
    *
    * \param speed the time, in milliseconds, between animation frames.
    * \return No return value.
@@ -1643,7 +1704,21 @@ public:
   inline void setSpeed(uint16_t speed) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeed(speed); }
 
   /**
-   * Set the animation frame speed for the specified zone.
+   * Set separate IN and OUT animation frame speed for all zones.
+   *
+   * The speed of the display is the 'tick' time between animation frames. The lower this time
+   * the faster the animation; set it to zero to run as fast as possible.
+   * 
+   * This method allows the IN and OUT animation speeds to be different.
+   *
+   * \param speedIn the time, in milliseconds, between IN animation frames.
+   * \param speedOut the time, in milliseconds, between OUT animation frames.
+   * \return No return value.
+   */
+  inline void setSpeed(uint16_t speedIn, uint16_t speedOut) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeedIn(speedIn, speedOut); }
+
+  /**
+   * Set the identical IN and OUT animation frame speed for the specified zone.
    *
    * See comments for the 'all zones' variant of this method.
    *
@@ -1652,6 +1727,18 @@ public:
    * \return No return value.
    */
   inline void setSpeed(uint8_t z, uint16_t speed) { if (z < _numZones) _Z[z].setSpeed(speed); }
+
+  /**
+   * Set the separate IN and OUT animation frame speed for the specified zone.
+   *
+   * See comments for the 'all zones' variant of this method.
+   *
+   * \param z   zone number.
+   * \param speedIn the time, in milliseconds, between IN animation frames.
+   * \param speedOut the time, in milliseconds, between OUT animation frames.
+   * \return No return value.
+   */
+  inline void setSpeed(uint8_t z, uint16_t speedIn, uint16_t speedOut) { if (z < _numZones) _Z[z].setSpeed(speedIn, speedOut); }
 
 #if ENA_SPRITE
   /**
