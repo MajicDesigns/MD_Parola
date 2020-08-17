@@ -38,6 +38,7 @@ getStatus	KEYWORD2
 getTextAlignment	KEYWORD2
 getTextColumns	KEYWORD2
 getTextExtent	KEYWORD2
+getZone	KEYWORD2
 getZoneEffect	KEYWORD2
 getZoneExtent	KEYWORD2
 isAnimationAdvanced	KEYWORD2

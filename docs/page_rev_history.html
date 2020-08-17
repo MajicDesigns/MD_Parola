@@ -27,7 +27,7 @@
   <td id="projectlogo"><img alt="Logo" src="MajicDesigns_Logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Parola for Arduino
-   &#160;<span id="projectnumber">3.4</span>
+   &#160;<span id="projectnumber">3.5</span>
    </div>
    <div id="projectbrief">Text effects for LED Matrix modular hardware</div>
   </td>
@@ -88,7 +88,14 @@ $(document).ready(function(){initNavTree('page_rev_history.html',''); initResiza
 <div class="title">Revision History </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Aug 2020 - version 3.4.0</p><ul>
+<div class="textblock"><p>Aug 2020 - version 3.5.0</p><ul>
+<li>setSpeed() now allows setting independent IN and OUT speed</li>
+<li>Added getZone() method</li>
+<li>Added Animation_2Speed example</li>
+<li>Workaround for issue #56 (<a href="https://github.com/MajicDesigns/MD_Parola/issues/56">https://github.com/MajicDesigns/MD_Parola/issues/56</a>) built into library</li>
+<li>Maintenance release for new (more picky) IDE compiler settings</li>
+</ul>
+<p>Aug 2020 - version 3.4.0</p><ul>
 <li>Updated parts of documentation</li>
 <li>Exposed getTextColumns() as public</li>
 </ul>
@@ -251,7 +258,7 @@ $(document).ready(function(){initNavTree('page_rev_history.html',''); initResiza
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="index.html">Main Page</a></li>
-    <li class="footer">Generated on Sun Aug 16 2020 06:41:27 for Parola for Arduino by
+    <li class="footer">Generated on Mon Aug 17 2020 15:24:58 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
   </ul>

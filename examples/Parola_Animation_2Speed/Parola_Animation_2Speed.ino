@@ -1,4 +1,5 @@
-// Program to show full catalog of the MD_Parola animations
+// Program to show combination of all animations, manual setup process for animation
+// with 2 speed IN and OUT.
 //
 // MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
@@ -76,6 +77,8 @@ sCatalog catalog[] =
 #endif
 };
 
+static textPosition_t justy[] = { PA_LEFT, PA_CENTER, PA_RIGHT };
+
 // Sprite Definitions
 const uint8_t F_PMAN1 = 6;
 const uint8_t W_PMAN1 = 8;
@@ -117,31 +120,18 @@ void setup(void)
 
 void loop(void)
 {
-  static textPosition_t just = PA_LEFT;
-  static uint8_t i = 0;   // text effect index
-  static uint8_t j = 0;   // text justification index
-
   if (P.displayAnimate()) // animates and returns true when an animation is completed
   {
-    // progress the justification if needed
-    if (i == ARRAY_SIZE(catalog))
-    {
-      j++;
-      if (j == 3) j = 0;
+    uint8_t eIn = random(ARRAY_SIZE(catalog));  // text effect IN index
+    uint8_t eOut = random(ARRAY_SIZE(catalog)); // text effect OUT index
+    uint8_t j = random(ARRAY_SIZE(justy));      // text justification index
 
-      switch (j)
-      {
-      case 0: just = PA_LEFT;    break;
-      case 1: just = PA_CENTER;  break;
-      case 2: just = PA_RIGHT;   break;
-      }
-
-      i = 0;  // reset loop index
-    }
-
-    // set up new animation
-    P.displayText(catalog[i].psz, just, catalog[i].speed, catalog[i].pause, catalog[i].effect, catalog[i].effect);
-
-    i++;   // then set up for next text effect
+    // set up all the new animation parameters manually
+    P.setTextBuffer(catalog[eIn].psz);
+    P.setTextAlignment(justy[j]);
+    P.setSpeed(catalog[eIn].speed, catalog[eOut].speed);
+    P.setPause(catalog[eIn].pause);
+    P.setTextEffect(catalog[eIn].effect, catalog[eOut].effect);
+    P.displayReset();
   }
 }

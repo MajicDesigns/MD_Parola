@@ -24,7 +24,7 @@
 #define CS_PIN    10
 
 // set to 1 if we are implementing the user interface pot
-#define USE_UI_CONTROL  0
+#define USE_UI_CONTROL  1
 
 #if USE_UI_CONTROL
 #define SPEED_IN  A5
@@ -39,12 +39,12 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define PAUSE_TIME  1000
 
 // Turn on debug statements to the serial output
-#define  DEBUG  0
+#define  DEBUG  1
 
 #if  DEBUG
-#define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
-#define PRINTS(x) Serial.print(F(x))
-#define PRINTX(x) Serial.println(x, HEX)
+#define PRINT(s, x) do { Serial.print(F(s)); Serial.print(x); } while (false)
+#define PRINTS(s) do { Serial.print(F(s)); } while (false)
+#define PRINTX(x) do { Serial.println(x, HEX); } while (false)
 #else
 #define PRINT(s, x)
 #define PRINTS(x)
@@ -145,14 +145,27 @@ void setup(void)
 #endif
 
 #if USE_UI_CONTROL
+  PRINTS("\nUI Control active.");
   pinMode(SPEED_IN, INPUT);
   doUI();
 #endif // USE_UI_CONTROL
   P.begin(NUM_ZONES);
 
+  // set the zone boundaries
   P.setZone(0, 0, 2);
   P.setZone(1, 3, 5);
   P.setZone(2, 6, 8);
+  
+  // show the zones that have been set
+ for (uint8_t i=0; i<NUM_ZONES; i++)
+  {
+    uint8_t start, end;
+    P.getZone(i, start, end);
+    PRINT("\nZone ", i);
+    PRINT(" [", start);
+    PRINT(",", end);
+    PRINTS("]");
+  }
 
   P.setSpriteData(pacman1, W_PMAN1, F_PMAN1, pacman2, W_PMAN2, F_PMAN2);
   

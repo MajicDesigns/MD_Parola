@@ -22,20 +22,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 #include <MD_Parola.h>
 #include <MD_Parola_lib.h>
-#include <MD_MAX72xx.h>
+//#include <MD_MAX72xx.h>
 /**
  * \file
  * \brief Implements core MD_Parola class methods
  */
 
-MD_Parola::MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices):
-_D(mod, dataPin, clkPin, csPin, numDevices), _numModules(numDevices)
+MD_Parola::~MD_Parola(void)
 {
-}
-
-MD_Parola::MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t csPin, uint8_t numDevices):
-_D(mod, csPin, numDevices), _numModules(numDevices)
-{
+#if !STATIC_ZONES
+  // release the dynamically allocated zone array
+  delete[] _Z;
+#endif
 }
 
 void MD_Parola::begin(uint8_t numZones)
@@ -69,14 +67,6 @@ void MD_Parola::begin(uint8_t numZones)
   setTextAlignment(PA_LEFT);
   setTextEffect(PA_PRINT, PA_NO_EFFECT);
   setInvert(false);
-}
-
-MD_Parola::~MD_Parola(void)
-{
-#if !STATIC_ZONES
-  // release the dynamically allocated zone array
-  delete [] _Z;
-#endif
 }
 
 bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)

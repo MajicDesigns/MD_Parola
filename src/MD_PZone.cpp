@@ -488,10 +488,11 @@ bool MD_PZone::zoneAnimate(void)
     return(true);
 
   // work through things that stop us running this at all
+  uint32_t tickTime = (_moveIn ? _tickTimeIn : _tickTimeOut);
   if (((_fsmState == PAUSE) && (millis() - _lastRunTime < _pauseTime)) ||
-    (millis() - _lastRunTime < (_moveIn ? _tickTimeIn : _tickTimeOut) ||
+    (millis() - _lastRunTime < tickTime) ||
     (_suspend))
-      return(false);
+    return(false);
 
   // save the time now, before we run the animation, so that the animation is part of the
   // delay between animations giving more accurate frame timing.
