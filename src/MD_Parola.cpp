@@ -60,7 +60,7 @@ void MD_Parola::begin(uint8_t numZones)
     setZone(0, 0, _numModules - 1);
 
   // initialise zone-independent options
-  setSpeed(10);
+  setSpeed(10, 10);
   setPause(10 * getSpeed());
   setCharSpacing(1);
   setScrollSpacing(0);
@@ -107,7 +107,9 @@ bool MD_Parola::displayAnimate(void)
   return(b);
 }
 
+
 size_t MD_Parola::write(const char *str)
+// .print() extension of a string
 {
   displayText((char *)str, getTextAlignment(), 0, 0, PA_PRINT, PA_NO_EFFECT);
   while (displayAnimate())
@@ -117,6 +119,7 @@ size_t MD_Parola::write(const char *str)
 }
 
 size_t MD_Parola::write(const uint8_t *buffer, size_t size)
+// .print() extension
 {
   char *psz = (char *)malloc(sizeof(char) * (size + 1));
 

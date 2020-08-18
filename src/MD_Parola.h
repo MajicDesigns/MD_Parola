@@ -50,6 +50,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+xxx 2020 - version 3.5.1
+- Fixed non-functional setIntensity()
+
 Aug 2020 - version 3.5.0
 - setSpeed() now allows setting independent IN and OUT speed
 - Added getZone() method
@@ -807,7 +810,7 @@ public:
    * \param intensity the intensity to set the display (0-15).
    * \return No return value.
    */
-  inline void setIntensity(uint8_t intensity) { _intensity = intensity; /*_MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, _intensity);*/ }
+  inline void setIntensity(uint8_t intensity) { _intensity = intensity; _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::INTENSITY, _intensity); }
 
   /**
    * Invert the zone display.
@@ -1075,22 +1078,22 @@ private:
   uint16_t  _pauseTime;   // time to pause the animation between 'in' and 'out'
 
   // Display control data and methods
-  fsmState_t      _fsmState;    // fsm state for all FSMs used to display text
-  uint16_t        _textLen;     // length of current text in columns
-  int16_t         _limitLeft;   // leftmost limit for the current display effect
-  int16_t         _limitRight;  // rightmost limit for the current display effect
-  bool            _limitOverflow; // true if the text will overflow the display
-  textPosition_t  _textAlignment; // current text alignment
-  textEffect_t    _effectIn;    // the effect for text entering the display
-  textEffect_t    _effectOut;   // the effect for text exiting the display
-  bool            _moveIn;      // animation is moving IN when true, OUT when false
-  bool            _inverted;    // true if the display needs to be inverted
-  uint16_t        _scrollDistance;  // the space in columns between the end of one message and the start of the next
-  uint8_t         _zoneEffect;  // bit mapped zone effects
-  uint8_t         _intensity;   // display intensity
-  bool            _animationAdvanced;  // true is animation advanced inthe last animation call
+  fsmState_t      _fsmState;          // fsm state for all FSMs used to display text
+  uint16_t        _textLen;           // length of current text in columns
+  int16_t         _limitLeft;         // leftmost limit for the current display effect
+  int16_t         _limitRight;        // rightmost limit for the current display effect
+  bool            _limitOverflow;     // true if the text will overflow the display
+  textPosition_t  _textAlignment;     // current text alignment
+  textEffect_t    _effectIn;          // the effect for text entering the display
+  textEffect_t    _effectOut;         // the effect for text exiting the display
+  bool            _moveIn;            // animation is moving IN when true, OUT when false
+  bool            _inverted;          // true if the display needs to be inverted
+  uint16_t        _scrollDistance;    // the space in columns between the end of one message and the start of the next
+  uint8_t         _zoneEffect;        // bit mapped zone effects
+  uint8_t         _intensity;         // display intensity
+  bool            _animationAdvanced; // true is animation advanced inthe last animation call
 
-  void      setInitialConditions(void);    // set up initial conditions for an effect
+  void      setInitialConditions(void);       // set up initial conditions for an effect
   bool      calcTextLimits(const uint8_t *p); // calculate the right and left limits for the text
 
   // Variables used in the effects routines. These can be used by the functions as needed.
@@ -1109,8 +1112,8 @@ private:
   bool       _endOfText;             // true when the end of the text string has been reached.
   void       moveTextPointer(void);  // move the text pointer depending on direction of buffer scan
 
-  bool getFirstChar(uint8_t &len);// put the first Text char into the char buffer
-  bool getNextChar(uint8_t &len); // put the next Text char into the char buffer
+  bool getFirstChar(uint8_t &len);   // put the first Text char into the char buffer
+  bool getNextChar(uint8_t &len);    // put the next Text char into the char buffer
 
   // Font character handling data and methods
   charDef_t *_userChars;  // the root of the list of user defined characters
@@ -1193,7 +1196,7 @@ public:
    * \param csPin     output for selecting the device.
    * \param numDevices  number of devices connected. Default is 1 if not supplied.
    */
-  MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices = 1) :
+  MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t dataPin, uint8_t clkPin, uint8_t csPin, uint8_t numDevices = 1):
     _D(mod, dataPin, clkPin, csPin, numDevices), _numModules(numDevices)
   {}
 
@@ -1209,7 +1212,7 @@ public:
    * \param csPin   output for selecting the device.
    * \param numDevices  number of devices connected. Default is 1 if not supplied.
    */
-  MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t csPin, uint8_t numDevices = 1) :
+  MD_Parola(MD_MAX72XX::moduleType_t mod, uint8_t csPin, uint8_t numDevices = 1):
     _D(mod, csPin, numDevices), _numModules(numDevices)
   {}
 
@@ -1378,7 +1381,7 @@ public:
    * \param moduleStart returns the first module number for the zone [0..numZones-1].
    * \param moduleEnd   returns last module number for the zone [0..numZones-1].
    */
-  inline void getZone(uint8_t z, uint8_t& moduleStart, uint8_t& moduleEnd) { if (z < _numZones) _Z[z].getZone(moduleStart, moduleEnd); }
+  inline void getZone(uint8_t z, uint8_t &moduleStart, uint8_t &moduleEnd) { if (z < _numZones) _Z[z].getZone(moduleStart, moduleEnd); }
 
   /**
    * Define the module limits for a zone.
@@ -2151,7 +2154,7 @@ public:
 #if STATIC_ZONES
   MD_PZone    _Z[MAX_ZONES];  ///< Fixed number of zones - static zone allocation
 #else
-  MD_PZone    *_Z;        ///< Zones buffers - dynamic zone allocation
+  MD_PZone    *_Z;            ///< Zones buffers - dynamic zone allocation
 #endif
   uint8_t     _numModules;///< Number of display modules [0..numModules-1]
   uint8_t     _numZones;  ///< Max number of zones in the display [0..numZones-1]
