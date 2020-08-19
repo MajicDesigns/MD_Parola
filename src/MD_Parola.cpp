@@ -59,8 +59,8 @@ void MD_Parola::begin(uint8_t numZones)
   if (_numZones == 1)
     setZone(0, 0, _numModules - 1);
 
-  // initialise zone-independent options
-  setSpeed(10, 10);
+  // initialize zone-independent options
+  setSpeed(10);
   setPause(10 * getSpeed());
   setCharSpacing(1);
   setScrollSpacing(0);
