@@ -50,7 +50,7 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
-xxx 2020 - version 3.5.1
+Aug 2020 - version 3.5.1
 - Fixed non-functional setIntensity()
 
 Aug 2020 - version 3.5.0
