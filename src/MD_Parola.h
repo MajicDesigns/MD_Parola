@@ -1345,9 +1345,9 @@ public:
   /**
    * Set the current animation to end for all zones.
    *
-   * This method is used to set all the zone animations an animation to the end
-   * of their cycle current cycle.
-   * It is normally invoked when you before to start a new animation that as to
+   * This method is used to set all the zone animations to the end of their cycle
+   * current cycle.
+   * It is normally invoked before to invoke a new animation that as to
    * start immediately
    *
    * \return No return value.
