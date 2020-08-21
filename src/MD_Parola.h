@@ -50,6 +50,10 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Aug 2020 - version 3.5.2
+- Added displayAnimationTerminate to terminate an animation
+- Renamed setSpeed(uint16_t speedIn, uint16_t speedOut) in setSpeedInOut
+
 Aug 2020 - version 3.5.1
 - Fixed non-functional setIntensity()
 
@@ -645,6 +649,15 @@ public:
    * \return No return value.
    */
   inline void zoneReset(void) { _fsmState = INITIALISE; }
+  
+  /**
+   * Complite the current zone animation.
+   *
+   * See comments for the MD_Parola namesake method.
+   *
+   * \return No return value.
+   */
+  inline void zoneAnimationTerminate(void) { _fsmState = END; }
 
   /**
   * Shutdown or resume zone hardware.
@@ -858,7 +871,7 @@ public:
    * \param speed the time, in milliseconds, between animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speed) { setSpeed(speed, speed); }
+  inline void setSpeed(uint16_t speed) { setSpeedInOut(speed, speed); }
 
   /**
    * Set separate IN and OUT zone animation frame speed.
@@ -872,7 +885,7 @@ public:
    * \param speedOut the time, in milliseconds, between OUT animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speedIn, uint16_t speedOut) { _tickTimeIn = speedIn; _tickTimeOut = speedOut; }
+  inline void setSpeedInOut(uint16_t speedIn, uint16_t speedOut) { _tickTimeIn = speedIn; _tickTimeOut = speedOut; }
 
 #if ENA_SPRITE
   /**
@@ -1330,6 +1343,28 @@ public:
   void displayReset(uint8_t z) { if (z < _numZones) _Z[z].zoneReset(); }
 
   /**
+   * Set the current animation to end for all zones.
+   *
+   * This method is used to set all the zone animations an animation to the end
+   * of their cycle current cycle.
+   * It is normally invoked when you before to start a new animation that as to
+   * start immediately
+   *
+   * \return No return value.
+   */
+  void displayAnimationTerminate(void) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].zoneAnimationTerminate(); }
+
+  /**
+   * Set the current animation to end for the specified zone.
+   *
+   * See the comments for the 'all zones' variant of this method.
+   *
+   * \param z specified zone
+   * \return No return value.
+   */
+  void displayAnimationTerminate(uint8_t z) { if (z < _numZones) _Z[z].zoneAnimationTerminate(); }
+
+  /**
   * Shutdown or restart display hardware.
   *
   * Shutdown the display hardware to a low power state. The display will
@@ -1749,7 +1784,7 @@ public:
    * \param speedOut the time, in milliseconds, between OUT animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speedIn, uint16_t speedOut) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeed(speedIn, speedOut); }
+  inline void setSpeedInOut(uint16_t speedIn, uint16_t speedOut) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeedInOut(speedIn, speedOut); }
 
   /**
    * Set the identical IN and OUT animation frame speed for the specified zone.
@@ -1772,7 +1807,7 @@ public:
    * \param speedOut the time, in milliseconds, between OUT animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint8_t z, uint16_t speedIn, uint16_t speedOut) { if (z < _numZones) _Z[z].setSpeed(speedIn, speedOut); }
+  inline void setSpeed(uint8_t z, uint16_t speedIn, uint16_t speedOut) { if (z < _numZones) _Z[z].setSpeedInOut(speedIn, speedOut); }
 
 #if ENA_SPRITE
   /**
