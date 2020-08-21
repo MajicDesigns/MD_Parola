@@ -49,6 +49,7 @@ setInvert	KEYWORD2
 setPause	KEYWORD2
 setScrollSpacing	KEYWORD2
 setSpeed	KEYWORD2
+setSpeedInOut	KEYWORD2
 setSpriteData	KEYWORD2
 setTextAlignment	KEYWORD2
 setTextBuffer	KEYWORD2

@@ -159,8 +159,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9e4cd73f358da88e9a6f1417039a7ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92197f2df4e6eaa892fcc2554e15d085"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#a92197f2df4e6eaa892fcc2554e15d085">setSpeed</a> (uint16_t speed)</td></tr>
 <tr class="separator:a92197f2df4e6eaa892fcc2554e15d085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88366216ca627619663857c385f7237a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#a88366216ca627619663857c385f7237a">setSpeed</a> (uint16_t speedIn, uint16_t speedOut)</td></tr>
-<tr class="separator:a88366216ca627619663857c385f7237a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad635796e8a817c6b0ae3a30086728eed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#ad635796e8a817c6b0ae3a30086728eed">setSpeedInOut</a> (uint16_t speedIn, uint16_t speedOut)</td></tr>
+<tr class="separator:ad635796e8a817c6b0ae3a30086728eed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff8bfed609e65e33571a7a127707becf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#aff8bfed609e65e33571a7a127707becf">setSpriteData</a> (const uint8_t *inData, uint8_t inWidth, uint8_t inFrames, const uint8_t *outData, uint8_t outWidth, uint8_t outFrames)</td></tr>
 <tr class="separator:aff8bfed609e65e33571a7a127707becf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa0dcc32728e60ec42514f3c365a8490"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___p_zone.html#afa0dcc32728e60ec42514f3c365a8490">setSynchTime</a> (uint32_t zt)</td></tr>
@@ -897,7 +897,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a92197f2df4e6eaa892fcc2554e15d085"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92197f2df4e6eaa892fcc2554e15d085">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a92197f2df4e6eaa892fcc2554e15d085">&#9670;&nbsp;</a></span>setSpeed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -913,7 +913,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Set the zone animation frame speed.</p>
 <p>The speed of the display is the 'tick' time between animation frames. The lower this time the faster the animation; set it to zero to run as fast as possible.</p>
-<p>This method will set both the IN and OUT animations to the same speed.</p>
+<p>This method will set the same value for both IN and OUT animations speed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">speed</td><td>the time, in milliseconds, between animation frames. </td></tr>
@@ -924,14 +924,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a88366216ca627619663857c385f7237a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88366216ca627619663857c385f7237a">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[2/2]</span></h2>
+<a id="ad635796e8a817c6b0ae3a30086728eed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad635796e8a817c6b0ae3a30086728eed">&#9670;&nbsp;</a></span>setSpeedInOut()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void MD_PZone::setSpeed </td>
+          <td class="memname">void MD_PZone::setSpeedInOut </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>speedIn</em>, </td>
@@ -1393,7 +1393,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___p_zone.html">MD_PZone</a></li>
-    <li class="footer">Generated on Mon Aug 17 2020 15:24:58 for Parola for Arduino by
+    <li class="footer">Generated on Sat Aug 22 2020 08:26:59 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
   </ul>

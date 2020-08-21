@@ -207,12 +207,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9da2ed061c82a2278e19a72cd415f915"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a148064778dfb85eb1fd73fe415fc1126"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126">setSpeed</a> (uint16_t speed)</td></tr>
 <tr class="separator:a148064778dfb85eb1fd73fe415fc1126"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb96a8f99ed974126867b27cb6aa3182"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#afb96a8f99ed974126867b27cb6aa3182">setSpeed</a> (uint16_t speedIn, uint16_t speedOut)</td></tr>
-<tr class="separator:afb96a8f99ed974126867b27cb6aa3182"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f064c27534168f0d532e5c424185e09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a5f064c27534168f0d532e5c424185e09">setSpeedInOut</a> (uint16_t speedIn, uint16_t speedOut)</td></tr>
+<tr class="separator:a5f064c27534168f0d532e5c424185e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa92a0538ff725b970949231342ec6910"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#aa92a0538ff725b970949231342ec6910">setSpeed</a> (uint8_t z, uint16_t speed)</td></tr>
 <tr class="separator:aa92a0538ff725b970949231342ec6910"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a593052d3780ded1b15e630e72d6c479a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a593052d3780ded1b15e630e72d6c479a">setSpeed</a> (uint8_t z, uint16_t speedIn, uint16_t speedOut)</td></tr>
-<tr class="separator:a593052d3780ded1b15e630e72d6c479a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a480e19093dbeb0fcae672f7130219028"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a480e19093dbeb0fcae672f7130219028">setSpeedInOut</a> (uint8_t z, uint16_t speedIn, uint16_t speedOut)</td></tr>
+<tr class="separator:a480e19093dbeb0fcae672f7130219028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7d4845f49da2452c62107fc8e731c85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#ad7d4845f49da2452c62107fc8e731c85">setSpriteData</a> (uint8_t z, const uint8_t *inData, uint8_t inWidth, uint8_t inFrames, const uint8_t *outData, uint8_t outWidth, uint8_t outFrames)</td></tr>
 <tr class="separator:ad7d4845f49da2452c62107fc8e731c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1613bf22fdf48a249f6feb3f810b00bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_d___parola.html#a1613bf22fdf48a249f6feb3f810b00bd">setSpriteData</a> (const uint8_t *inData, uint8_t inWidth, uint8_t inFrames, const uint8_t *outData, uint8_t outWidth, uint8_t outFrames)</td></tr>
@@ -609,7 +609,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Animate the display.</p>
-<p>Animate all the zones in the display using the currently specified text and animation parameters. This method needs to be invoked as often as possible to ensure smooth animation. The animation is governed by a time tick that is set by the <a class="el" href="class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126">setSpeed()</a> method and it will pause between entry and exit using the time set by the <a class="el" href="class_m_d___parola.html#a535d4ba642406b02c26b6218e020c313">setPause()</a> method.</p>
+<p>Animate all the zones in the display using the currently specified text and animation parameters. This method needs to be invoked as often as possible to ensure smooth animation. The animation is governed by a time tick that is set by the <a class="el" href="class_m_d___parola.html#a148064778dfb85eb1fd73fe415fc1126">setSpeed()</a> or <a class="el" href="class_m_d___parola.html#a5f064c27534168f0d532e5c424185e09">setSpeedInOut()</a> methods and it will pause between entry and exit using the time set by the <a class="el" href="class_m_d___parola.html#a535d4ba642406b02c26b6218e020c313">setPause()</a> method.</p>
 <p>The calling program should monitor the return value for 'true' in order to either reset the zone animation or supply another string for display. A 'true' return value means that one or more zones have completed their animation.</p>
 <p>Not all calls to this method result in an animation, as this is governed by the timing parameters set for the animation. To determine when an animation has advanced during the call, the user code can call the <a class="el" href="class_m_d___parola.html#ae94526b7b2fa5a40086dde50097e04d7">isAnimationAdvanced()</a> method.</p>
 <dl class="section return"><dt>Returns</dt><dd>bool true if at least one zone animation has completed, false otherwise. </dd></dl>
@@ -2056,7 +2056,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a148064778dfb85eb1fd73fe415fc1126"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a148064778dfb85eb1fd73fe415fc1126">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a148064778dfb85eb1fd73fe415fc1126">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2083,47 +2083,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afb96a8f99ed974126867b27cb6aa3182"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb96a8f99ed974126867b27cb6aa3182">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MD_Parola::setSpeed </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>speedIn</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>speedOut</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set separate IN and OUT animation frame speed for all zones.</p>
-<p>The speed of the display is the 'tick' time between animation frames. The lower this time the faster the animation; set it to zero to run as fast as possible.</p>
-<p>This method allows the IN and OUT animation speeds to be different.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">speedIn</td><td>the time, in milliseconds, between IN animation frames. </td></tr>
-    <tr><td class="paramname">speedOut</td><td>the time, in milliseconds, between OUT animation frames. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
-
-</div>
-</div>
 <a id="aa92a0538ff725b970949231342ec6910"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa92a0538ff725b970949231342ec6910">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa92a0538ff725b970949231342ec6910">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2160,14 +2121,53 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a593052d3780ded1b15e630e72d6c479a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a593052d3780ded1b15e630e72d6c479a">&#9670;&nbsp;</a></span>setSpeed() <span class="overload">[4/4]</span></h2>
+<a id="a5f064c27534168f0d532e5c424185e09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f064c27534168f0d532e5c424185e09">&#9670;&nbsp;</a></span>setSpeedInOut() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void MD_Parola::setSpeed </td>
+          <td class="memname">void MD_Parola::setSpeedInOut </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>speedIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>speedOut</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set separate IN and OUT animation frame speed for all zones.</p>
+<p>The speed of the display is the 'tick' time between animation frames. The lower this time the faster the animation; set it to zero to run as fast as possible.</p>
+<p>This method allows the IN and OUT animation speeds to be different.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speedIn</td><td>the time, in milliseconds, between IN animation frames. </td></tr>
+    <tr><td class="paramname">speedOut</td><td>the time, in milliseconds, between OUT animation frames. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
+
+</div>
+</div>
+<a id="a480e19093dbeb0fcae672f7130219028"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a480e19093dbeb0fcae672f7130219028">&#9670;&nbsp;</a></span>setSpeedInOut() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MD_Parola::setSpeedInOut </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>z</em>, </td>
@@ -2799,7 +2799,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_m_d___parola.html">MD_Parola</a></li>
-    <li class="footer">Generated on Mon Aug 17 2020 15:24:58 for Parola for Arduino by
+    <li class="footer">Generated on Sat Aug 22 2020 08:26:59 for Parola for Arduino by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
   </ul>

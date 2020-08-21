@@ -129,7 +129,7 @@ void loop(void)
     // set up all the new animation parameters manually
     P.setTextBuffer(catalog[eIn].psz);
     P.setTextAlignment(justy[j]);
-    P.setSpeed(catalog[eIn].speed, catalog[eOut].speed);
+    P.setSpeedInOut(catalog[eIn].speed, catalog[eOut].speed);
     P.setPause(catalog[eIn].pause);
     P.setTextEffect(catalog[eIn].effect, catalog[eOut].effect);
     P.displayReset();

@@ -29,7 +29,7 @@ var class_m_d___p_zone =
     [ "setPause", "class_m_d___p_zone.html#a7a6a0730c1a8c461c91781df1db4f177", null ],
     [ "setScrollSpacing", "class_m_d___p_zone.html#a9e4cd73f358da88e9a6f1417039a7ac1", null ],
     [ "setSpeed", "class_m_d___p_zone.html#a92197f2df4e6eaa892fcc2554e15d085", null ],
-    [ "setSpeed", "class_m_d___p_zone.html#a88366216ca627619663857c385f7237a", null ],
+    [ "setSpeedInOut", "class_m_d___p_zone.html#ad635796e8a817c6b0ae3a30086728eed", null ],
     [ "setSpriteData", "class_m_d___p_zone.html#aff8bfed609e65e33571a7a127707becf", null ],
     [ "setSynchTime", "class_m_d___p_zone.html#afa0dcc32728e60ec42514f3c365a8490", null ],
     [ "setTextAlignment", "class_m_d___p_zone.html#ac48591627c0b75af049cfdfdb1122c69", null ],

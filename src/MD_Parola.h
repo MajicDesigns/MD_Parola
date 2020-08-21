@@ -50,6 +50,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Aug 2020 - version 3.5.2
+- Fixed ambiguous overloading setSpeed(uint8_t zone, uint16_t spd) and setSpeed(uint16_t spdIn, uint16_t spdOut)
+
 Aug 2020 - version 3.5.1
 - Fixed non-functional setIntensity()
 
@@ -853,12 +856,12 @@ public:
    * The speed of the display is the 'tick' time between animation frames. The lower this time
    * the faster the animation; set it to zero to run as fast as possible.
    *
-   * This method will set both the IN and OUT animations to the same speed.
+   * This method will set the same value for both IN and OUT animations speed.
    *
    * \param speed the time, in milliseconds, between animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speed) { setSpeed(speed, speed); }
+  inline void setSpeed(uint16_t speed) { setSpeedInOut(speed, speed); }
 
   /**
    * Set separate IN and OUT zone animation frame speed.
@@ -872,7 +875,7 @@ public:
    * \param speedOut the time, in milliseconds, between OUT animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speedIn, uint16_t speedOut) { _tickTimeIn = speedIn; _tickTimeOut = speedOut; }
+  inline void setSpeedInOut(uint16_t speedIn, uint16_t speedOut) { _tickTimeIn = speedIn; _tickTimeOut = speedOut; }
 
 #if ENA_SPRITE
   /**
@@ -1258,8 +1261,8 @@ public:
    * Animate all the zones in the display using the currently specified text and
    * animation parameters. This method needs to be invoked as often as possible
    * to ensure smooth animation. The animation is governed by a time tick that
-   * is set by the setSpeed() method and it will pause between entry and exit using
-   * the time set by the setPause() method.
+   * is set by the setSpeed() or setSpeedInOut() methods and it will pause between 
+   * entry and exit using the time set by the setPause() method.
    *
    * The calling program should monitor the return value for 'true' in order to either
    * reset the zone animation or supply another string for display. A 'true' return
@@ -1749,7 +1752,7 @@ public:
    * \param speedOut the time, in milliseconds, between OUT animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint16_t speedIn, uint16_t speedOut) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeed(speedIn, speedOut); }
+  inline void setSpeedInOut(uint16_t speedIn, uint16_t speedOut) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].setSpeedInOut(speedIn, speedOut); }
 
   /**
    * Set the identical IN and OUT animation frame speed for the specified zone.
@@ -1772,7 +1775,7 @@ public:
    * \param speedOut the time, in milliseconds, between OUT animation frames.
    * \return No return value.
    */
-  inline void setSpeed(uint8_t z, uint16_t speedIn, uint16_t speedOut) { if (z < _numZones) _Z[z].setSpeed(speedIn, speedOut); }
+  inline void setSpeedInOut(uint8_t z, uint16_t speedIn, uint16_t speedOut) { if (z < _numZones) _Z[z].setSpeedInOut(speedIn, speedOut); }
 
 #if ENA_SPRITE
   /**
