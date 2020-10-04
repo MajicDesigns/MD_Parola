@@ -36,7 +36,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
     {
     case INITIALISE:
       PRINT_STATE("I DIAG");
-      _nextPos = 0;   // the position in the animation
+      _nextPos = COL_SIZE-1;   // the position in the animation
       _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
       _fsmState = PUT_CHAR;
       // fall through to next state
@@ -50,20 +50,45 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       zoneClear();
       commonPrint();
 
-      for (uint8_t i = _nextPos; i < 7; i++)
+      // scroll each column of the display so that the message appears to be animated
+      // Note: Directions are reversed here because we start with the message in the
+      // middle position thru commonPrint() and to see it animated moving DOWN we
+      // need to scroll it UP, and vice versa.
+      if (bLeft)
       {
-        // scroll the whole display so that the message appears to be animated
-        // Note: Directions are reversed because we start with the message in the
-        // middle position thru commonPrint() and to see it animated move DOWN we
-        // need to scroll it UP, and vice versa.
-        _MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
-        _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSR : MD_MAX72XX::TSL);
+        for (uint16_t j = _nextPos; j < _MX->getColumnCount(); j++)   // for each column
+        {
+          uint8_t c = _MX->getColumn(j);
+
+          for (int8_t i = _nextPos; i > 0; i--)
+          {
+            c = (bUp ? c << 1 : c >> 1);
+            if (_inverted) c |= (bUp ? 0x01 : 0x80);
+          }
+
+          _MX->setColumn(j - _nextPos, c);
+        }
+      }
+      else  // going right
+      {
+        for (int16_t j = _MX->getColumnCount() - _nextPos; j >= 0; j--)   // for each column
+        {
+          uint8_t c = _MX->getColumn(j);
+
+          for (int8_t i = _nextPos; i > 0; i--)
+          {
+            c = (bUp ? c << 1 : c >> 1);
+            if (_inverted) c |= (bUp ? 0x01 : 0x80);
+          }
+
+          _MX->setColumn(j + _nextPos, c);
+        }
       }
 
       // check if we have finished
-      if (_nextPos == 7) _fsmState = PAUSE;
+      if (_nextPos == 0) _fsmState = PAUSE;
 
-      _nextPos++;
+      _nextPos--;
       break;
 
     default:
@@ -87,11 +112,34 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
     case PUT_CHAR:
       PRINT_STATE("O DIAG");
 
-      _MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
-      _MX->transform(_zoneStart, _zoneEnd, bLeft ? MD_MAX72XX::TSL : MD_MAX72XX::TSR);
+      if (bLeft)
+      {
+        for (int16_t j = _MX->getColumnCount() - 1; j >= 0; j--)   // for each column
+        {
+          uint8_t c = _MX->getColumn(j);
+
+          c = (bUp ? c >> 1 : c << 1);
+          if (_inverted) c |= (bUp ? 0x80 : 0x01);
+
+          _MX->setColumn(j + 1, c);
+        }
+      }
+      else    // going right
+      {
+        for (uint16_t j = 1; j < _MX->getColumnCount(); j++)   // for each column
+        {
+          uint8_t c = _MX->getColumn(j);
+
+          c = (bUp ? c >> 1 : c << 1);
+          if (_inverted) c |= (bUp ? 0x80 : 0x01);
+
+          _MX->setColumn(j - 1, c);
+        }
+      }
+     _MX->setColumn((bLeft ? 0 : _MX->getColumnCount() - 1), EMPTY_BAR);  // fill in the end
 
       // check if we have finished
-      if (_nextPos == 7) _fsmState = END;
+      if (_nextPos == COL_SIZE-1) _fsmState = END;
 
       _nextPos++;
       break;

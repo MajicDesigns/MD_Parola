@@ -50,6 +50,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Oct 2020 - version 3.5.3
+- Fixed behaviour of SCROLL_UP, DOWN, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT for inverted display
+
 Aug 2020 - version 3.5.2
 - Fixed ambiguous overloading setSpeed(uint8_t zone, uint16_t spd) and setSpeed(uint16_t spdIn, uint16_t spdOut)
 
@@ -470,7 +473,7 @@ takes about 1-2ms to update in the MD_MAX72XX display buffers.
 #define ZONE_START_COL(m) ((m) * COL_SIZE)    ///< The first column of the first zone module
 #define ZONE_END_COL(m)   ((((m) + 1) * COL_SIZE) - 1)///< The last column of the last zone module
 
-//class MD_Parola;
+class MD_Parola;
 
 /**
 * Text alignment enumerated type specification.

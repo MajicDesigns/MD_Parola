@@ -27,10 +27,11 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 void setup(void)
 {
   P.begin();
-  P.displayText("Hello", PA_CENTER, 0, 0, PA_PRINT, PA_NO_EFFECT);
 }
 
 void loop(void)
 {
-  P.displayAnimate();
+  if (P.displayAnimate())
+    P.displayText("Hello", PA_CENTER, P.getSpeed(), P.getPause(), PA_SCRO__DOWN, PA_SCROLL_UP);
+
 }

@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 void MD_PZone::effectVScroll(bool bUp, bool bIn)
-// Scroll the display horizontally up of down, depending on the selected effect
+// Scroll the display horizontally up or down, depending on the selected effect
 {
   if (bIn)  // incoming
   {
@@ -36,7 +36,7 @@ void MD_PZone::effectVScroll(bool bUp, bool bIn)
     {
     case INITIALISE:
       PRINT_STATE("I VSCROLL");
-      _nextPos = 0;
+      _nextPos = COL_SIZE-1;
       _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
       _fsmState = PUT_CHAR;
       // fall through to next state
@@ -50,17 +50,27 @@ void MD_PZone::effectVScroll(bool bUp, bool bIn)
       zoneClear();
       commonPrint();
 
-      for (uint8_t i = _nextPos; i < 7; i++)
-        // scroll the whole display so that the message appears to be animated
-        // Note: Directions are reversed because we start with the message in the
-        // middle position thru commonPrint() and to see it animated move DOWN we
-        // need to scroll it UP, and vice versa.
-        _MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSD : MD_MAX72XX::TSU);
+      // scroll each column of the display so that the message appears to be animated
+      // Note: Directions are reversed here because we start with the message in the
+      // middle position thru commonPrint() and to see it animated moving DOWN we
+      // need to scroll it UP, and vice versa.
+      for (uint16_t j = 0; j < _MX->getColumnCount(); j++)   // for each column
+      {
+        uint8_t c = _MX->getColumn(j);
+
+        for (int8_t i = _nextPos; i > 0; i--)
+        {
+          c = (bUp ? c << 1 : c >> 1);
+          if (_inverted) c |= (bUp ? 0x01 : 0x80);
+        }
+
+        _MX->setColumn(j, c);
+      }
 
       // check if we have finished
-      if (_nextPos == 7) _fsmState = PAUSE;
+      if (_nextPos == 0) _fsmState = PAUSE;
 
-      _nextPos++;
+      _nextPos--;
       break;
 
     default:
@@ -84,10 +94,18 @@ void MD_PZone::effectVScroll(bool bUp, bool bIn)
     case PUT_CHAR:
       PRINT_STATE("O VSCROLL");
 
-      _MX->transform(_zoneStart, _zoneEnd, bUp ? MD_MAX72XX::TSU : MD_MAX72XX::TSD);
+      for (uint16_t j = 0; j < _MX->getColumnCount(); j++)   // for each column
+      {
+        uint8_t c = _MX->getColumn(j);
+
+        c = (bUp ? c >> 1 : c << 1);
+        if (_inverted) c |= (bUp ? 0x80 : 0x01);
+
+        _MX->setColumn(j, c);
+      }
 
       // check if we have finished
-      if (_nextPos == 7) _fsmState = END;
+      if (_nextPos == COL_SIZE-1) _fsmState = END;
 
       _nextPos++;
       break;

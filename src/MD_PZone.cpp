@@ -588,7 +588,7 @@ bool MD_PZone::zoneAnimate(void)
 }
 
 #if DEBUG_PAROLA_FSM
-char *MD_PZone::state2string(fsmState_t s)
+const char *MD_PZone::state2string(fsmState_t s)
 {
   switch (s)
   {
