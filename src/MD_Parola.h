@@ -50,8 +50,11 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+)ct 2020 - version 3.5.4
+- Fixed typo in HelloWorld example
+
 Oct 2020 - version 3.5.3
-- Fixed behaviour of SCROLL_UP, DOWN, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT for inverted display
+- Fixed behavior of SCROLL_UP, DOWN, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT for inverted display
 
 Aug 2020 - version 3.5.2
 - Fixed ambiguous overloading setSpeed(uint8_t zone, uint16_t spd) and setSpeed(uint16_t spdIn, uint16_t spdOut)
