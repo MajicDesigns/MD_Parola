@@ -50,7 +50,11 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
-)ct 2020 - version 3.5.4
+Dec 2020 - version 3.5.5
+- Fixed erratic zone scrolling behavior in introduced with changes to 3.5.3
+- Added README.md to examples folder
+
+Oct 2020 - version 3.5.4
 - Fixed typo in HelloWorld example
 
 Oct 2020 - version 3.5.3

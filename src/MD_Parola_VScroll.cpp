@@ -50,11 +50,11 @@ void MD_PZone::effectVScroll(bool bUp, bool bIn)
       zoneClear();
       commonPrint();
 
-      // scroll each column of the display so that the message appears to be animated
+      // scroll each column of the zone so that the message appears to be animated
       // Note: Directions are reversed here because we start with the message in the
       // middle position thru commonPrint() and to see it animated moving DOWN we
       // need to scroll it UP, and vice versa.
-      for (uint16_t j = 0; j < _MX->getColumnCount(); j++)   // for each column
+      for (int16_t j = ZONE_START_COL(_zoneStart); j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
       {
         uint8_t c = _MX->getColumn(j);
 
@@ -94,7 +94,7 @@ void MD_PZone::effectVScroll(bool bUp, bool bIn)
     case PUT_CHAR:
       PRINT_STATE("O VSCROLL");
 
-      for (uint16_t j = 0; j < _MX->getColumnCount(); j++)   // for each column
+      for (int16_t j = ZONE_START_COL(_zoneStart); j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
       {
         uint8_t c = _MX->getColumn(j);
 
@@ -105,7 +105,7 @@ void MD_PZone::effectVScroll(bool bUp, bool bIn)
       }
 
       // check if we have finished
-      if (_nextPos == COL_SIZE-1) _fsmState = END;
+      if (_nextPos == COL_SIZE - 1) _fsmState = END;
 
       _nextPos++;
       break;

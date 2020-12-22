@@ -1,14 +1,13 @@
 // Use the Parola library to scroll text on the display
 //
-// Demonstrates the use of the scrolling function to display text received
-// from the serial interface
+// Demonstrates receiving and displaying text received from a web interface.
 //
 // User can enter text through a web browser and this will display as a
 // scrolling message on the display. Some parameters for the text can also
 // be controlled from the web page.
 //
 // IP address for the ESP8266 is displayed on the scrolling display
-// after startup initialisation and connected to the WiFi network.
+// after startup initialization and connection to the WiFi network.
 //
 // Connections for ESP8266 hardware SPI are:
 // Vcc       3v3     LED matrices seem to work at 3.3V

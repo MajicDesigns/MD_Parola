@@ -39,7 +39,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 #define PAUSE_TIME  1000
 
 // Turn on debug statements to the serial output
-#define  DEBUG  1
+#define  DEBUG  0
 
 #if  DEBUG
 #define PRINT(s, x) do { Serial.print(F(s)); Serial.print(x); } while (false)

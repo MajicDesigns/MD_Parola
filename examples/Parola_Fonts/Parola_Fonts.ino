@@ -1,5 +1,7 @@
 // Program to exercise the MD_Parola library
 //
+// Display text using various fonts.
+//
 // MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 

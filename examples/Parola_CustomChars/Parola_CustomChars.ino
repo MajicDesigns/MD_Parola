@@ -1,5 +1,7 @@
 // Program to exercise the MD_Parola library
 //
+// Demonstrate the use of single characters font file replacements.
+//
 // MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
 //
 

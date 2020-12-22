@@ -1,6 +1,6 @@
 // Program to demonstrate the MD_Parola library
 //
-// Demonstrated how UTF-8 multi-byte characters can be mapped to Extended ASCII
+// Demonstrates how UTF-8 multi-byte characters can be mapped to Extended ASCII
 // characters that can be displayed with a suitable font file.
 //
 // MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX

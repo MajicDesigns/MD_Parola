@@ -36,7 +36,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
     {
     case INITIALISE:
       PRINT_STATE("I DIAG");
-      _nextPos = COL_SIZE-1;   // the position in the animation
+      _nextPos = COL_SIZE - 1;   // the position in the animation
       _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
       _fsmState = PUT_CHAR;
       // fall through to next state
@@ -56,7 +56,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       // need to scroll it UP, and vice versa.
       if (bLeft)
       {
-        for (uint16_t j = _nextPos; j < _MX->getColumnCount(); j++)   // for each column
+        for (int16_t j = _nextPos; j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
 
@@ -71,7 +71,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       }
       else  // going right
       {
-        for (int16_t j = _MX->getColumnCount() - _nextPos; j >= 0; j--)   // for each column
+        for (int16_t j = ZONE_END_COL(_zoneEnd) - _nextPos + 1; j >= ZONE_START_COL(_zoneStart); j--)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
 
@@ -114,7 +114,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 
       if (bLeft)
       {
-        for (int16_t j = _MX->getColumnCount() - 1; j >= 0; j--)   // for each column
+        for (int16_t j = ZONE_END_COL(_zoneEnd) - 1; j >= ZONE_START_COL(_zoneStart); j--)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
 
@@ -126,7 +126,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       }
       else    // going right
       {
-        for (uint16_t j = 1; j < _MX->getColumnCount(); j++)   // for each column
+        for (int16_t j = ZONE_START_COL(_zoneStart) + 1; j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
 
@@ -136,10 +136,9 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
           _MX->setColumn(j - 1, c);
         }
       }
-     _MX->setColumn((bLeft ? 0 : _MX->getColumnCount() - 1), EMPTY_BAR);  // fill in the end
-
+     _MX->setColumn((bLeft ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd)), EMPTY_BAR);  // fill in the end
       // check if we have finished
-      if (_nextPos == COL_SIZE-1) _fsmState = END;
+      if (_nextPos == COL_SIZE - 1) _fsmState = END;
 
       _nextPos++;
       break;
