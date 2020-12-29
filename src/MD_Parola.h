@@ -50,6 +50,10 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+xxx 2021 - version 3.6.6
+- Added TG_Combo, TG_Coord and TG_Zones examples
+- Deleted Test_TG example
+
 Dec 2020 - version 3.5.5
 - Fixed erratic zone scrolling behavior in introduced with changes to 3.5.3
 - Added README.md to examples folder
