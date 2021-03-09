@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements slice effect
  */
 
+#if ENA_MISC
+
 void MD_PZone::effectSlice(bool bIn)
 {
   if (bIn)
@@ -148,3 +150,5 @@ void MD_PZone::effectSlice(bool bIn)
     }
   }
 }
+
+#endif

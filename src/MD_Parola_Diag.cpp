@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements diagonal scroll effect
  */
 
+#if ENA_SCR_DIA
+
 void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 // Scroll the display diagonally up or down, left or right, depending on the selected effect
 {
@@ -150,3 +152,5 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
     }
   }
 }
+
+#endif

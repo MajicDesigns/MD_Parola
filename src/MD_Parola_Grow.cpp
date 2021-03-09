@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements grow effects
  */
 
+#if ENA_GROW
+
 void MD_PZone::effectGrow(bool bUp, bool bIn)
 // Scan the message over with a new one
 // Print up the whole message and then remove the parts we
@@ -123,3 +125,5 @@ void MD_PZone::effectGrow(bool bUp, bool bIn)
     }
   }
 }
+
+#endif

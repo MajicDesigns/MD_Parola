@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements random effect
  */
 
+#if ENA_MISC
+
 #define RAND_CYCLE 11  // random effect repeats every RANDOM_CYCLE columns
 
 void MD_PZone::effectRandom(bool bIn)
@@ -100,3 +102,5 @@ switch (_fsmState)
     _fsmState = (bIn ? PAUSE : END);
   }
 }
+
+#endif

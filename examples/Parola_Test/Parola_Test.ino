@@ -212,7 +212,9 @@ void setup(void)
 
   // Parola object
   P.begin();
+#if ENA_SPRITE
   P.setSpriteData(rocket, W_ROCKET, F_ROCKET, rocket, W_ROCKET, F_ROCKET);
+#endif
   P.displayText(msg[curString], PA_CENTER, P.getSpeed(), PAUSE_TIME, PA_PRINT, PA_PRINT);
   curString = NEXT_STRING;
 }

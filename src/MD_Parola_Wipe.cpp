@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements wipe effect
  */
 
+#if ENA_WIPE
+
 void MD_PZone::effectWipe(bool bLightBar, bool bIn)
 // Wipe the message over with a new one
 // Print up the whole message and then remove the parts we
@@ -111,3 +113,5 @@ void MD_PZone::effectWipe(bool bLightBar, bool bIn)
     }
   }
 }
+
+#endif

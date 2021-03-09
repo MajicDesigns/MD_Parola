@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements opening effect
  */
 
+#if ENA_OPNCLS
+
 void MD_PZone::effectOpen(bool bLightBar, bool bIn)
 // Open the current message in/out
 {
@@ -125,3 +127,5 @@ void MD_PZone::effectOpen(bool bLightBar, bool bIn)
     }
   }
 }
+
+#endif

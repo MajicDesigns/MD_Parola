@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements FADE effect
  */
 
+#if ENA_MISC
+
 void MD_PZone::effectFade(bool bIn)
 // Fade the display in and out.
 // If the overall intensity is changed while the animation is running, the
@@ -119,3 +121,5 @@ void MD_PZone::effectFade(bool bIn)
     }
   }
 }
+
+#endif

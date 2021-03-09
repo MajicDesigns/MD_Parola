@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements scan effect
  */
 
+#if ENA_SCAN
+
 void MD_PZone::effectHScan(bool bIn, bool bBlank)
 // Scan the message end to end.
 // if bBlank is true, a blank column scans the text. If false, a non-blank scans the text.
@@ -207,3 +209,5 @@ void MD_PZone::effectVScan(bool bIn, bool bBlank)
     }
   }
 }
+
+#endif

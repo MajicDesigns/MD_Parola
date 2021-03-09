@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Implements mesh effect
  */
 
+#if ENA_MISC
+
 void MD_PZone::effectMesh(bool bIn)
 // Text enters with alternating up/down columns
 {
@@ -111,3 +113,5 @@ void MD_PZone::effectMesh(bool bIn)
     }
   }
 }
+
+#endif

@@ -50,9 +50,11 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
-xxx 2021 - version 3.6.6
+Mar 2021 - version 3.5.6
 - Added TG_Combo, TG_Coord and TG_Zones examples
 - Deleted Test_TG example
+- Fixed ENA_* no longer working (compiler changes)
+- Deleted revision history prior to v2.0.0
 
 Dec 2020 - version 3.5.5
 - Fixed erratic zone scrolling behavior in introduced with changes to 3.5.3
@@ -223,14 +225,8 @@ March 2014 - version 2.0
 - textEffect_t and textAlign_t taken out of the class definition. Requires legacy code mods.
 - Backward compatible with library version 1.x code.
 
-September 2013 - version 1.1
-- Mods to accommodate changes to hardware SPI implementation in MD_MAX72xx library
-
-June 2013 - version 1.0
-- New library
-
 \page pageCopyright Copyright
-Copyright (C) 2013-2018 Marco Colli. All rights reserved.
+Copyright (C) 2013-2021 Marco Colli. All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
