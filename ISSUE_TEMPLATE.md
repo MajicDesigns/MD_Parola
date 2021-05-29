@@ -12,7 +12,6 @@ Describe your issue here.
 **Arduino IDE version:** 
 **Host OS and Version:** 
 **CPU Hardware model/type:** 
-**Matrix hardware model/type:** [ ] Parola  [ ] Generic  [ ] ICStation  [ ] FC-16  [ ] Custom (describe how wired)
 
 ## Steps to Reproduce
 Explain how to reproduce this issue. Please provide working code below to demonstrate the issue.

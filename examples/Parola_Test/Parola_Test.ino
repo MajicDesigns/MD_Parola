@@ -122,7 +122,7 @@ void doUI(void)
 
         textEffect_t effect[] =
         {
-          PA_PRINT, PA_SCROLL_UP, PA_SCROLL_DOWN, PA_SCROLL_LEFT, PA_SCROLL_RIGHT,
+/*          PA_PRINT, PA_SCROLL_UP, PA_SCROLL_DOWN, PA_SCROLL_LEFT, PA_SCROLL_RIGHT,
 #if ENA_MISC
           PA_SLICE, PA_FADE, PA_MESH, PA_BLINDS, PA_DISSOLVE, PA_RANDOM, 
 #endif
@@ -135,16 +135,16 @@ void doUI(void)
 #if ENA_OPNCLS
           PA_OPENING, PA_OPENING_CURSOR, PA_CLOSING, PA_CLOSING_CURSOR,
 #endif
-#if ENA_SCR_DIA
+*/#if ENA_SCR_DIA
           PA_SCROLL_UP_LEFT, PA_SCROLL_UP_RIGHT, PA_SCROLL_DOWN_LEFT, PA_SCROLL_DOWN_RIGHT,
 #endif
-#if ENA_SCAN
+/*#if ENA_SCAN
           PA_SCAN_HORIZ, PA_SCAN_HORIZX, PA_SCAN_VERT, PA_SCAN_VERTX,
 #endif
 #if ENA_GROW
           PA_GROW_UP, PA_GROW_DOWN,
 #endif
-        };
+*/        };
 
         DEBUG("\nChanging effect to ", curFX);
         P.setTextEffect(effect[curFX], effect[curFX]);

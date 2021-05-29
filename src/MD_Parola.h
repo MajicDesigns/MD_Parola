@@ -50,6 +50,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+May 2010 - version 3.5.7
+- Fixed issues with text occasionally remaining on edge of display for diagonal scroll effects
+
 Mar 2021 - version 3.5.6
 - Added TG_Combo, TG_Coord and TG_Zones examples
 - Deleted Test_TG example

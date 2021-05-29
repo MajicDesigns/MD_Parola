@@ -70,6 +70,10 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 
           _MX->setColumn(j - _nextPos, c);
         }
+
+        // clear last few columns to the left of the text displayed
+        for (int16_t j = 0; j < _nextPos; j++)
+          _MX->setColumn(ZONE_END_COL(_zoneEnd) - j, EMPTY_BAR);
       }
       else  // going right
       {
@@ -85,6 +89,10 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 
           _MX->setColumn(j + _nextPos, c);
         }
+
+        // clear last few columns to the right of the text displayed
+        for (int16_t j = 0; j < _nextPos; j++)
+          _MX->setColumn(ZONE_START_COL(_zoneStart) + j, EMPTY_BAR);
       }
 
       // check if we have finished
