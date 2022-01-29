@@ -41,7 +41,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 const uint8_t degC[] = { 6, 3, 3, 56, 68, 68, 68 }; // Deg C
 const uint8_t degF[] = { 6, 3, 3, 124, 20, 20, 4 }; // Deg F
-const uint8_t	waveSine[] = { 8, 1, 14, 112, 128, 128, 112, 14, 1 }; // Sine wave
+const uint8_t waveSine[] = { 8, 1, 14, 112, 128, 128, 112, 14, 1 }; // Sine wave
 const uint8_t waveSqar[] = { 8, 1, 1, 255, 128, 128, 128, 255, 1 }; // Square wave
 const uint8_t waveTrng[] = { 10, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4 }; // Triangle wave
 
