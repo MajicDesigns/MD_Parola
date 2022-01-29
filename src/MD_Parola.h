@@ -992,7 +992,7 @@ public:
    * \param data  pointer to the character data.
    * \return true of the character was inserted in the substitution list.
    */
-  bool addChar(uint16_t code, uint8_t *data);
+  bool addChar(uint16_t code, const uint8_t *data);
 
   /**
    * Delete a user defined character to the replacement list.
@@ -1079,9 +1079,9 @@ private:
   */
   struct charDef_t
   {
-    uint16_t   code;  ///< the ASCII code for the user defined character
-    uint8_t   *data;  ///< user supplied data
-    charDef_t *next;  ///< next in the list
+    uint16_t      code;   ///< the ASCII code for the user defined character
+    const uint8_t *data;  ///< user supplied data
+    charDef_t     *next;  ///< next in the list
   };
 
   MD_MAX72XX  *_MX;   ///< Pointer to parent's MD_MAX72xx object passed in at begin()
@@ -1964,7 +1964,7 @@ public:
    * \param data  pointer to the character data.
    * \return No return value.
    */
-  inline void addChar(uint16_t code, uint8_t *data) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].addChar(code, data); }
+  inline void addChar(uint16_t code, const uint8_t *data) { for (uint8_t i = 0; i < _numZones; i++) _Z[i].addChar(code, data); }
 
   /**
    * Add a user defined character to the replacement specified zone.
@@ -1976,7 +1976,7 @@ public:
    * \param data  pointer to the character data.
    * \return true of the character was inserted in the substitution list.
    */
-  inline bool addChar(uint8_t z, uint16_t code, uint8_t *data) { return(z < _numZones ? _Z[z].addChar(code, data) : false); }
+  inline bool addChar(uint8_t z, uint16_t code, const uint8_t *data) { return(z < _numZones ? _Z[z].addChar(code, data) : false); }
 
   /**
    * Delete a user defined character to the replacement list for all zones.
