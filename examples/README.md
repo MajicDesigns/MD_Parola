@@ -6,7 +6,7 @@ If you like and use this library please consider making a small donation using [
 <hr>
 
 **Parola_Ambulance**  Demonstrates reversed text (as if on front of an ambulance)<hr>
-**Parola_Animation_2Speed**  Program to show combination of all animations and manual setup process for animation with separate IN and OUT speeds.<hr>
+**Parola_Animation_2Speed**  Program to show combination of all animations and manual setup process for animation with different IN and OUT speeds.<hr>
 **Parola_Animation_Catalog**  Program to show full catalog of the MD_Parola animations.<hr>
 **Parola_Bluetooth_Control**  Bluetooth control of Parola text display. Full featured example controlling a display through a BT interface to change the display parameters and text.Provides control of: - Displayed message text and justification - Speed, pause time and inverted - Display intensity - Saving parameters to EEPROM - Display config reset, Arduino hardware resetA companion Android application written using the MIT Application Inventor (AI2) can be run on an Android device to communicate with the Arduino application. The AI2 application is included and AI2 can be found at http://ai2.appinventor.mit.edu/<hr>
 **Parola_CustomChars**  Demonstrate the use of single characters font file replacements.<hr>
@@ -30,7 +30,7 @@ If you like and use this library please consider making a small donation using [
 **Parola_Sprites_Library**  Demonstrates how to set up and use the user defined sprites fortext animations.Speed for the display is controlled by a pot on an analog input.Digital switches used for control of text justification and invert mode.<hr>
 **Parola_Sprites_Simple**  Demonstrates minimum required for sprite animated text.<hr>
 **Parola_Test**  Demonstrates most of the functions of the Parola library.All animations are be run and tested under user control.Speed for the display is controlled by a pot on an analog input.Digital switches used for control of Justification, Effect progression,Pause between animations, LED intensity, Display flip, and invert mode.<hr>
-**Parola_TG_Combo**  Demonstrates the use of Parola to combine text and graphics as one combineddisplay simultaneously.<hr>**Parola_TG_Coord**  Demonstrates using Parola to display text and graphics in the same zoneat different times (coordinated).<hr>**Parola_TG_Zones**  Demonstrates using Parola to display text and graphics in different zonessimultaneously.<hr>
+**Parola_TG_Combo**  Demonstrates the use of Parola to combine text and graphics in one combineddisplay.<hr>**Parola_TG_Coord**  Demonstrates using Parola to display text and graphics in the same zoneat different times (coordinated).<hr>**Parola_TG_Zones**  Demonstrates using Parola to display text and graphics in different zonessimultaneously.<hr>
 **Parola_UFT-8_Display**  Demonstrates how UTF-8 multi-byte characters can be mapped to Extended ASCII characters that can be displayed with a suitable font file.<hr>
 **Parola_Zone_Display**  For every string defined in the sketch iterate through all combinations of entry and exit effects in each zone independently. Requires at least 9 modules for 3 zones.Animation speed can be controlled using a pot on an analog input.<hr>
 **Parola_Zone_Dynamic**  Program to demonstrate using dynamic (changing) zones with the library. Zones are changed by 2 modules for each iteration and a simple string is displayed in the zone.<hr>
