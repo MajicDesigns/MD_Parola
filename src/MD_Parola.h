@@ -51,8 +51,12 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+May 2022 - version 3.6.1
+- Fixed misspelled parameter
+
 May 2022 - version 3.6.0
 - Added constructor with specified SPI interface
+- Accepted Pull request for user defined chars
 
 May 2021 - version 3.5.7
 - Fixed issues with text occasionally remaining on edge of display for diagonal scroll effects
@@ -1231,7 +1235,7 @@ public:
    * \param numDevices  number of devices connected. Default is 1 if not supplied.
    */
   MD_Parola(MD_MAX72XX::moduleType_t mod, SPIClass &spi, uint8_t csPin, uint8_t numDevices = 1):
-    _D(mod, spi, csPin, numDevices), _numMpdules(numDevices)
+    _D(mod, spi, csPin, numDevices), _numModules(numDevices)
   {}
 
   /**
