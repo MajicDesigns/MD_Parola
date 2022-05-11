@@ -212,7 +212,7 @@ bool MD_PZone::calcTextLimits(const uint8_t *p)
   return (b);
 }
 
-bool MD_PZone::addChar(uint16_t code, uint8_t *data)
+bool MD_PZone::addChar(uint16_t code, const uint8_t *data)
 // Add a user defined character to the replacement list
 {
   charDef_t *pcd;
