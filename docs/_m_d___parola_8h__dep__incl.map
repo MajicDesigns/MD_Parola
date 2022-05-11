@@ -1,21 +1,21 @@
 <map id="src/MD_Parola.h" name="src/MD_Parola.h">
-<area shape="rect" id="node1" title="Main header file for the MD_Parola library." alt="" coords="1683,5,1801,32"/>
-<area shape="rect" id="node3" href="$_m_d___parola_8cpp.html" title="Implements core MD_Parola class methods." alt="" coords="5,80,139,107"/>
-<area shape="rect" id="node5" href="$_m_d___parola___blinds_8cpp.html" title="Implements blinds effect." alt="" coords="163,80,339,107"/>
-<area shape="rect" id="node7" href="$_m_d___parola___close_8cpp.html" title="Implements closing effect." alt="" coords="363,80,536,107"/>
-<area shape="rect" id="node9" href="$_m_d___parola___diag_8cpp.html" title="Implements diagonal scroll effect." alt="" coords="561,80,727,107"/>
-<area shape="rect" id="node11" href="$_m_d___parola___dissolve_8cpp.html" title="Implements dissolve effect." alt="" coords="751,80,939,107"/>
-<area shape="rect" id="node13" href="$_m_d___parola___fade_8cpp.html" title="Implements FADE effect." alt="" coords="963,80,1132,107"/>
-<area shape="rect" id="node15" href="$_m_d___parola___grow_8cpp.html" title="Implements grow effects." alt="" coords="1157,80,1328,107"/>
-<area shape="rect" id="node17" href="$_m_d___parola___h_scroll_8cpp.html" title="Implements horizontal scrolling effect." alt="" coords="1353,80,1535,107"/>
-<area shape="rect" id="node19" href="$_m_d___parola___mesh_8cpp.html" title="Implements mesh effect." alt="" coords="1559,80,1731,107"/>
-<area shape="rect" id="node21" href="$_m_d___parola___open_8cpp.html" title="Implements opening effect." alt="" coords="1756,80,1927,107"/>
-<area shape="rect" id="node23" href="$_m_d___parola___print_8cpp.html" title="Implements static print effect." alt="" coords="1951,80,2117,107"/>
-<area shape="rect" id="node25" href="$_m_d___parola___random_8cpp.html" title="Implements random effect." alt="" coords="2142,80,2329,107"/>
-<area shape="rect" id="node27" href="$_m_d___parola___scan_8cpp.html" title="Implements scan effect." alt="" coords="2355,80,2525,107"/>
-<area shape="rect" id="node29" href="$_m_d___parola___slice_8cpp.html" title="Implements slice effect." alt="" coords="2550,80,2719,107"/>
-<area shape="rect" id="node31" href="$_m_d___parola___sprite_8cpp.html" title="Implements various sprite effects." alt="" coords="2743,80,2917,107"/>
-<area shape="rect" id="node33" href="$_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect." alt="" coords="2942,80,3124,107"/>
-<area shape="rect" id="node35" href="$_m_d___parola___wipe_8cpp.html" title="Implements wipe effect." alt="" coords="3149,80,3320,107"/>
-<area shape="rect" id="node37" href="$_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods." alt="" coords="3344,80,3477,107"/>
+<area shape="rect" id="node1" title="Main header file for the MD_Parola library." alt="" coords="1642,5,1760,32"/>
+<area shape="rect" id="node3" href="$_m_d___p_zone_8cpp.html" title="Implements MD_PZone class methods." alt="" coords="5,80,139,107"/>
+<area shape="rect" id="node5" href="$_m_d___parola_8cpp.html" title="Implements core MD_Parola class methods." alt="" coords="163,80,296,107"/>
+<area shape="rect" id="node7" href="$_m_d___parola___blinds_8cpp.html" title="Implements blinds effect." alt="" coords="320,80,496,107"/>
+<area shape="rect" id="node9" href="$_m_d___parola___close_8cpp.html" title="Implements closing effect." alt="" coords="520,80,693,107"/>
+<area shape="rect" id="node11" href="$_m_d___parola___diag_8cpp.html" title="Implements diagonal scroll effect." alt="" coords="718,80,884,107"/>
+<area shape="rect" id="node13" href="$_m_d___parola___dissolve_8cpp.html" title="Implements dissolve effect." alt="" coords="909,80,1096,107"/>
+<area shape="rect" id="node15" href="$_m_d___parola___fade_8cpp.html" title="Implements FADE effect." alt="" coords="1121,80,1289,107"/>
+<area shape="rect" id="node17" href="$_m_d___parola___grow_8cpp.html" title="Implements grow effects." alt="" coords="1315,80,1485,107"/>
+<area shape="rect" id="node19" href="$_m_d___parola___h_scroll_8cpp.html" title="Implements horizontal scrolling effect." alt="" coords="1510,80,1692,107"/>
+<area shape="rect" id="node21" href="$_m_d___parola___mesh_8cpp.html" title="Implements mesh effect." alt="" coords="1717,80,1888,107"/>
+<area shape="rect" id="node23" href="$_m_d___parola___open_8cpp.html" title="Implements opening effect." alt="" coords="1913,80,2084,107"/>
+<area shape="rect" id="node25" href="$_m_d___parola___print_8cpp.html" title="Implements static print effect." alt="" coords="2109,80,2275,107"/>
+<area shape="rect" id="node27" href="$_m_d___parola___random_8cpp.html" title="Implements random effect." alt="" coords="2299,80,2487,107"/>
+<area shape="rect" id="node29" href="$_m_d___parola___scan_8cpp.html" title="Implements scan effect." alt="" coords="2512,80,2683,107"/>
+<area shape="rect" id="node31" href="$_m_d___parola___slice_8cpp.html" title="Implements slice effect." alt="" coords="2707,80,2876,107"/>
+<area shape="rect" id="node33" href="$_m_d___parola___sprite_8cpp.html" title="Implements various sprite effects." alt="" coords="2901,80,3075,107"/>
+<area shape="rect" id="node35" href="$_m_d___parola___v_scroll_8cpp.html" title="Implements vertical scroll effect." alt="" coords="3099,80,3281,107"/>
+<area shape="rect" id="node37" href="$_m_d___parola___wipe_8cpp.html" title="Implements wipe effect." alt="" coords="3307,80,3477,107"/>
 </map>

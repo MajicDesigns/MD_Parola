@@ -21,7 +21,7 @@ var class_m_d___p_zone =
     [ "getZone", "class_m_d___p_zone.html#a3f4f927f5b01e97a0b4b0badce0f9489", null ],
     [ "getZoneEffect", "class_m_d___p_zone.html#acc15c7e3f60ad76aff46f5d6244cd9d4", null ],
     [ "getZoneExtent", "class_m_d___p_zone.html#a3515e91c23fd949da074fc837692f050", null ],
-    [ "getZoneFont", "class_m_d___p_zone.html#a2a875122812ae461de34e9cafec4a486", null ],
+    [ "getZoneFont", "class_m_d___p_zone.html#a61baac331949eb283442a555146e9957", null ],
     [ "isAnimationAdvanced", "class_m_d___p_zone.html#a5cb15091c385c91e07a91cdcdc7c05f8", null ],
     [ "setCharSpacing", "class_m_d___p_zone.html#ae5e7cd3ba9625f366fda350ec55e7dd0", null ],
     [ "setIntensity", "class_m_d___p_zone.html#ae814b578a112c87753df53d4d0ce92da", null ],

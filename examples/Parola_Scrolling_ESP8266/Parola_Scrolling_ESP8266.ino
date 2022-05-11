@@ -157,7 +157,7 @@ void getData(char *szMesg, uint16_t len)
     {
       while (pStart != pEnd)
       {
-        if ((*pStart == '%') && isdigit(*(pStart + 1)))
+        if ((*pStart == '%') && isxdigit(*(pStart + 1)))
         {
           // replace %xx hex code with the ASCII character
           char c = 0;
