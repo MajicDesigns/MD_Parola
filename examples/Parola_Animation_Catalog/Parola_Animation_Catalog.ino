@@ -32,8 +32,8 @@ struct sCatalog
 
 sCatalog catalog[] =
 {
-  { PA_PRINT, "PRINT", 1, 1 },
-  { PA_SCROLL_UP, "SC_U", 5, 1 },
+  { PA_PRINT, "PRINT", 1, 1},
+  { PA_SCROLL_UP, "SC_U", 5, 1},
   { PA_SCROLL_DOWN, "SCR_D", 5, 1 },
   { PA_SCROLL_LEFT, "SCR_L", 5, 1 },
   { PA_SCROLL_RIGHT, "SCR_R", 5, 1 },

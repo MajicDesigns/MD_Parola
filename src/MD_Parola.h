@@ -51,6 +51,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Nov 2022 - version 3.6.2
+- Fixed uninitialised _intensity class variable
+
 May 2022 - version 3.6.1
 - Fixed misspelled parameter
 

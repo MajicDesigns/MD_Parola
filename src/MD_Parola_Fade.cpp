@@ -50,6 +50,7 @@ void MD_PZone::effectFade(bool bIn)
       break;
 
     case GET_FIRST_CHAR:
+      PRINT_STATE("I FADE");
       FSMPRINT(" I:", _nextPos);
       FSMPRINT("/", _endPos);
 
@@ -99,7 +100,6 @@ void MD_PZone::effectFade(bool bIn)
     case GET_NEXT_CHAR:
     case PUT_CHAR:
       PRINT_STATE("O FADE");
-
       FSMPRINT(" I:", _nextPos);
       FSMPRINT("/", _endPos);
 

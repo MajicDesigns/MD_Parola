@@ -67,6 +67,7 @@ void MD_Parola::begin(uint8_t numZones)
   setTextAlignment(PA_LEFT);
   setTextEffect(PA_PRINT, PA_NO_EFFECT);
   setInvert(false);
+  setIntensity(7);
 }
 
 bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)
