@@ -129,7 +129,19 @@ void readSerial(void)
   }
 }
 
-void setup()
+void reverse(char *str)
+{
+  uint16_t len = strlen(str);
+  
+  for (uint16_t i = 0, uint16_t j = len-1; i<j; i++, j--)
+  {
+    char a = str[i];
+    str[i] = str[j];
+    str[j] = a;
+  }
+}
+
+void setup(void)
 {
   Serial.begin(57600);
   Serial.print("\n[Parola Scrolling Display]\nType a message for the scrolling display\nEnd message line with a newline");
@@ -147,7 +159,7 @@ void setup()
   P.displayText(curMessage, scrollAlign, scrollSpeed, scrollPause, scrollEffect, scrollEffect);
 }
 
-void loop()
+void loop(void)
 {
 #if USE_UI_CONTROL
   doUI();
@@ -157,7 +169,7 @@ void loop()
   {
     if (newMessageAvailable)
     {
-      strrev(newMessage);   // reverse the string for proper display order
+      reverse(newMessage);   // reverse the string for proper display order
       strcpy(curMessage, newMessage);
       newMessageAvailable = false;
     }

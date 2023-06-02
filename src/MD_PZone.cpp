@@ -54,10 +54,13 @@ MD_PZone::~MD_PZone(void)
   delete[] _cBuf;
 }
 
-void MD_PZone::begin(MD_MAX72XX *p)
+bool MD_PZone::begin(MD_MAX72XX *p)
 {
   _MX = p;
   allocateFontBuffer();
+  _zoneStart =_zoneEnd = 0;   // initialize to prevent bad stuff
+  
+  return(_cBuf != nullptr);
 }
 
 void MD_PZone::allocateFontBuffer(void)

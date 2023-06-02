@@ -20,7 +20,7 @@
 #include <MD_UISwitch.h>
 
 // Turn on debug statements to the serial output
-#define  DEBUG  1
+#define  DEBUG  0
 
 #if  DEBUG
 #define PRINT(s, x) { Serial.print(F(s)); Serial.print(x); }
