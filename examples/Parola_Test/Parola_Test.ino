@@ -213,7 +213,7 @@ void setup(void)
   uiSwitches.begin();
 
   // Parola object
-  P.begin();
+  if (!P.begin()) DEBUGS("\nMD_Parola library initialization failed");
 #if ENA_SPRITE
   P.setSpriteData(rocket, W_ROCKET, F_ROCKET, rocket, W_ROCKET, F_ROCKET);
 #endif

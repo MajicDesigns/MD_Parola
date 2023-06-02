@@ -32,6 +32,5 @@ void setup(void)
 void loop(void)
 {
   if (P.displayAnimate())
-    P.displayText("Hello", PA_CENTER, P.getSpeed(), P.getPause(), PA_SCROLL_DOWN, PA_SCROLL_UP);
-
+    P.displayText("Hello", PA_CENTER, P.getSpeed(), 1000, PA_SCROLL_DOWN, PA_SCROLL_DOWN);
 }

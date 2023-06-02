@@ -36,10 +36,13 @@ const char *pc[] = { "\x00f", "Evacuate" };
 
 void setup(void)
 {
+
   P.begin(3);
+
+  // Set zone boundaries
   P.setZone(0, 0, 0);
-  P.setZone(1, 1, MAX_DEVICES-2);
-  P.setZone(2, MAX_DEVICES-1, MAX_DEVICES-1);
+  P.setZone(1, 1, MAX_DEVICES - 2);
+  P.setZone(2, MAX_DEVICES - 1, MAX_DEVICES - 1);
 
   // All zones
   P.setInvert(false);

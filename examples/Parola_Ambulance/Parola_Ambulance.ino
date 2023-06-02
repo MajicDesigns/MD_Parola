@@ -11,7 +11,7 @@
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 11
 
 #define PAUSE_TIME    1000
 #define SCROLL_SPEED  50

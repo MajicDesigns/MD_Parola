@@ -36,9 +36,11 @@ MD_Parola::~MD_Parola(void)
 #endif
 }
 
-void MD_Parola::begin(uint8_t numZones)
+bool MD_Parola::begin(uint8_t numZones)
 {
-  _D.begin();
+  Serial.print("\nbegin: exit\n"); delay(100);
+
+  bool b = _D.begin();    // method return status
 
   // Check boundaries for the number of zones
   if (numZones == 0) numZones = 1;
@@ -50,24 +52,36 @@ void MD_Parola::begin(uint8_t numZones)
 #if !STATIC_ZONES
   // Create the zone objects array for dynamic zones
   _Z = new MD_PZone[_numZones];
+  b = b && (_Z != nullptr);
 #endif
 
-  for (uint8_t i = 0; i < _numZones; i++)
-    _Z[i].begin(&_D);
+  if (b)
+  {
+    for (uint8_t i = 0; (i < _numZones) && b; i++)
+    {
+      b = b && _Z[i].begin(&_D);
+    }
 
-  // for one zone automatically make it all modules, user will override if not intended
-  if (_numZones == 1)
-    setZone(0, 0, _numModules - 1);
+    if (b)
+    {
+      // for one zone automatically make it all modules, user will override if not intended
+      if (_numZones == 1)
+        setZone(0, 0, _numModules - 1);
 
-  // initialize zone-independent options
-  setSpeedInOut(10, 10);
-  setPause(10 * getSpeed());
-  setCharSpacing(1);
-  setScrollSpacing(0);
-  setTextAlignment(PA_LEFT);
-  setTextEffect(PA_PRINT, PA_NO_EFFECT);
-  setInvert(false);
-  setIntensity(7);
+      // set the default intensity for the whole display without knowing zone boundaries
+      _D.control(0, _numModules - 1, MD_MAX72XX::INTENSITY, DEFAULT_INTENSITY);
+
+      // initialize zone-independent options
+      setSpeedInOut(10, 10);
+      setPause(10 * getSpeed());
+      setCharSpacing(1);
+      setScrollSpacing(0);
+      setTextAlignment(PA_LEFT);
+      setTextEffect(PA_PRINT, PA_NO_EFFECT);
+      setInvert(false);
+    }
+  }
+  return(b);
 }
 
 bool MD_Parola::setZone(uint8_t z, uint8_t moduleStart, uint8_t moduleEnd)

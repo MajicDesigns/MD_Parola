@@ -47,3 +47,4 @@
 
 #define SFX(s) ((_moveIn && _effectIn == (s)) || (!_moveIn && _effectOut == (s))) ///< Effect is selected if it is the effect for the current motion
 
+#define DEFAULT_INTENSITY 7   ///< Startup default intensity setting

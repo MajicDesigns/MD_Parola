@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "Parola for Arduino", "index.html", [
-    [ "Main Page", "index.html", null ],
+    [ "Main Page", "index.html", "index" ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

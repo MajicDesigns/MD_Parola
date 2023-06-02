@@ -2,8 +2,8 @@ var class_m_d___p_zone =
 [
     [ "MD_PZone", "class_m_d___p_zone.html#aeb91378b5a7f1f902e12fc1f43a1be2b", null ],
     [ "~MD_PZone", "class_m_d___p_zone.html#a8c7aa5cc1b3b52bd7b1bca81d975f43c", null ],
-    [ "addChar", "class_m_d___p_zone.html#a674f74c52166514762c834893a181eb6", null ],
-    [ "begin", "class_m_d___p_zone.html#af08660ec58ff99bd6afaab8c4c16c3fd", null ],
+    [ "addChar", "class_m_d___p_zone.html#ad063ada8d6021678fedccf33f99c90ba", null ],
+    [ "begin", "class_m_d___p_zone.html#a3b747fbff61a5a2de04beda2d435620a", null ],
     [ "delChar", "class_m_d___p_zone.html#a0afe0cd84b61209d4b33f85bf8cd0bde", null ],
     [ "getCharSpacing", "class_m_d___p_zone.html#aa1e61526f637c07cb3f7e00ad8fdeea1", null ],
     [ "getIntensity", "class_m_d___p_zone.html#aabea2e8ebe0fc6fcaca7afc26ee17c9c", null ],
