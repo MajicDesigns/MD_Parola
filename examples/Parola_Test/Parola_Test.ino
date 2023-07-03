@@ -179,7 +179,7 @@ void doUI(void)
         {
           P.setIntensity(intensity);
           P.displayShutdown(false);
-          DEBUG("\nChanged intensity to ", intensity);
+          DEBUG("\nChanged intensity to ", P.getIntensity());
         }
 
         intensity = (intensity + 1) % (MAX_INTENSITY + 1);

@@ -61,7 +61,7 @@ displayZoneText	KEYWORD2
 
 ######################################
 # Constants/defines (LITERAL1)
-#######################################
+######################################
 PA_LEFT	LITERAL1
 PA_CENTER	LITERAL1
 PA_RIGHT	LITERAL1

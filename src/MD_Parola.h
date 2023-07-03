@@ -51,6 +51,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Jul 2023 - version 3.7.1
+- added getIntensity() to Parola object
+
 Jun 2023 - version 3.7.0
 - begin() returns bool status
 - fixed intensity initialisation of multi-zone displays at startup
@@ -1525,6 +1528,25 @@ public:
    * \return the inverted boolean value for the specified zone.
    */
   inline bool getInvert(uint8_t z) { return (z < _numZones ? _Z[z].getInvert() : false); }
+
+  /**
+   * Get the current display intensity.
+   *
+   * See the setIntensity() method.
+   *
+   * \return the intensity setting (0-15). Assumes one zone only.
+   */
+  inline uint8_t getIntensity(void) { return getIntensity(0); }
+
+  /**
+   * Get the current display intensity for a specific zone.
+   *
+   * See the setIntensity() method.
+   *
+   * \param z   zone number.
+   * \return the intensity value (0-15) for the specified zone.
+   */
+  inline uint8_t getIntensity(uint8_t z) { return (z < _numZones ? _Z[z].getIntensity() : 0); }
 
   /**
    * Get the current pause time.

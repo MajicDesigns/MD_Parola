@@ -3,6 +3,7 @@ var _m_d___parola__lib_8h =
     [ "DATA_BAR", "_m_d___parola__lib_8h.html#ac74527a8ede30c7ae02f32b7a6ef5e4d", null ],
     [ "DEBUG_PAROLA", "_m_d___parola__lib_8h.html#a8a073fd0c3460ed8ab512e3ef57d9533", null ],
     [ "DEBUG_PAROLA_FSM", "_m_d___parola__lib_8h.html#a1a760146d4391ebc528bbd07b94bc23c", null ],
+    [ "DEFAULT_INTENSITY", "_m_d___parola__lib_8h.html#a3542cc28be436e554408a15d693f593a", null ],
     [ "EMPTY_BAR", "_m_d___parola__lib_8h.html#a491201bbed073a6dedc6274af58d4d93", null ],
     [ "FSMPRINT", "_m_d___parola__lib_8h.html#aaf86da1ce9b6dea2d021778a28094eba", null ],
     [ "FSMPRINTS", "_m_d___parola__lib_8h.html#a3898cf26ef52d08df982da278c47fac8", null ],

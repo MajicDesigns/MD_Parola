@@ -27,6 +27,8 @@ var class_m_d___parola =
     [ "getFont", "class_m_d___parola.html#ac31121898d030aa73fea83c185398807", null ],
     [ "getFont", "class_m_d___parola.html#affa21e2f62319a0a73627f05ebd2aa09", null ],
     [ "getGraphicObject", "class_m_d___parola.html#af7a06dd4549086886e7e64ab40e24e20", null ],
+    [ "getIntensity", "class_m_d___parola.html#a92cb7e162677259c9ee31387a6f26af4", null ],
+    [ "getIntensity", "class_m_d___parola.html#ae480f6c947b119a899a7bac64b5c31b3", null ],
     [ "getInvert", "class_m_d___parola.html#a862ad99377530902c2550a082a8629af", null ],
     [ "getInvert", "class_m_d___parola.html#a3029915ed2e456a47318e3f06a05d66b", null ],
     [ "getPause", "class_m_d___parola.html#a2d925d5a975efe0d4d9a7d45e3004caa", null ],
