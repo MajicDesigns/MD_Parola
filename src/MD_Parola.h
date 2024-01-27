@@ -51,6 +51,9 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Jan 2024 - version 3.7.2
+- removed debug message remnants from begin()
+
 Jul 2023 - version 3.7.1
 - added getIntensity() to Parola object
 

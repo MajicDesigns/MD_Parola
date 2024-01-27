@@ -38,8 +38,6 @@ MD_Parola::~MD_Parola(void)
 
 bool MD_Parola::begin(uint8_t numZones)
 {
-  Serial.print("\nbegin: exit\n"); delay(100);
-
   bool b = _D.begin();    // method return status
 
   // Check boundaries for the number of zones
