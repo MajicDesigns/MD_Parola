@@ -62,7 +62,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
         {
           uint8_t c = _MX->getColumn(j);
 
-          for (int8_t i = _nextPos; i > 0; i--)
+          for (int16_t i = _nextPos; i > 0; i--)
           {
             c = (bUp ? c << 1 : c >> 1);
             if (_inverted) c |= (bUp ? 0x01 : 0x80);
@@ -81,7 +81,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
         {
           uint8_t c = _MX->getColumn(j);
 
-          for (int8_t i = _nextPos; i > 0; i--)
+          for (int16_t i = _nextPos; i > 0; i--)
           {
             c = (bUp ? c << 1 : c >> 1);
             if (_inverted) c |= (bUp ? 0x01 : 0x80);

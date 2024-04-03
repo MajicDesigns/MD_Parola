@@ -74,7 +74,7 @@ switch (_fsmState)
     // now mask each column by the pixel mask - this repeats every RAND_CYCLE columns, but the
     // characters don't occupy every pixel so the effect looks 'random' across the whole display.
     _nextPos = 0;
-    for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
+    for (uint16_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
     {
       uint8_t col = _MX->getColumn(c);
 

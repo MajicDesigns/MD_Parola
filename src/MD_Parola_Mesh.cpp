@@ -53,7 +53,7 @@ void MD_PZone::effectMesh(bool bIn)
       zoneClear();
       commonPrint();
 
-      for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
+      for (uint16_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
       {
         // scroll the whole display so that the message appears to be animated
         // Note: Directions are reversed because we start with the message in the
@@ -92,7 +92,7 @@ void MD_PZone::effectMesh(bool bIn)
     case PUT_CHAR:
       PRINT_STATE("O MESH");
 
-      for (uint8_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
+      for (uint16_t c = ZONE_START_COL(_zoneStart); c <= ZONE_END_COL(_zoneEnd); c++)
       {
         uint8_t col = _MX->getColumn(c);
 

@@ -51,6 +51,10 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Mar 2024 - version 3.7.3
+- Reviewed uint8_t to uint16_t animation loop indices for large displays.
+- Added contributed speites to sprite library (wheel, hourglass).
+
 Jan 2024 - version 3.7.2
 - removed debug message remnants from begin()
 
