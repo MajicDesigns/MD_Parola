@@ -1,4 +1,4 @@
-// Demonstrates using Parola to display text and graphics in the same zone
+// Demonstrates using Parola to display textand graphics in the same zone
 // at different times(coordinated).
 //
 // MD_MAX72XX library can be found at https://github.com/MajicDesigns/MD_MAX72XX
