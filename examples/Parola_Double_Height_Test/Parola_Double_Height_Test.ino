@@ -46,7 +46,7 @@
 // NOTE: These pin numbers may not work with your hardware and may need changing
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define NUM_ZONES 2
-#define ZONE_SIZE 6
+#define ZONE_SIZE 4
 #define MAX_DEVICES (NUM_ZONES * ZONE_SIZE)
 
 bool invertUpperZone = false;

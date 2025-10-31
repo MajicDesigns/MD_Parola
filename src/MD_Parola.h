@@ -51,9 +51,12 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Oct 2025 - version 3.7.4
+- Fixed library properties dependency to MD_MAX7xx case issue
+
 Mar 2024 - version 3.7.3
-- Reviewed uint8_t to uint16_t animation loop indices for large displays.
-- Added contributed speites to sprite library (wheel, hourglass).
+- Reviewed uint8_t to uint16_t animation loop indexes for large displays.
+- Added contributed sprites to sprite library (wheel, hourglass).
 
 Jan 2024 - version 3.7.2
 - removed debug message remnants from begin()
@@ -63,10 +66,10 @@ Jul 2023 - version 3.7.1
 
 Jun 2023 - version 3.7.0
 - begin() returns bool status
-- fixed intensity initialisation of multi-zone displays at startup
+- fixed intensity initialization of multi-zone displays at startup
 
 Nov 2022 - version 3.6.2
-- Fixed uninitialised _intensity class variable
+- Fixed uninitialized _intensity class variable
 
 May 2022 - version 3.6.1
 - Fixed misspelled parameter

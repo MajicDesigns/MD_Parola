@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['support_20the_20library_0',['Support the Library',['../page_donation.html',1,'index']]]
+  ['page_0',['Main Page',['../index.html',1,'']]],
+  ['parola_20library_1',['Parola Library',['../page_software.html',1,'index']]]
 ];

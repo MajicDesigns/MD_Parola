@@ -31,7 +31,7 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_ZONES 2
 #define ZONE_SIZE 4
 #define MAX_DEVICES (MAX_ZONES * ZONE_SIZE)
@@ -53,7 +53,7 @@ MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 bool invertUpperZone = false;
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-char *msg[] =
+const char *msg[] =
 {
   "Create double height displays using 2 custom fonts and 2 zones",
   "Zone 0 for lower half",
@@ -78,7 +78,7 @@ void setup(void)
 
   // initialise the LED display
   P.begin(MAX_ZONES);
-
+  
   // Set up zones for 2 halves of the display
   // Each zone gets a different font, making up the top
   // and bottom half of each letter
