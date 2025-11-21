@@ -120,7 +120,6 @@ bool MD_Parola::displayAnimate(void)
   return(b);
 }
 
-
 size_t MD_Parola::write(const char *str)
 // .print() extension of a string
 {
