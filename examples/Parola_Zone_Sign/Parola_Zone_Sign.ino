@@ -19,30 +19,27 @@
 #define DATA_PIN  11
 #define CS_PIN    10
 
-uint8_t frameDelay = 25;  // default frame delay value
-
 // Hardware SPI connection
 MD_Parola P = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Arbitrary output pins
 // MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
-#define SPEED_TIME  25
+#define SPEED_TIME        25
 #define SPLAT_PAUSE_TIME  50
 #define	TEXT_PAUSE_TIME   1000
 
 // Global variables
 uint8_t curText;
-const char *pc[] = { "\x00f", "Evacuate" };
+const char* pc[] = { "\x00f\x00f", "Evacuate" };
 
 void setup(void)
 {
-
   P.begin(3);
 
   // Set zone boundaries
-  P.setZone(0, 0, 0);
-  P.setZone(1, 1, MAX_DEVICES - 2);
-  P.setZone(2, MAX_DEVICES - 1, MAX_DEVICES - 1);
+  P.setZone(0, 0, 1);
+  P.setZone(1, 2, MAX_DEVICES - 3);
+  P.setZone(2, MAX_DEVICES - 2, MAX_DEVICES - 1);
 
   // All zones
   P.setInvert(false);

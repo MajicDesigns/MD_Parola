@@ -51,6 +51,12 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Nov 2025 - version 3.7.6
+- Fixed issues with Parola_Diag code (PA_SCROLL_UP/DOWN_LEFT/RIGHT) behavior with zones.
+
+October 2025 - Version 3.7.4, 3.7.5
+- Incorrect changes wrongly pushed.
+
 Mar 2024 - version 3.7.3
 - Reviewed uint8_t to uint16_t animation loop indices for large displays.
 - Added contributed speites to sprite library (wheel, hourglass).

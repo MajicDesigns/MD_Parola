@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_20page_0',['Main Page',['../index.html',1,'']]]
+  ['history_0',['Revision History',['../page_rev_history.html',1,'index']]]
 ];

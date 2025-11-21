@@ -31,6 +31,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 // Scroll the display diagonally up or down, left or right, depending on the selected effect
+// 
+// _nextPos is used to store the animation row/frame index
 {
   if (bIn)  // incoming
   {
@@ -38,7 +40,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
     {
     case INITIALISE:
       PRINT_STATE("I DIAG");
-      _nextPos = COL_SIZE - 1;   // the position in the animation
+      _nextPos = COL_SIZE - 1;   // the start position in the animation
       _MX->control(_zoneStart, _zoneEnd, MD_MAX72XX::WRAPAROUND, MD_MAX72XX::OFF);
       _fsmState = PUT_CHAR;
       // fall through to next state
@@ -58,41 +60,59 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       // need to scroll it UP, and vice versa.
       if (bLeft)
       {
-        for (int16_t j = _nextPos; j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
+        FSMPRINT("\nLeft from col ", ZONE_START_COL(_zoneStart));
+        FSMPRINT(" to ", ZONE_END_COL(_zoneEnd));
+        FSMPRINT(" with _nextPos ", _nextPos);
+        for (int16_t j = ZONE_START_COL(_zoneStart); j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
 
+          // Shift the column by animation rows
           for (int16_t i = _nextPos; i > 0; i--)
           {
             c = (bUp ? c << 1 : c >> 1);
             if (_inverted) c |= (bUp ? 0x01 : 0x80);
           }
 
-          _MX->setColumn(j - _nextPos, c);
+          if (j - _nextPos >= ZONE_START_COL(_zoneStart))
+            _MX->setColumn(j - _nextPos, c);
         }
 
         // clear last few columns to the left of the text displayed
+        FSMPRINTS("\nClear col");
         for (int16_t j = 0; j < _nextPos; j++)
+        {
+          FSMPRINT(" ", ZONE_END_COL(_zoneStart) - j);
           _MX->setColumn(ZONE_END_COL(_zoneEnd) - j, EMPTY_BAR);
+        }
       }
       else  // going right
       {
-        for (int16_t j = ZONE_END_COL(_zoneEnd) - _nextPos + 1; j >= ZONE_START_COL(_zoneStart); j--)   // for each column
+        FSMPRINT("\nRight from col ", ZONE_END_COL(_zoneEnd));
+        FSMPRINT(" to ", ZONE_START_COL(_zoneStart));
+        FSMPRINT(" with _nextPos ", _nextPos);
+        for (int16_t j = ZONE_END_COL(_zoneEnd); j >= ZONE_START_COL(_zoneStart); j--)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
 
+          // Shift the column by animation rows
           for (int16_t i = _nextPos; i > 0; i--)
           {
             c = (bUp ? c << 1 : c >> 1);
             if (_inverted) c |= (bUp ? 0x01 : 0x80);
           }
 
-          _MX->setColumn(j + _nextPos, c);
+          if (j + _nextPos <= ZONE_END_COL(_zoneEnd))
+            _MX->setColumn(j + _nextPos, c);
         }
 
         // clear last few columns to the right of the text displayed
+        FSMPRINTS("\nClear col");
         for (int16_t j = 0; j < _nextPos; j++)
+        {
+          FSMPRINT(" ", ZONE_START_COL(_zoneStart) + j);
           _MX->setColumn(ZONE_START_COL(_zoneStart) + j, EMPTY_BAR);
+        }
       }
 
       // check if we have finished
@@ -124,6 +144,9 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
 
       if (bLeft)
       {
+        FSMPRINT("\nLeft from col ", ZONE_START_COL(_zoneStart));
+        FSMPRINT(" to ", ZONE_END_COL(_zoneEnd));
+        FSMPRINT(" with _nextPos ", _nextPos);
         for (int16_t j = ZONE_END_COL(_zoneEnd) - 1; j >= ZONE_START_COL(_zoneStart); j--)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
@@ -136,6 +159,9 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       }
       else    // going right
       {
+        FSMPRINT("\nRight from col ", ZONE_END_COL(_zoneEnd));
+        FSMPRINT(" to ", ZONE_START_COL(_zoneStart));
+        FSMPRINT(" with _nextPos ", _nextPos);
         for (int16_t j = ZONE_START_COL(_zoneStart) + 1; j <= ZONE_END_COL(_zoneEnd); j++)   // for each column
         {
           uint8_t c = _MX->getColumn(j);
@@ -148,7 +174,7 @@ void MD_PZone::effectDiag(bool bUp, bool bLeft, bool bIn)
       }
      _MX->setColumn((bLeft ? ZONE_START_COL(_zoneStart) : ZONE_END_COL(_zoneEnd)), EMPTY_BAR);  // fill in the end
       // check if we have finished
-      if (_nextPos == COL_SIZE - 1) _fsmState = END;
+      if (_nextPos >= COL_SIZE - 1) _fsmState = END;
 
       _nextPos++;
       break;
