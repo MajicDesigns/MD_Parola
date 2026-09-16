@@ -51,10 +51,13 @@ Parola A-to-Z Blog Articles
 If you like and use this library please consider making a small donation using [PayPal](https://paypal.me/MajicDesigns/4USD)
 
 \page pageRevHistory Revision History
+Sep 2026 - version 3.7.7
+- Fixed reported issue #138 - _moveIn not initialized.
+
 Nov 2025 - version 3.7.6
 - Fixed issues with Parola_Diag code (PA_SCROLL_UP/DOWN_LEFT/RIGHT) behavior with zones.
 
-October 2025 - Version 3.7.4, 3.7.5
+October 2025 - version 3.7.4, 3.7.5
 - Incorrect changes wrongly pushed.
 
 Mar 2024 - version 3.7.3
@@ -882,7 +885,7 @@ public:
    * to be fully off the display before the new message starts.
    * Set to zero for default behavior.
    *
-   * \param space the spacing, in columns, between messages; zero for default behaviour..
+   * \param space the spacing, in columns, between messages; zero for default behaviour.
    */
   inline void setScrollSpacing(uint16_t space) { _scrollDistance = space; }
 

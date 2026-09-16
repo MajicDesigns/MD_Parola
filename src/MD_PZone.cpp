@@ -29,10 +29,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 MD_PZone::MD_PZone(void) :
   _MX(nullptr), _suspend(false), _lastRunTime(0),
-  _fsmState(END), _scrollDistance(0), _zoneEffect(0), 
-  _intensity(DEFAULT_INTENSITY), _zoneStart(0), _zoneEnd(0),
-  _pText(nullptr), 
-  _userChars(nullptr), _cBufSize(0), _cBuf(nullptr), _charSpacing(1), 
+  _fsmState(END), _moveIn(false), _inverted(false), 
+  _scrollDistance(0), _zoneEffect(0), _intensity(DEFAULT_INTENSITY), 
+  _zoneStart(0), _zoneEnd(0), 
+  _pText(nullptr), _userChars(nullptr), _cBufSize(0), _cBuf(nullptr), _charSpacing(1), 
   _fontDef(nullptr)
 #if ENA_SPRITE
   , _spriteInData(nullptr), _spriteOutData(nullptr)
